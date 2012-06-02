@@ -7,3 +7,6 @@
 [submodule "cocos2dx/platform/third_party/android/source/libxml2"]
 	path = cocos2dx/platform/third_party/android/source/libxml2
 	url = git://github.com/folecr/platform_external_libxml2.git
+[submodule "FlipTag"]
+	path = FlipTag
+	url = ssh://gogododo.com//var/git/FlipTag

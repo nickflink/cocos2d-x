@@ -168,9 +168,13 @@ CCSprite* CCSprite::spriteWithSpriteFrameName(const char *pszSpriteFrameName)
 {
 	CCSpriteFrame *pFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(pszSpriteFrameName);
 
-    char msg[256] = {0};
-    sprintf(msg, "Invalid spriteFrameName: %s", pszSpriteFrameName);
-    CCAssert(pFrame != NULL, msg);
+#if defined(COCOS2D_DEBUG) && COCOS2D_DEBUG != 0
+    if (pFrame == NULL)
+    {
+        CCLOG("Invalid spriteFrameName: %s", pszSpriteFrameName);
+        CCAssert(pFrame != NULL, "pFrame != NULL");
+    }
+#endif
 	return spriteWithSpriteFrame(pFrame);
 }
 
@@ -833,10 +837,22 @@ void CCSprite::setPosition(const CCPoint& pos)
     SET_DIRTY_RECURSIVELY();
 }
 
+void CCSprite::setPosition(float x, float y)
+{
+    CCNode::setPosition(ccp(x, y));
+    SET_DIRTY_RECURSIVELY();
+}
+
 void CCSprite::setPositionInPixels(const CCPoint& pos)
 {
 	CCNode::setPositionInPixels(pos);
 	SET_DIRTY_RECURSIVELY();
+}
+
+void CCSprite::setPositionInPixels(float x, float y)
+{
+    CCNode::setPositionInPixels(ccp(x, y));
+    SET_DIRTY_RECURSIVELY();
 }
 
 void CCSprite::setRotation(float fRotation)

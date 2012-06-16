@@ -346,13 +346,14 @@ unsigned char* CCFileUtils::getFileDataFromZip(const char* pszZipFilePath, const
     return pBuffer;
 }
 
-
-/// functions iOS specific
-const char* CCFileUtils::fullPathFromRelativePath(const char *pszRelativePath, ccResolutionType *pResolutionType)
+const char* CCFileUtils::fullPathFromRelativePath(const char *pszRelativePath)
 {
-	return "";
+    ccResolutionType ignore;
+    return fullPathFromRelativePath(pszRelativePath, &ignore);
 }
 
+
+/// functions iOS specific
 void CCFileUtils::setiPhoneRetinaDisplaySuffix(const char *suffix)
 {
 }
@@ -417,8 +418,8 @@ NS_CC_END;
 #include "bada/CCFileUtils_bada.cpp"
 #endif
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_QNX)
-#include "qnx/CCFileUtils_qnx.cpp"
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_BLACKBERRY)
+#include "blackberry/CCFileUtils_blackberry.cpp"
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)

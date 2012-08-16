@@ -16,8 +16,10 @@ static TestScene* CreateTestScene(int nIdx)
     {
     case TEST_ACTIONS:
         pScene = new ActionsTestScene(); break;
+    case TEST_SLIDER:
+        pScene = new SliderTestScene(); break;
     case TEST_SCROLL_LAYER:
-        pScene = new ScrollTestScene(); break;
+        pScene = new ScrollMenuTestScene(); break;
     case TEST_TRANSITIONS:
         pScene = new TransitionsTestScene(); break;
     case TEST_PROGRESS_ACTIONS:
@@ -173,7 +175,6 @@ void TestController::menuCallback(CCObject * pSender)
     // get the userdata, it's the index of the menu item clicked
     CCMenuItem* pMenuItem = (CCMenuItem *)(pSender);
     int nIdx = pMenuItem->getZOrder() - 10000;
-
     // create the test scene and run it
     TestScene* pScene = CreateTestScene(nIdx);
     if (pScene)

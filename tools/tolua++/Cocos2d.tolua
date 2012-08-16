@@ -61,6 +61,7 @@ $pfile "CCTransitionRadial.tolua"
 
 // menu nodes
 $pfile "CCMenu.tolua"
+$pfile "CCScrollMenu.tolua"
 $pfile "CCMenuItem.tolua"
 
 // misc nodes
@@ -68,6 +69,7 @@ $pfile "CCMotionStreak.tolua"
 $pfile "CCProgressTimer.tolua"
 $pfile "CCRenderTexture.tolua"
 $pfile "CCRibbon.tolua"
+$pfile "CCSlider.tolua"
 
 // particle nodes
 $pfile "CCParticleExamples.tolua"

@@ -134,20 +134,25 @@ end
 
 -- create menu
 local function createLayerMenu()
+    print(">createLayerMenu")
     local layerMenu = CCLayer:node()
 
     local menuPopup, menuTools, effectID
 
     local function menuCallbackClosePopup()
+        print(">menuCallbackClosePopup")
         -- stop test sound effect
         SimpleAudioEngine:sharedEngine():stopEffect(effectID)
         menuPopup:setIsVisible(false)
+        print("<menuCallbackClosePopup")
     end
 
     local function menuCallbackOpenPopup()
+        print(">menuCallbackOpenPopup")
         -- loop test sound effect
         effectID = SimpleAudioEngine:sharedEngine():playEffect("effect1.wav")
         menuPopup:setIsVisible(true)
+        print("<menuCallbackOpenPopup")
     end
 
     -- add a popup menu
@@ -167,6 +172,7 @@ local function createLayerMenu()
     menuTools:setPosition(30, 40)
     layerMenu:addChild(menuTools)
 
+    print("<createLayerMenu")
     return layerMenu
 end
 

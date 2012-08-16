@@ -30,7 +30,7 @@ class Test4 : public TestCocosNodeDemo
 {
 public:
 	Test4();
-	void delay2(ccTime dt);
+	void delay2(ccTime dt); 
 	void delay4(ccTime dt);
 
 	virtual std::string title();

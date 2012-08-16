@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27626F8415CC045800106D77 /* CCScrollMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27626F8315CC045800106D77 /* CCScrollMenu.cpp */; };
 		506EDB88102F4C4000A389B3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 506EDB87102F4C4000A389B3 /* libz.dylib */; };
 		506EDBA5102F4C9F00A389B3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506EDBA4102F4C9F00A389B3 /* AVFoundation.framework */; };
 		7881584B14ECAE05007E8917 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7881584A14ECAE05007E8917 /* Icon.png */; };
@@ -184,6 +185,8 @@
 
 /* Begin PBXFileReference section */
 		1D6058910D05DD3D006BFB54 /* HelloLua.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloLua.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		27626F8315CC045800106D77 /* CCScrollMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScrollMenu.cpp; sourceTree = "<group>"; };
+		27626F8615CC04B500106D77 /* CCScrollMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollMenu.h; sourceTree = "<group>"; };
 		506EDB87102F4C4000A389B3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		506EDBA4102F4C9F00A389B3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		7881584A14ECAE05007E8917 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../ios/Icon.png; sourceTree = "<group>"; };
@@ -769,6 +772,7 @@
 		F4807E0914E3CB660021A5F8 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				27626F8615CC04B500106D77 /* CCScrollMenu.h */,
 				F4807E0A14E3CB660021A5F8 /* CCAccelerometer.h */,
 				F4807E0B14E3CB660021A5F8 /* CCAccelerometerDelegate.h */,
 				F4807E0C14E3CB660021A5F8 /* CCAction.h */,
@@ -891,6 +895,7 @@
 		F4807E6B14E3CB660021A5F8 /* menu_nodes */ = {
 			isa = PBXGroup;
 			children = (
+				27626F8315CC045800106D77 /* CCScrollMenu.cpp */,
 				F4807E6C14E3CB660021A5F8 /* CCMenu.cpp */,
 				F4807E6D14E3CB660021A5F8 /* CCMenuItem.cpp */,
 			);
@@ -1485,6 +1490,7 @@
 				78947C8D14EBBB0300DBD5A6 /* CocosDenshion.m in Sources */,
 				78947C8E14EBBB0300DBD5A6 /* SimpleAudioEngine.mm in Sources */,
 				78947C8F14EBBB0300DBD5A6 /* SimpleAudioEngine_objc.m in Sources */,
+				27626F8415CC045800106D77 /* CCScrollMenu.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

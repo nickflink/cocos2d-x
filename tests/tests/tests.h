@@ -2,7 +2,8 @@
 #define _TESTS_H_
 
 #include "ActionsTest/ActionsTest.h"
-#include "ScrollLayerTest/ScrollLayerTest.h"
+#include "SliderTest/SliderTest.h"
+#include "ScrollMenuTest/ScrollMenuTest.h"
 #include "TransitionsTest/TransitionsTest.h"
 #include "ProgressActionsTest/ProgressActionsTest.h"
 #include "EffectsTest/EffectsTest.h"
@@ -62,6 +63,7 @@
 enum
 {
     TEST_ACTIONS = 0,
+    TEST_SLIDER,
     TEST_SCROLL_LAYER,
     TEST_TRANSITIONS,
     TEST_PROGRESS_ACTIONS,
@@ -110,7 +112,8 @@ enum
 
 const std::string g_aTestNames[TESTS_COUNT] = {
     "ActionsTest",
-    "ScrollLayerTest",
+    "SliderTest",
+    "ScrollMenuTest",
     "TransitionsTest",
     "ProgressActionsTest",
     "EffectsTest",

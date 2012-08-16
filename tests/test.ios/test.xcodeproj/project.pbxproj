@@ -11,8 +11,10 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		27CF4AEC15826A3F00C58900 /* CCScrollLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27CF4AEB15826A3F00C58900 /* CCScrollLayer.cpp */; };
-		27CF4AF215826FC400C58900 /* ScrollLayerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27CF4AF115826FC400C58900 /* ScrollLayerTest.cpp */; };
+		27626F9115D1D3D600106D77 /* SliderTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27626F8F15D1D3D600106D77 /* SliderTest.cpp */; };
+		276270E915D1D47C00106D77 /* CCSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 276270E815D1D47C00106D77 /* CCSlider.cpp */; };
+		27CF4B21158BB17100C58900 /* CCScrollMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27CF4B20158BB17100C58900 /* CCScrollMenu.cpp */; };
+		27CF4B25158BB19B00C58900 /* ScrollMenuTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27CF4B23158BB19B00C58900 /* ScrollMenuTest.cpp */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		78891AAE14EA1DAE0072482D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 78891AAD14EA1DAE0072482D /* Icon.png */; };
 		78891AB214EA1DC30072482D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 78891AB114EA1DC30072482D /* Default.png */; };
@@ -570,10 +572,14 @@
 		1D3623250D0F684500981E51 /* testsAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = testsAppDelegate.mm; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		27CF4AE9158269E900C58900 /* CCScrollLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollLayer.h; sourceTree = "<group>"; };
-		27CF4AEB15826A3F00C58900 /* CCScrollLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScrollLayer.cpp; sourceTree = "<group>"; };
-		27CF4AEF15826B5700C58900 /* ScrollLayerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollLayerTest.h; sourceTree = "<group>"; };
-		27CF4AF115826FC400C58900 /* ScrollLayerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollLayerTest.cpp; sourceTree = "<group>"; };
+		27626F8F15D1D3D600106D77 /* SliderTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SliderTest.cpp; sourceTree = "<group>"; };
+		27626F9015D1D3D600106D77 /* SliderTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderTest.h; sourceTree = "<group>"; };
+		276270E815D1D47C00106D77 /* CCSlider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSlider.cpp; sourceTree = "<group>"; };
+		276270EA15D1D50D00106D77 /* CCSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSlider.h; sourceTree = "<group>"; };
+		27CF4B20158BB17100C58900 /* CCScrollMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScrollMenu.cpp; sourceTree = "<group>"; };
+		27CF4B23158BB19B00C58900 /* ScrollMenuTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollMenuTest.cpp; sourceTree = "<group>"; };
+		27CF4B24158BB19B00C58900 /* ScrollMenuTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollMenuTest.h; sourceTree = "<group>"; };
+		27CF4B26158BB1CE00C58900 /* CCScrollMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollMenu.h; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* iphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iphone_Prefix.pch; path = ../iphone_Prefix.pch; sourceTree = "<group>"; };
@@ -1285,13 +1291,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		27CF4AED15826B5700C58900 /* ScrollLayerTest */ = {
+		27626F8E15D1D3D600106D77 /* SliderTest */ = {
 			isa = PBXGroup;
 			children = (
-				27CF4AF115826FC400C58900 /* ScrollLayerTest.cpp */,
-				27CF4AEF15826B5700C58900 /* ScrollLayerTest.h */,
+				27626F8F15D1D3D600106D77 /* SliderTest.cpp */,
+				27626F9015D1D3D600106D77 /* SliderTest.h */,
 			);
-			path = ScrollLayerTest;
+			path = SliderTest;
+			sourceTree = "<group>";
+		};
+		27CF4B22158BB19B00C58900 /* ScrollMenuTest */ = {
+			isa = PBXGroup;
+			children = (
+				27CF4B23158BB19B00C58900 /* ScrollMenuTest.cpp */,
+				27CF4B24158BB19B00C58900 /* ScrollMenuTest.h */,
+			);
+			path = ScrollMenuTest;
 			sourceTree = "<group>";
 		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
@@ -1822,7 +1837,8 @@
 		BF31E11812E979A100D4F513 /* tests */ = {
 			isa = PBXGroup;
 			children = (
-				27CF4AED15826B5700C58900 /* ScrollLayerTest */,
+				27626F8E15D1D3D600106D77 /* SliderTest */,
+				27CF4B22158BB19B00C58900 /* ScrollMenuTest */,
 				78C7E02514EBA5580085D0C2 /* ExtensionsTest */,
 				BF1B49ED13FE04C300838E41 /* CurrentLanguageTest */,
 				ADF1707A1474F632004E9212 /* TextureCacheTest */,
@@ -2336,7 +2352,8 @@
 		BF8358AE13276C7700F3C033 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				27CF4AE9158269E900C58900 /* CCScrollLayer.h */,
+				276270EA15D1D50D00106D77 /* CCSlider.h */,
+				27CF4B26158BB1CE00C58900 /* CCScrollMenu.h */,
 				BF1C5C2813EBF83F0076BDF6 /* CCTouchHandler.h */,
 				D40EB54413D01DAE00BB8B5E /* CCTexturePVR.h */,
 				D429012B13B1D0DC00A3772F /* CCScriptSupport.h */,
@@ -2459,7 +2476,7 @@
 		BF83590F13276C7700F3C033 /* menu_nodes */ = {
 			isa = PBXGroup;
 			children = (
-				27CF4AEB15826A3F00C58900 /* CCScrollLayer.cpp */,
+				27CF4B20158BB17100C58900 /* CCScrollMenu.cpp */,
 				BF1FAFD01352F74A007553D9 /* CCMenu.cpp */,
 				BF83591013276C7700F3C033 /* CCMenuItem.cpp */,
 			);
@@ -2473,6 +2490,7 @@
 				BF83591313276C7700F3C033 /* CCProgressTimer.cpp */,
 				BF83591413276C7700F3C033 /* CCRenderTexture.cpp */,
 				BF83591513276C7700F3C033 /* CCRibbon.cpp */,
+				276270E815D1D47C00106D77 /* CCSlider.cpp */,
 			);
 			path = misc_nodes;
 			sourceTree = "<group>";
@@ -3162,8 +3180,10 @@
 				7ECAE73914F52FB100A57185 /* AccelerometerSimulation.m in Sources */,
 				78C7E02A14EBA5580085D0C2 /* ExtensionsTest.cpp in Sources */,
 				78C7E02B14EBA5580085D0C2 /* NotificationCenterTest.cpp in Sources */,
-				27CF4AEC15826A3F00C58900 /* CCScrollLayer.cpp in Sources */,
-				27CF4AF215826FC400C58900 /* ScrollLayerTest.cpp in Sources */,
+				27CF4B21158BB17100C58900 /* CCScrollMenu.cpp in Sources */,
+				27CF4B25158BB19B00C58900 /* ScrollMenuTest.cpp in Sources */,
+				27626F9115D1D3D600106D77 /* SliderTest.cpp in Sources */,
+				276270E915D1D47C00106D77 /* CCSlider.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3405,7 +3425,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zhe Wang (P3QKHC24KY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nick Flink (H9E476ZPKW)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -3415,6 +3435,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					USE_FILE32API,
 					TARGET_OS_IPHONE,
+					DEBUG,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = "";
@@ -3436,6 +3457,7 @@
 				);
 				OTHER_CFLAGS = "-O2";
 				PRODUCT_NAME = tests;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7979CA14-B7D5-4B49-A9E9-0235E3CFE498";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv6 armv7 i386";
@@ -3446,7 +3468,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zhe Wang (P3QKHC24KY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nick Flink (H9E476ZPKW)";
 				COPY_PHASE_STRIP = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3474,6 +3496,7 @@
 					"\"$(SRCROOT)/../../cocos2dx/platform/third_party/ios/libraries\"",
 				);
 				PRODUCT_NAME = tests;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7979CA14-B7D5-4B49-A9E9-0235E3CFE498";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

@@ -64,3 +64,6 @@ build/
 Simulator/
 Device-Debug/
 Device-Release/
+
+# Ignore tolua mac specific binary
+tools/tolua++/tolua++

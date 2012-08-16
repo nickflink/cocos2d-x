@@ -51,6 +51,7 @@ layers_scenes_transitions_nodes/CCTransitionRadial.cpp \
 layers_scenes_transitions_nodes/CCTransition.cpp \
 menu_nodes/CCMenu.cpp \
 menu_nodes/CCMenuItem.cpp \
+menu_nodes/CCScrollMenu.cpp \
 misc_nodes/CCMotionStreak.cpp \
 misc_nodes/CCProgressTimer.cpp \
 misc_nodes/CCRenderTexture.cpp \
@@ -185,6 +186,7 @@ layers_scenes_transitions_nodes/CCTransitionRadial.cpp \
 layers_scenes_transitions_nodes/CCTransition.cpp \
 menu_nodes/CCMenu.cpp \
 menu_nodes/CCMenuItem.cpp \
+menu_nodes/CCScrollMenu.cpp \
 misc_nodes/CCMotionStreak.cpp \
 misc_nodes/CCProgressTimer.cpp \
 misc_nodes/CCRenderTexture.cpp \

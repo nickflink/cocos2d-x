@@ -16,6 +16,8 @@ static TestScene* CreateTestScene(int nIdx)
     {
     case TEST_ACTIONS:
         pScene = new ActionsTestScene(); break;
+    case TEST_SCROLL_LAYER:
+        pScene = new ScrollTestScene(); break;
     case TEST_TRANSITIONS:
         pScene = new TransitionsTestScene(); break;
     case TEST_PROGRESS_ACTIONS:

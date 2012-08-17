@@ -56,6 +56,7 @@ misc_nodes/CCMotionStreak.cpp \
 misc_nodes/CCProgressTimer.cpp \
 misc_nodes/CCRenderTexture.cpp \
 misc_nodes/CCRibbon.cpp \
+misc_nodes/CCSlider.cpp \
 particle_nodes/CCParticleExamples.cpp \
 particle_nodes/CCParticleSystem.cpp \
 particle_nodes/CCParticleSystemPoint.cpp \

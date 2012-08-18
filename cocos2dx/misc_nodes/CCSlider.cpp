@@ -16,12 +16,12 @@ namespace cocos2d
         CCSlider* slider = CCSlider::SliderWithFiles(trackFile, knobFile, NULL, NULL);
         if(slider)
         {
-            slider->setRotation(90);
+            slider->setRotation(270);
             slider->SetHeight(100);
             slider->SetHorizontalPadding(50);
             slider->SetTrackTouchOutsideContent(true);
-            slider->SetEvaluateFirstTouch(false);
-            slider->SetMinValue(0.5f);
+            slider->SetEvaluateFirstTouch(true);
+            slider->SetMinValue(0.0f);
             slider->SetMaxValue(1.0f);
             slider->SetValue(0.5f);
             slider->SetEnabled(true);
@@ -136,7 +136,7 @@ namespace cocos2d
         if (m_nScriptHandler) 
         {
             CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
-            pEngine->executeFunctionWithIntegerData(m_nScriptHandler, this->getTag());
+            pEngine->executeFunctionWithFloatData(m_nScriptHandler, GetValue());
 
         }
 	}
@@ -267,7 +267,7 @@ namespace cocos2d
         if (m_nScriptHandler) 
         {
             CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
-            pEngine->executeFunctionWithIntegerData(m_nScriptHandler, this->getTag());
+            pEngine->executeFunctionWithFloatData(m_nScriptHandler, GetValue());
             
         }
 	}

@@ -11,10 +11,11 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		27626F9115D1D3D600106D77 /* SliderTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27626F8F15D1D3D600106D77 /* SliderTest.cpp */; };
 		276270E915D1D47C00106D77 /* CCSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 276270E815D1D47C00106D77 /* CCSlider.cpp */; };
+		279EDFE015E01D3C00719A4D /* SliderTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 279EDFDE15E01D3C00719A4D /* SliderTest.cpp */; };
+		279EDFE515E01DB300719A4D /* ScrollMenuTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 279EDFE315E01DB300719A4D /* ScrollMenuTest.cpp */; };
+		279EDFE715E01DF000719A4D /* CCScrollLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 279EDFE615E01DF000719A4D /* CCScrollLayer.cpp */; };
 		27CF4B21158BB17100C58900 /* CCScrollMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27CF4B20158BB17100C58900 /* CCScrollMenu.cpp */; };
-		27CF4B25158BB19B00C58900 /* ScrollMenuTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27CF4B23158BB19B00C58900 /* ScrollMenuTest.cpp */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		78891AAE14EA1DAE0072482D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 78891AAD14EA1DAE0072482D /* Icon.png */; };
 		78891AB214EA1DC30072482D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 78891AB114EA1DC30072482D /* Default.png */; };
@@ -572,13 +573,14 @@
 		1D3623250D0F684500981E51 /* testsAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = testsAppDelegate.mm; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		27626F8F15D1D3D600106D77 /* SliderTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SliderTest.cpp; sourceTree = "<group>"; };
-		27626F9015D1D3D600106D77 /* SliderTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderTest.h; sourceTree = "<group>"; };
 		276270E815D1D47C00106D77 /* CCSlider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSlider.cpp; sourceTree = "<group>"; };
 		276270EA15D1D50D00106D77 /* CCSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSlider.h; sourceTree = "<group>"; };
+		279EDFDE15E01D3C00719A4D /* SliderTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SliderTest.cpp; sourceTree = "<group>"; };
+		279EDFDF15E01D3C00719A4D /* SliderTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderTest.h; sourceTree = "<group>"; };
+		279EDFE315E01DB300719A4D /* ScrollMenuTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollMenuTest.cpp; sourceTree = "<group>"; };
+		279EDFE415E01DB300719A4D /* ScrollMenuTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollMenuTest.h; sourceTree = "<group>"; };
+		279EDFE615E01DF000719A4D /* CCScrollLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScrollLayer.cpp; sourceTree = "<group>"; };
 		27CF4B20158BB17100C58900 /* CCScrollMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScrollMenu.cpp; sourceTree = "<group>"; };
-		27CF4B23158BB19B00C58900 /* ScrollMenuTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollMenuTest.cpp; sourceTree = "<group>"; };
-		27CF4B24158BB19B00C58900 /* ScrollMenuTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollMenuTest.h; sourceTree = "<group>"; };
 		27CF4B26158BB1CE00C58900 /* CCScrollMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollMenu.h; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../main.m; sourceTree = "<group>"; };
@@ -1291,20 +1293,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		27626F8E15D1D3D600106D77 /* SliderTest */ = {
+		279EDFDD15E01D3C00719A4D /* SliderTest */ = {
 			isa = PBXGroup;
 			children = (
-				27626F8F15D1D3D600106D77 /* SliderTest.cpp */,
-				27626F9015D1D3D600106D77 /* SliderTest.h */,
+				279EDFDE15E01D3C00719A4D /* SliderTest.cpp */,
+				279EDFDF15E01D3C00719A4D /* SliderTest.h */,
 			);
 			path = SliderTest;
 			sourceTree = "<group>";
 		};
-		27CF4B22158BB19B00C58900 /* ScrollMenuTest */ = {
+		279EDFE215E01DB300719A4D /* ScrollMenuTest */ = {
 			isa = PBXGroup;
 			children = (
-				27CF4B23158BB19B00C58900 /* ScrollMenuTest.cpp */,
-				27CF4B24158BB19B00C58900 /* ScrollMenuTest.h */,
+				279EDFE315E01DB300719A4D /* ScrollMenuTest.cpp */,
+				279EDFE415E01DB300719A4D /* ScrollMenuTest.h */,
 			);
 			path = ScrollMenuTest;
 			sourceTree = "<group>";
@@ -1837,8 +1839,8 @@
 		BF31E11812E979A100D4F513 /* tests */ = {
 			isa = PBXGroup;
 			children = (
-				27626F8E15D1D3D600106D77 /* SliderTest */,
-				27CF4B22158BB19B00C58900 /* ScrollMenuTest */,
+				279EDFE215E01DB300719A4D /* ScrollMenuTest */,
+				279EDFDD15E01D3C00719A4D /* SliderTest */,
 				78C7E02514EBA5580085D0C2 /* ExtensionsTest */,
 				BF1B49ED13FE04C300838E41 /* CurrentLanguageTest */,
 				ADF1707A1474F632004E9212 /* TextureCacheTest */,
@@ -2476,6 +2478,7 @@
 		BF83590F13276C7700F3C033 /* menu_nodes */ = {
 			isa = PBXGroup;
 			children = (
+				279EDFE615E01DF000719A4D /* CCScrollLayer.cpp */,
 				27CF4B20158BB17100C58900 /* CCScrollMenu.cpp */,
 				BF1FAFD01352F74A007553D9 /* CCMenu.cpp */,
 				BF83591013276C7700F3C033 /* CCMenuItem.cpp */,
@@ -3181,9 +3184,10 @@
 				78C7E02A14EBA5580085D0C2 /* ExtensionsTest.cpp in Sources */,
 				78C7E02B14EBA5580085D0C2 /* NotificationCenterTest.cpp in Sources */,
 				27CF4B21158BB17100C58900 /* CCScrollMenu.cpp in Sources */,
-				27CF4B25158BB19B00C58900 /* ScrollMenuTest.cpp in Sources */,
-				27626F9115D1D3D600106D77 /* SliderTest.cpp in Sources */,
 				276270E915D1D47C00106D77 /* CCSlider.cpp in Sources */,
+				279EDFE015E01D3C00719A4D /* SliderTest.cpp in Sources */,
+				279EDFE515E01DB300719A4D /* ScrollMenuTest.cpp in Sources */,
+				279EDFE715E01DF000719A4D /* CCScrollLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

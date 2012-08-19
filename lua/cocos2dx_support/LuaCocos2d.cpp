@@ -1,6 +1,6 @@
 /*
 ** Lua binding: Cocos2d
-** Generated automatically by tolua++-1.0.92 on Wed Aug 15 17:10:18 2012.
+** Generated automatically by tolua++-1.0.92 on Sun Aug 19 17:19:10 2012.
 */
 
 
@@ -29360,6 +29360,526 @@ static int tolua_Cocos2d_CCSlider_slider00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: getMinValue of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_getMinValue00
+static int tolua_Cocos2d_CCSlider_getMinValue00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getMinValue'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getMinValue();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getMinValue'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setMinValue of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_setMinValue00
+static int tolua_Cocos2d_CCSlider_setMinValue00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+  float minValue = ((float)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setMinValue'", NULL);
+#endif
+  {
+   self->setMinValue(minValue);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setMinValue'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getMaxValue of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_getMaxValue00
+static int tolua_Cocos2d_CCSlider_getMaxValue00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getMaxValue'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getMaxValue();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getMaxValue'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setMaxValue of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_setMaxValue00
+static int tolua_Cocos2d_CCSlider_setMaxValue00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+  float maxValue = ((float)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setMaxValue'", NULL);
+#endif
+  {
+   self->setMaxValue(maxValue);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setMaxValue'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getTrackTouchOutsideContent of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_getTrackTouchOutsideContent00
+static int tolua_Cocos2d_CCSlider_getTrackTouchOutsideContent00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getTrackTouchOutsideContent'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->getTrackTouchOutsideContent();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getTrackTouchOutsideContent'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setTrackTouchOutsideContent of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_setTrackTouchOutsideContent00
+static int tolua_Cocos2d_CCSlider_setTrackTouchOutsideContent00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+  bool track = ((bool)  tolua_toboolean(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setTrackTouchOutsideContent'", NULL);
+#endif
+  {
+   self->setTrackTouchOutsideContent(track);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setTrackTouchOutsideContent'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getHeight of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_getHeight00
+static int tolua_Cocos2d_CCSlider_getHeight00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getHeight'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getHeight();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getHeight'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setHeight of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_setHeight00
+static int tolua_Cocos2d_CCSlider_setHeight00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+  float height = ((float)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setHeight'", NULL);
+#endif
+  {
+   self->setHeight(height);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setHeight'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getEvaluateFirstTouch of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_getEvaluateFirstTouch00
+static int tolua_Cocos2d_CCSlider_getEvaluateFirstTouch00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getEvaluateFirstTouch'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->getEvaluateFirstTouch();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getEvaluateFirstTouch'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setEvaluateFirstTouch of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_setEvaluateFirstTouch00
+static int tolua_Cocos2d_CCSlider_setEvaluateFirstTouch00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+  bool eval = ((bool)  tolua_toboolean(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setEvaluateFirstTouch'", NULL);
+#endif
+  {
+   self->setEvaluateFirstTouch(eval);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setEvaluateFirstTouch'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getEnabled of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_getEnabled00
+static int tolua_Cocos2d_CCSlider_getEnabled00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getEnabled'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->getEnabled();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getEnabled'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setEnabled of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_setEnabled00
+static int tolua_Cocos2d_CCSlider_setEnabled00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+  bool enabled = ((bool)  tolua_toboolean(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setEnabled'", NULL);
+#endif
+  {
+   self->setEnabled(enabled);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setEnabled'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getHorizontalPadding of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_getHorizontalPadding00
+static int tolua_Cocos2d_CCSlider_getHorizontalPadding00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getHorizontalPadding'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getHorizontalPadding();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getHorizontalPadding'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setHorizontalPadding of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_setHorizontalPadding00
+static int tolua_Cocos2d_CCSlider_setHorizontalPadding00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+  float padding = ((float)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setHorizontalPadding'", NULL);
+#endif
+  {
+   self->setHorizontalPadding(padding);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setHorizontalPadding'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getValue of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_getValue00
+static int tolua_Cocos2d_CCSlider_getValue00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getValue'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getValue();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getValue'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setValue of class  CCSlider */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCSlider_setValue00
+static int tolua_Cocos2d_CCSlider_setValue00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCSlider",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCSlider* self = (CCSlider*)  tolua_tousertype(tolua_S,1,0);
+  float value = ((float)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setValue'", NULL);
+#endif
+  {
+   self->setValue(value);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setValue'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: node of class  CCParticleFire */
 #ifndef TOLUA_DISABLE_tolua_Cocos2d_CCParticleFire_node00
 static int tolua_Cocos2d_CCParticleFire_node00(lua_State* tolua_S)
@@ -37444,6 +37964,22 @@ TOLUA_API int tolua_Cocos2d_open (lua_State* tolua_S)
    tolua_function(tolua_S,"unregisterScriptSlideHandler",tolua_Cocos2d_CCSlider_unregisterScriptSlideHandler00);
    tolua_function(tolua_S,"node",tolua_Cocos2d_CCSlider_node00);
    tolua_function(tolua_S,"slider",tolua_Cocos2d_CCSlider_slider00);
+   tolua_function(tolua_S,"getMinValue",tolua_Cocos2d_CCSlider_getMinValue00);
+   tolua_function(tolua_S,"setMinValue",tolua_Cocos2d_CCSlider_setMinValue00);
+   tolua_function(tolua_S,"getMaxValue",tolua_Cocos2d_CCSlider_getMaxValue00);
+   tolua_function(tolua_S,"setMaxValue",tolua_Cocos2d_CCSlider_setMaxValue00);
+   tolua_function(tolua_S,"getTrackTouchOutsideContent",tolua_Cocos2d_CCSlider_getTrackTouchOutsideContent00);
+   tolua_function(tolua_S,"setTrackTouchOutsideContent",tolua_Cocos2d_CCSlider_setTrackTouchOutsideContent00);
+   tolua_function(tolua_S,"getHeight",tolua_Cocos2d_CCSlider_getHeight00);
+   tolua_function(tolua_S,"setHeight",tolua_Cocos2d_CCSlider_setHeight00);
+   tolua_function(tolua_S,"getEvaluateFirstTouch",tolua_Cocos2d_CCSlider_getEvaluateFirstTouch00);
+   tolua_function(tolua_S,"setEvaluateFirstTouch",tolua_Cocos2d_CCSlider_setEvaluateFirstTouch00);
+   tolua_function(tolua_S,"getEnabled",tolua_Cocos2d_CCSlider_getEnabled00);
+   tolua_function(tolua_S,"setEnabled",tolua_Cocos2d_CCSlider_setEnabled00);
+   tolua_function(tolua_S,"getHorizontalPadding",tolua_Cocos2d_CCSlider_getHorizontalPadding00);
+   tolua_function(tolua_S,"setHorizontalPadding",tolua_Cocos2d_CCSlider_setHorizontalPadding00);
+   tolua_function(tolua_S,"getValue",tolua_Cocos2d_CCSlider_getValue00);
+   tolua_function(tolua_S,"setValue",tolua_Cocos2d_CCSlider_setValue00);
   tolua_endmodule(tolua_S);
   tolua_cclass(tolua_S,"CCParticleFire","CCParticleFire","CCParticleSystemQuad",NULL);
   tolua_beginmodule(tolua_S,"CCParticleFire");

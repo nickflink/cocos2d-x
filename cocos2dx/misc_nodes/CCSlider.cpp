@@ -13,26 +13,14 @@ namespace cocos2d
     
     CCSlider* CCSlider::slider(const char *trackFile, const char *knobFile)
     {
-        CCSlider* slider = CCSlider::SliderWithFiles(trackFile, knobFile, NULL, NULL);
-        if(slider)
-        {
-            slider->setRotation(270);
-            slider->SetHeight(100);
-            slider->SetHorizontalPadding(50);
-            slider->SetTrackTouchOutsideContent(true);
-            slider->SetEvaluateFirstTouch(true);
-            slider->SetMinValue(0.0f);
-            slider->SetMaxValue(1.0f);
-            slider->SetValue(0.5f);
-            slider->SetEnabled(true);
-        }
+        CCSlider* slider = CCSlider::sliderWithFiles(trackFile, knobFile, NULL, NULL);
         return slider;
     }
     
-	CCSlider* CCSlider::SliderWithFiles(const char* trackFile, const char* knobFile, CCObject* target, SEL_MenuHandler selector)
+	CCSlider* CCSlider::sliderWithFiles(const char* trackFile, const char* knobFile, CCObject* target, SEL_MenuHandler selector)
 	{
 		CCSlider* slider = new CCSlider();
-		if (slider->InitWithFiles(trackFile, knobFile))
+		if (slider->initWithFiles(trackFile, knobFile))
 		{
             slider->m_target = target;
 			slider->m_selector = selector;
@@ -46,10 +34,10 @@ namespace cocos2d
 		}
 	}
     
-	CCSlider* CCSlider::SliderWithSprites(CCSprite* trackSprite, CCSprite* knobSprite, CCObject* target, SEL_MenuHandler selector)
+	CCSlider* CCSlider::sliderWithSprites(CCSprite* trackSprite, CCSprite* knobSprite, CCObject* target, SEL_MenuHandler selector)
 	{
 		CCSlider* slider = new CCSlider();
-		if (slider->InitWithSprites(trackSprite, knobSprite))
+		if (slider->initWithSprites(trackSprite, knobSprite))
 		{
             slider->m_target = target;
 			slider->m_selector = selector;
@@ -64,7 +52,7 @@ namespace cocos2d
 	}
     
 	//! init from files
-	bool CCSlider::InitWithFiles(const char* trackFile, const char* knobFile)
+	bool CCSlider::initWithFiles(const char* trackFile, const char* knobFile)
 	{
 		//if (CCNode::init())
 		{
@@ -86,11 +74,11 @@ namespace cocos2d
             
 			return true;
 		}
-		//return false;
+		return false;
 	}
     
 	//! init from sprites
-	bool CCSlider::InitWithSprites(CCSprite* trackSprite, CCSprite* knobSprite)
+	bool CCSlider::initWithSprites(CCSprite* trackSprite, CCSprite* knobSprite)
 	{
 		//if (CCLayer::init())
 		{
@@ -115,7 +103,7 @@ namespace cocos2d
 		//return false;
 	}
     
-	void CCSlider::SetValue(float value)
+	void CCSlider::setValue(float value)
 	{
 		if (!m_enabled) return;
         
@@ -136,7 +124,7 @@ namespace cocos2d
         if (m_nScriptHandler) 
         {
             CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
-            pEngine->executeFunctionWithFloatData(m_nScriptHandler, GetValue());
+            pEngine->executeFunctionWithFloatData(m_nScriptHandler, getValue());
 
         }
 	}
@@ -267,7 +255,7 @@ namespace cocos2d
         if (m_nScriptHandler) 
         {
             CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
-            pEngine->executeFunctionWithFloatData(m_nScriptHandler, GetValue());
+            pEngine->executeFunctionWithFloatData(m_nScriptHandler, getValue());
             
         }
 	}

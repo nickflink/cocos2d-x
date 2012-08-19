@@ -1,7 +1,6 @@
-
-#ignore thumbnails created by windows
+# Ignore thumbnails created by windows
 Thumbs.db
-#Ignore files build by Visual Studio
+# Ignore files build by Visual Studio
 *.obj
 *.exe
 *.pdb
@@ -67,3 +66,6 @@ Device-Release/
 
 # Ignore tolua mac specific binary
 tools/tolua++/tolua++
+# Ignore swap files for vim
+*.swp
+*.swo

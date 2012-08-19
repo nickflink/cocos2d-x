@@ -25,39 +25,39 @@ namespace cocos2d
 	public:
 		//! static method to get the sliders
         static CCSlider* slider(const char *trackFile, const char *knobFile);
-		static CCSlider* SliderWithFiles(const char* trackFile, const char* knobFile, CCObject* target, SEL_MenuHandler selector);
-		static CCSlider* SliderWithSprites(CCSprite* trackSprite, CCSprite* knobSprite, CCObject* target, SEL_MenuHandler selector);
+		static CCSlider* sliderWithFiles(const char* trackFile, const char* knobFile, CCObject* target, SEL_MenuHandler selector);
+		static CCSlider* sliderWithSprites(CCSprite* trackSprite, CCSprite* knobSprite, CCObject* target, SEL_MenuHandler selector);
 	public:
 		//! default constructor
 		CCSlider();
 		//! init from files
-		bool InitWithFiles(const char* trackFile, const char* knobFile);
+		bool initWithFiles(const char* trackFile, const char* knobFile);
 		//! init from sprites
-		bool InitWithSprites(CCSprite* trackSprite, CCSprite* knobSprite);
+		bool initWithSprites(CCSprite* trackSprite, CCSprite* knobSprite);
         
 		//! get horizontal padding
-		float GetHorizontalPadding() const { return (m_width - m_track->getContentSize().width) * 0.5f; }
+		float getHorizontalPadding() const { return (m_width - m_track->getContentSize().width) * 0.5f; }
 		//! set horizontal padding
-		void SetHorizontalPadding(float padding) { m_width = m_track->getContentSize().width + 2 * padding; }
+		void setHorizontalPadding(float padding) { m_width = m_track->getContentSize().width + 2 * padding; }
 		//! get slider value
-		float GetValue() const { return m_value; }
+		float getValue() const { return m_value; }
 		//! set slider value
-		void SetValue(float value);
+		void setValue(float value);
         
 		//! normal setters & getters
 		//////////////////////////////////////////////////////////////////////////
-		float GetMinValue() const { return m_minValue; }
-		void SetMinValue(float minValue) { m_minValue = minValue; }
-		float GetMaxValue() const { return m_maxValue; }
-		void SetMaxValue(float maxValue) { m_maxValue = maxValue; }
-		bool GetTrackTouchOutsideContent() const { return m_trackTouchOutsideContent; }
-		void SetTrackTouchOutsideContent(bool track) { m_trackTouchOutsideContent = track; }
-		float GetHeight() const { return m_height; }
-		void SetHeight(float height) { m_height = height; }
-		bool GetEvaluateFirstTouch() const { return m_evaluateFirstTouch; }
-		void SetEvaluateFirstTouch(bool eval) { m_evaluateFirstTouch = eval; }
-		bool GetEnabled() const { return m_enabled; }
-		void SetEnabled(bool enabled) { m_enabled = enabled; }
+		float getMinValue() const { return m_minValue; }
+		void setMinValue(float minValue) { m_minValue = minValue; }
+		float getMaxValue() const { return m_maxValue; }
+		void setMaxValue(float maxValue) { m_maxValue = maxValue; }
+		bool getTrackTouchOutsideContent() const { return m_trackTouchOutsideContent; }
+		void setTrackTouchOutsideContent(bool track) { m_trackTouchOutsideContent = track; }
+		float getHeight() const { return m_height; }
+		void setHeight(float height) { m_height = height; }
+		bool getEvaluateFirstTouch() const { return m_evaluateFirstTouch; }
+		void setEvaluateFirstTouch(bool eval) { m_evaluateFirstTouch = eval; }
+		bool getEnabled() const { return m_enabled; }
+		void setEnabled(bool enabled) { m_enabled = enabled; }
         //////////////////////////////////////////////////////////////////////////
         
 		//! enter & exit method

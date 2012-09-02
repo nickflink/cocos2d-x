@@ -2,7 +2,7 @@
  Copyright (c) 2012 cocos2d-x.org
  Copyright (c) 2012 Nick Flink
  
- http://www.cocos2d-x.org
+ http://www.cocos4d-x.org
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -23,23 +23,48 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import <Foundation/Foundation.h>
 #import "CCAchievementsDelegate.h"
+#import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 
+/*@protocol AchievementsDelegateProtocol
 
-@interface AchievementsDispatcher : NSObject<GKAchievementViewControllerDelegate>
+-(void) onLocalPlayerAuthenticationChanged;
+-(void) onAchievementReported:(GKAchievement*)achievement;
+-(void) onAchievementsLoaded:(NSDictionary*)achievements;
+-(void) onResetAchievements:(bool)success;
+-(void) onAchievementsViewDismissed;
+
+@end*/
+
+
+@interface AchievementsDispatcher : NSObject<GKAchievementViewControllerDelegate/*, AchievementsDelegateProtocol*/>
 {
-    //id<AchievementsDispatcherProtocol> delegate;  THIS DELEGATE BELOW NEEDS THE ABOVE FUNCTIONS
-	cocos2d::CCAchievementsDelegate *delegate_;
-	//cocos2d::CCAcceleration *acceleration_;
+	//id<AchievementsDelegateProtocol> delegate;
+	//cocos2d::CCAchievementsDelegate *delegate_;
+	//id<GameKitHelperProtocol> delegate;
+	bool isGameCenterAvailable;
+	NSError* lastError;
+	
+	NSMutableDictionary* achievements;
+	NSMutableDictionary* cachedAchievements;
 }
 
-@property(readwrite) cocos2d::CCAchievementsDelegate *delegate_;
+//@property (nonatomic, retain) id<GameKitHelperProtocol> delegate;
+@property (readwrite) cocos2d::CCAchievementsDelegate *delegate_;
+@property (nonatomic, readonly) bool isGameCenterAvailable;
+@property (nonatomic, readonly) NSError* lastError;
+@property (nonatomic, readonly) NSMutableDictionary* achievements;
 
 + (id) sharedAchievementsDispather;
 - (id) init;
 - (void) addDelegate: (cocos2d::CCAchievementsDelegate *) delegate;
 - (void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController;
+- (void) onLocalPlayerAuthenticationChanged;
+/*- (void) onAchievementReported:(GKAchievement*)achievement;
+- (void) onAchievementsLoaded:(NSDictionary*)achievements;
+- (void) onResetAchievements:(bool)success;
+- (void) onAchievementsViewDismissed;*/
+
 
 @end

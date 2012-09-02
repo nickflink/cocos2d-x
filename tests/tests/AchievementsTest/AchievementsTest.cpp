@@ -32,6 +32,8 @@ void AchievementsTest::onEnter()
 {
 	CCLayer::onEnter();
 
+    setAreAchievementsEnabled(true);
+
     /*setIsAchievementsEnabled(true);
 
 	CCSize s = CCDirector::sharedDirector()->getWinSize();

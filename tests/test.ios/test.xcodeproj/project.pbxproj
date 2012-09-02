@@ -15,6 +15,7 @@
 		2779EC2415F3BE4100112CC7 /* AchievementsDelegateWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2779EC2115F3BE4100112CC7 /* AchievementsDelegateWrapper.mm */; };
 		2779EC2515F3BE4100112CC7 /* CCAchievements_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2779EC2315F3BE4100112CC7 /* CCAchievements_ios.mm */; };
 		2779EC2D15F3C08700112CC7 /* AchievementsTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2779EC2B15F3C08700112CC7 /* AchievementsTest.cpp */; };
+		2779EC4515F40A9400112CC7 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2779EC4415F40A9300112CC7 /* GameKit.framework */; };
 		279EDFE015E01D3C00719A4D /* SliderTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 279EDFDE15E01D3C00719A4D /* SliderTest.cpp */; };
 		279EDFE515E01DB300719A4D /* ScrollMenuTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 279EDFE315E01DB300719A4D /* ScrollMenuTest.cpp */; };
 		279EDFE715E01DF000719A4D /* CCScrollLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 279EDFE615E01DF000719A4D /* CCScrollLayer.cpp */; };
@@ -587,6 +588,7 @@
 		2779EC2915F3C00100112CC7 /* CCAchievementsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAchievementsDelegate.h; sourceTree = "<group>"; };
 		2779EC2B15F3C08700112CC7 /* AchievementsTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AchievementsTest.cpp; sourceTree = "<group>"; };
 		2779EC2C15F3C08700112CC7 /* AchievementsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AchievementsTest.h; sourceTree = "<group>"; };
+		2779EC4415F40A9300112CC7 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		279EDFDE15E01D3C00719A4D /* SliderTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SliderTest.cpp; sourceTree = "<group>"; };
 		279EDFDF15E01D3C00719A4D /* SliderTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderTest.h; sourceTree = "<group>"; };
 		279EDFE315E01DB300719A4D /* ScrollMenuTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollMenuTest.cpp; sourceTree = "<group>"; };
@@ -1225,6 +1227,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2779EC4515F40A9400112CC7 /* GameKit.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
@@ -1351,6 +1354,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2779EC4415F40A9300112CC7 /* GameKit.framework */,
 				D429012D13B1D16900A3772F /* libcurl.a */,
 				BF170DB012928DE900B8313A /* OpenGLES.framework */,
 				BF170DB212928DE900B8313A /* libxml2.dylib */,

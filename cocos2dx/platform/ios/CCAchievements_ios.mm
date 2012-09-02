@@ -50,5 +50,22 @@ namespace cocos2d {
     {
         [[AchievementsDispatcher sharedAchievementsDispather] addDelegate:pDelegate];
     }
+    
+    void onLocalPlayerAuthenticationChanged(){
+        return;
+    }
+    void onAchievementReported(/*GKAchievement *acheivement*/){
+        return;
+    }
+    void onAchievementsLoaded(/*NSDictionary *achievements*/){
+        return;
+    }
+    void onResetAchievements(bool success){
+        return;
+    }
+    void onAchievementsViewDismissed(){
+        return;
+    }
+
 }
 

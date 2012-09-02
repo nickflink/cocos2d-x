@@ -74,6 +74,14 @@ public:
 	
     virtual void didAccelerate(CCAcceleration* pAccelerationValue) {CC_UNUSED_PARAM(pAccelerationValue);}
 
+    // functions needed for CCAchievementsDelegate
+    virtual void onLocalPlayerAuthenticationChanged() {CCLOG("Implement onLocalPlayerAuthenticationChanged");}
+    virtual void onAchievementReported() {CCLOG("Implement onAchievementReported");}//GKAchievement *acheivement);
+    virtual void onAchievementsLoaded() {CCLOG("Implement onAchievementsLoaded");}//NSDictionary *achievements);
+    virtual void onResetAchievements(bool success) {CCLOG("Implement onResetAchievements");}
+    virtual void onAchievementsViewDismissed() {CCLOG("Implement onAchievementsViewDismissed");}
+
+    
 	/** If isTouchEnabled, this method is called onEnter. Override it to change the
 	way CCLayer receives touch events.
 	( Default: CCTouchDispatcher::sharedDispatcher()->addStandardDelegate(this,0); )

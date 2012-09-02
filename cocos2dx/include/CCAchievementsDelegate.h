@@ -52,11 +52,11 @@ class CC_DLL CCAchievementsDelegate
 {
 public:
 
-//    virtual void onLocalPlayerAuthenticationChanged();
-//    virtual void onAchievementReported(GKAchievement *acheivement);
-//    virtual void onAchievementsLoaded(NSDictionary *achievements);
-//    virtual void onResetAchievements(bool success);
-//    virtual void onAchievementsViewDismissed();
+    virtual void onLocalPlayerAuthenticationChanged(){}
+    virtual void onAchievementReported(){}//GKAchievement *acheivement);
+    virtual void onAchievementsLoaded(){}//NSDictionary *achievements);
+    virtual void onResetAchievements(bool success){CC_UNUSED_PARAM(success);}
+    virtual void onAchievementsViewDismissed(){}
     
 
 };

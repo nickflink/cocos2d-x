@@ -156,18 +156,18 @@ void SliderDemo::backCallback(CCObject* pSender)
 Slider1::Slider1()
 {
     CCSize size = CCDirector::sharedDirector()->getWinSize();
-    CCSlider* slider = CCSlider::SliderWithFiles("Images/slider_track.png", "Images/slider_knob.png", this, menu_selector(Slider1::sliderCallback));
+    CCSlider* slider = CCSlider::sliderWithFiles("Images/slider_track.png", "Images/slider_knob.png", this, menu_selector(Slider1::sliderCallback));
     assert(slider);
     slider->setPosition(ccp(size.width*0.5f, size.height*0.5f));
     slider->setRotation(90);
-    slider->SetHeight(100);
-    slider->SetHorizontalPadding(50);
-    slider->SetTrackTouchOutsideContent(true);
-    slider->SetEvaluateFirstTouch(false);
-    slider->SetMinValue(0.5f);
-    slider->SetMaxValue(1.0f);
-    slider->SetValue(0.5f);
-    slider->SetEnabled(true);
+    slider->setHeight(100);
+    slider->setHorizontalPadding(50);
+    slider->setTrackTouchOutsideContent(true);
+    slider->setEvaluateFirstTouch(false);
+    slider->setMinValue(0.5f);
+    slider->setMaxValue(1.0f);
+    slider->setValue(0.5f);
+    slider->setEnabled(true);
     addChild(slider);
 
 }

@@ -16,6 +16,8 @@ static TestScene* CreateTestScene(int nIdx)
     {
     case TEST_ACTIONS:
         pScene = new ActionsTestScene(); break;
+    case TEST_ACHIEVEMENTS:
+            pScene = new AchievementsTestScene(); break;
     case TEST_SLIDER:
         pScene = new SliderTestScene(); break;
     case TEST_SCROLL_LAYER:
@@ -87,7 +89,7 @@ static TestScene* CreateTestScene(int nIdx)
         pScene = new EffectAdvanceScene(); break;
     case TEST_HIRES:
         pScene = new HiResTestScene(); break;
-	case TEST_ACCELEROMRTER:
+	case TEST_ACCELEROMETER:
         pScene = new AccelerometerTestScene(); break;
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_BADA)
     case TEST_KEYPAD:

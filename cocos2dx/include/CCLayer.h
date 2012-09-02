@@ -31,6 +31,7 @@ THE SOFTWARE.
 #include "CCProtocols.h"
 #include "CCTouchDelegateProtocol.h"
 #include "CCAccelerometerDelegate.h"
+#include "CCAchievementsDelegate.h"
 #include "CCKeypadDelegate.h"
 #include "CCMutableArray.h"
 
@@ -47,7 +48,7 @@ All features from CCNode are valid, plus the following new features:
 - It can receive iPhone Touches
 - It can receive Accelerometer input
 */
-class CC_DLL CCLayer : public CCNode, public CCTouchDelegate, public CCAccelerometerDelegate, public CCKeypadDelegate
+class CC_DLL CCLayer : public CCNode, public CCTouchDelegate, public CCAccelerometerDelegate, public CCKeypadDelegate, public CCAchievementsDelegate
 {
 public:
 	CCLayer();
@@ -106,6 +107,12 @@ public:
     it's new in cocos2d-x
     */
     CC_PROPERTY(bool, m_bIsKeypadEnabled, IsKeypadEnabled)
+    /** whether or not it will receive Acheivement events
+     You can enable / disable acheivement events with this property.
+     @since v0.12.0
+     */
+	CC_PROPERTY(bool, m_bAreAchievementsEnabled, AreAchievementsEnabled)
+
     
 private:
     // Script touch events handler

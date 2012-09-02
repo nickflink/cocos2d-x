@@ -22,23 +22,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCACCELEROMETER_DELEGATE_H__
-#define __CCACCELEROMETER_DELEGATE_H__
+#ifndef __CCACHIEVEMENTS_DELEGATE_H__
+#define __CCACHIEVEMENTS_DELEGATE_H__
 
 #include "CCCommon.h"
 
-namespace   cocos2d {
-/**
-@brief The device accelerometer reports values for each axis in units of g-force 
-*/
-typedef struct 
-{
-    double x;
-    double y;
-    double z;
+/*
+ @protocol AchievementsDispatcherProtocol
+ 
+ -(void) onLocalPlayerAuthenticationChanged;
+ -(void) onAchievementReported:(GKAchievement*)achievement;
+ -(void) onAchievementsLoaded:(NSDictionary*)achievements;
+ -(void) onResetAchievements:(bool)success;
+ -(void) onAchievementsViewDismissed;
+ 
+ @end
 
-    double timestamp;
-} CCAcceleration;
+ */
+
+namespace   cocos2d {
+
 
 /**
 @brief 
@@ -48,7 +51,14 @@ receiving acceleration-related data from the system.
 class CC_DLL CCAchievementsDelegate
 {
 public:
-    virtual void didAccelerate(CCAcceleration* pAccelerationValue) {CC_UNUSED_PARAM(pAccelerationValue);}
+
+//    virtual void onLocalPlayerAuthenticationChanged();
+//    virtual void onAchievementReported(GKAchievement *acheivement);
+//    virtual void onAchievementsLoaded(NSDictionary *achievements);
+//    virtual void onResetAchievements(bool success);
+//    virtual void onAchievementsViewDismissed();
+    
+
 };
 
 } //namespace   cocos2d 

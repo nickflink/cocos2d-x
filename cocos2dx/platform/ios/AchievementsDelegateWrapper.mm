@@ -24,12 +24,27 @@
 
 #import "AchievementsDelegateWrapper.h"
 
+static NSString* kCachedAchievementsFile = @"CachedAchievements.archive";
+
+@interface AchievementsDispatcher (Private)
+-(void) registerForLocalPlayerAuthChange;
+-(void) setLastError:(NSError*)error;
+-(void) initCachedAchievements;
+-(void) cacheAchievement:(GKAchievement*)achievement;
+-(void) uncacheAchievement:(GKAchievement*)achievement;
+-(void) loadAchievements;
+-(void) initMatchInvitationHandler;
+-(UIViewController*) getRootViewController;
+@end
+
+
+
 @implementation AchievementsDispatcher
 
 static AchievementsDispatcher* s_pAchievementsDispatcher;
 
 @synthesize delegate_;
-@synthesize acceleration_;
+//@synthesize achievements_;
 
 + (id) sharedAchievementsDispather
 {
@@ -42,7 +57,7 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
 
 - (id) init
 {
-    acceleration_ = new cocos2d::CCAcceleration();
+    //achievements_ = new cocos2d::CCAchievements();
     return self;
 }
 
@@ -50,7 +65,7 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
 {
     s_pAchievementsDispatcher = 0;
     delegate_ = 0;
-    delete acceleration_;
+    //delete achievements_;
     [super dealloc];
 }
 
@@ -60,15 +75,20 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
     
     if (delegate_)
     {
-        [[UIAchievements sharedAchievements] setDelegate:self];
+        [[CCAchievements sharedAchievements] setDelegate:self];
     }
     else 
     {
-        [[UIAchievements sharedAchievements] setDelegate:nil];
+        [[CCAchievements sharedAchievements] setDelegate:nil];
     }
 }
 
-- (void)accelerometer:(UIAchievements *)accelerometer didAccelerate:(UIAcceleration *)acceleration
+- (void)achievementViewControllerDidFinish:(GKAchievementViewController *)viewController
+{
+    CCLOG("IMPLEMENT ME AchievementsDispatcher::achievementViewControllerDidFinish");
+}
+
+/*- (void)achievements:(GKAchievementViewControllerDelegate *)achievements didAccelerate:(UIAcceleration *)acceleration
 {   
     if (! delegate_)
     {
@@ -104,7 +124,7 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
     }
     
     delegate_->didAccelerate(acceleration_);
-}
+}*/
 
 @end
 

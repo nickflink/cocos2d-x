@@ -12,6 +12,9 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		276270E915D1D47C00106D77 /* CCSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 276270E815D1D47C00106D77 /* CCSlider.cpp */; };
+		2779EC2415F3BE4100112CC7 /* AchievementsDelegateWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2779EC2115F3BE4100112CC7 /* AchievementsDelegateWrapper.mm */; };
+		2779EC2515F3BE4100112CC7 /* CCAchievements_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2779EC2315F3BE4100112CC7 /* CCAchievements_ios.mm */; };
+		2779EC2D15F3C08700112CC7 /* AchievementsTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2779EC2B15F3C08700112CC7 /* AchievementsTest.cpp */; };
 		279EDFE015E01D3C00719A4D /* SliderTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 279EDFDE15E01D3C00719A4D /* SliderTest.cpp */; };
 		279EDFE515E01DB300719A4D /* ScrollMenuTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 279EDFE315E01DB300719A4D /* ScrollMenuTest.cpp */; };
 		279EDFE715E01DF000719A4D /* CCScrollLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 279EDFE615E01DF000719A4D /* CCScrollLayer.cpp */; };
@@ -575,6 +578,15 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		276270E815D1D47C00106D77 /* CCSlider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSlider.cpp; sourceTree = "<group>"; };
 		276270EA15D1D50D00106D77 /* CCSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSlider.h; sourceTree = "<group>"; };
+		2779EC2015F3BE4100112CC7 /* AchievementsDelegateWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AchievementsDelegateWrapper.h; sourceTree = "<group>"; };
+		2779EC2115F3BE4100112CC7 /* AchievementsDelegateWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AchievementsDelegateWrapper.mm; sourceTree = "<group>"; };
+		2779EC2215F3BE4100112CC7 /* CCAchievements_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAchievements_ios.h; sourceTree = "<group>"; };
+		2779EC2315F3BE4100112CC7 /* CCAchievements_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCAchievements_ios.mm; sourceTree = "<group>"; };
+		2779EC2715F3BF9300112CC7 /* CCAchievements_platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAchievements_platform.h; sourceTree = "<group>"; };
+		2779EC2815F3C00100112CC7 /* CCAchievements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAchievements.h; sourceTree = "<group>"; };
+		2779EC2915F3C00100112CC7 /* CCAchievementsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAchievementsDelegate.h; sourceTree = "<group>"; };
+		2779EC2B15F3C08700112CC7 /* AchievementsTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AchievementsTest.cpp; sourceTree = "<group>"; };
+		2779EC2C15F3C08700112CC7 /* AchievementsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AchievementsTest.h; sourceTree = "<group>"; };
 		279EDFDE15E01D3C00719A4D /* SliderTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SliderTest.cpp; sourceTree = "<group>"; };
 		279EDFDF15E01D3C00719A4D /* SliderTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderTest.h; sourceTree = "<group>"; };
 		279EDFE315E01DB300719A4D /* ScrollMenuTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollMenuTest.cpp; sourceTree = "<group>"; };
@@ -1293,6 +1305,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		2779EC2A15F3C08700112CC7 /* AchievementsTest */ = {
+			isa = PBXGroup;
+			children = (
+				2779EC2B15F3C08700112CC7 /* AchievementsTest.cpp */,
+				2779EC2C15F3C08700112CC7 /* AchievementsTest.h */,
+			);
+			path = AchievementsTest;
+			sourceTree = "<group>";
+		};
 		279EDFDD15E01D3C00719A4D /* SliderTest */ = {
 			isa = PBXGroup;
 			children = (
@@ -1839,6 +1860,7 @@
 		BF31E11812E979A100D4F513 /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				2779EC2A15F3C08700112CC7 /* AchievementsTest */,
 				279EDFE215E01DB300719A4D /* ScrollMenuTest */,
 				279EDFDD15E01D3C00719A4D /* SliderTest */,
 				78C7E02514EBA5580085D0C2 /* ExtensionsTest */,
@@ -2354,6 +2376,7 @@
 		BF8358AE13276C7700F3C033 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				2779EC2915F3C00100112CC7 /* CCAchievementsDelegate.h */,
 				276270EA15D1D50D00106D77 /* CCSlider.h */,
 				27CF4B26158BB1CE00C58900 /* CCScrollMenu.h */,
 				BF1C5C2813EBF83F0076BDF6 /* CCTouchHandler.h */,
@@ -2365,6 +2388,7 @@
 				BF2CE34013666B01006DCA18 /* CCIMEDelegate.h */,
 				BF2CE34113666B01006DCA18 /* CCIMEDispatcher.h */,
 				BF8358AF13276C7700F3C033 /* CCAccelerometer.h */,
+				2779EC2815F3C00100112CC7 /* CCAchievements.h */,
 				BF8358B013276C7700F3C033 /* CCAccelerometerDelegate.h */,
 				BF8358B113276C7700F3C033 /* CCAction.h */,
 				BF8358B213276C7700F3C033 /* CCActionCamera.h */,
@@ -2515,6 +2539,7 @@
 				BF316084133DE0A500E0532D /* CCFileUtils.h */,
 				D4F1A50A133B3F5F00937FFA /* CCSAXParser.cpp */,
 				D4F1A26F133B2FE700937FFA /* CCSAXParser.h */,
+				2779EC2715F3BF9300112CC7 /* CCAchievements_platform.h */,
 				BF83592913276C7700F3C033 /* CCAccelerometer_platform.h */,
 				BF83592A13276C7700F3C033 /* CCApplication_platform.h */,
 				BF83592B13276C7700F3C033 /* CCArchOptimalParticleSystem.h */,
@@ -2544,6 +2569,10 @@
 				AD7C5EB514750E2E008E5647 /* CCThread_ios.mm */,
 				BF1E7A4813E2637200C2D68B /* FontLabel */,
 				BFA00A1E134426C600289DC3 /* CCCommon_ios.mm */,
+				2779EC2015F3BE4100112CC7 /* AchievementsDelegateWrapper.h */,
+				2779EC2115F3BE4100112CC7 /* AchievementsDelegateWrapper.mm */,
+				2779EC2215F3BE4100112CC7 /* CCAchievements_ios.h */,
+				2779EC2315F3BE4100112CC7 /* CCAchievements_ios.mm */,
 				BF83594613276C7700F3C033 /* AccelerometerDelegateWrapper.h */,
 				BF83594713276C7700F3C033 /* AccelerometerDelegateWrapper.mm */,
 				BF83594813276C7700F3C033 /* CCAccelerometer_ios.h */,
@@ -3188,6 +3217,9 @@
 				279EDFE015E01D3C00719A4D /* SliderTest.cpp in Sources */,
 				279EDFE515E01DB300719A4D /* ScrollMenuTest.cpp in Sources */,
 				279EDFE715E01DF000719A4D /* CCScrollLayer.cpp in Sources */,
+				2779EC2415F3BE4100112CC7 /* AchievementsDelegateWrapper.mm in Sources */,
+				2779EC2515F3BE4100112CC7 /* CCAchievements_ios.mm in Sources */,
+				2779EC2D15F3C08700112CC7 /* AchievementsTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3429,6 +3461,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nick Flink (H9E476ZPKW)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -3453,7 +3489,7 @@
 					"\"$(SRCROOT)/../../cocos2dx/platform/third_party/ios\"",
 				);
 				INFOPLIST_FILE = "Test-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/build/Debug-iphonesimulator\"",
@@ -3472,6 +3508,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nick Flink (H9E476ZPKW)";
 				COPY_PHASE_STRIP = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -3493,7 +3533,7 @@
 					"\"$(SRCROOT)/../../cocos2dx/platform/third_party/ios\"",
 				);
 				INFOPLIST_FILE = "Test-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/build/Debug-iphonesimulator\"",
@@ -3511,6 +3551,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3536,6 +3580,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -3561,6 +3609,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3584,6 +3636,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -3607,6 +3663,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3627,6 +3687,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -3647,6 +3711,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -3666,6 +3734,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;

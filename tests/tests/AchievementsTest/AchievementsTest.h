@@ -1,5 +1,5 @@
-#ifndef _ACCELEROMETER_TEST_H_
-#define _ACCELEROMETER_TEST_H_
+#ifndef _ACHIEVEMENTS_TEST_H_
+#define _ACHIEVEMENTS_TEST_H_
 
 #include "../testBasic.h"
 
@@ -15,7 +15,7 @@ public:
 	AchievementsTest(void);
 	~AchievementsTest(void);
 
-    virtual void didAccelerate(CCAcceleration* pAccelerationValue);
+//    virtual void didAccelerate(CCAcceleration* pAccelerationValue);
 
 	virtual std::string title();
 	virtual void onEnter();

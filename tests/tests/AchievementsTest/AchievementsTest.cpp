@@ -20,7 +20,7 @@ AchievementsTest::AchievementsTest(void)
 
 AchievementsTest::~AchievementsTest(void)
 {
-    m_pBall->release();
+    //m_pBall->release();
 }
 
 std::string AchievementsTest::title()
@@ -32,7 +32,7 @@ void AchievementsTest::onEnter()
 {
 	CCLayer::onEnter();
 
-    setIsAchievementsEnabled(true);
+    /*setIsAchievementsEnabled(true);
 
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 
@@ -44,10 +44,10 @@ void AchievementsTest::onEnter()
     m_pBall->setPosition(ccp(s.width / 2, s.height / 2));
     addChild(m_pBall);
 
-    m_pBall->retain();
+    m_pBall->retain();*/
 }
 
-void AchievementsTest::didAccelerate(CCAcceleration* pAccelerationValue)
+/*void AchievementsTest::didAccelerate(CCAcceleration* pAccelerationValue)
 {
 //     double fNow = pAccelerationValue->timestamp;
 // 
@@ -61,7 +61,6 @@ void AchievementsTest::didAccelerate(CCAcceleration* pAccelerationValue)
     CCDirector* pDir = CCDirector::sharedDirector();
     CCSize winSize   = pDir->getWinSize();
 
-    /*FIXME: Testing on the Nexus S sometimes m_pBall is NULL */
     if ( m_pBall == NULL ) {
     	return;
     }
@@ -78,7 +77,7 @@ void AchievementsTest::didAccelerate(CCAcceleration* pAccelerationValue)
     FIX_POS(ptNext.x, (ballSize.width / 2.0), (winSize.width - ballSize.width / 2.0));
     FIX_POS(ptNext.y, (ballSize.height / 2.0), (winSize.height - ballSize.height / 2.0));
     m_pBall->setPosition(ptNext);
-}
+}*/
 
 //------------------------------------------------------------------
 //

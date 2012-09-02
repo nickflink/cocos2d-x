@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2010 cocos2d-x.org
+ Copyright (c) 2012 cocos2d-x.org
+ Copyright (c) 2012 Nick Flink
  
  http://www.cocos2d-x.org
  
@@ -24,19 +25,21 @@
 
 #import <Foundation/Foundation.h>
 #import "CCAchievementsDelegate.h"
-#import <UIKit/UIKit.h>
+#import <GameKit/GameKit.h>
 
-@interface AchievementsDispatcher : NSObject<UIAchievementsDelegate>
+
+@interface AchievementsDispatcher : NSObject<GKAchievementViewControllerDelegate>
 {
+    //id<AchievementsDispatcherProtocol> delegate;  THIS DELEGATE BELOW NEEDS THE ABOVE FUNCTIONS
 	cocos2d::CCAchievementsDelegate *delegate_;
-	cocos2d::CCAcceleration *acceleration_;
+	//cocos2d::CCAcceleration *acceleration_;
 }
 
 @property(readwrite) cocos2d::CCAchievementsDelegate *delegate_;
-@property(readwrite) cocos2d::CCAcceleration *acceleration_;
 
 + (id) sharedAchievementsDispather;
 - (id) init;
 - (void) addDelegate: (cocos2d::CCAchievementsDelegate *) delegate;
+- (void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController;
 
 @end

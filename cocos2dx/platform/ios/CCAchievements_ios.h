@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __PLATFORM_IPHONE_CCACCELEROMETER_H__
-#define __PLATFORM_IPHONE_CCACCELEROMETER_H__
+#ifndef __PLATFORM_IPHONE_CCACHIEVEMENTS_H__
+#define __PLATFORM_IPHONE_CCACHIEVEMENTS_H__
 
 #include "CCAchievementsDelegate.h"
 

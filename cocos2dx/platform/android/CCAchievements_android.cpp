@@ -21,54 +21,54 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "CCAccelerometer_android.h"
+#include "CCAchievements_android.h"
 #include "jni/SensorJni.h"
 #include <stdio.h>
 #include <android/log.h>
 
 #define TG3_GRAVITY_EARTH                    (9.80665f)
-#define  LOG_TAG    "CCAccelerometer_android"
+#define  LOG_TAG    "CCAchievements_android"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 namespace cocos2d
 {
-	CCAccelerometer* CCAccelerometer::m_spCCAccelerometer = NULL;
+	CCAchievements* CCAchievements::m_spCCAchievements = NULL;
 
-	CCAccelerometer::CCAccelerometer() : m_pAccelDelegate(NULL)
+	CCAchievements::CCAchievements() : m_pAccelDelegate(NULL)
 	{
 	}
 
-    CCAccelerometer::~CCAccelerometer() 
+    CCAchievements::~CCAchievements() 
 	{
-		m_spCCAccelerometer = NULL;
+		m_spCCAchievements = NULL;
     }
 
-    CCAccelerometer* CCAccelerometer::sharedAccelerometer() 
+    CCAchievements* CCAchievements::sharedAchievements() 
 	{
 
-    	if (m_spCCAccelerometer == NULL)
+    	if (m_spCCAchievements == NULL)
     	{
-    		m_spCCAccelerometer = new CCAccelerometer();
+    		m_spCCAchievements = new CCAchievements();
     	}
     	
-    	return m_spCCAccelerometer;
+    	return m_spCCAchievements;
     }
 
-    void CCAccelerometer::setDelegate(CCAccelerometerDelegate* pDelegate) 
+    void CCAchievements::setDelegate(CCAchievementsDelegate* pDelegate) 
 	{
 		m_pAccelDelegate = pDelegate;
 
 		if (pDelegate)
 		{		
-			enableAccelerometerJNI();
+			enableAchievementsJNI();
 		}
 		else
 		{
-			disableAccelerometerJNI();
+			disableAchievementsJNI();
 		}
     }
 
-    void CCAccelerometer::update(float x, float y, float z, long sensorTimeStamp) 
+    void CCAchievements::update(float x, float y, float z, long sensorTimeStamp) 
 	{
 		if (m_pAccelDelegate)
 		{

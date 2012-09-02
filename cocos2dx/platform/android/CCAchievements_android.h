@@ -26,24 +26,24 @@ THE SOFTWARE.
 #define __PLATFORM_ANDROID_CCACCELEROMETER_H__
 
 #include "CCCommon.h"
-#include "CCAccelerometerDelegate.h"
+#include "CCAchievementsDelegate.h"
 
 namespace   cocos2d {
 
-class CC_DLL CCAccelerometer
+class CC_DLL CCAchievements
 {
 public:
-	CCAccelerometer();
-    ~CCAccelerometer();
+	CCAchievements();
+    ~CCAchievements();
 
-    static CCAccelerometer* sharedAccelerometer();
+    static CCAchievements* sharedAchievements();
 
-    void setDelegate(CCAccelerometerDelegate* pDelegate);
+    void setDelegate(CCAchievementsDelegate* pDelegate);
     void update(float x, float y, float z, long sensorTimeStamp);
 
 private:
-	static CCAccelerometer* m_spCCAccelerometer;
-	CCAccelerometerDelegate* m_pAccelDelegate;
+	static CCAchievements* m_spCCAchievements;
+	CCAchievementsDelegate* m_pAccelDelegate;
 	CCAcceleration m_obAccelerationValue;
 };
 

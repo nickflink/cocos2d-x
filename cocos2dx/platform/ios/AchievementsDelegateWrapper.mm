@@ -22,22 +22,22 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "AccelerometerDelegateWrapper.h"
+#import "AchievementsDelegateWrapper.h"
 
-@implementation AccelerometerDispatcher
+@implementation AchievementsDispatcher
 
-static AccelerometerDispatcher* s_pAccelerometerDispatcher;
+static AchievementsDispatcher* s_pAchievementsDispatcher;
 
 @synthesize delegate_;
 @synthesize acceleration_;
 
-+ (id) sharedAccelerometerDispather
++ (id) sharedAchievementsDispather
 {
-    if (s_pAccelerometerDispatcher == nil) {
-        s_pAccelerometerDispatcher = [[self alloc] init];
+    if (s_pAchievementsDispatcher == nil) {
+        s_pAchievementsDispatcher = [[self alloc] init];
     }
     
-    return s_pAccelerometerDispatcher;
+    return s_pAchievementsDispatcher;
 }
 
 - (id) init
@@ -48,27 +48,27 @@ static AccelerometerDispatcher* s_pAccelerometerDispatcher;
 
 - (void) dealloc
 {
-    s_pAccelerometerDispatcher = 0;
+    s_pAchievementsDispatcher = 0;
     delegate_ = 0;
     delete acceleration_;
     [super dealloc];
 }
 
-- (void) addDelegate: (cocos2d::CCAccelerometerDelegate *) delegate
+- (void) addDelegate: (cocos2d::CCAchievementsDelegate *) delegate
 {
     delegate_ = delegate;
     
     if (delegate_)
     {
-        [[UIAccelerometer sharedAccelerometer] setDelegate:self];
+        [[UIAchievements sharedAchievements] setDelegate:self];
     }
     else 
     {
-        [[UIAccelerometer sharedAccelerometer] setDelegate:nil];
+        [[UIAchievements sharedAchievements] setDelegate:nil];
     }
 }
 
-- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
+- (void)accelerometer:(UIAchievements *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {   
     if (! delegate_)
     {

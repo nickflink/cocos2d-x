@@ -25,22 +25,22 @@ THE SOFTWARE.
 #ifndef __PLATFORM_WIN32_UIACCELEROMETER_H__
 #define __PLATFORM_WIN32_UIACCELEROMETER_H__
 
-#include "CCAccelerometerDelegate.h"
+#include "CCAchievementsDelegate.h"
 
 namespace   cocos2d {
 
-class CC_DLL CCAccelerometer
+class CC_DLL CCAchievements
 {
 public:
-    CCAccelerometer();
-    ~CCAccelerometer();
+    CCAchievements();
+    ~CCAchievements();
 
-    static CCAccelerometer* sharedAccelerometer();
-    void setDelegate(CCAccelerometerDelegate* pDelegate);
+    static CCAchievements* sharedAchievements();
+    void setDelegate(CCAchievementsDelegate* pDelegate);
 	void update( double x,double y,double z,double timestamp );
 private:
-	static CCAccelerometer* m_spCCAccelerometer;
-	CCAccelerometerDelegate* m_pAccelDelegate;
+	static CCAchievements* m_spCCAchievements;
+	CCAchievementsDelegate* m_pAccelDelegate;
 	CCAcceleration m_obAccelerationValue;
 };
 

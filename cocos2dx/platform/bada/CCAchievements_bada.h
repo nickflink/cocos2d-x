@@ -25,7 +25,7 @@ THE SOFTWARE.
 #ifndef __PLATFORM_BADA_ACCELEROMETER_H__
 #define __PLATFORM_BADA_ACCELEROMETER_H__
 
-#include "CCAccelerometerDelegate.h"
+#include "CCAchievementsDelegate.h"
 #include "CCCommon.h"
 
 #include <FUixSensorManager.h>
@@ -34,20 +34,20 @@ THE SOFTWARE.
 
 namespace   cocos2d {
 
-class CC_DLL CCAccelerometer :
+class CC_DLL CCAchievements :
 	public Osp::Uix::ISensorEventListener
 {
 public:
-    CCAccelerometer();
-    ~CCAccelerometer();
-    static CCAccelerometer* sharedAccelerometer();
+    CCAchievements();
+    ~CCAchievements();
+    static CCAchievements* sharedAchievements();
 
-    void setDelegate(CCAccelerometerDelegate* pDelegate);
+    void setDelegate(CCAchievementsDelegate* pDelegate);
     virtual void OnDataReceived(Osp::Uix::SensorType sensorType, Osp::Uix::SensorData& sensorData , result r);
 private:
     void setEnable(bool bEnable);
 
-	CCAccelerometerDelegate* m_pAccelDelegate;
+	CCAchievementsDelegate* m_pAccelDelegate;
 	Osp::Uix::SensorManager* m_pSensor;
 	bool m_bEnabled;
 };

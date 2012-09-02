@@ -25,7 +25,7 @@ THE SOFTWARE.
 #ifndef __PLATFORM_WOPHONE_UIACCELEROMETER_H__
 #define __PLATFORM_WOPHONE_UIACCELEROMETER_H__
 
-#include "CCAccelerometerDelegate.h"
+#include "CCAchievementsDelegate.h"
 #include "TG3.h"
 #include "CCCommon.h"
 #include "TCOM_Sensors_Interface.h"
@@ -34,24 +34,24 @@ namespace   cocos2d {
 
 /**
 @brief 
-The CCAccelerometer class lets you register to receive
+The CCAchievements class lets you register to receive
 acceleration-related data from the onboard hardware.
 */
-class CC_DLL CCAccelerometer
+class CC_DLL CCAchievements
 {
 public:
-    CCAccelerometer();
-    ~CCAccelerometer();
+    CCAchievements();
+    ~CCAchievements();
 
     /**
     @brief Returns the shared accelerometer object for the system.
     */
-    static CCAccelerometer* sharedAccelerometer();
+    static CCAchievements* sharedAchievements();
 
     /**
     @brief add delegate to concern accelerometer sensor
     */
-    void setDelegate(CCAccelerometerDelegate* pDelegate);
+    void setDelegate(CCAchievementsDelegate* pDelegate);
 
     /**
     @brief call delegates' didAccelerate function
@@ -59,7 +59,7 @@ public:
     void didAccelerate(CCAcceleration* pAccelerationValue);
 
 protected:
-	CCAccelerometerDelegate*        m_pDelegate;
+	CCAchievementsDelegate*        m_pDelegate;
     TCOM_Sensors_DataType_Client*   m_pSensor;
 };
 

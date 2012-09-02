@@ -23,20 +23,20 @@
  ****************************************************************************/
 
 #import <Foundation/Foundation.h>
-#import "CCAccelerometerDelegate.h"
+#import "CCAchievementsDelegate.h"
 #import <UIKit/UIKit.h>
 
-@interface AccelerometerDispatcher : NSObject<UIAccelerometerDelegate>
+@interface AchievementsDispatcher : NSObject<UIAchievementsDelegate>
 {
-	cocos2d::CCAccelerometerDelegate *delegate_;
+	cocos2d::CCAchievementsDelegate *delegate_;
 	cocos2d::CCAcceleration *acceleration_;
 }
 
-@property(readwrite) cocos2d::CCAccelerometerDelegate *delegate_;
+@property(readwrite) cocos2d::CCAchievementsDelegate *delegate_;
 @property(readwrite) cocos2d::CCAcceleration *acceleration_;
 
-+ (id) sharedAccelerometerDispather;
++ (id) sharedAchievementsDispather;
 - (id) init;
-- (void) addDelegate: (cocos2d::CCAccelerometerDelegate *) delegate;
+- (void) addDelegate: (cocos2d::CCAchievementsDelegate *) delegate;
 
 @end

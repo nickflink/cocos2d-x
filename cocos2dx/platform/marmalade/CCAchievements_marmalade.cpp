@@ -22,55 +22,55 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "CCAccelerometer_marmalade.h"
+#include "CCAchievements_marmalade.h"
 #include "ccMacros.h"
 
 namespace cocos2d
 {
 
-CCAccelerometer* CCAccelerometer::m_spCCAccelerometer = NULL;
+CCAchievements* CCAchievements::m_spCCAchievements = NULL;
 
-CCAccelerometer::CCAccelerometer() : m_pAccelDelegate(NULL)
+CCAchievements::CCAchievements() : m_pAccelDelegate(NULL)
 {
 }
 
-CCAccelerometer::~CCAccelerometer() 
+CCAchievements::~CCAchievements() 
 {
-	if( m_spCCAccelerometer ) {
-		delete m_spCCAccelerometer ;
-		m_spCCAccelerometer = NULL;
+	if( m_spCCAchievements ) {
+		delete m_spCCAchievements ;
+		m_spCCAchievements = NULL;
 	}
 }
 
-CCAccelerometer* CCAccelerometer::sharedAccelerometer() 
+CCAchievements* CCAchievements::sharedAchievements() 
 {
 
-	if (m_spCCAccelerometer == NULL)
+	if (m_spCCAchievements == NULL)
 	{
-		m_spCCAccelerometer = new CCAccelerometer();
+		m_spCCAchievements = new CCAchievements();
 	}
 
-	return m_spCCAccelerometer;
+	return m_spCCAchievements;
 }
 
-void CCAccelerometer::setDelegate(CCAccelerometerDelegate* pDelegate) 
+void CCAchievements::setDelegate(CCAchievementsDelegate* pDelegate) 
 {
 	m_pAccelDelegate = pDelegate;
 
 	if (pDelegate)
 	{		
-		if (s3eAccelerometerStart() != S3E_RESULT_SUCCESS)
+		if (s3eAchievementsStart() != S3E_RESULT_SUCCESS)
 		{
-			CCLog("s3eAccelerometerStart() - ERROR\n");
+			CCLog("s3eAchievementsStart() - ERROR\n");
 		}
 	}
 	else
 	{
-		s3eAccelerometerStop();
+		s3eAchievementsStop();
 	}
 }
 
-void CCAccelerometer::update(float x, float y, float z, uint64 sensorTimeStamp) 
+void CCAchievements::update(float x, float y, float z, uint64 sensorTimeStamp) 
 {
 	if (m_pAccelDelegate)
 	{

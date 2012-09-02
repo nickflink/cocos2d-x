@@ -24,7 +24,7 @@
 #ifndef __PLATFORM_MARMALADE_ACCELEROMETER_H__
 #define __PLATFORM_MARMALADE_ACCELEROMETER_H__
 
-#include "CCAccelerometerDelegate.h"
+#include "CCAchievementsDelegate.h"
 #include "CCMutableArray.h"
 #include "ccCommon.h"
 
@@ -33,26 +33,26 @@ namespace   cocos2d {
 
 /**
 @brief 
-The CCAccelerometer class lets you register to receive
+The CCAchievements class lets you register to receive
 acceleration-related data from the onboard hardware.
 */
-class CC_DLL CCAccelerometer
+class CC_DLL CCAchievements
 {
 public:
-    CCAccelerometer();
-    ~CCAccelerometer();
+    CCAchievements();
+    ~CCAchievements();
 
     /**
     @brief Returns the shared accelerometer object for the system.
     */
-    static CCAccelerometer* sharedAccelerometer();
+    static CCAchievements* sharedAchievements();
 
-	void setDelegate(CCAccelerometerDelegate* pDelegate);
+	void setDelegate(CCAchievementsDelegate* pDelegate);
 	void update(float x, float y, float z, uint64 sensorTimeStamp);
 
 private:
-	static CCAccelerometer* m_spCCAccelerometer;
-	CCAccelerometerDelegate* m_pAccelDelegate;
+	static CCAchievements* m_spCCAchievements;
+	CCAchievementsDelegate* m_pAccelDelegate;
 	CCAcceleration m_obAccelerationValue;
 };
 

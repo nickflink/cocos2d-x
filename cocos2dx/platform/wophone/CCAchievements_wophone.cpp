@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "CCAccelerometer_wophone.h"
+#include "CCAchievements_wophone.h"
 #include "CCMacros.h"
 
 #include "TCOM_Generic_Method_IIDs.h"
@@ -32,20 +32,20 @@ THE SOFTWARE.
 
 namespace   cocos2d {
 
-static CCAccelerometer s_Accelerometer;
+static CCAchievements s_Achievements;
 
 //------------------------------------------------------------------
 //
-// CCAccelerometer
+// CCAchievements
 //
 //------------------------------------------------------------------
-CCAccelerometer::CCAccelerometer()
+CCAchievements::CCAchievements()
 : m_pSensor(NULL)
 , m_pDelegate(NULL)
 {
 }
 
-CCAccelerometer::~CCAccelerometer()
+CCAchievements::~CCAchievements()
 {
     if (m_pSensor)
     {
@@ -56,12 +56,12 @@ CCAccelerometer::~CCAccelerometer()
 	m_pDelegate = NULL;
 }
 
-CCAccelerometer* CCAccelerometer::sharedAccelerometer()
+CCAchievements* CCAchievements::sharedAchievements()
 {
-    return &s_Accelerometer;
+    return &s_Achievements;
 }
 
-void CCAccelerometer::setDelegate(CCAccelerometerDelegate* pDelegate)
+void CCAchievements::setDelegate(CCAchievementsDelegate* pDelegate)
 {
 	m_pDelegate = pDelegate;
 
@@ -88,7 +88,7 @@ void CCAccelerometer::setDelegate(CCAccelerometerDelegate* pDelegate)
 			}
 			else
 			{
-				CCLOG("cocos2d: The Accelerometer Sensor Open failed");
+				CCLOG("cocos2d: The Achievements Sensor Open failed");
 			}
 		} while (0);
 	}
@@ -102,7 +102,7 @@ void CCAccelerometer::setDelegate(CCAccelerometerDelegate* pDelegate)
 	}
 }
 
-void CCAccelerometer::didAccelerate(CCAcceleration* pAccelerationValue)
+void CCAchievements::didAccelerate(CCAcceleration* pAccelerationValue)
 {
 	if (m_pDelegate)
 	{

@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "CCAccelerometer_bada.h"
+#include "CCAchievements_bada.h"
 #include "ccMacros.h"
 #include "CCEGLView_bada.h"
 
@@ -32,7 +32,7 @@ using namespace Osp::Uix;
 NS_CC_BEGIN;
 
 
-CCAccelerometer::CCAccelerometer()
+CCAchievements::CCAchievements()
 : m_pAccelDelegate(NULL)
 , m_pSensor(NULL)
 , m_bEnabled(false)
@@ -40,18 +40,18 @@ CCAccelerometer::CCAccelerometer()
 
 }
 
-CCAccelerometer::~CCAccelerometer() 
+CCAchievements::~CCAchievements() 
 {
 	CC_SAFE_DELETE(m_pSensor);
 }
 
-CCAccelerometer* CCAccelerometer::sharedAccelerometer() 
+CCAchievements* CCAchievements::sharedAchievements() 
 {
-	static CCAccelerometer s_CCAccelerometer;
-	return &s_CCAccelerometer;
+	static CCAchievements s_CCAchievements;
+	return &s_CCAchievements;
 }
 
-void CCAccelerometer::setDelegate(CCAccelerometerDelegate* pDelegate)
+void CCAchievements::setDelegate(CCAchievementsDelegate* pDelegate)
 {
 	m_pAccelDelegate = pDelegate;
 	if (pDelegate != NULL)
@@ -64,7 +64,7 @@ void CCAccelerometer::setDelegate(CCAccelerometerDelegate* pDelegate)
 	}
 }
 
-void CCAccelerometer::OnDataReceived(SensorType sensorType, SensorData& sensorData, result r)
+void CCAchievements::OnDataReceived(SensorType sensorType, SensorData& sensorData, result r)
 {
 	long timeStamp = 0;
 	float x = 0.0, y = 0.0, z = 0.0;
@@ -99,7 +99,7 @@ void CCAccelerometer::OnDataReceived(SensorType sensorType, SensorData& sensorDa
 	//AppLog("##TimeStamp:[%d], Accel.x,y,z:[%f,%f,%f]", timeStamp, x, y, z);
 }
 
-void CCAccelerometer::setEnable(bool bEnable)
+void CCAchievements::setEnable(bool bEnable)
 {
 	result	r = E_INVALID_STATE;
 	if (m_bEnabled == bEnable)
@@ -136,7 +136,7 @@ void CCAccelerometer::setEnable(bool bEnable)
 		}
 		else
 		{
-			CCLOG("Accelerometer Sensor unavailable!");
+			CCLOG("Achievements Sensor unavailable!");
 			delete m_pSensor;
 			m_pSensor = NULL;
 		}

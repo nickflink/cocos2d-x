@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2010 cocos2d-x.org
+Copyright (c) 2012 cocos2d-x.org
+Copyright (c) 2012 Nick Flink
 
 http://www.cocos2d-x.org
 
@@ -20,79 +21,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+THIS PLATFORM IS NOT YET SUPPORTED!
 ****************************************************************************/
-#include "CCAchievements_blackberry.h"
-
-#include <stdlib.h>
-
-namespace cocos2d
-{
-	CCAchievements* CCAchievements::m_spCCAchievements = NULL;
-	int	CCAchievements::m_initialOrientationAngle = 0;
-
-	CCAchievements::CCAchievements()
-	{
-		m_pAccelDelegate = NULL;
-		m_initialOrientationAngle = atoi(getenv("ORIENTATION"));
-	}
-
-    CCAchievements::~CCAchievements()
-    {
-
-    }
-
-    CCAchievements* CCAchievements::sharedAchievements()
-    {
-    	if (m_spCCAchievements == NULL)
-    		m_spCCAchievements = new CCAchievements();
-    	
-    	return m_spCCAchievements;
-    }
-
-    void CCAchievements::setDelegate(CCAchievementsDelegate* pDelegate)
-    {
-    	m_pAccelDelegate = pDelegate;
-    }
-
-	void CCAchievements::update(long timeStamp, double x, double y, double z)
-	{
-		if ( m_pAccelDelegate != NULL)
-		{
-			if (getenv("WIDTH"))
-			{
-				m_accelerationValue.x = x;
-				m_accelerationValue.y = y;
-			}
-			else // for PlayBook we need to take into account the initial orientation
-			{
-				if (m_initialOrientationAngle == 270)
-				{
-					m_accelerationValue.x = y;
-					m_accelerationValue.y = -x;
-				}
-				else if (m_initialOrientationAngle == 90)
-				{
-					m_accelerationValue.x = -y;
-					m_accelerationValue.y = x;
-				}
-				else if (m_initialOrientationAngle == 0)
-				{
-					m_accelerationValue.x = x;
-					m_accelerationValue.y = y;
-				}
-				else if (m_initialOrientationAngle == 180)
-				{
-					m_accelerationValue.x = -x;
-					m_accelerationValue.y = -y;
-				}
-			}
-
-			m_accelerationValue.z = z;
-			m_accelerationValue.timestamp = (double)timeStamp;
-
-			m_pAccelDelegate->didAccelerate(&m_accelerationValue);
-		}
-	}
-
-} // end of namespace cococs2d
-

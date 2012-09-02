@@ -1,7 +1,8 @@
 /****************************************************************************
-Copyright (c) 2010 cocos2d-x.org
+Copyright (c) 2012 cocos2d-x.org
 
 http://www.cocos2d-x.org
+Copyright (c) 2012 Nick Flink
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,36 +21,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+THIS PLATFORM IS NOT YET SUPPORTED!
 ****************************************************************************/
 
-#ifndef __PLATFORM_CCACCELEROMETER_BLACKBERRY_H__
-#define __PLATFORM_CCACCELEROMETER_BLACKBERRY_H__
-
-#include "CCCommon.h"
-#include "CCAchievementsDelegate.h"
-#include <list>
-
-namespace   cocos2d {
-
-class CC_DLL CCAchievements
-{
-public:
-	CCAchievements();
-    ~CCAchievements();
-
-    static CCAchievements* sharedAchievements();
-
-    void setDelegate(CCAchievementsDelegate* pDelegate);
-    void update(long sensorTimeStamp, double x, double y, double z);
-
-private:
-
-	static CCAchievements*  m_spCCAchievements;
-	CCAchievementsDelegate* m_pAccelDelegate;
-	CCAcceleration 			 m_accelerationValue;
-    static int				 m_initialOrientationAngle;
-};
-
-}//namespace cocos2d
-
-#endif

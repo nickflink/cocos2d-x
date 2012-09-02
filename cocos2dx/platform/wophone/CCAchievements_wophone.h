@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2010 cocos2d-x.org
+Copyright (c) 2012 cocos2d-x.org
+Copyright (c) 2012 Nick Flink
 
 http://www.cocos2d-x.org
 
@@ -20,49 +21,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+THIS PLATFORM IS NOT YET SUPPORTED!
 ****************************************************************************/
 
-#ifndef __PLATFORM_WOPHONE_UIACCELEROMETER_H__
-#define __PLATFORM_WOPHONE_UIACCELEROMETER_H__
-
-#include "CCAchievementsDelegate.h"
-#include "TG3.h"
-#include "CCCommon.h"
-#include "TCOM_Sensors_Interface.h"
-
-namespace   cocos2d {
-
-/**
-@brief 
-The CCAchievements class lets you register to receive
-acceleration-related data from the onboard hardware.
-*/
-class CC_DLL CCAchievements
-{
-public:
-    CCAchievements();
-    ~CCAchievements();
-
-    /**
-    @brief Returns the shared accelerometer object for the system.
-    */
-    static CCAchievements* sharedAchievements();
-
-    /**
-    @brief add delegate to concern accelerometer sensor
-    */
-    void setDelegate(CCAchievementsDelegate* pDelegate);
-
-    /**
-    @brief call delegates' didAccelerate function
-    */
-    void didAccelerate(CCAcceleration* pAccelerationValue);
-
-protected:
-	CCAchievementsDelegate*        m_pDelegate;
-    TCOM_Sensors_DataType_Client*   m_pSensor;
-};
-
-}//namespace   cocos2d 
-
-#endif

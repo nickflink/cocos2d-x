@@ -1,61 +1,27 @@
 /****************************************************************************
- Copyright (c) 2011      cocos2d-x.org   http://cocos2d-x.org
- Copyright (c) 2011      Максим Аксенов
- Copyright (c) 2011      Giovanni Zito, Francis Styck
+Copyright (c) 2012 cocos2d-x.org
 
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
- 
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
- ****************************************************************************/
-#ifndef __PLATFORM_MARMALADE_ACCELEROMETER_H__
-#define __PLATFORM_MARMALADE_ACCELEROMETER_H__
+http://www.cocos2d-x.org
+Copyright (c) 2012 Nick Flink
 
-#include "CCAchievementsDelegate.h"
-#include "CCMutableArray.h"
-#include "ccCommon.h"
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-namespace   cocos2d {
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
-/**
-@brief 
-The CCAchievements class lets you register to receive
-acceleration-related data from the onboard hardware.
-*/
-class CC_DLL CCAchievements
-{
-public:
-    CCAchievements();
-    ~CCAchievements();
+THIS PLATFORM IS NOT YET SUPPORTED!
+****************************************************************************/
 
-    /**
-    @brief Returns the shared accelerometer object for the system.
-    */
-    static CCAchievements* sharedAchievements();
-
-	void setDelegate(CCAchievementsDelegate* pDelegate);
-	void update(float x, float y, float z, uint64 sensorTimeStamp);
-
-private:
-	static CCAchievements* m_spCCAchievements;
-	CCAchievementsDelegate* m_pAccelDelegate;
-	CCAcceleration m_obAccelerationValue;
-};
-
-}//namespace   cocos2d 
-
-#endif

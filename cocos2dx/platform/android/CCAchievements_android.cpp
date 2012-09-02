@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2010 cocos2d-x.org
+Copyright (c) 2012 cocos2d-x.org
+Copyright (c) 2012 Nick Flink
 
 http://www.cocos2d-x.org
 
@@ -20,65 +21,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+THIS PLATFORM IS NOT YET SUPPORTED!
 ****************************************************************************/
-#include "CCAchievements_android.h"
-#include "jni/SensorJni.h"
-#include <stdio.h>
-#include <android/log.h>
-
-#define TG3_GRAVITY_EARTH                    (9.80665f)
-#define  LOG_TAG    "CCAchievements_android"
-#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
-
-namespace cocos2d
-{
-	CCAchievements* CCAchievements::m_spCCAchievements = NULL;
-
-	CCAchievements::CCAchievements() : m_pAccelDelegate(NULL)
-	{
-	}
-
-    CCAchievements::~CCAchievements() 
-	{
-		m_spCCAchievements = NULL;
-    }
-
-    CCAchievements* CCAchievements::sharedAchievements() 
-	{
-
-    	if (m_spCCAchievements == NULL)
-    	{
-    		m_spCCAchievements = new CCAchievements();
-    	}
-    	
-    	return m_spCCAchievements;
-    }
-
-    void CCAchievements::setDelegate(CCAchievementsDelegate* pDelegate) 
-	{
-		m_pAccelDelegate = pDelegate;
-
-		if (pDelegate)
-		{		
-			enableAchievementsJNI();
-		}
-		else
-		{
-			disableAchievementsJNI();
-		}
-    }
-
-    void CCAchievements::update(float x, float y, float z, long sensorTimeStamp) 
-	{
-		if (m_pAccelDelegate)
-		{
-			m_obAccelerationValue.x = -((double)x / TG3_GRAVITY_EARTH);
-			m_obAccelerationValue.y = -((double)y / TG3_GRAVITY_EARTH);
-			m_obAccelerationValue.z = -((double)z / TG3_GRAVITY_EARTH);
-			m_obAccelerationValue.timestamp = (double)sensorTimeStamp;
-
-			m_pAccelDelegate->didAccelerate(&m_obAccelerationValue);
-		}	
-    }
-} // end of namespace cococs2d
-

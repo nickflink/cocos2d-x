@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2010 cocos2d-x.org
+Copyright (c) 2012 cocos2d-x.org
+Copyright (c) 2012 Nick Flink
 
 http://www.cocos2d-x.org
 
@@ -20,33 +21,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+THIS PLATFORM IS NOT YET SUPPORTED!
 ****************************************************************************/
-
-#ifndef __PLATFORM_ANDROID_CCACCELEROMETER_H__
-#define __PLATFORM_ANDROID_CCACCELEROMETER_H__
-
-#include "CCCommon.h"
-#include "CCAchievementsDelegate.h"
-
-namespace   cocos2d {
-
-class CC_DLL CCAchievements
-{
-public:
-	CCAchievements();
-    ~CCAchievements();
-
-    static CCAchievements* sharedAchievements();
-
-    void setDelegate(CCAchievementsDelegate* pDelegate);
-    void update(float x, float y, float z, long sensorTimeStamp);
-
-private:
-	static CCAchievements* m_spCCAchievements;
-	CCAchievementsDelegate* m_pAccelDelegate;
-	CCAcceleration m_obAccelerationValue;
-};
-
-}//namespace cocos2d
-
-#endif

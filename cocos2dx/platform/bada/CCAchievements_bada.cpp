@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2010 cocos2d-x.org
+Copyright (c) 2012 cocos2d-x.org
+Copyright (c) 2012 Nick Flink
 
 http://www.cocos2d-x.org
 
@@ -20,136 +21,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+THIS PLATFORM IS NOT YET SUPPORTED!
 ****************************************************************************/
 
-#include "CCAchievements_bada.h"
-#include "ccMacros.h"
-#include "CCEGLView_bada.h"
-
-using namespace Osp::Ui;
-using namespace Osp::Uix;
-
-NS_CC_BEGIN;
-
-
-CCAchievements::CCAchievements()
-: m_pAccelDelegate(NULL)
-, m_pSensor(NULL)
-, m_bEnabled(false)
-{
-
-}
-
-CCAchievements::~CCAchievements() 
-{
-	CC_SAFE_DELETE(m_pSensor);
-}
-
-CCAchievements* CCAchievements::sharedAchievements() 
-{
-	static CCAchievements s_CCAchievements;
-	return &s_CCAchievements;
-}
-
-void CCAchievements::setDelegate(CCAchievementsDelegate* pDelegate)
-{
-	m_pAccelDelegate = pDelegate;
-	if (pDelegate != NULL)
-	{
-		setEnable(true);
-	}
-	else
-	{
-		setEnable(false);
-	}
-}
-
-void CCAchievements::OnDataReceived(SensorType sensorType, SensorData& sensorData, result r)
-{
-	long timeStamp = 0;
-	float x = 0.0, y = 0.0, z = 0.0;
-
-	sensorData.GetValue((SensorDataKey)ACCELERATION_DATA_KEY_TIMESTAMP, timeStamp);
-	sensorData.GetValue((SensorDataKey)ACCELERATION_DATA_KEY_X, x);
-	sensorData.GetValue((SensorDataKey)ACCELERATION_DATA_KEY_Y, y);
-	sensorData.GetValue((SensorDataKey)ACCELERATION_DATA_KEY_Z, z);
-
-	/*
-	 * Because the axes are not swapped when the device's screen orientation changes.
-	 * So we should swap it here.
-	 */
-	Orientation orientation = CCEGLView::sharedOpenGLView().GetOrientation();
-	if (orientation == ORIENTATION_LANDSCAPE || orientation == ORIENTATION_LANDSCAPE_REVERSE)
-	{
-		float tmp = x;
-		x = -y;
-		y = tmp;
-	}
-
-	CCAcceleration AccValue;
-	AccValue.x = -x;
-	AccValue.y = -y;
-	AccValue.z = -z;
-	AccValue.timestamp = timeStamp;
-
-	if (m_pAccelDelegate != NULL)
-	{
-		m_pAccelDelegate->didAccelerate(&AccValue);
-	}
-	//AppLog("##TimeStamp:[%d], Accel.x,y,z:[%f,%f,%f]", timeStamp, x, y, z);
-}
-
-void CCAchievements::setEnable(bool bEnable)
-{
-	result	r = E_INVALID_STATE;
-	if (m_bEnabled == bEnable)
-	{
-		return;
-	}
-
-	m_bEnabled = bEnable;
-
-	if (m_bEnabled)
-	{
-		bool available = false;
-		long interval = 50;
-
-		CC_SAFE_DELETE(m_pSensor);
-		m_pSensor = new SensorManager();
-		m_pSensor->Construct();
-
-		available = m_pSensor->IsAvailable(SENSOR_TYPE_ACCELERATION);
-		if (available)
-		{
-			long intervalTemp = 0;
-			m_pSensor->GetMaxInterval(SENSOR_TYPE_ACCELERATION, intervalTemp);
-			if (interval > intervalTemp)
-			{
-				interval = intervalTemp;
-			}
-			m_pSensor->GetMinInterval(SENSOR_TYPE_ACCELERATION, intervalTemp);
-			if (interval < intervalTemp)
-			{
-				interval = intervalTemp;
-			}
-			r = m_pSensor->AddSensorListener(*this, SENSOR_TYPE_ACCELERATION, interval, true);
-		}
-		else
-		{
-			CCLOG("Achievements Sensor unavailable!");
-			delete m_pSensor;
-			m_pSensor = NULL;
-		}
-	}
-	else
-	{
-		if (m_pSensor != NULL)
-		{
-			r = m_pSensor->RemoveSensorListener(*this);
-			delete m_pSensor;
-			m_pSensor = NULL;
-		}
-	}
-}
-
-NS_CC_END;

@@ -5,15 +5,15 @@
 
 using namespace cocos2d;
 
-class AccelerometerTest: public CCLayer
+class AchievementsTest: public CCLayer
 {
 protected:
     CCSprite* m_pBall;
     double    m_fLastTime;
 
 public:
-	AccelerometerTest(void);
-	~AccelerometerTest(void);
+	AchievementsTest(void);
+	~AchievementsTest(void);
 
     virtual void didAccelerate(CCAcceleration* pAccelerationValue);
 
@@ -21,7 +21,7 @@ public:
 	virtual void onEnter();
 };
 
-class AccelerometerTestScene : public TestScene
+class AchievementsTestScene : public TestScene
 {
 public:
     virtual void runThisTest();

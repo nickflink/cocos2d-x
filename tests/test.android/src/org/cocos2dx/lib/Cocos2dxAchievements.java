@@ -35,30 +35,30 @@ import android.view.WindowManager;
 
 /**
  * 
- * This class is used for controlling the Accelerometer
+ * This class is used for controlling the Achievements
  *
  */
-public class Cocos2dxAccelerometer implements SensorEventListener {
+public class Cocos2dxAchievements implements SensorEventListener {
 	
-	private static final String TAG = "Cocos2dxAccelerometer";
+	private static final String TAG = "Cocos2dxAchievements";
 	private Context mContext;
 	private SensorManager mSensorManager;
-	private Sensor mAccelerometer;
+	private Sensor mAchievements;
 	private int mNaturalOrientation;
 
-	public Cocos2dxAccelerometer(Context context){
+	public Cocos2dxAchievements(Context context){
 		mContext = context;
 
 		//Get an instance of the SensorManager
 	    mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
-	    mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+	    mAchievements = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 	    
 	    Display display = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 	    mNaturalOrientation = display.getOrientation();
 	}
 
 	public void enable() {
-		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+		mSensorManager.registerListener(this, mAchievements, SensorManager.SENSOR_DELAY_GAME);
 	}
 
 	public void disable () {

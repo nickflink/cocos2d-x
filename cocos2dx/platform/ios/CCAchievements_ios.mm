@@ -22,33 +22,33 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "CCAccelerometer.h"
-#include "AccelerometerDelegateWrapper.h"
+#include "CCAchievements.h"
+#include "AchievementsDelegateWrapper.h"
 
 namespace cocos2d {
     
-    CCAccelerometer* CCAccelerometer::m_spUIAccelerometer = NULL;
+    CCAchievements* CCAchievements::m_spUIAchievements = NULL;
     
-    CCAccelerometer::CCAccelerometer()
+    CCAchievements::CCAchievements()
     {
     }
     
-    CCAccelerometer::~CCAccelerometer()
+    CCAchievements::~CCAchievements()
     {
     }
     
-    CCAccelerometer* CCAccelerometer::sharedAccelerometer()
+    CCAchievements* CCAchievements::sharedAchievements()
     {
-        if (m_spUIAccelerometer == NULL) {
-            m_spUIAccelerometer = new CCAccelerometer();
+        if (m_spUIAchievements == NULL) {
+            m_spUIAchievements = new CCAchievements();
         }
         
-        return m_spUIAccelerometer;
+        return m_spUIAchievements;
     }
     
-    void CCAccelerometer::setDelegate(CCAccelerometerDelegate* pDelegate)
+    void CCAchievements::setDelegate(CCAchievementsDelegate* pDelegate)
     {
-        [[AccelerometerDispatcher sharedAccelerometerDispather] addDelegate:pDelegate];
+        [[AchievementsDispatcher sharedAchievementsDispather] addDelegate:pDelegate];
     }
 }
 

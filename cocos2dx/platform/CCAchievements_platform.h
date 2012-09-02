@@ -27,21 +27,21 @@ THE SOFTWARE.
 #include "CCPlatformConfig.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WOPHONE)
-    #include "wophone/CCAccelerometer_wophone.h"
+    #include "wophone/CCAchievements_wophone.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-    #include "win32/CCAccelerometer_win32.h"
+    #include "win32/CCAchievements_win32.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    #include "android/CCAccelerometer_android.h"
+    #include "android/CCAchievements_android.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    #include "ios/CCAccelerometer_ios.h"
+    #include "ios/CCAchievements_ios.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_MARMALADE)
-	#include "marmalade/CCAccelerometer_marmalade.h"
+	#include "marmalade/CCAchievements_marmalade.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-	#include "linux/CCAccelerometer_linux.h"
+	#include "linux/CCAchievements_linux.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_BADA)
-	#include "bada/CCAccelerometer_bada.h"
+	#include "bada/CCAchievements_bada.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_BLACKBERRY)
-    #include "blackberry/CCAccelerometer_blackberry.h"
+    #include "blackberry/CCAchievements_blackberry.h"
 #else
     #error
 #endif

@@ -21,7 +21,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "CCAccelerometer_win32.h"
+#include "CCAchievements_win32.h"
 #include "CCEGLView_win32.h"
 #include "CCDirector.h"
 #include "ccMacros.h"
@@ -107,9 +107,9 @@ namespace
 		return sendUpdate;
 	}
 
-	void myAccelerometerKeyHook( UINT message,WPARAM wParam,LPARAM lParam )
+	void myAchievementsKeyHook( UINT message,WPARAM wParam,LPARAM lParam )
 	{
-		cocos2d::CCAccelerometer	*pAccelerometer=cocos2d::CCAccelerometer::sharedAccelerometer();
+		cocos2d::CCAchievements	*pAchievements=cocos2d::CCAchievements::sharedAchievements();
 		bool						sendUpdate=false;
 		switch( message )
 		{
@@ -132,11 +132,11 @@ namespace
 		{
 			const time_t	theTime=time(NULL);
 			const double	timestamp=(double)theTime / 100.0;
-			pAccelerometer->update( g_accelX,g_accelY,g_accelZ,timestamp );
+			pAchievements->update( g_accelX,g_accelY,g_accelZ,timestamp );
 		}
 	}
 
-	void resetAccelerometer()
+	void resetAchievements()
 	{
 		g_accelX=0.0;
 		g_accelY=0.0;
@@ -149,33 +149,33 @@ namespace cocos2d
 {
 
 // static members
-CCAccelerometer* CCAccelerometer::m_spCCAccelerometer = NULL;
+CCAchievements* CCAchievements::m_spCCAchievements = NULL;
 
-CCAccelerometer::CCAccelerometer() : 
+CCAchievements::CCAchievements() : 
 	m_pAccelDelegate(NULL)
 {
 }
 
-CCAccelerometer::~CCAccelerometer() 
+CCAchievements::~CCAchievements() 
 {
-	if( m_spCCAccelerometer ) 
+	if( m_spCCAchievements ) 
 	{
-		delete m_spCCAccelerometer ;
-		m_spCCAccelerometer = NULL;
+		delete m_spCCAchievements ;
+		m_spCCAchievements = NULL;
 	}
 }
 
 // static
-CCAccelerometer* CCAccelerometer::sharedAccelerometer() 
+CCAchievements* CCAchievements::sharedAchievements() 
 {
-	if (m_spCCAccelerometer == NULL)
+	if (m_spCCAchievements == NULL)
 	{
-		m_spCCAccelerometer = new CCAccelerometer();
+		m_spCCAchievements = new CCAchievements();
 	}
-	return m_spCCAccelerometer;
+	return m_spCCAchievements;
 }
 
-void CCAccelerometer::setDelegate(CCAccelerometerDelegate* pDelegate) 
+void CCAchievements::setDelegate(CCAchievementsDelegate* pDelegate) 
 {
 	m_pAccelDelegate = pDelegate;
 
@@ -185,17 +185,17 @@ void CCAccelerometer::setDelegate(CCAccelerometerDelegate* pDelegate)
 	if (pDelegate)
 	{
 		// Register our handler
-		CCEGLView::sharedOpenGLView().setAccelerometerKeyHook( &myAccelerometerKeyHook );
+		CCEGLView::sharedOpenGLView().setAchievementsKeyHook( &myAchievementsKeyHook );
 	}
 	else
 	{
 		// De-register our handler
-		CCEGLView::sharedOpenGLView().setAccelerometerKeyHook( NULL );
-		resetAccelerometer();
+		CCEGLView::sharedOpenGLView().setAchievementsKeyHook( NULL );
+		resetAchievements();
 	}
 }
 
-void CCAccelerometer::update( double x,double y,double z,double timestamp ) 
+void CCAchievements::update( double x,double y,double z,double timestamp ) 
 {
 	if (m_pAccelDelegate)
 	{

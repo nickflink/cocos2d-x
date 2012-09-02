@@ -26,26 +26,26 @@ THE SOFTWARE.
 #define __PLATFORM_CCACCELEROMETER_BLACKBERRY_H__
 
 #include "CCCommon.h"
-#include "CCAccelerometerDelegate.h"
+#include "CCAchievementsDelegate.h"
 #include <list>
 
 namespace   cocos2d {
 
-class CC_DLL CCAccelerometer
+class CC_DLL CCAchievements
 {
 public:
-	CCAccelerometer();
-    ~CCAccelerometer();
+	CCAchievements();
+    ~CCAchievements();
 
-    static CCAccelerometer* sharedAccelerometer();
+    static CCAchievements* sharedAchievements();
 
-    void setDelegate(CCAccelerometerDelegate* pDelegate);
+    void setDelegate(CCAchievementsDelegate* pDelegate);
     void update(long sensorTimeStamp, double x, double y, double z);
 
 private:
 
-	static CCAccelerometer*  m_spCCAccelerometer;
-	CCAccelerometerDelegate* m_pAccelDelegate;
+	static CCAchievements*  m_spCCAchievements;
+	CCAchievementsDelegate* m_pAccelDelegate;
 	CCAcceleration 			 m_accelerationValue;
     static int				 m_initialOrientationAngle;
 };

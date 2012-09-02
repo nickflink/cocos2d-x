@@ -1,4 +1,4 @@
-#include "AccelerometerTest.h"
+#include "AchievementsTest.h"
 #include "../testResource.h"
 #include "cocos2d.h"
 
@@ -10,29 +10,29 @@ else if (_pos > _max)   \
 
 //------------------------------------------------------------------
 //
-// AccelerometerTest
+// AchievementsTest
 //
 //------------------------------------------------------------------
-AccelerometerTest::AccelerometerTest(void)
+AchievementsTest::AchievementsTest(void)
 : m_fLastTime(0.0)
 {
 }
 
-AccelerometerTest::~AccelerometerTest(void)
+AchievementsTest::~AchievementsTest(void)
 {
     m_pBall->release();
 }
 
-std::string AccelerometerTest::title()
+std::string AchievementsTest::title()
 {
-	return "AccelerometerTest";
+	return "AchievementsTest";
 }
 
-void AccelerometerTest::onEnter()
+void AchievementsTest::onEnter()
 {
 	CCLayer::onEnter();
 
-    setIsAccelerometerEnabled(true);
+    setIsAchievementsEnabled(true);
 
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 
@@ -47,7 +47,7 @@ void AccelerometerTest::onEnter()
     m_pBall->retain();
 }
 
-void AccelerometerTest::didAccelerate(CCAcceleration* pAccelerationValue)
+void AchievementsTest::didAccelerate(CCAcceleration* pAccelerationValue)
 {
 //     double fNow = pAccelerationValue->timestamp;
 // 
@@ -82,12 +82,12 @@ void AccelerometerTest::didAccelerate(CCAcceleration* pAccelerationValue)
 
 //------------------------------------------------------------------
 //
-// AccelerometerTestScene
+// AchievementsTestScene
 //
 //------------------------------------------------------------------
-void AccelerometerTestScene::runThisTest()
+void AchievementsTestScene::runThisTest()
 {
-    CCLayer* pLayer = new AccelerometerTest();
+    CCLayer* pLayer = new AchievementsTest();
     addChild(pLayer);
     pLayer->release();
 

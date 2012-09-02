@@ -25,22 +25,22 @@ THE SOFTWARE.
 #ifndef __PLATFORM_IPHONE_CCACCELEROMETER_H__
 #define __PLATFORM_IPHONE_CCACCELEROMETER_H__
 
-#include "CCAccelerometerDelegate.h"
+#include "CCAchievementsDelegate.h"
 
 namespace   cocos2d {
 
-class CC_DLL CCAccelerometer
+class CC_DLL CCAchievements
 {
 public:
-    CCAccelerometer();
-    ~CCAccelerometer();
+    CCAchievements();
+    ~CCAchievements();
 
-    static CCAccelerometer* sharedAccelerometer();
+    static CCAchievements* sharedAchievements();
 
-    void setDelegate(CCAccelerometerDelegate* pDelegate);
+    void setDelegate(CCAchievementsDelegate* pDelegate);
     
 private:
-    static CCAccelerometer* m_spUIAccelerometer;
+    static CCAchievements* m_spUIAchievements;
 };
 
 }//namespace   cocos2d 

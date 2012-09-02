@@ -1,5 +1,5 @@
 /*
- * CCAccelerometer_linux.h
+ * CCAchievements_linux.h
  *
  *  Created on: Aug 9, 2011
  *      Author: laschweinski
@@ -12,17 +12,17 @@
 
 namespace   cocos2d {
 
-class CCAccelerometer
+class CCAchievements
 {
 public:
-    CCAccelerometer();
-    ~CCAccelerometer();
+    CCAchievements();
+    ~CCAchievements();
 
-    static CCAccelerometer* sharedAccelerometer() { return NULL; };
+    static CCAchievements* sharedAchievements() { return NULL; };
 
-    void removeDelegate(CCAccelerometerDelegate* pDelegate) {CC_UNUSED_PARAM(pDelegate);};
-    void addDelegate(CCAccelerometerDelegate* pDelegate) {CC_UNUSED_PARAM(pDelegate);};
-    void setDelegate(CCAccelerometerDelegate* pDelegate) {CC_UNUSED_PARAM(pDelegate);}
+    void removeDelegate(CCAchievementsDelegate* pDelegate) {CC_UNUSED_PARAM(pDelegate);};
+    void addDelegate(CCAchievementsDelegate* pDelegate) {CC_UNUSED_PARAM(pDelegate);};
+    void setDelegate(CCAchievementsDelegate* pDelegate) {CC_UNUSED_PARAM(pDelegate);}
 };
 
 }//namespace   cocos2d

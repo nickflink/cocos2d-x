@@ -21,40 +21,40 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "CCAccelerometer_blackberry.h"
+#include "CCAchievements_blackberry.h"
 
 #include <stdlib.h>
 
 namespace cocos2d
 {
-	CCAccelerometer* CCAccelerometer::m_spCCAccelerometer = NULL;
-	int	CCAccelerometer::m_initialOrientationAngle = 0;
+	CCAchievements* CCAchievements::m_spCCAchievements = NULL;
+	int	CCAchievements::m_initialOrientationAngle = 0;
 
-	CCAccelerometer::CCAccelerometer()
+	CCAchievements::CCAchievements()
 	{
 		m_pAccelDelegate = NULL;
 		m_initialOrientationAngle = atoi(getenv("ORIENTATION"));
 	}
 
-    CCAccelerometer::~CCAccelerometer()
+    CCAchievements::~CCAchievements()
     {
 
     }
 
-    CCAccelerometer* CCAccelerometer::sharedAccelerometer()
+    CCAchievements* CCAchievements::sharedAchievements()
     {
-    	if (m_spCCAccelerometer == NULL)
-    		m_spCCAccelerometer = new CCAccelerometer();
+    	if (m_spCCAchievements == NULL)
+    		m_spCCAchievements = new CCAchievements();
     	
-    	return m_spCCAccelerometer;
+    	return m_spCCAchievements;
     }
 
-    void CCAccelerometer::setDelegate(CCAccelerometerDelegate* pDelegate)
+    void CCAchievements::setDelegate(CCAchievementsDelegate* pDelegate)
     {
     	m_pAccelDelegate = pDelegate;
     }
 
-	void CCAccelerometer::update(long timeStamp, double x, double y, double z)
+	void CCAchievements::update(long timeStamp, double x, double y, double z)
 	{
 		if ( m_pAccelDelegate != NULL)
 		{

@@ -87,7 +87,7 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
 
 - (void) dealloc
 {
-    CCLOG(@"dealloc %@", self);
+    CCLOG("dealloc %@", self);
     
     
     [lastError release];
@@ -177,7 +177,7 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
 -(void) onLocalPlayerAuthenticationChanged
 {
     GKLocalPlayer* localPlayer = [GKLocalPlayer localPlayer];
-	CCLOG(@"LocalPlayer isAuthenticated changed to: %@", localPlayer.authenticated ? @"YES" : @"NO");
+	CCLOG("LocalPlayer isAuthenticated changed to: %@", localPlayer.authenticated ? @"YES" : @"NO");
 	
 	if (localPlayer.authenticated)
 	{

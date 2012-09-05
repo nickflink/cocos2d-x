@@ -19,10 +19,11 @@ class CCSpeed : public CCAction
     static CCSpeed* actionWithAction(CCActionInterval* pAction, float fRate);
 };
 
-class CCFollow : public CCAction
-{
+class CCFollow : public CCAction {
+
     bool isBoundarySet(void);
     void setBoudarySet(bool bValue);
     static CCFollow* actionWithTarget(CCNode *pFollowedNode);
     static CCFollow* actionWithTarget(CCNode *pFollowedNode, CCRect rect);
+
 };

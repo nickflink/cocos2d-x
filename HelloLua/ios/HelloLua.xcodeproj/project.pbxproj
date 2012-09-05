@@ -10,6 +10,7 @@
 		27626F8415CC045800106D77 /* CCScrollMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27626F8315CC045800106D77 /* CCScrollMenu.cpp */; };
 		506EDB88102F4C4000A389B3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 506EDB87102F4C4000A389B3 /* libz.dylib */; };
 		506EDBA5102F4C9F00A389B3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506EDBA4102F4C9F00A389B3 /* AVFoundation.framework */; };
+		6C89FD3415EC11A700EE99BA /* CCSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6C89FD3315EC11A700EE99BA /* CCSlider.cpp */; };
 		7881584B14ECAE05007E8917 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7881584A14ECAE05007E8917 /* Icon.png */; };
 		7881584D14ECAE0D007E8917 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7881584C14ECAE0D007E8917 /* Default.png */; };
 		78947C6D14EBB9B100DBD5A6 /* background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 78947C5E14EBB9B000DBD5A6 /* background.mp3 */; };
@@ -189,6 +190,7 @@
 		27626F8615CC04B500106D77 /* CCScrollMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollMenu.h; sourceTree = "<group>"; };
 		506EDB87102F4C4000A389B3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		506EDBA4102F4C9F00A389B3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		6C89FD3315EC11A700EE99BA /* CCSlider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSlider.cpp; sourceTree = "<group>"; };
 		7881584A14ECAE05007E8917 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../ios/Icon.png; sourceTree = "<group>"; };
 		7881584C14ECAE0D007E8917 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../ios/Default.png; sourceTree = "<group>"; };
 		78947C5E14EBB9B000DBD5A6 /* background.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = background.mp3; sourceTree = "<group>"; };
@@ -905,6 +907,7 @@
 		F4807E6E14E3CB660021A5F8 /* misc_nodes */ = {
 			isa = PBXGroup;
 			children = (
+				6C89FD3315EC11A700EE99BA /* CCSlider.cpp */,
 				F4807E6F14E3CB660021A5F8 /* CCMotionStreak.cpp */,
 				F4807E7014E3CB660021A5F8 /* CCProgressTimer.cpp */,
 				F4807E7114E3CB660021A5F8 /* CCRenderTexture.cpp */,
@@ -1491,6 +1494,7 @@
 				78947C8E14EBBB0300DBD5A6 /* SimpleAudioEngine.mm in Sources */,
 				78947C8F14EBBB0300DBD5A6 /* SimpleAudioEngine_objc.m in Sources */,
 				27626F8415CC045800106D77 /* CCScrollMenu.cpp in Sources */,
+				6C89FD3415EC11A700EE99BA /* CCSlider.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

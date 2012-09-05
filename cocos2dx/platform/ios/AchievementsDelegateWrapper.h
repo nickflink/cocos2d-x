@@ -61,6 +61,10 @@
 - (void) addDelegate: (cocos2d::CCAchievementsDelegate *) delegate;
 - (void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController;
 - (void) onLocalPlayerAuthenticationChanged;
+- (void) resetAchievements;
+- (void) saveCachedAchievements;
+- (void) reportCachedAchievements;
+
 /*- (void) onAchievementReported:(GKAchievement*)achievement;
 - (void) onAchievementsLoaded:(NSDictionary*)achievements;
 - (void) onResetAchievements:(bool)success;

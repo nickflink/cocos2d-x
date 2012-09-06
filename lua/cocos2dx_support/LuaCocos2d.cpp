@@ -1,6 +1,6 @@
 /*
 ** Lua binding: Cocos2d
-** Generated automatically by tolua++-1.0.92 on Sun Aug 19 17:19:10 2012.
+** Generated automatically by tolua++-1.0.92 on Thu Sep  6 21:59:04 2012.
 */
 
 
@@ -22694,6 +22694,70 @@ static int tolua_Cocos2d_CCLayer_getIsKeypadEnabled00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: setAreAchievementsEnabled of class  CCLayer */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCLayer_setAreAchievementsEnabled00
+static int tolua_Cocos2d_CCLayer_setAreAchievementsEnabled00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCLayer",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCLayer* self = (CCLayer*)  tolua_tousertype(tolua_S,1,0);
+  bool bValue = ((bool)  tolua_toboolean(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setAreAchievementsEnabled'", NULL);
+#endif
+  {
+   self->setAreAchievementsEnabled(bValue);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setAreAchievementsEnabled'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getAreAchievementsEnabled of class  CCLayer */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CCLayer_getAreAchievementsEnabled00
+static int tolua_Cocos2d_CCLayer_getAreAchievementsEnabled00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CCLayer",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCLayer* self = (CCLayer*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getAreAchievementsEnabled'", NULL);
+#endif
+  {
+   self->getAreAchievementsEnabled();
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getAreAchievementsEnabled'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: registerScriptTouchHandler of class  CCLayer */
 #ifndef TOLUA_DISABLE_tolua_Cocos2d_CCLayer_registerScriptTouchHandler00
 static int tolua_Cocos2d_CCLayer_registerScriptTouchHandler00(lua_State* tolua_S)
@@ -37599,6 +37663,8 @@ TOLUA_API int tolua_Cocos2d_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getIsAccelerometerEnabled",tolua_Cocos2d_CCLayer_getIsAccelerometerEnabled00);
    tolua_function(tolua_S,"setIsKeypadEnabled",tolua_Cocos2d_CCLayer_setIsKeypadEnabled00);
    tolua_function(tolua_S,"getIsKeypadEnabled",tolua_Cocos2d_CCLayer_getIsKeypadEnabled00);
+   tolua_function(tolua_S,"setAreAchievementsEnabled",tolua_Cocos2d_CCLayer_setAreAchievementsEnabled00);
+   tolua_function(tolua_S,"getAreAchievementsEnabled",tolua_Cocos2d_CCLayer_getAreAchievementsEnabled00);
    tolua_function(tolua_S,"registerScriptTouchHandler",tolua_Cocos2d_CCLayer_registerScriptTouchHandler00);
    tolua_function(tolua_S,"unregisterScriptTouchHandler",tolua_Cocos2d_CCLayer_unregisterScriptTouchHandler00);
    tolua_function(tolua_S,"node",tolua_Cocos2d_CCLayer_node00);

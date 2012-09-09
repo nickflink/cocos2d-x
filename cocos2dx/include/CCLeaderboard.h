@@ -21,9 +21,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_CCAchievements_H__
-#define __CC_CCAchievements_H__
+#ifndef __CC_CCLeaderboard_H__
+#define __CC_CCLeaderboard_H__
 
-#include "platform/CCAchievements_platform.h"
+#include "platform/CCLeaderboard_platform.h"
 
-#endif // __CC_CCAchievements_H__
+#endif // __CC_CCLeaderboard_H__

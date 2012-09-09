@@ -35,30 +35,30 @@ import android.view.WindowManager;
 
 /**
  * 
- * This class is used for controlling the Achievements
+ * This class is used for controlling the Leaderboard
  *
  */
-public class Cocos2dxAchievements implements SensorEventListener {
+public class Cocos2dxLeaderboard implements SensorEventListener {
 	
-	private static final String TAG = "Cocos2dxAchievements";
+	private static final String TAG = "Cocos2dxLeaderboard";
 	private Context mContext;
 	private SensorManager mSensorManager;
-	private Sensor mAchievements;
+	private Sensor mLeaderboard;
 	private int mNaturalOrientation;
 
-	public Cocos2dxAchievements(Context context){
+	public Cocos2dxLeaderboard(Context context){
 		mContext = context;
 
 		//Get an instance of the SensorManager
 	    mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
-	    mAchievements = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+	    mLeaderboard = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 	    
 	    Display display = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 	    mNaturalOrientation = display.getOrientation();
 	}
 
 	public void enable() {
-		mSensorManager.registerListener(this, mAchievements, SensorManager.SENSOR_DELAY_GAME);
+		mSensorManager.registerListener(this, mLeaderboard, SensorManager.SENSOR_DELAY_GAME);
 	}
 
 	public void disable () {

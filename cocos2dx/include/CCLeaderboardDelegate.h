@@ -22,19 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCACHIEVEMENTS_DELEGATE_H__
-#define __CCACHIEVEMENTS_DELEGATE_H__
+#ifndef __CCLEADERBOARD_DELEGATE_H__
+#define __CCLEADERBOARD_DELEGATE_H__
 
 #include "CCCommon.h"
 
 /*
- @protocol AchievementsDispatcherProtocol
+ @protocol LeaderboardDispatcherProtocol
  
  -(void) onLocalPlayerAuthenticationChanged;
- -(void) onAchievementReported:(GKAchievement*)achievement;
- -(void) onAchievementsLoaded:(NSDictionary*)achievements;
- -(void) onResetAchievements:(bool)success;
- -(void) onAchievementsViewDismissed;
+ -(void) onLeaderboardReported:(GKLeaderboard*)leaderboard;
+ -(void) onLeaderboardLoaded:(NSDictionary*)leaderboard;
+ -(void) onResetLeaderboard:(bool)success;
+ -(void) onLeaderboardViewDismissed;
  
  @end
 
@@ -45,18 +45,18 @@ namespace   cocos2d {
 
 /**
 @brief 
-The CCAchievementsDelegate defines a single method for
+The CCLeaderboardDelegate defines a single method for
 receiving acceleration-related data from the system.
 */
-class CC_DLL CCAchievementsDelegate
+class CC_DLL CCLeaderboardDelegate
 {
 public:
 
     virtual void onLocalPlayerAuthenticationChanged(){}
-    virtual void onAchievementReported(){}//GKAchievement *acheivement);
-    virtual void onAchievementsLoaded(){}//NSDictionary *achievements);
-    virtual void onResetAchievements(bool success){CC_UNUSED_PARAM(success);}
-    virtual void onAchievementsViewDismissed(){}
+    virtual void onLeaderboardReported(){}//GKLeaderboard *acheivement);
+    virtual void onLeaderboardLoaded(){}//NSDictionary *leaderboard);
+    virtual void onResetLeaderboard(bool success){CC_UNUSED_PARAM(success);}
+    virtual void onLeaderboardViewDismissed(){}
     
 
 };

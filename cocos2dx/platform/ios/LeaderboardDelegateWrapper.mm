@@ -22,43 +22,43 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "AchievementsDelegateWrapper.h"
+#import "LeaderboardDelegateWrapper.h"
 
-static NSString* kCachedAchievementsFile = @"CachedAchievements.archive";
+static NSString* kCachedLeaderboardFile = @"CachedLeaderboard.archive";
 
-@interface AchievementsDispatcher (Private)
+@interface LeaderboardDispatcher (Private)
 -(void) authenticateLocalPlayer;
 -(void) registerForLocalPlayerAuthChange;
 //-(void) onLocalPlayerAuthenticationChanged;
 -(void) setLastError:(NSError*)error;
--(void) initCachedAchievements;
--(void) cacheAchievement:(GKAchievement*)achievement;
--(void) uncacheAchievement:(GKAchievement*)achievement;
--(void) loadAchievements;
+-(void) initCachedLeaderboard;
+-(void) cacheLeaderboard:(GKLeaderboard*)leaderboard;
+-(void) uncacheLeaderboard:(GKLeaderboard*)leaderboard;
+-(void) loadLeaderboard;
 -(UIViewController*) getRootViewController;
 @end
 
 
 
-@implementation AchievementsDispatcher
+@implementation LeaderboardDispatcher
 
-static AchievementsDispatcher* s_pAchievementsDispatcher;
+static LeaderboardDispatcher* s_pLeaderboardDispatcher;
 
 #pragma mark Init & Dealloc
 @synthesize delegate_;
 @synthesize isGameCenterAvailable;
 @synthesize lastError;
-@synthesize achievements;
+@synthesize leaderboard;
 
-//@synthesize achievements_;
+//@synthesize leaderboard_;
 
-+ (id) sharedAchievementsDispather
++ (id) sharedLeaderboardDispather
 {
-    if (s_pAchievementsDispatcher == nil) {
-        s_pAchievementsDispatcher = [[self alloc] init];
+    if (s_pLeaderboardDispatcher == nil) {
+        s_pLeaderboardDispatcher = [[self alloc] init];
     }
     
-    return s_pAchievementsDispatcher;
+    return s_pLeaderboardDispatcher;
 }
 
 - (id) init
@@ -78,7 +78,7 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
         NSLog(@"GameCenter available = %@", isGameCenterAvailable ? @"YES" : @"NO");
 
         [self registerForLocalPlayerAuthChange];
-        [self initCachedAchievements];
+        [self initCachedLeaderboard];
         [self authenticateLocalPlayer];
 
     }
@@ -92,28 +92,28 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
     
     [lastError release];
     
-    [self saveCachedAchievements];
-    [cachedAchievements release];
-    [achievements release];
+    [self saveCachedLeaderboard];
+    [cachedLeaderboard release];
+    [leaderboard release];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    s_pAchievementsDispatcher = nil;
+    s_pLeaderboardDispatcher = nil;
     delegate_ = nil;
     [super dealloc];
 }
 
-- (void) addDelegate: (cocos2d::CCAchievementsDelegate *) delegate
+- (void) addDelegate: (cocos2d::CCLeaderboardDelegate *) delegate
 {
     delegate_ = delegate;
     /*This would cause an infinite loop
     if (delegate_)
     {
-        [[CCAchievements sharedAchievements] setDelegate:self];
+        [[CCLeaderboard sharedLeaderboard] setDelegate:self];
     }
     else 
     {
-        [[CCAchievements sharedAchievements] setDelegate:nil];
+        [[CCLeaderboard sharedLeaderboard] setDelegate:nil];
     }*/
 }
 
@@ -148,8 +148,8 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
       
       if (error == nil)
       {
-        [self reportCachedAchievements];
-        [self loadAchievements];
+        [self reportCachedLeaderboard];
+        [self loadLeaderboard];
       }
     }];
     
@@ -181,7 +181,7 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
 	
 	if (localPlayer.authenticated)
 	{
-		[self resetAchievements];
+		[self resetLeaderboard];
 	}	
     if(delegate_) delegate_->onLocalPlayerAuthenticationChanged();
 }
@@ -207,158 +207,158 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
 
 
 
-#pragma mark Achievements
+#pragma mark Leaderboard
 
--(void) loadAchievements
+-(void) loadLeaderboard
 {
   if (isGameCenterAvailable == NO)
     return;
 
-  [GKAchievement loadAchievementsWithCompletionHandler:^(NSArray* loadedAchievements, NSError* error)
+  [GKLeaderboard loadLeaderboardWithCompletionHandler:^(NSArray* loadedLeaderboard, NSError* error)
   {
     [self setLastError:error];
      
-    if (achievements == nil)
+    if (leaderboard == nil)
     {
-      achievements = [[NSMutableDictionary alloc] init];
+      leaderboard = [[NSMutableDictionary alloc] init];
     }
     else
     {
-      [achievements removeAllObjects];
+      [leaderboard removeAllObjects];
     }
 
-    for (GKAchievement* achievement in loadedAchievements)
+    for (GKLeaderboard* leaderboard in loadedLeaderboard)
     {
-      [achievements setObject:achievement forKey:achievement.identifier];
+      [leaderboard setObject:leaderboard forKey:leaderboard.identifier];
     }
      
-    //[delegate_ onAchievementsLoaded:achievements];
-    if(delegate_) delegate_->onAchievementsLoaded();
+    //[delegate_ onLeaderboardLoaded:leaderboard];
+    if(delegate_) delegate_->onLeaderboardLoaded();
   }];
 }
 
--(GKAchievement*) getAchievementByID:(NSString*)identifier
+-(GKLeaderboard*) getLeaderboardByID:(NSString*)identifier
 {
   if (isGameCenterAvailable == NO || delegate_ == nil)
     return nil;
     
-  // Try to get an existing achievement with this identifier
-  GKAchievement* achievement = [achievements objectForKey:identifier];
+  // Try to get an existing leaderboard with this identifier
+  GKLeaderboard* leaderboard = [leaderboard objectForKey:identifier];
   
-  if (achievement == nil)
+  if (leaderboard == nil)
   {
-    // Create a new achievement object
-    achievement = [[[GKAchievement alloc] initWithIdentifier:identifier] autorelease];
-    [achievements setObject:achievement forKey:achievement.identifier];
+    // Create a new leaderboard object
+    leaderboard = [[[GKLeaderboard alloc] initWithIdentifier:identifier] autorelease];
+    [leaderboard setObject:leaderboard forKey:leaderboard.identifier];
   }
   
-  return [[achievement retain] autorelease];
+  return [[leaderboard retain] autorelease];
 }
 
--(void) reportAchievementWithID:(NSString*)identifier percentComplete:(float)percent
+-(void) reportLeaderboardWithID:(NSString*)identifier percentComplete:(float)percent
 {
   if (isGameCenterAvailable == NO || delegate_ == nil)
     return;
 
-  GKAchievement* achievement = [self getAchievementByID:identifier];
-  if (achievement != nil && achievement.percentComplete < percent)
+  GKLeaderboard* leaderboard = [self getLeaderboardByID:identifier];
+  if (leaderboard != nil && leaderboard.percentComplete < percent)
   {
-    achievement.percentComplete = percent;
-    [achievement reportAchievementWithCompletionHandler:^(NSError* error)
+    leaderboard.percentComplete = percent;
+    [leaderboard reportLeaderboardWithCompletionHandler:^(NSError* error)
     {
       [self setLastError:error];
       
       bool success = (error == nil);
       if (success == NO)
       {
-        // Keep achievement to try to submit it later
-        [self cacheAchievement:achievement];
+        // Keep leaderboard to try to submit it later
+        [self cacheLeaderboard:leaderboard];
       }
       
-      //[delegate onAchievementReported:achievement];
+      //[delegate onLeaderboardReported:leaderboard];
     }];
   }
 }
 
--(void) resetAchievements
+-(void) resetLeaderboard
 {
   if (isGameCenterAvailable == NO)
     return;
   
-  [achievements removeAllObjects];
-  [cachedAchievements removeAllObjects];
+  [leaderboard removeAllObjects];
+  [cachedLeaderboard removeAllObjects];
   
-  [GKAchievement resetAchievementsWithCompletionHandler:^(NSError* error)
+  [GKLeaderboard resetLeaderboardWithCompletionHandler:^(NSError* error)
   {
     [self setLastError:error];
     bool success = (error == nil);
-    //[[AchievementsDispatcher sharedAchievementsDispather] onResetAchievements:success];
-    if(delegate_) delegate_->onResetAchievements(success);
+    //[[LeaderboardDispatcher sharedLeaderboardDispather] onResetLeaderboard:success];
+    if(delegate_) delegate_->onResetLeaderboard(success);
 
   }];
 }
 
--(void) reportCachedAchievements
+-(void) reportCachedLeaderboard
 {
   if (isGameCenterAvailable == NO)
     return;
   
-  if ([cachedAchievements count] == 0)
+  if ([cachedLeaderboard count] == 0)
     return;
 
-  for (GKAchievement* achievement in [cachedAchievements allValues])
+  for (GKLeaderboard* leaderboard in [cachedLeaderboard allValues])
   {
-    [achievement reportAchievementWithCompletionHandler:^(NSError* error)
+    [leaderboard reportLeaderboardWithCompletionHandler:^(NSError* error)
     {
       bool success = (error == nil);
       if (success == YES)
       {
-        [self uncacheAchievement:achievement];
+        [self uncacheLeaderboard:leaderboard];
       }
     }];
   }
 }
 
--(void) initCachedAchievements
+-(void) initCachedLeaderboard
 {
-  NSString* file = [NSHomeDirectory() stringByAppendingPathComponent:kCachedAchievementsFile];
+  NSString* file = [NSHomeDirectory() stringByAppendingPathComponent:kCachedLeaderboardFile];
   id object = [NSKeyedUnarchiver unarchiveObjectWithFile:file];
   
   if ([object isKindOfClass:[NSMutableDictionary class]])
   {
-    NSMutableDictionary* loadedAchievements = (NSMutableDictionary*)object;
-    cachedAchievements = [[NSMutableDictionary alloc] initWithDictionary:loadedAchievements];
+    NSMutableDictionary* loadedLeaderboard = (NSMutableDictionary*)object;
+    cachedLeaderboard = [[NSMutableDictionary alloc] initWithDictionary:loadedLeaderboard];
   }
   else
   {
-    cachedAchievements = [[NSMutableDictionary alloc] init];
+    cachedLeaderboard = [[NSMutableDictionary alloc] init];
   }
 }
 
--(void) saveCachedAchievements
+-(void) saveCachedLeaderboard
 {
-  NSString* file = [NSHomeDirectory() stringByAppendingPathComponent:kCachedAchievementsFile];
-  [NSKeyedArchiver archiveRootObject:cachedAchievements toFile:file];
+  NSString* file = [NSHomeDirectory() stringByAppendingPathComponent:kCachedLeaderboardFile];
+  [NSKeyedArchiver archiveRootObject:cachedLeaderboard toFile:file];
 }
 
--(void) cacheAchievement:(GKAchievement*)achievement
+-(void) cacheLeaderboard:(GKLeaderboard*)leaderboard
 {
-  [cachedAchievements setObject:achievement forKey:achievement.identifier];
+  [cachedLeaderboard setObject:leaderboard forKey:leaderboard.identifier];
   
-  // Save to disk immediately, to keep achievements around even if the game crashes.
-  [self saveCachedAchievements];
+  // Save to disk immediately, to keep leaderboard around even if the game crashes.
+  [self saveCachedLeaderboard];
 }
 
--(void) uncacheAchievement:(GKAchievement*)achievement
+-(void) uncacheLeaderboard:(GKLeaderboard*)leaderboard
 {
-  [cachedAchievements removeObjectForKey:achievement.identifier];
+  [cachedLeaderboard removeObjectForKey:leaderboard.identifier];
   
-  // Save to disk immediately, to keep the removed cached achievement from being loaded again
-  [self saveCachedAchievements];
+  // Save to disk immediately, to keep the removed cached leaderboard from being loaded again
+  [self saveCachedLeaderboard];
 }
 
 
-#pragma mark Views (Leaderboard, Achievements)
+#pragma mark Views (Leaderboard, Leaderboard)
 
 // Helper methods
 
@@ -381,26 +381,26 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
 
 
 
-// Achievements
+// Leaderboard
 
--(void) showAchievements
+-(void) showLeaderboard
 {
   if (isGameCenterAvailable == NO)
     return;
   
-  GKAchievementViewController* achievementsVC = [[[GKAchievementViewController alloc] init] autorelease];
-  if (achievementsVC != nil)
+  GKLeaderboardViewController* leaderboardVC = [[[GKLeaderboardViewController alloc] init] autorelease];
+  if (leaderboardVC != nil)
   {
-    achievementsVC.achievementDelegate = self;
-    [self presentViewController:achievementsVC];
+    leaderboardVC.leaderboardDelegate = self;
+    [self presentViewController:leaderboardVC];
   }
 }
 
--(void) achievementViewControllerDidFinish:(GKAchievementViewController*)viewController
+-(void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController*)viewController
 {
   [self dismissModalViewController];
-  //[[AchievementsDispatcher sharedAchievementsDispather] onAchievementsViewDismissed];
-  if(delegate_) delegate_->onAchievementsViewDismissed();
+  //[[LeaderboardDispatcher sharedLeaderboardDispather] onLeaderboardViewDismissed];
+  if(delegate_) delegate_->onLeaderboardViewDismissed();
 
 }
 

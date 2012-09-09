@@ -1,4 +1,4 @@
-#include "AchievementsTest.h"
+#include "LeaderboardTest.h"
 #include "../testResource.h"
 #include "cocos2d.h"
 
@@ -10,31 +10,31 @@ else if (_pos > _max)   \
 
 //------------------------------------------------------------------
 //
-// AchievementsTest
+// LeaderboardTest
 //
 //------------------------------------------------------------------
-AchievementsTest::AchievementsTest(void)
+LeaderboardTest::LeaderboardTest(void)
 : m_fLastTime(0.0)
 {
 }
 
-AchievementsTest::~AchievementsTest(void)
+LeaderboardTest::~LeaderboardTest(void)
 {
     //m_pBall->release();
 }
 
-std::string AchievementsTest::title()
+std::string LeaderboardTest::title()
 {
-	return "AchievementsTest";
+	return "LeaderboardTest";
 }
 
-void AchievementsTest::onEnter()
+void LeaderboardTest::onEnter()
 {
 	CCLayer::onEnter();
 
-    setAreAchievementsEnabled(true);
+    setAreLeaderboardEnabled(true);
 
-    /*setIsAchievementsEnabled(true);
+    /*setIsLeaderboardEnabled(true);
 
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 
@@ -49,7 +49,7 @@ void AchievementsTest::onEnter()
     m_pBall->retain();*/
 }
 
-/*void AchievementsTest::didAccelerate(CCAcceleration* pAccelerationValue)
+/*void LeaderboardTest::didAccelerate(CCAcceleration* pAccelerationValue)
 {
 //     double fNow = pAccelerationValue->timestamp;
 // 
@@ -83,12 +83,12 @@ void AchievementsTest::onEnter()
 
 //------------------------------------------------------------------
 //
-// AchievementsTestScene
+// LeaderboardTestScene
 //
 //------------------------------------------------------------------
-void AchievementsTestScene::runThisTest()
+void LeaderboardTestScene::runThisTest()
 {
-    CCLayer* pLayer = new AchievementsTest();
+    CCLayer* pLayer = new LeaderboardTest();
     addChild(pLayer);
     pLayer->release();
 

@@ -23,52 +23,52 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "CCAchievementsDelegate.h"
+#import "CCLeaderboardDelegate.h"
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 
-/*@protocol AchievementsDelegateProtocol
+/*@protocol LeaderboardDelegateProtocol
 
 -(void) onLocalPlayerAuthenticationChanged;
--(void) onAchievementReported:(GKAchievement*)achievement;
--(void) onAchievementsLoaded:(NSDictionary*)achievements;
--(void) onResetAchievements:(bool)success;
--(void) onAchievementsViewDismissed;
+-(void) onLeaderboardReported:(GKLeaderboard*)leaderboard;
+-(void) onLeaderboardLoaded:(NSDictionary*)leaderboard;
+-(void) onResetLeaderboard:(bool)success;
+-(void) onLeaderboardViewDismissed;
 
 @end*/
 
 
-@interface AchievementsDispatcher : NSObject<GKAchievementViewControllerDelegate/*, AchievementsDelegateProtocol*/>
+@interface LeaderboardDispatcher : NSObject<GKLeaderboardViewControllerDelegate/*, LeaderboardDelegateProtocol*/>
 {
-	//id<AchievementsDelegateProtocol> delegate;
-	//cocos2d::CCAchievementsDelegate *delegate_;
+	//id<LeaderboardDelegateProtocol> delegate;
+	//cocos2d::CCLeaderboardDelegate *delegate_;
 	//id<GameKitHelperProtocol> delegate;
 	bool isGameCenterAvailable;
 	NSError* lastError;
 	
-	NSMutableDictionary* achievements;
-	NSMutableDictionary* cachedAchievements;
+	NSMutableDictionary* leaderboard;
+	NSMutableDictionary* cachedLeaderboard;
 }
 
 //@property (nonatomic, retain) id<GameKitHelperProtocol> delegate;
-@property (readwrite) cocos2d::CCAchievementsDelegate *delegate_;
+@property (readwrite) cocos2d::CCLeaderboardDelegate *delegate_;
 @property (nonatomic, readonly) bool isGameCenterAvailable;
 @property (nonatomic, readonly) NSError* lastError;
-@property (nonatomic, readonly) NSMutableDictionary* achievements;
+@property (nonatomic, readonly) NSMutableDictionary* leaderboard;
 
-+ (id) sharedAchievementsDispather;
++ (id) sharedLeaderboardDispather;
 - (id) init;
-- (void) addDelegate: (cocos2d::CCAchievementsDelegate *) delegate;
-- (void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController;
+- (void) addDelegate: (cocos2d::CCLeaderboardDelegate *) delegate;
+- (void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController;
 - (void) onLocalPlayerAuthenticationChanged;
-- (void) resetAchievements;
-- (void) saveCachedAchievements;
-- (void) reportCachedAchievements;
+- (void) resetLeaderboard;
+- (void) saveCachedLeaderboard;
+- (void) reportCachedLeaderboard;
 
-/*- (void) onAchievementReported:(GKAchievement*)achievement;
-- (void) onAchievementsLoaded:(NSDictionary*)achievements;
-- (void) onResetAchievements:(bool)success;
-- (void) onAchievementsViewDismissed;*/
+/*- (void) onLeaderboardReported:(GKLeaderboard*)leaderboard;
+- (void) onLeaderboardLoaded:(NSDictionary*)leaderboard;
+- (void) onResetLeaderboard:(bool)success;
+- (void) onLeaderboardViewDismissed;*/
 
 
 @end

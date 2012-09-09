@@ -21,29 +21,29 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_CCACHIEVEMENTS_PLATFORM_H__
-#define __CC_CCACHIEVEMENTS_PLATFORM_H__
+#ifndef __CC_CCLEADERBOARD_PLATFORM_H__
+#define __CC_CCLEADERBOARD_PLATFORM_H__
 
 #include "CCPlatformConfig.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WOPHONE)
-    #include "wophone/CCAchievements_wophone.h"
+    #include "wophone/CCLeaderboard_wophone.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-    #include "win32/CCAchievements_win32.h"
+    #include "win32/CCLeaderboard_win32.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    #include "android/CCAchievements_android.h"
+    #include "android/CCLeaderboard_android.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    #include "ios/CCAchievements_ios.h"
+    #include "ios/CCLeaderboard_ios.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_MARMALADE)
-	#include "marmalade/CCAchievements_marmalade.h"
+	#include "marmalade/CCLeaderboard_marmalade.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-	#include "linux/CCAchievements_linux.h"
+	#include "linux/CCLeaderboard_linux.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_BADA)
-	#include "bada/CCAchievements_bada.h"
+	#include "bada/CCLeaderboard_bada.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_BLACKBERRY)
-    #include "blackberry/CCAchievements_blackberry.h"
+    #include "blackberry/CCLeaderboard_blackberry.h"
 #else
     #error
 #endif
 
-#endif // __CC_CCACHIEVEMENTS_PLATFORM_H__
+#endif // __CC_CCLEADERBOARD_PLATFORM_H__

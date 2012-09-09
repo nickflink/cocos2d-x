@@ -1,19 +1,19 @@
-#ifndef _ACHIEVEMENTS_TEST_H_
-#define _ACHIEVEMENTS_TEST_H_
+#ifndef _LEADERBOARD_TEST_H_
+#define _LEADERBOARD_TEST_H_
 
 #include "../testBasic.h"
 
 using namespace cocos2d;
 
-class AchievementsTest: public CCLayer
+class LeaderboardTest: public CCLayer
 {
 protected:
     CCSprite* m_pBall;
     double    m_fLastTime;
 
 public:
-	AchievementsTest(void);
-	~AchievementsTest(void);
+	LeaderboardTest(void);
+	~LeaderboardTest(void);
 
 //    virtual void didAccelerate(CCAcceleration* pAccelerationValue);
 
@@ -21,7 +21,7 @@ public:
 	virtual void onEnter();
 };
 
-class AchievementsTestScene : public TestScene
+class LeaderboardTestScene : public TestScene
 {
 public:
     virtual void runThisTest();

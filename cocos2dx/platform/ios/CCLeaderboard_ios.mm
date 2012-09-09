@@ -22,48 +22,48 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "CCAchievements.h"
-#include "AchievementsDelegateWrapper.h"
+#include "CCLeaderboard.h"
+#include "LeaderboardDelegateWrapper.h"
 
 namespace cocos2d {
     
-    CCAchievements* CCAchievements::m_spUIAchievements = NULL;
+    CCLeaderboard* CCLeaderboard::m_spUILeaderboard = NULL;
     
-    CCAchievements::CCAchievements()
+    CCLeaderboard::CCLeaderboard()
     {
     }
     
-    CCAchievements::~CCAchievements()
+    CCLeaderboard::~CCLeaderboard()
     {
     }
     
-    CCAchievements* CCAchievements::sharedAchievements()
+    CCLeaderboard* CCLeaderboard::sharedLeaderboard()
     {
-        if (m_spUIAchievements == NULL) {
-            m_spUIAchievements = new CCAchievements();
+        if (m_spUILeaderboard == NULL) {
+            m_spUILeaderboard = new CCLeaderboard();
         }
         
-        return m_spUIAchievements;
+        return m_spUILeaderboard;
     }
     
-    void CCAchievements::setDelegate(CCAchievementsDelegate* pDelegate)
+    void CCLeaderboard::setDelegate(CCLeaderboardDelegate* pDelegate)
     {
-        [[AchievementsDispatcher sharedAchievementsDispather] addDelegate:pDelegate];
+        [[LeaderboardDispatcher sharedLeaderboardDispather] addDelegate:pDelegate];
     }
     
     void onLocalPlayerAuthenticationChanged(){
         return;
     }
-    void onAchievementReported(/*GKAchievement *acheivement*/){
+    void onLeaderboardReported(/*GKLeaderboard *acheivement*/){
         return;
     }
-    void onAchievementsLoaded(/*NSDictionary *achievements*/){
+    void onLeaderboardLoaded(/*NSDictionary *leaderboard*/){
         return;
     }
-    void onResetAchievements(bool success){
+    void onResetLeaderboard(bool success){
         return;
     }
-    void onAchievementsViewDismissed(){
+    void onLeaderboardViewDismissed(){
         return;
     }
 

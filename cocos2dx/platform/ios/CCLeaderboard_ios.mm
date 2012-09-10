@@ -48,22 +48,26 @@ namespace cocos2d {
     
     void CCLeaderboard::setDelegate(CCLeaderboardDelegate* pDelegate)
     {
-        [[LeaderboardDispatcher sharedLeaderboardDispather] addDelegate:pDelegate];
+        [[LeaderboardDispatcher sharedLeaderboardDispatcher] addDelegate:pDelegate];
     }
     
-    void onLocalPlayerAuthenticationChanged(){
+    void CCLeaderboard::onLocalPlayerAuthenticationChanged(){
         return;
     }
-    void onLeaderboardReported(/*GKLeaderboard *acheivement*/){
+/*    void onScoresSubmitted(bool success) 
+    {
+        CCLOG("onScoresSubmitted: %s", success ? "YES" : "NO");
+    }
+    void CCLeaderboard::onLeaderboardReported(GKLeaderboard *acheivement){
         return;
     }
-    void onLeaderboardLoaded(/*NSDictionary *leaderboard*/){
+    void CCLeaderboard::onLeaderboardLoaded(NSDictionary *leaderboard){
         return;
     }
-    void onResetLeaderboard(bool success){
+    void CCLeaderboard::onResetLeaderboard(bool success){
         return;
-    }
-    void onLeaderboardViewDismissed(){
+    }*/
+    void CCLeaderboard::onLeaderboardViewDismissed(){
         return;
     }
 

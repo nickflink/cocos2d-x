@@ -51,19 +51,19 @@ namespace cocos2d {
         [[AchievementsDispatcher sharedAchievementsDispather] addDelegate:pDelegate];
     }
     
-    void onLocalPlayerAuthenticationChanged(){
+    void CCAchievements::onLocalPlayerAuthenticationChanged(){
         return;
     }
-    void onAchievementReported(/*GKAchievement *acheivement*/){
+    void CCAchievements::onAchievementReported(/*GKAchievement *acheivement*/){
         return;
     }
-    void onAchievementsLoaded(/*NSDictionary *achievements*/){
+    void CCAchievements::onAchievementsLoaded(/*NSDictionary *achievements*/){
         return;
     }
-    void onResetAchievements(bool success){
+    void CCAchievements::onResetAchievements(bool success){
         return;
     }
-    void onAchievementsViewDismissed(){
+    void CCAchievements::onAchievementsViewDismissed(){
         return;
     }
 

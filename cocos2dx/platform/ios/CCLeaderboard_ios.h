@@ -39,6 +39,15 @@ public:
 
     void setDelegate(CCLeaderboardDelegate* pDelegate);
     
+    void onLocalPlayerAuthenticationChanged();
+//    void onLeaderboardReported(/*GKLeaderboard *acheivement*/);
+//    void onLeaderboardLoaded(/*NSDictionary *leaderboard*/);
+//    void onResetLeaderboard(bool success);
+//    void onScoresSubmitted(bool success) {CCLOG("onScoresSubmitted: %s", success ? "YES" : "NO");}
+
+    void onLeaderboardViewDismissed();
+
+    
 private:
     static CCLeaderboard* m_spUILeaderboard;
 };

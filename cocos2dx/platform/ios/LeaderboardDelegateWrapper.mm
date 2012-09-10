@@ -23,6 +23,7 @@
  ****************************************************************************/
 
 #import "LeaderboardDelegateWrapper.h"
+#import "CCArray.h"
 
 static NSString* kCachedLeaderboardFile = @"CachedLeaderboard.archive";
 
@@ -31,10 +32,6 @@ static NSString* kCachedLeaderboardFile = @"CachedLeaderboard.archive";
 -(void) registerForLocalPlayerAuthChange;
 //-(void) onLocalPlayerAuthenticationChanged;
 -(void) setLastError:(NSError*)error;
--(void) initCachedLeaderboard;
--(void) cacheLeaderboard:(GKLeaderboard*)leaderboard;
--(void) uncacheLeaderboard:(GKLeaderboard*)leaderboard;
--(void) loadLeaderboard;
 -(UIViewController*) getRootViewController;
 @end
 
@@ -48,11 +45,10 @@ static LeaderboardDispatcher* s_pLeaderboardDispatcher;
 @synthesize delegate_;
 @synthesize isGameCenterAvailable;
 @synthesize lastError;
-@synthesize leaderboard;
 
 //@synthesize leaderboard_;
 
-+ (id) sharedLeaderboardDispather
++ (id) sharedLeaderboardDispatcher
 {
     if (s_pLeaderboardDispatcher == nil) {
         s_pLeaderboardDispatcher = [[self alloc] init];
@@ -78,7 +74,6 @@ static LeaderboardDispatcher* s_pLeaderboardDispatcher;
         NSLog(@"GameCenter available = %@", isGameCenterAvailable ? @"YES" : @"NO");
 
         [self registerForLocalPlayerAuthChange];
-        [self initCachedLeaderboard];
         [self authenticateLocalPlayer];
 
     }
@@ -89,13 +84,7 @@ static LeaderboardDispatcher* s_pLeaderboardDispatcher;
 {
     CCLOG("dealloc %@", self);
     
-    
     [lastError release];
-    
-    [self saveCachedLeaderboard];
-    [cachedLeaderboard release];
-    [leaderboard release];
-
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     s_pLeaderboardDispatcher = nil;
@@ -146,11 +135,7 @@ static LeaderboardDispatcher* s_pLeaderboardDispatcher;
     {
       [self setLastError:error];
       
-      if (error == nil)
-      {
-        [self reportCachedLeaderboard];
-        [self loadLeaderboard];
-      }
+      //if (error == nil){any req initialization}
     }];
     
     /*
@@ -176,13 +161,8 @@ static LeaderboardDispatcher* s_pLeaderboardDispatcher;
 
 -(void) onLocalPlayerAuthenticationChanged
 {
-    GKLocalPlayer* localPlayer = [GKLocalPlayer localPlayer];
-	CCLOG("LocalPlayer isAuthenticated changed to: %@", localPlayer.authenticated ? @"YES" : @"NO");
-	
-	if (localPlayer.authenticated)
-	{
-		[self resetLeaderboard];
-	}	
+    //GKLocalPlayer* localPlayer = [GKLocalPlayer localPlayer];
+    CCLOG("LocalPlayer isAuthenticated changed to: %@", localPlayer.authenticated ? @"YES" : @"NO");
     if(delegate_) delegate_->onLocalPlayerAuthenticationChanged();
 }
 
@@ -201,164 +181,44 @@ static LeaderboardDispatcher* s_pLeaderboardDispatcher;
        object:nil];
 }
 
+#pragma mark Friends & Player Info
 
-
-
-
-
-
-#pragma mark Leaderboard
-
--(void) loadLeaderboard
+-(void) getLocalPlayerFriends
 {
-  if (isGameCenterAvailable == NO)
-    return;
-
-  [GKLeaderboard loadLeaderboardWithCompletionHandler:^(NSArray* loadedLeaderboard, NSError* error)
-  {
-    [self setLastError:error];
-     
-    if (leaderboard == nil)
-    {
-      leaderboard = [[NSMutableDictionary alloc] init];
-    }
-    else
-    {
-      [leaderboard removeAllObjects];
-    }
-
-    for (GKLeaderboard* leaderboard in loadedLeaderboard)
-    {
-      [leaderboard setObject:leaderboard forKey:leaderboard.identifier];
-    }
-     
-    //[delegate_ onLeaderboardLoaded:leaderboard];
-    if(delegate_) delegate_->onLeaderboardLoaded();
-  }];
+	if (isGameCenterAvailable == NO)
+		return;
+	
+	GKLocalPlayer* localPlayer = [GKLocalPlayer localPlayer];
+	if (localPlayer.authenticated)
+	{
+		// First, get the list of friends (player IDs)
+		[localPlayer loadFriendsWithCompletionHandler:^(NSArray* friends, NSError* error)
+		{
+			[self setLastError:error];
+            //NFHACK THIS NEEDS TO BE A C++ CALL
+			//[delegate_ onFriendListReceived:friends];
+		}];
+	}
 }
 
--(GKLeaderboard*) getLeaderboardByID:(NSString*)identifier
+-(void) getPlayerInfo:(NSArray*)playerList
 {
-  if (isGameCenterAvailable == NO || delegate_ == nil)
-    return nil;
-    
-  // Try to get an existing leaderboard with this identifier
-  GKLeaderboard* leaderboard = [leaderboard objectForKey:identifier];
-  
-  if (leaderboard == nil)
-  {
-    // Create a new leaderboard object
-    leaderboard = [[[GKLeaderboard alloc] initWithIdentifier:identifier] autorelease];
-    [leaderboard setObject:leaderboard forKey:leaderboard.identifier];
-  }
-  
-  return [[leaderboard retain] autorelease];
+	if (isGameCenterAvailable == NO)
+		return;
+
+	// Get detailed information about a list of players
+	if ([playerList count] > 0)
+	{
+		[GKPlayer loadPlayersForIdentifiers:playerList withCompletionHandler:^(NSArray* players, NSError* error)
+		{
+			[self setLastError:error];
+            //NFHACK THIS NEEDS TO BE A C++ CALL
+			//[delegate_ onPlayerInfoReceived:players];
+		}];
+	}
 }
 
--(void) reportLeaderboardWithID:(NSString*)identifier percentComplete:(float)percent
-{
-  if (isGameCenterAvailable == NO || delegate_ == nil)
-    return;
-
-  GKLeaderboard* leaderboard = [self getLeaderboardByID:identifier];
-  if (leaderboard != nil && leaderboard.percentComplete < percent)
-  {
-    leaderboard.percentComplete = percent;
-    [leaderboard reportLeaderboardWithCompletionHandler:^(NSError* error)
-    {
-      [self setLastError:error];
-      
-      bool success = (error == nil);
-      if (success == NO)
-      {
-        // Keep leaderboard to try to submit it later
-        [self cacheLeaderboard:leaderboard];
-      }
-      
-      //[delegate onLeaderboardReported:leaderboard];
-    }];
-  }
-}
-
--(void) resetLeaderboard
-{
-  if (isGameCenterAvailable == NO)
-    return;
-  
-  [leaderboard removeAllObjects];
-  [cachedLeaderboard removeAllObjects];
-  
-  [GKLeaderboard resetLeaderboardWithCompletionHandler:^(NSError* error)
-  {
-    [self setLastError:error];
-    bool success = (error == nil);
-    //[[LeaderboardDispatcher sharedLeaderboardDispather] onResetLeaderboard:success];
-    if(delegate_) delegate_->onResetLeaderboard(success);
-
-  }];
-}
-
--(void) reportCachedLeaderboard
-{
-  if (isGameCenterAvailable == NO)
-    return;
-  
-  if ([cachedLeaderboard count] == 0)
-    return;
-
-  for (GKLeaderboard* leaderboard in [cachedLeaderboard allValues])
-  {
-    [leaderboard reportLeaderboardWithCompletionHandler:^(NSError* error)
-    {
-      bool success = (error == nil);
-      if (success == YES)
-      {
-        [self uncacheLeaderboard:leaderboard];
-      }
-    }];
-  }
-}
-
--(void) initCachedLeaderboard
-{
-  NSString* file = [NSHomeDirectory() stringByAppendingPathComponent:kCachedLeaderboardFile];
-  id object = [NSKeyedUnarchiver unarchiveObjectWithFile:file];
-  
-  if ([object isKindOfClass:[NSMutableDictionary class]])
-  {
-    NSMutableDictionary* loadedLeaderboard = (NSMutableDictionary*)object;
-    cachedLeaderboard = [[NSMutableDictionary alloc] initWithDictionary:loadedLeaderboard];
-  }
-  else
-  {
-    cachedLeaderboard = [[NSMutableDictionary alloc] init];
-  }
-}
-
--(void) saveCachedLeaderboard
-{
-  NSString* file = [NSHomeDirectory() stringByAppendingPathComponent:kCachedLeaderboardFile];
-  [NSKeyedArchiver archiveRootObject:cachedLeaderboard toFile:file];
-}
-
--(void) cacheLeaderboard:(GKLeaderboard*)leaderboard
-{
-  [cachedLeaderboard setObject:leaderboard forKey:leaderboard.identifier];
-  
-  // Save to disk immediately, to keep leaderboard around even if the game crashes.
-  [self saveCachedLeaderboard];
-}
-
--(void) uncacheLeaderboard:(GKLeaderboard*)leaderboard
-{
-  [cachedLeaderboard removeObjectForKey:leaderboard.identifier];
-  
-  // Save to disk immediately, to keep the removed cached leaderboard from being loaded again
-  [self saveCachedLeaderboard];
-}
-
-
-#pragma mark Views (Leaderboard, Leaderboard)
+#pragma mark Views (Leaderboard)
 
 // Helper methods
 
@@ -380,6 +240,68 @@ static LeaderboardDispatcher* s_pLeaderboardDispatcher;
 }
 
 
+#pragma mark Scores & Leaderboard
+
+-(void) submitScore:(int64_t)score category:(NSString*)category
+{
+	if (isGameCenterAvailable == NO)
+		return;
+
+	GKScore* gkScore = [[[GKScore alloc] initWithCategory:category] autorelease];
+	gkScore.value = score;
+
+	[gkScore reportScoreWithCompletionHandler:^(NSError* error)
+	{
+		[self setLastError:error];
+		
+		bool success = (error == nil);
+		if(delegate_) delegate_->onScoresSubmitted(success);
+	}];
+}
+
+-(void) retrieveScoresForPlayers:(NSArray*)players
+						category:(NSString*)category 
+						   range:(NSRange)range
+					 playerScope:(GKLeaderboardPlayerScope)playerScope 
+					   timeScope:(GKLeaderboardTimeScope)timeScope 
+{
+	if (isGameCenterAvailable == NO)
+		return;
+	
+	GKLeaderboard* leaderboard = nil;
+	if ([players count] > 0)
+	{
+		leaderboard = [[[GKLeaderboard alloc] initWithPlayerIDs:players] autorelease];
+	}
+	else
+	{
+		leaderboard = [[[GKLeaderboard alloc] init] autorelease];
+		leaderboard.playerScope = playerScope;
+	}
+	
+	if (leaderboard != nil)
+	{
+		leaderboard.timeScope = timeScope;
+		leaderboard.category = category;
+		leaderboard.range = range;
+		[leaderboard loadScoresWithCompletionHandler:^(NSArray* scores, NSError* error)
+		{
+			[self setLastError:error];
+            //NFHACK need to convert scores to a CCArray
+            cocos2d::CCArray *scoresArray = cocos2d::CCArray::array();
+			if(delegate_) delegate_->onScoresReceived(scoresArray);
+		}];
+	}
+}
+
+-(void) retrieveTopTenAllTimeGlobalScores
+{
+	[self retrieveScoresForPlayers:nil
+						  category:nil 
+							 range:NSMakeRange(1, 10)
+					   playerScope:GKLeaderboardPlayerScopeGlobal 
+						 timeScope:GKLeaderboardTimeScopeAllTime];
+}
 
 // Leaderboard
 
@@ -403,9 +325,4 @@ static LeaderboardDispatcher* s_pLeaderboardDispatcher;
   if(delegate_) delegate_->onLeaderboardViewDismissed();
 
 }
-
-
-
-
 @end
-

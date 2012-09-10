@@ -27,48 +27,39 @@
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 
-/*@protocol LeaderboardDelegateProtocol
-
--(void) onLocalPlayerAuthenticationChanged;
--(void) onLeaderboardReported:(GKLeaderboard*)leaderboard;
--(void) onLeaderboardLoaded:(NSDictionary*)leaderboard;
--(void) onResetLeaderboard:(bool)success;
--(void) onLeaderboardViewDismissed;
-
-@end*/
-
-
-@interface LeaderboardDispatcher : NSObject<GKLeaderboardViewControllerDelegate/*, LeaderboardDelegateProtocol*/>
+@interface LeaderboardDispatcher : NSObject <GKLeaderboardViewControllerDelegate>
 {
-	//id<LeaderboardDelegateProtocol> delegate;
-	//cocos2d::CCLeaderboardDelegate *delegate_;
-	//id<GameKitHelperProtocol> delegate;
 	bool isGameCenterAvailable;
 	NSError* lastError;
-	
-	NSMutableDictionary* leaderboard;
-	NSMutableDictionary* cachedLeaderboard;
 }
 
-//@property (nonatomic, retain) id<GameKitHelperProtocol> delegate;
 @property (readwrite) cocos2d::CCLeaderboardDelegate *delegate_;
 @property (nonatomic, readonly) bool isGameCenterAvailable;
 @property (nonatomic, readonly) NSError* lastError;
-@property (nonatomic, readonly) NSMutableDictionary* leaderboard;
 
-+ (id) sharedLeaderboardDispather;
-- (id) init;
-- (void) addDelegate: (cocos2d::CCLeaderboardDelegate *) delegate;
-- (void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController;
-- (void) onLocalPlayerAuthenticationChanged;
-- (void) resetLeaderboard;
-- (void) saveCachedLeaderboard;
-- (void) reportCachedLeaderboard;
+//Delegate functions
++(id) sharedLeaderboardDispatcher;
+-(id) init;
+-(void) addDelegate: (cocos2d::CCLeaderboardDelegate *) delegate;
+-(void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController*)viewController;
 
-/*- (void) onLeaderboardReported:(GKLeaderboard*)leaderboard;
-- (void) onLeaderboardLoaded:(NSDictionary*)leaderboard;
-- (void) onResetLeaderboard:(bool)success;
-- (void) onLeaderboardViewDismissed;*/
+// Player authentication, info
+-(void) authenticateLocalPlayer;
+-(void) getLocalPlayerFriends;
+-(void) getPlayerInfo:(NSArray*)players;
+-(void) onLocalPlayerAuthenticationChanged;
 
+// Scores
+-(void) submitScore:(int64_t)score category:(NSString*)category;
+-(void) retrieveScoresForPlayers:(NSArray*)players
+						category:(NSString*)category 
+						   range:(NSRange)range
+					 playerScope:(GKLeaderboardPlayerScope)playerScope 
+					   timeScope:(GKLeaderboardTimeScope)timeScope;
+-(void) retrieveTopTenAllTimeGlobalScores;
+
+
+// Game Center Views
+-(void) showLeaderboard;
 
 @end

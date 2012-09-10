@@ -13,6 +13,9 @@ class CCLayer : public CCNode
     void setAreAchievementsEnabled(bool bValue);
     void getAreAchievementsEnabled(void);
 
+    void setIsLeaderboardEnabled(bool bValue);
+    void getIsLeaderboardEnabled(void);
+
     void registerScriptTouchHandler(LUA_FUNCTION nHandler,
                                     bool bIsMultiTouches = false,
                                     int nPriority = 0,

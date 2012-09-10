@@ -3,6 +3,7 @@
 
 #include "ActionsTest/ActionsTest.h"
 #include "AchievementsTest/AchievementsTest.h"
+#include "LeaderboardTest/LeaderboardTest.h"
 #include "SliderTest/SliderTest.h"
 #include "ScrollMenuTest/ScrollMenuTest.h"
 #include "TransitionsTest/TransitionsTest.h"
@@ -65,6 +66,7 @@ enum
 {
     TEST_ACTIONS = 0,
     TEST_ACHIEVEMENTS,
+    TEST_LEADERBOARD,
     TEST_SLIDER,
     TEST_SCROLL_LAYER,
     TEST_TRANSITIONS,
@@ -115,6 +117,7 @@ enum
 const std::string g_aTestNames[TESTS_COUNT] = {
     "ActionsTest",
     "AchievementsTest",
+    "LeaderboardTest",
     "SliderTest",
     "ScrollMenuTest",
     "TransitionsTest",

@@ -32,7 +32,7 @@ void LeaderboardTest::onEnter()
 {
 	CCLayer::onEnter();
 
-    setAreLeaderboardEnabled(true);
+    setIsLeaderboardEnabled(true);
 
     /*setIsLeaderboardEnabled(true);
 

@@ -32,6 +32,7 @@ THE SOFTWARE.
 #include "CCTouchDelegateProtocol.h"
 #include "CCAccelerometerDelegate.h"
 #include "CCAchievementsDelegate.h"
+#include "CCLeaderboardDelegate.h"
 #include "CCKeypadDelegate.h"
 #include "CCMutableArray.h"
 
@@ -48,7 +49,7 @@ All features from CCNode are valid, plus the following new features:
 - It can receive iPhone Touches
 - It can receive Accelerometer input
 */
-class CC_DLL CCLayer : public CCNode, public CCTouchDelegate, public CCAccelerometerDelegate, public CCKeypadDelegate, public CCAchievementsDelegate
+class CC_DLL CCLayer : public CCNode, public CCTouchDelegate, public CCAccelerometerDelegate, public CCKeypadDelegate, public CCAchievementsDelegate, public CCLeaderboardDelegate
 {
 public:
 	CCLayer();
@@ -80,6 +81,7 @@ public:
     virtual void onAchievementsLoaded() {CCLOG("Implement onAchievementsLoaded");}//NSDictionary *achievements);
     virtual void onResetAchievements(bool success) {CCLOG("Implement onResetAchievements");}
     virtual void onAchievementsViewDismissed() {CCLOG("Implement onAchievementsViewDismissed");}
+
 
     
 	/** If isTouchEnabled, this method is called onEnter. Override it to change the
@@ -120,6 +122,12 @@ public:
      @since v0.12.0
      */
 	CC_PROPERTY(bool, m_bAreAchievementsEnabled, AreAchievementsEnabled)
+    
+    /** whether or not it will receive Acheivement events
+     You can enable / disable acheivement events with this property.
+     @since v0.12.0
+     */
+	CC_PROPERTY(bool, m_bIsLeaderboardEnabled, IsLeaderboardEnabled)
 
     
 private:

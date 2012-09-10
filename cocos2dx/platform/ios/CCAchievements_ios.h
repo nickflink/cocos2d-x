@@ -38,7 +38,12 @@ public:
     static CCAchievements* sharedAchievements();
 
     void setDelegate(CCAchievementsDelegate* pDelegate);
-    
+    void onLocalPlayerAuthenticationChanged();
+    void onAchievementReported(/*GKAchievement *acheivement*/);
+    void onAchievementsLoaded(/*NSDictionary *achievements*/);
+    void onResetAchievements(bool success);
+    void onAchievementsViewDismissed();
+
 private:
     static CCAchievements* m_spUIAchievements;
 };

@@ -41,7 +41,7 @@ THE SOFTWARE.
  */
 
 namespace   cocos2d {
-
+class CCArray;
 
 /**
 @brief 
@@ -53,10 +53,12 @@ class CC_DLL CCLeaderboardDelegate
 public:
 
     virtual void onLocalPlayerAuthenticationChanged(){}
-    virtual void onLeaderboardReported(){}//GKLeaderboard *acheivement);
-    virtual void onLeaderboardLoaded(){}//NSDictionary *leaderboard);
-    virtual void onResetLeaderboard(bool success){CC_UNUSED_PARAM(success);}
+//    virtual void onLeaderboardReported(){}//GKLeaderboard *acheivement);
+//    virtual void onLeaderboardLoaded(){}//NSDictionary *leaderboard);
+//    virtual void onResetLeaderboard(bool success){CC_UNUSED_PARAM(success);}
     virtual void onLeaderboardViewDismissed(){}
+    virtual void onScoresSubmitted(bool success) {CCLOG("onScoresSubmitted: %s", success ? "YES" : "NO");}
+    virtual void onScoresReceived(CCArray *scores){CCLOG("onScoresReceived need array conversion");}
     
 
 };

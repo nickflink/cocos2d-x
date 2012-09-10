@@ -30,6 +30,7 @@ THE SOFTWARE.
 #include "CCKeypadDispatcher.h"
 #include "CCAccelerometer.h"
 #include "CCAchievements.h"
+#include "CCLeaderboard.h"
 #include "CCDirector.h"
 #include "CCPointExtension.h"
 #include "CCScriptSupport.h"
@@ -216,7 +217,7 @@ bool CCLayer::getAreAchievementsEnabled()
 {
     return m_bAreAchievementsEnabled;
 }
-/// isKeypadEnabled setter
+/// areAchievementsEnabled setter
 void CCLayer::setAreAchievementsEnabled(bool enabled)
 {
     if (enabled != m_bAreAchievementsEnabled)
@@ -237,6 +238,33 @@ void CCLayer::setAreAchievementsEnabled(bool enabled)
     }
 }
 
+/// IsLeaderboardEnabled getter
+bool CCLayer::getIsLeaderboardEnabled()
+{
+    return m_bIsLeaderboardEnabled;
+}
+/// IsLeaderboardEnabled setter
+void CCLayer::setIsLeaderboardEnabled(bool enabled)
+{
+    if (enabled != m_bIsLeaderboardEnabled)
+    {
+        m_bIsLeaderboardEnabled = enabled;
+        
+        if (m_bIsRunning)
+        {
+            if (enabled)
+            {
+                CCLeaderboard::sharedLeaderboard()->setDelegate(this);
+            }
+            else
+            {
+                CCLeaderboard::sharedLeaderboard()->setDelegate(NULL);
+            }
+        }
+    }
+}
+
+    
 /// Callbacks
 void CCLayer::onEnter()
 {

@@ -18,6 +18,8 @@ static TestScene* CreateTestScene(int nIdx)
         pScene = new ActionsTestScene(); break;
     case TEST_ACHIEVEMENTS:
             pScene = new AchievementsTestScene(); break;
+    case TEST_LEADERBOARD:
+        pScene = new LeaderboardTestScene(); break;
     case TEST_SLIDER:
         pScene = new SliderTestScene(); break;
     case TEST_SCROLL_LAYER:

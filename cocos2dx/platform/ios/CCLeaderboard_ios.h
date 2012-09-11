@@ -22,30 +22,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __PLATFORM_IPHONE_CCACHIEVEMENTS_H__
-#define __PLATFORM_IPHONE_CCACHIEVEMENTS_H__
+#ifndef __PLATFORM_IPHONE_CCLEADERBOARD_H__
+#define __PLATFORM_IPHONE_CCLEADERBOARD_H__
 
-#include "CCAchievementsDelegate.h"
+#include "CCLeaderboardDelegate.h"
 
 namespace   cocos2d {
 
-class CC_DLL CCAchievements
+class CC_DLL CCLeaderboard
 {
 public:
-    CCAchievements();
-    ~CCAchievements();
+    CCLeaderboard();
+    ~CCLeaderboard();
 
-    static CCAchievements* sharedAchievements();
+    static CCLeaderboard* sharedLeaderboard();
 
-    void setDelegate(CCAchievementsDelegate* pDelegate);
+    void setDelegate(CCLeaderboardDelegate* pDelegate);
+    
     void onLocalPlayerAuthenticationChanged();
-    void onAchievementReported(/*GKAchievement *acheivement*/);
-    void onAchievementsLoaded(/*NSDictionary *achievements*/);
-    void onResetAchievements(bool success);
-    void onAchievementsViewDismissed();
+//    void onLeaderboardReported(/*GKLeaderboard *acheivement*/);
+//    void onLeaderboardLoaded(/*NSDictionary *leaderboard*/);
+//    void onResetLeaderboard(bool success);
+//    void onScoresSubmitted(bool success) {CCLOG("onScoresSubmitted: %s", success ? "YES" : "NO");}
 
+    void onLeaderboardViewDismissed();
+
+    
 private:
-    static CCAchievements* m_spUIAchievements;
+    static CCLeaderboard* m_spUILeaderboard;
 };
 
 }//namespace   cocos2d 

@@ -23,52 +23,43 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "CCAchievementsDelegate.h"
+#import "CCLeaderboardDelegate.h"
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 
-/*@protocol AchievementsDelegateProtocol
-
--(void) onLocalPlayerAuthenticationChanged;
--(void) onAchievementReported:(GKAchievement*)achievement;
--(void) onAchievementsLoaded:(NSDictionary*)achievements;
--(void) onResetAchievements:(bool)success;
--(void) onAchievementsViewDismissed;
-
-@end*/
-
-
-@interface AchievementsDispatcher : NSObject<GKAchievementViewControllerDelegate/*, AchievementsDelegateProtocol*/>
+@interface LeaderboardDispatcher : NSObject <GKLeaderboardViewControllerDelegate>
 {
-	//id<AchievementsDelegateProtocol> delegate;
-	//cocos2d::CCAchievementsDelegate *delegate_;
-	//id<GameKitHelperProtocol> delegate;
 	bool isGameCenterAvailable;
 	NSError* lastError;
-	
-	NSMutableDictionary* achievements;
-	NSMutableDictionary* cachedAchievements;
 }
 
-//@property (nonatomic, retain) id<GameKitHelperProtocol> delegate;
-@property (readwrite) cocos2d::CCAchievementsDelegate *delegate_;
+@property (readwrite) cocos2d::CCLeaderboardDelegate *delegate_;
 @property (nonatomic, readonly) bool isGameCenterAvailable;
 @property (nonatomic, readonly) NSError* lastError;
-@property (nonatomic, readonly) NSMutableDictionary* achievements;
 
-+ (id) sharedAchievementsDispather;
-- (id) init;
-- (void) addDelegate: (cocos2d::CCAchievementsDelegate *) delegate;
-- (void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController;
-- (void) onLocalPlayerAuthenticationChanged;
-- (void) resetAchievements;
-- (void) saveCachedAchievements;
-- (void) reportCachedAchievements;
+//Delegate functions
++(id) sharedLeaderboardDispatcher;
+-(id) init;
+-(void) addDelegate: (cocos2d::CCLeaderboardDelegate *) delegate;
+-(void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController*)viewController;
 
-/*- (void) onAchievementReported:(GKAchievement*)achievement;
-- (void) onAchievementsLoaded:(NSDictionary*)achievements;
-- (void) onResetAchievements:(bool)success;
-- (void) onAchievementsViewDismissed;*/
+// Player authentication, info
+-(void) authenticateLocalPlayer;
+-(void) getLocalPlayerFriends;
+-(void) getPlayerInfo:(NSArray*)players;
+-(void) onLocalPlayerAuthenticationChanged;
 
+// Scores
+-(void) submitScore:(int64_t)score category:(NSString*)category;
+-(void) retrieveScoresForPlayers:(NSArray*)players
+						category:(NSString*)category 
+						   range:(NSRange)range
+					 playerScope:(GKLeaderboardPlayerScope)playerScope 
+					   timeScope:(GKLeaderboardTimeScope)timeScope;
+-(void) retrieveTopTenAllTimeGlobalScores;
+
+
+// Game Center Views
+-(void) showLeaderboard;
 
 @end

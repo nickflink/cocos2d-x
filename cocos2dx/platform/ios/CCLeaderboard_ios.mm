@@ -22,48 +22,52 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "CCAchievements.h"
-#include "AchievementsDelegateWrapper.h"
+#include "CCLeaderboard.h"
+#include "LeaderboardDelegateWrapper.h"
 
 namespace cocos2d {
     
-    CCAchievements* CCAchievements::m_spUIAchievements = NULL;
+    CCLeaderboard* CCLeaderboard::m_spUILeaderboard = NULL;
     
-    CCAchievements::CCAchievements()
+    CCLeaderboard::CCLeaderboard()
     {
     }
     
-    CCAchievements::~CCAchievements()
+    CCLeaderboard::~CCLeaderboard()
     {
     }
     
-    CCAchievements* CCAchievements::sharedAchievements()
+    CCLeaderboard* CCLeaderboard::sharedLeaderboard()
     {
-        if (m_spUIAchievements == NULL) {
-            m_spUIAchievements = new CCAchievements();
+        if (m_spUILeaderboard == NULL) {
+            m_spUILeaderboard = new CCLeaderboard();
         }
         
-        return m_spUIAchievements;
+        return m_spUILeaderboard;
     }
     
-    void CCAchievements::setDelegate(CCAchievementsDelegate* pDelegate)
+    void CCLeaderboard::setDelegate(CCLeaderboardDelegate* pDelegate)
     {
-        [[AchievementsDispatcher sharedAchievementsDispather] addDelegate:pDelegate];
+        [[LeaderboardDispatcher sharedLeaderboardDispatcher] addDelegate:pDelegate];
     }
     
-    void CCAchievements::onLocalPlayerAuthenticationChanged(){
+    void CCLeaderboard::onLocalPlayerAuthenticationChanged(){
         return;
     }
-    void CCAchievements::onAchievementReported(/*GKAchievement *acheivement*/){
+/*    void onScoresSubmitted(bool success) 
+    {
+        CCLOG("onScoresSubmitted: %s", success ? "YES" : "NO");
+    }
+    void CCLeaderboard::onLeaderboardReported(GKLeaderboard *acheivement){
         return;
     }
-    void CCAchievements::onAchievementsLoaded(/*NSDictionary *achievements*/){
+    void CCLeaderboard::onLeaderboardLoaded(NSDictionary *leaderboard){
         return;
     }
-    void CCAchievements::onResetAchievements(bool success){
+    void CCLeaderboard::onResetLeaderboard(bool success){
         return;
-    }
-    void CCAchievements::onAchievementsViewDismissed(){
+    }*/
+    void CCLeaderboard::onLeaderboardViewDismissed(){
         return;
     }
 

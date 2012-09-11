@@ -11,6 +11,9 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		273E9C3515FCA1F2005AB501 /* LeaderboardDelegateWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 273E9C3115FCA1F2005AB501 /* LeaderboardDelegateWrapper.mm */; };
+		273E9C3615FCA1F2005AB501 /* CCLeaderboard_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 273E9C3315FCA1F2005AB501 /* CCLeaderboard_ios.mm */; };
+		273E9C3A15FCA2C8005AB501 /* LeaderboardTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 273E9C3815FCA2C8005AB501 /* LeaderboardTest.cpp */; };
 		276270E915D1D47C00106D77 /* CCSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 276270E815D1D47C00106D77 /* CCSlider.cpp */; };
 		2779EC2415F3BE4100112CC7 /* AchievementsDelegateWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2779EC2115F3BE4100112CC7 /* AchievementsDelegateWrapper.mm */; };
 		2779EC2515F3BE4100112CC7 /* CCAchievements_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2779EC2315F3BE4100112CC7 /* CCAchievements_ios.mm */; };
@@ -577,6 +580,15 @@
 		1D3623250D0F684500981E51 /* testsAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = testsAppDelegate.mm; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		273E9C2D15FCA115005AB501 /* CCLeaderboardDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLeaderboardDelegate.h; sourceTree = "<group>"; };
+		273E9C2E15FCA115005AB501 /* CCLeaderboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLeaderboard.h; sourceTree = "<group>"; };
+		273E9C3015FCA1B3005AB501 /* CCLeaderboard_platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLeaderboard_platform.h; sourceTree = "<group>"; };
+		273E9C3115FCA1F2005AB501 /* LeaderboardDelegateWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LeaderboardDelegateWrapper.mm; sourceTree = "<group>"; };
+		273E9C3215FCA1F2005AB501 /* LeaderboardDelegateWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderboardDelegateWrapper.h; sourceTree = "<group>"; };
+		273E9C3315FCA1F2005AB501 /* CCLeaderboard_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCLeaderboard_ios.mm; sourceTree = "<group>"; };
+		273E9C3415FCA1F2005AB501 /* CCLeaderboard_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLeaderboard_ios.h; sourceTree = "<group>"; };
+		273E9C3815FCA2C8005AB501 /* LeaderboardTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LeaderboardTest.cpp; sourceTree = "<group>"; };
+		273E9C3915FCA2C8005AB501 /* LeaderboardTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderboardTest.h; sourceTree = "<group>"; };
 		276270E815D1D47C00106D77 /* CCSlider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSlider.cpp; sourceTree = "<group>"; };
 		276270EA15D1D50D00106D77 /* CCSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSlider.h; sourceTree = "<group>"; };
 		2779EC2015F3BE4100112CC7 /* AchievementsDelegateWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AchievementsDelegateWrapper.h; sourceTree = "<group>"; };
@@ -1308,6 +1320,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		273E9C3715FCA2C8005AB501 /* LeaderboardTest */ = {
+			isa = PBXGroup;
+			children = (
+				273E9C3815FCA2C8005AB501 /* LeaderboardTest.cpp */,
+				273E9C3915FCA2C8005AB501 /* LeaderboardTest.h */,
+			);
+			path = LeaderboardTest;
+			sourceTree = "<group>";
+		};
 		2779EC2A15F3C08700112CC7 /* AchievementsTest */ = {
 			isa = PBXGroup;
 			children = (
@@ -1893,6 +1914,7 @@
 				BF31E18B12E979A100D4F513 /* KeypadTest */,
 				BF137F45131E3A7B000F7B64 /* LabelTest */,
 				BF31E18E12E979A100D4F513 /* LayerTest */,
+				273E9C3715FCA2C8005AB501 /* LeaderboardTest */,
 				BF31E19112E979A100D4F513 /* MenuTest */,
 				BF31E19412E979A100D4F513 /* MotionStreakTest */,
 				BF31E19712E979A100D4F513 /* ParallaxTest */,
@@ -2380,8 +2402,6 @@
 		BF8358AE13276C7700F3C033 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				2779EC2915F3C00100112CC7 /* CCAchievementsDelegate.h */,
-				276270EA15D1D50D00106D77 /* CCSlider.h */,
 				27CF4B26158BB1CE00C58900 /* CCScrollMenu.h */,
 				BF1C5C2813EBF83F0076BDF6 /* CCTouchHandler.h */,
 				D40EB54413D01DAE00BB8B5E /* CCTexturePVR.h */,
@@ -2391,9 +2411,10 @@
 				BF2CE35C13666BD0006DCA18 /* CCTextFieldTTF.h */,
 				BF2CE34013666B01006DCA18 /* CCIMEDelegate.h */,
 				BF2CE34113666B01006DCA18 /* CCIMEDispatcher.h */,
-				BF8358AF13276C7700F3C033 /* CCAccelerometer.h */,
-				2779EC2815F3C00100112CC7 /* CCAchievements.h */,
 				BF8358B013276C7700F3C033 /* CCAccelerometerDelegate.h */,
+				BF8358AF13276C7700F3C033 /* CCAccelerometer.h */,
+				2779EC2915F3C00100112CC7 /* CCAchievementsDelegate.h */,
+				2779EC2815F3C00100112CC7 /* CCAchievements.h */,
 				BF8358B113276C7700F3C033 /* CCAction.h */,
 				BF8358B213276C7700F3C033 /* CCActionCamera.h */,
 				BF8358B313276C7700F3C033 /* CCActionEase.h */,
@@ -2425,6 +2446,8 @@
 				BF8358D113276C7700F3C033 /* CCLabelBMFont.h */,
 				BF8358D213276C7700F3C033 /* CCLabelTTF.h */,
 				BF8358D313276C7700F3C033 /* CCLayer.h */,
+				273E9C2D15FCA115005AB501 /* CCLeaderboardDelegate.h */,
+				273E9C2E15FCA115005AB501 /* CCLeaderboard.h */,
 				BF8358D413276C7700F3C033 /* ccMacros.h */,
 				BF8358D513276C7700F3C033 /* CCMenu.h */,
 				BF8358D613276C7700F3C033 /* CCMenuItem.h */,
@@ -2446,6 +2469,7 @@
 				BF8358E813276C7700F3C033 /* CCScene.h */,
 				BF8358E913276C7700F3C033 /* CCScheduler.h */,
 				BF8358EA13276C7700F3C033 /* CCSet.h */,
+				276270EA15D1D50D00106D77 /* CCSlider.h */,
 				BF8358EB13276C7700F3C033 /* CCSprite.h */,
 				BF8358EC13276C7700F3C033 /* CCSpriteBatchNode.h */,
 				BF8358ED13276C7700F3C033 /* CCSpriteFrame.h */,
@@ -2553,6 +2577,7 @@
 				BF83593113276C7700F3C033 /* CCGL.cpp */,
 				BF83593213276C7700F3C033 /* CCGL.h */,
 				BF83593513276C7700F3C033 /* CCImage.h */,
+				273E9C3015FCA1B3005AB501 /* CCLeaderboard_platform.h */,
 				BF83593713276C7700F3C033 /* CCLibxml2.h */,
 				BF83593E13276C7700F3C033 /* CCPlatformConfig.h */,
 				BF83593F13276C7700F3C033 /* CCPlatformMacros.h */,
@@ -2589,6 +2614,10 @@
 				BF83594F13276C7700F3C033 /* CCEGLView_ios.mm */,
 				BF83595113276C7700F3C033 /* CCFileUtils_ios.mm */,
 				BF83595213276C7700F3C033 /* CCImage_ios.mm */,
+				273E9C3315FCA1F2005AB501 /* CCLeaderboard_ios.mm */,
+				273E9C3415FCA1F2005AB501 /* CCLeaderboard_ios.h */,
+				273E9C3115FCA1F2005AB501 /* LeaderboardDelegateWrapper.mm */,
+				273E9C3215FCA1F2005AB501 /* LeaderboardDelegateWrapper.h */,
 				BF83595313276C7700F3C033 /* CCLock.cpp */,
 				BF83595413276C7700F3C033 /* CCLock.h */,
 				BF83595613276C7700F3C033 /* EAGLView.h */,
@@ -3224,6 +3253,9 @@
 				2779EC2415F3BE4100112CC7 /* AchievementsDelegateWrapper.mm in Sources */,
 				2779EC2515F3BE4100112CC7 /* CCAchievements_ios.mm in Sources */,
 				2779EC2D15F3C08700112CC7 /* AchievementsTest.cpp in Sources */,
+				273E9C3515FCA1F2005AB501 /* LeaderboardDelegateWrapper.mm in Sources */,
+				273E9C3615FCA1F2005AB501 /* CCLeaderboard_ios.mm in Sources */,
+				273E9C3A15FCA2C8005AB501 /* LeaderboardTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

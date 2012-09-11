@@ -29,6 +29,7 @@ THE SOFTWARE.
 #include "CCTouchDispatcher.h"
 #include "CCKeypadDispatcher.h"
 #include "CCAccelerometer.h"
+#include "CCAchievements.h"
 #include "CCDirector.h"
 #include "CCPointExtension.h"
 #include "CCScriptSupport.h"
@@ -204,6 +205,33 @@ void CCLayer::setIsKeypadEnabled(bool enabled)
             else
             {
                 CCKeypadDispatcher::sharedDispatcher()->removeDelegate(this);
+            }
+        }
+    }
+}
+
+    
+/// HasAchievements getter
+bool CCLayer::getAreAchievementsEnabled()
+{
+    return m_bAreAchievementsEnabled;
+}
+/// isKeypadEnabled setter
+void CCLayer::setAreAchievementsEnabled(bool enabled)
+{
+    if (enabled != m_bAreAchievementsEnabled)
+    {
+        m_bAreAchievementsEnabled = enabled;
+
+        if (m_bIsRunning)
+        {
+            if (enabled)
+            {
+                CCAchievements::sharedAchievements()->setDelegate(this);
+            }
+            else
+            {
+                CCAchievements::sharedAchievements()->setDelegate(NULL);
             }
         }
     }

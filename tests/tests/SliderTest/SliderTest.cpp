@@ -173,8 +173,6 @@ Slider1::Slider1()
 }
 void Slider1::sliderCallback(CCObject* sender){
     CCLog("sliderCallback(sender=%d)", sender);
-    CCSlider *slider = static_cast<CCSlider *>(sender);
-    CCLog("sliderCallback(sender=%d) w/ Value=%f", sender, slider->getValue());
 }
 
 

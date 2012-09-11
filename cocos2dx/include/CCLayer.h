@@ -31,6 +31,7 @@ THE SOFTWARE.
 #include "CCProtocols.h"
 #include "CCTouchDelegateProtocol.h"
 #include "CCAccelerometerDelegate.h"
+#include "CCAchievementsDelegate.h"
 #include "CCKeypadDelegate.h"
 #include "CCMutableArray.h"
 
@@ -47,7 +48,7 @@ All features from CCNode are valid, plus the following new features:
 - It can receive iPhone Touches
 - It can receive Accelerometer input
 */
-class CC_DLL CCLayer : public CCNode, public CCTouchDelegate, public CCAccelerometerDelegate, public CCKeypadDelegate
+class CC_DLL CCLayer : public CCNode, public CCTouchDelegate, public CCAccelerometerDelegate, public CCKeypadDelegate, public CCAchievementsDelegate
 {
 public:
 	CCLayer();
@@ -73,6 +74,14 @@ public:
 	
     virtual void didAccelerate(CCAcceleration* pAccelerationValue) {CC_UNUSED_PARAM(pAccelerationValue);}
 
+    // functions needed for CCAchievementsDelegate
+    virtual void onLocalPlayerAuthenticationChanged() {CCLOG("Implement onLocalPlayerAuthenticationChanged");}
+    virtual void onAchievementReported() {CCLOG("Implement onAchievementReported");}//GKAchievement *acheivement);
+    virtual void onAchievementsLoaded() {CCLOG("Implement onAchievementsLoaded");}//NSDictionary *achievements);
+    virtual void onResetAchievements(bool success) {CCLOG("Implement onResetAchievements");}
+    virtual void onAchievementsViewDismissed() {CCLOG("Implement onAchievementsViewDismissed");}
+
+    
 	/** If isTouchEnabled, this method is called onEnter. Override it to change the
 	way CCLayer receives touch events.
 	( Default: CCTouchDispatcher::sharedDispatcher()->addStandardDelegate(this,0); )
@@ -106,6 +115,12 @@ public:
     it's new in cocos2d-x
     */
     CC_PROPERTY(bool, m_bIsKeypadEnabled, IsKeypadEnabled)
+    /** whether or not it will receive Acheivement events
+     You can enable / disable acheivement events with this property.
+     @since v0.12.0
+     */
+	CC_PROPERTY(bool, m_bAreAchievementsEnabled, AreAchievementsEnabled)
+
     
 private:
     // Script touch events handler

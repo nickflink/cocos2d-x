@@ -72,7 +72,7 @@ static LeaderboardDispatcher* s_pLeaderboardDispatcher;
         
         isGameCenterAvailable = (isLocalPlayerAvailable && isOSVer41);
         NSLog(@"GameCenter available = %@", isGameCenterAvailable ? @"YES" : @"NO");
-
+        delegate_ = nil;
         [self registerForLocalPlayerAuthChange];
         [self authenticateLocalPlayer];
 
@@ -161,8 +161,8 @@ static LeaderboardDispatcher* s_pLeaderboardDispatcher;
 
 -(void) onLocalPlayerAuthenticationChanged
 {
-    //GKLocalPlayer* localPlayer = [GKLocalPlayer localPlayer];
-    CCLOG("LocalPlayer isAuthenticated changed to: %@", localPlayer.authenticated ? @"YES" : @"NO");
+    GKLocalPlayer* localPlayer = [GKLocalPlayer localPlayer];
+    CCLOG("LocalPlayer isAuthenticated changed to: %s", localPlayer.authenticated ? "YES" : "NO");
     if(delegate_) delegate_->onLocalPlayerAuthenticationChanged();
 }
 

@@ -42,7 +42,6 @@
 {
 	//id<AchievementsDelegateProtocol> delegate;
 	//cocos2d::CCAchievementsDelegate *delegate_;
-	//id<GameKitHelperProtocol> delegate;
 	bool isGameCenterAvailable;
 	NSError* lastError;
 	
@@ -50,7 +49,6 @@
 	NSMutableDictionary* cachedAchievements;
 }
 
-//@property (nonatomic, retain) id<GameKitHelperProtocol> delegate;
 @property (readwrite) cocos2d::CCAchievementsDelegate *delegate_;
 @property (nonatomic, readonly) bool isGameCenterAvailable;
 @property (nonatomic, readonly) NSError* lastError;

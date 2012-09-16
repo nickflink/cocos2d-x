@@ -177,7 +177,7 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
 -(void) onLocalPlayerAuthenticationChanged
 {
     GKLocalPlayer* localPlayer = [GKLocalPlayer localPlayer];
-	CCLOG("LocalPlayer isAuthenticated changed to: %@", localPlayer.authenticated ? @"YES" : @"NO");
+	CCLOG("LocalPlayer isAuthenticated changed to: %s", localPlayer.authenticated ? "YES" : "NO");
 	
 	if (localPlayer.authenticated)
 	{

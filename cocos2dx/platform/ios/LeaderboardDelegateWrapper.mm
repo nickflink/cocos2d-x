@@ -161,8 +161,7 @@ static LeaderboardDispatcher* s_pLeaderboardDispatcher;
 
 -(void) onLocalPlayerAuthenticationChanged
 {
-    GKLocalPlayer* localPlayer = [GKLocalPlayer localPlayer];
-    CCLOG("LocalPlayer isAuthenticated changed to: %s", localPlayer.authenticated ? "YES" : "NO");
+    CCLOG("LocalPlayer isAuthenticated changed to: %s", [GKLocalPlayer localPlayer].authenticated ? "YES" : "NO");
     if(delegate_) delegate_->onLocalPlayerAuthenticationChanged();
 }
 

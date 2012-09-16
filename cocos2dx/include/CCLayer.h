@@ -123,8 +123,8 @@ public:
      */
 	CC_PROPERTY(bool, m_bAreAchievementsEnabled, AreAchievementsEnabled)
     
-    /** whether or not it will receive Acheivement events
-     You can enable / disable acheivement events with this property.
+    /** whether or not it will receive Leaderboard events
+     You can enable / disable leaderboard events with this property.
      @since v0.12.0
      */
 	CC_PROPERTY(bool, m_bIsLeaderboardEnabled, IsLeaderboardEnabled)

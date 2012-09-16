@@ -89,6 +89,11 @@ void TextureCacheTest::addSprite()
 	CCSprite *s18 = CCSprite::spriteWithFile("Images/background3.png");
 	CCSprite *s19 = CCSprite::spriteWithFile("Images/blocks.png");
 
+    CC_UNUSED_PARAM(s16);
+    CC_UNUSED_PARAM(s17);
+    CC_UNUSED_PARAM(s18);
+    CC_UNUSED_PARAM(s19);
+    
 	s1->setPosition(CCPointMake(50, 50));
 	s2->setPosition(CCPointMake(60, 50));
 	s3->setPosition(CCPointMake(70, 50));

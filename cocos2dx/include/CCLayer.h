@@ -77,10 +77,10 @@ public:
 
     // functions needed for CCAchievementsDelegate
     virtual void onLocalPlayerAuthenticationChanged() {CCLOG("Implement onLocalPlayerAuthenticationChanged");}
-    virtual void onAchievementReported() {CCLOG("Implement onAchievementReported");}//GKAchievement *acheivement);
-    virtual void onAchievementsLoaded() {CCLOG("Implement onAchievementsLoaded");}//NSDictionary *achievements);
-    virtual void onResetAchievements(bool success) {CCLOG("Implement onResetAchievements");}
-    virtual void onAchievementsViewDismissed() {CCLOG("Implement onAchievementsViewDismissed");}
+    virtual void onAchievementReported() {CCLOG("Implement CCLayer::onAchievementReported");}//GKAchievement *acheivement);
+    virtual void onAchievementsLoaded() {CCLOG("Implement CCLayer::onAchievementsLoaded");}//NSDictionary *achievements);
+    virtual void onResetAchievements(bool success) {CCLOG("Implement CCLayer::onResetAchievements");}
+    virtual void onAchievementsViewDismissed() {CCLOG("Implement CCLayer::onAchievementsViewDismissed");}
 
 
     

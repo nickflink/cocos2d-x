@@ -31,10 +31,12 @@ namespace cocos2d {
     
     CCAchievements::CCAchievements()
     {
+        return;
     }
     
     CCAchievements::~CCAchievements()
     {
+        return;
     }
     
     CCAchievements* CCAchievements::sharedAchievements()

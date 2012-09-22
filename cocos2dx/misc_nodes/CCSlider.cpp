@@ -114,19 +114,6 @@ namespace cocos2d
 		m_value = value;
 		float x = (m_value - m_minValue) / (m_maxValue - m_minValue) * m_width;
 		m_knob->setPosition(ccp(x - m_width * 0.5f, m_knob->getPosition().y));
-        
-		// do the callback
-		if (m_target) 
-		{
-			(m_target->*m_selector)(this);
-		}
-        // do the lua callback
-        if (m_nScriptHandler) 
-        {
-            CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
-            pEngine->executeFunctionWithFloatData(m_nScriptHandler, getValue());
-
-        }
 	}
     
 	bool CCSlider::ccTouchBegan(CCTouch* pTouch, CCEvent *pEvent)
@@ -247,17 +234,7 @@ namespace cocos2d
 		m_knob->setPosition(ccp(xpos, m_knob->getPosition().y));
 		m_value = (xpos + m_width * 0.5f) / m_width * (m_maxValue - m_minValue) + m_minValue;
 		// do callback
-		if (m_target) 
-		{
-			(m_target->*m_selector)(this);
-		}
-        // do the lua callback
-        if (m_nScriptHandler) 
-        {
-            CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
-            pEngine->executeFunctionWithFloatData(m_nScriptHandler, getValue());
-            
-        }
+        performCallback();
 	}
     
 	bool CCSlider::knobTouched(const CCPoint& point)
@@ -325,4 +302,17 @@ namespace cocos2d
 		return m_tColor;
 	}
     
+    void CCSlider::performCallback()
+    {
+        if (m_target)
+		{
+			(m_target->*m_selector)(this);
+		}
+        // do the lua callback
+        if (m_nScriptHandler)
+        {
+            CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
+            pEngine->executeFunctionWithFloatData(m_nScriptHandler, getValue());
+        }
+    }
 }

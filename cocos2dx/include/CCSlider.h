@@ -83,6 +83,9 @@ namespace cocos2d
 		void setValueByX(float xpos);
 		// check if knob is touched
 		bool knobTouched(const CCPoint& point);
+        // notify listeners
+        void performCallback();
+
 	protected:
 		float m_minValue; //< min value
 		float m_maxValue; //< max value

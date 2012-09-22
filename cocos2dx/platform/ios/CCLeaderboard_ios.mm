@@ -67,8 +67,17 @@ namespace cocos2d {
     void CCLeaderboard::onResetLeaderboard(bool success){
         return;
     }*/
-    void CCLeaderboard::onLeaderboardViewDismissed(){
+    void CCLeaderboard::onLeaderboardViewDismissed()
+    {
         return;
+    }
+    void CCLeaderboard::submitScore(int64_t score, const char *category)
+    {
+        [[LeaderboardDispatcher sharedLeaderboardDispatcher] submitScore:score category:[NSString stringWithUTF8String:category]];
+    }
+    void CCLeaderboard::showLeaderboard()
+    {
+        [[LeaderboardDispatcher sharedLeaderboardDispatcher] showLeaderboard];
     }
 
 }

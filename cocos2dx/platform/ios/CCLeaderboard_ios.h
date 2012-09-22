@@ -39,13 +39,16 @@ public:
 
     void setDelegate(CCLeaderboardDelegate* pDelegate);
     
-    void onLocalPlayerAuthenticationChanged();
+    virtual void onLocalPlayerAuthenticationChanged();
 //    void onLeaderboardReported(/*GKLeaderboard *acheivement*/);
 //    void onLeaderboardLoaded(/*NSDictionary *leaderboard*/);
 //    void onResetLeaderboard(bool success);
 //    void onScoresSubmitted(bool success) {CCLOG("onScoresSubmitted: %s", success ? "YES" : "NO");}
 
-    void onLeaderboardViewDismissed();
+    virtual void onLeaderboardViewDismissed();
+    virtual void submitScore(int64_t score, const char *category);
+    virtual void showLeaderboard();
+
 
     
 private:

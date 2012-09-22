@@ -71,6 +71,8 @@ platform/CCCommon.cpp \
 platform/platform.cpp \
 platform/android/CCEGLView_android.cpp \
 platform/android/CCAccelerometer_android.cpp \
+platform/android/CCAchievements_android.cpp \
+platform/android/CCLeaderboard_android.cpp \
 platform/android/CCApplication_android.cpp \
 platform/android/jni/JniHelper.cpp \
 platform/android/jni/IMEJni.cpp \
@@ -206,6 +208,8 @@ platform/CCCommon.cpp \
 platform/platform.cpp \
 platform/android/CCEGLView_android.cpp \
 platform/android/CCAccelerometer_android.cpp \
+platform/android/CCAchievements_android.cpp \
+platform/android/CCLeaderboard_android.cpp \
 platform/android/CCApplication_android.cpp \
 platform/android/jni/JniHelper.cpp \
 platform/android/jni/IMEJni.cpp \

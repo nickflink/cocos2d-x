@@ -53,21 +53,54 @@ namespace cocos2d {
         [[AchievementsDispatcher sharedAchievementsDispather] addDelegate:pDelegate];
     }
     
-    void CCAchievements::onLocalPlayerAuthenticationChanged(){
+    void CCAchievements::onLocalPlayerAuthenticationChanged()
+    {
         return;
     }
-    void CCAchievements::onAchievementReported(/*GKAchievement *acheivement*/){
+    void CCAchievements::onAchievementReported(/*GKAchievement *acheivement*/)
+    {
         return;
     }
-    void CCAchievements::onAchievementsLoaded(/*NSDictionary *achievements*/){
+    void CCAchievements::onAchievementsLoaded(/*NSDictionary *achievements*/)
+    {
         return;
     }
-    void CCAchievements::onResetAchievements(bool success){
+    void CCAchievements::onResetAchievements(bool success)
+    {
         return;
     }
-    void CCAchievements::onAchievementsViewDismissed(){
+    void CCAchievements::onAchievementsViewDismissed()
+    {
         return;
     }
-
+    bool CCAchievements::isCompleted(const char *achievementName) const
+    {
+        AchievementsDispatcher *ad = [AchievementsDispatcher sharedAchievementsDispather];
+        NSString *achievementId = [NSString stringWithUTF8String:achievementName];
+        GKAchievement* achievement = [ad getAchievementByID:achievementId];
+        return achievement.completed;
+    }
+    float CCAchievements::getPercentComplete(const char *achievementName) const
+    {
+        AchievementsDispatcher *ad = [AchievementsDispatcher sharedAchievementsDispather];
+        NSString *achievementId = [NSString stringWithUTF8String:achievementName];
+        GKAchievement* achievement = [ad getAchievementByID:achievementId];
+        return achievement.percentComplete;
+    }
+    void CCAchievements::updateAchievementPercentage(const char *achievementName, float percent)
+    {
+        AchievementsDispatcher *ad = [AchievementsDispatcher sharedAchievementsDispather];
+        NSString *achievementId = [NSString stringWithUTF8String:achievementName];
+        [ad reportAchievementWithID:achievementId percentComplete:percent];
+        return;
+    }
+    void  CCAchievements::resetAchievements()
+    {
+        [[AchievementsDispatcher sharedAchievementsDispather] resetAchievements];
+    }
+    void  CCAchievements::showAchievements()
+    {
+        [[AchievementsDispatcher sharedAchievementsDispather] showAchievements];
+    }
 }
 

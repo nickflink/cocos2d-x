@@ -24,6 +24,7 @@
 
 #import "AchievementsDelegateWrapper.h"
 
+
 static NSString* kCachedAchievementsFile = @"CachedAchievements.archive";
 
 @interface AchievementsDispatcher (Private)
@@ -275,7 +276,7 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
         [self cacheAchievement:achievement];
       }
       
-      //[delegate onAchievementReported:achievement];
+      if(delegate_) delegate_->onAchievementReported();//[identifier UTF8String]);//:achievement];
     }];
   }
 }

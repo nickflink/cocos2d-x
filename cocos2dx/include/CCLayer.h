@@ -76,7 +76,7 @@ public:
     virtual void didAccelerate(CCAcceleration* pAccelerationValue) {CC_UNUSED_PARAM(pAccelerationValue);}
 
     // functions needed for CCAchievementsDelegate
-    virtual void onLocalPlayerAuthenticationChanged() {CCLOG("Implement onLocalPlayerAuthenticationChanged");}
+    virtual void onLocalPlayerAuthenticationChanged() {CCLOG("Implement CCLayer::onLocalPlayerAuthenticationChanged");}
     virtual void onAchievementReported() {CCLOG("Implement CCLayer::onAchievementReported");}//GKAchievement *acheivement);
     virtual void onAchievementsLoaded() {CCLOG("Implement CCLayer::onAchievementsLoaded");}//NSDictionary *achievements);
     virtual void onResetAchievements(bool success) {CCLOG("Implement CCLayer::onResetAchievements");}

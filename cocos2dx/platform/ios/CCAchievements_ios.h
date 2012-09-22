@@ -37,12 +37,19 @@ public:
 
     static CCAchievements* sharedAchievements();
 
-    void setDelegate(CCAchievementsDelegate* pDelegate);
-    void onLocalPlayerAuthenticationChanged();
-    void onAchievementReported(/*GKAchievement *acheivement*/);
-    void onAchievementsLoaded(/*NSDictionary *achievements*/);
-    void onResetAchievements(bool success);
-    void onAchievementsViewDismissed();
+    void  setDelegate(CCAchievementsDelegate* pDelegate);
+    void  onLocalPlayerAuthenticationChanged();
+    void  onAchievementReported(/*GKAchievement *acheivement*/);
+    void  onAchievementsLoaded(/*NSDictionary *achievements*/);
+    void  onResetAchievements(bool success);
+    void  onAchievementsViewDismissed();
+    bool  isCompleted(const char *achievementName) const;
+    float getPercentComplete(const char *achievementName) const;
+    void  updateAchievementPercentage(const char *achievementName, float percent);
+    void  resetAchievements();
+    void  showAchievements();
+
+
 
 private:
     static CCAchievements* m_spUIAchievements;

@@ -56,17 +56,26 @@
 
 + (id) sharedAchievementsDispather;
 - (id) init;
+- (void) dealloc;
 - (void) addDelegate: (cocos2d::CCAchievementsDelegate *) delegate;
-- (void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController;
+- (void) setLastError:(NSError*)error;
+- (void) authenticateLocalPlayer;
 - (void) onLocalPlayerAuthenticationChanged;
+- (void) registerForLocalPlayerAuthChange;
+- (void) loadAchievements;
+- (GKAchievement*) getAchievementByID:(NSString*)identifier;
+- (void) reportAchievementWithID:(NSString*)identifier percentComplete:(float)percent;
 - (void) resetAchievements;
-- (void) saveCachedAchievements;
 - (void) reportCachedAchievements;
-
-/*- (void) onAchievementReported:(GKAchievement*)achievement;
-- (void) onAchievementsLoaded:(NSDictionary*)achievements;
-- (void) onResetAchievements:(bool)success;
-- (void) onAchievementsViewDismissed;*/
+- (void) initCachedAchievements;
+- (void) saveCachedAchievements;
+- (void) cacheAchievement:(GKAchievement*)achievement;
+- (void) uncacheAchievement:(GKAchievement*)achievement;
+- (UIViewController*) getRootViewController;
+- (void) presentViewController:(UIViewController*)vc;
+- (void) dismissModalViewController;
+- (void) showAchievements;
+- (void) achievementViewControllerDidFinish:(GKAchievementViewController*)viewController;
 
 
 @end

@@ -25,7 +25,7 @@ THE SOFTWARE.
 #ifndef __PLATFORM_IPHONE_CCACHIEVEMENTS_H__
 #define __PLATFORM_IPHONE_CCACHIEVEMENTS_H__
 
-#include "CCAchievementsDelegate.h"
+/*#include "CCAchievementsDelegate.h"
 
 namespace   cocos2d {
 
@@ -39,8 +39,8 @@ public:
 
     void  setDelegate(CCAchievementsDelegate* pDelegate);
     void  onLocalPlayerAuthenticationChanged();
-    void  onAchievementReported(/*GKAchievement *acheivement*/);
-    void  onAchievementsLoaded(/*NSDictionary *achievements*/);
+    void  onAchievementReported();//GKAchievement *acheivement);
+    void  onAchievementsLoaded();//NSDictionary *achievements);
     void  onResetAchievements(bool success);
     void  onAchievementsViewDismissed();
     bool  isCompleted(const char *achievementName) const;
@@ -55,6 +55,6 @@ private:
     static CCAchievements* m_spUIAchievements;
 };
 
-}//namespace   cocos2d 
+}//namespace   cocos2d */
 
 #endif

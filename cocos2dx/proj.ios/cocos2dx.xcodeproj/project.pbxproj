@@ -1598,6 +1598,7 @@
 					"\"$(SRCROOT)/../kazmath/include\"",
 					"\"$(SDKROOT)/usr/include/libxml2\"",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1621,6 +1622,7 @@
 					"\"$(SRCROOT)/../kazmath/include\"",
 					"\"$(SDKROOT)/usr/include/libxml2\"",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

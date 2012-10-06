@@ -24,30 +24,18 @@ THE SOFTWARE.
 
 #ifndef __CCLEADERBOARD_DELEGATE_H__
 #define __CCLEADERBOARD_DELEGATE_H__
-
+/*
 #include "CCCommon.h"
 
-/*
- @protocol LeaderboardDispatcherProtocol
- 
- -(void) onLocalPlayerAuthenticationChanged;
- -(void) onLeaderboardReported:(GKLeaderboard*)leaderboard;
- -(void) onLeaderboardLoaded:(NSDictionary*)leaderboard;
- -(void) onResetLeaderboard:(bool)success;
- -(void) onLeaderboardViewDismissed;
- 
- @end
-
- */
 
 namespace   cocos2d {
 class CCArray;
 
-/**
-@brief 
-The CCLeaderboardDelegate defines a single method for
-receiving acceleration-related data from the system.
-*/
+///
+///@brief 
+///The CCLeaderboardDelegate defines a single method for
+///receiving acceleration-related data from the system.
+
 class CC_DLL CCLeaderboardDelegate
 {
 public:
@@ -63,6 +51,6 @@ public:
 
 };
 
-} //namespace   cocos2d 
+} //namespace   cocos2d */
 
 #endif

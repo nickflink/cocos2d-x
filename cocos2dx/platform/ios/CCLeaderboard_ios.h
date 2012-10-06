@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 #ifndef __PLATFORM_IPHONE_CCLEADERBOARD_H__
 #define __PLATFORM_IPHONE_CCLEADERBOARD_H__
-
+/*
 #include "CCLeaderboardDelegate.h"
 
 namespace   cocos2d {
@@ -40,10 +40,6 @@ public:
     void setDelegate(CCLeaderboardDelegate* pDelegate);
     
     virtual void onLocalPlayerAuthenticationChanged();
-//    void onLeaderboardReported(/*GKLeaderboard *acheivement*/);
-//    void onLeaderboardLoaded(/*NSDictionary *leaderboard*/);
-//    void onResetLeaderboard(bool success);
-//    void onScoresSubmitted(bool success) {CCLOG("onScoresSubmitted: %s", success ? "YES" : "NO");}
 
     virtual void onLeaderboardViewDismissed();
     virtual void submitScore(int64_t score, const char *category);
@@ -56,5 +52,5 @@ private:
 };
 
 }//namespace   cocos2d 
-
+*/
 #endif

@@ -65,7 +65,7 @@ public:
     @deprecated: This interface will be deprecated sooner or later.
     */
     CC_DEPRECATED_ATTRIBUTE static CCLabelTTF * labelWithString(const char *string, const CCSize& dimensions, CCTextAlignment hAlignment, CCVerticalTextAlignment vAlignment, const char *fontName, float fontSize);
-    
+
     /** creates a CCLabelTTF with a font name and font size in points
      @since v2.0.1
      */

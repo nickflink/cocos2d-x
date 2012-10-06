@@ -25,29 +25,18 @@ THE SOFTWARE.
 #ifndef __CCACHIEVEMENTS_DELEGATE_H__
 #define __CCACHIEVEMENTS_DELEGATE_H__
 
-#include "CCCommon.h"
+/*#include "CCCommon.h"
 
-/*
- @protocol AchievementsDispatcherProtocol
- 
- -(void) onLocalPlayerAuthenticationChanged;
- -(void) onAchievementReported:(GKAchievement*)achievement;
- -(void) onAchievementsLoaded:(NSDictionary*)achievements;
- -(void) onResetAchievements:(bool)success;
- -(void) onAchievementsViewDismissed;
- 
- @end
 
- */
 
 namespace   cocos2d {
 
 
-/**
-@brief 
-The CCAchievementsDelegate defines a single method for
-receiving acceleration-related data from the system.
-*/
+///
+///@brief 
+///The CCAchievementsDelegate defines a single method for
+///receiving acceleration-related data from the system.
+
 class CC_DLL CCAchievementsDelegate
 {
 public:
@@ -61,6 +50,6 @@ public:
 
 };
 
-} //namespace   cocos2d 
+} //namespace   cocos2d*/
 
 #endif

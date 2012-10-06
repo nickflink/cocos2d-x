@@ -1,0 +1,15 @@
+class CCScrollMenu : public CCLayer
+{
+    ccColor3B getColor(void);
+    void setColor(ccColor3B color);
+    GLubyte getOpacity(void);
+    void setOpacity(GLubyte opacity);
+
+    void addChild(CCNode * child, int zOrder, int tag);
+    void setIsOpacityModifyRGB(bool bValue);
+    bool getIsOpacityModifyRGB(void);
+    void startScrollingUp(void);
+
+    static CCScrollMenu* node();
+    static CCScrollMenu* scrollMenuWithItem(CCMenuItem* item);
+};

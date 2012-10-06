@@ -4,3 +4,18 @@
 [submodule "scripting/javascript/bindings/generated"]
 	path = scripting/javascript/bindings/generated
 	url = git://github.com/folecr/cocos2dx-autogen-bindings.git
+[submodule "cocos2dx/platform/third_party/android/source/libjpeg"]
+	path = cocos2dx/platform/third_party/android/source/libjpeg
+	url = git://github.com/folecr/jpeg8d.git
+[submodule "cocos2dx/platform/third_party/android/source/libpng"]
+	path = cocos2dx/platform/third_party/android/source/libpng
+	url = git://github.com/folecr/platform_external_libpng.git
+[submodule "cocos2dx/platform/third_party/android/source/libxml2"]
+	path = cocos2dx/platform/third_party/android/source/libxml2
+	url = git://github.com/folecr/platform_external_libxml2.git
+[submodule "FlipTag"]
+	path = FlipTag
+	url = ssh://gogododo.com//var/git/FlipTag
+[submodule "cocos2d-x-extensions"]
+	path = cocos2d-x-extensions
+	url = https://github.com/nickflink/cocos2d-x-extensions.git

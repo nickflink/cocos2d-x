@@ -1,0 +1,33 @@
+class CCSlider : public CCLayer
+{
+    ccColor3B getColor(void);
+    void setColor(ccColor3B color);
+    GLubyte getOpacity(void);
+    void setOpacity(GLubyte opacity);
+
+    void setIsOpacityModifyRGB(bool bValue);
+    bool getIsOpacityModifyRGB(void);
+
+    void registerScriptSlideHandler(LUA_FUNCTION nHandler);
+    void unregisterScriptSlideHandler(void);
+    
+    static CCSlider* node();
+    static CCSlider* slider(char* trackFile, char* knobFile);
+
+    float   getMinValue();
+    void    setMinValue(float minValue);
+    float   getMaxValue();
+    void    setMaxValue(float maxValue);
+    bool    getTrackTouchOutsideContent();
+    void    setTrackTouchOutsideContent(bool track);
+    float   getHeight();
+    void    setHeight(float height);
+    bool    getEvaluateFirstTouch();
+    void    setEvaluateFirstTouch(bool eval);
+    bool    getEnabled();
+    void    setEnabled(bool enabled);
+	float   getHorizontalPadding();
+	void    setHorizontalPadding(float padding);
+	float   getValue();
+	void    setValue(float value);
+};

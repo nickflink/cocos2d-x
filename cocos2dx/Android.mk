@@ -134,7 +134,11 @@ touch_dispatcher/CCTouch.cpp
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/include \
                     $(LOCAL_PATH)/kazmath/include \
-                    $(LOCAL_PATH)/platform/android
+                    $(LOCAL_PATH)/platform/android \
+                    $(LOCAL_PATH)/platform/third_party/android/source/libpng \
+                    $(LOCAL_PATH)/platform/third_party/android/source/libjpeg \
+                    $(LOCAL_PATH)/platform/third_party/android/prebuilt/libtiff/include \
+                    $(LOCAL_PATH)/platform/third_party/android/prebuilt/libcurl/include \
 
 
 LOCAL_EXPORT_LDLIBS := -llog\
@@ -147,12 +151,13 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/platform/android \
                     $(LOCAL_PATH)/platform/third_party/android/source/libpng \
                     $(LOCAL_PATH)/platform/third_party/android/source/libjpeg \
-                    $(LOCAL_PATH)/platform/third_party/android/prebuilt/libtiff/include
+                    $(LOCAL_PATH)/platform/third_party/android/prebuilt/libtiff/include \
+                    $(LOCAL_PATH)/platform/third_party/android/prebuilt/libcurl/include \
 
 LOCAL_LDLIBS := -lGLESv2 \
                 -lEGL \
                 -llog \
-                -lz 
+                -lz \
 
 LOCAL_WHOLE_STATIC_LIBRARIES := cocos_libpng_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_jpeg_static

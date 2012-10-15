@@ -294,6 +294,13 @@
 		1551A872158F2ADF00E66CFE /* CCTouchHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 1551A627158F2ADE00E66CFE /* CCTouchHandler.h */; };
 		1551A874158F2B4700E66CFE /* cocos2dx-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 1551A873158F2B4700E66CFE /* cocos2dx-Prefix.pch */; };
 		2628297A15EC7064002C4240 /* ccTypeInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2628297915EC7064002C4240 /* ccTypeInfo.h */; };
+		278A6320162B30E800D6DFFB /* CCAchievementDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 278A631F162B30E800D6DFFB /* CCAchievementDelegate.h */; };
+		278A6324162B326900D6DFFB /* CCAchievement.h in Headers */ = {isa = PBXBuildFile; fileRef = 278A6322162B326900D6DFFB /* CCAchievement.h */; };
+		278A6325162B326900D6DFFB /* CCAchievement.mm in Sources */ = {isa = PBXBuildFile; fileRef = 278A6323162B326900D6DFFB /* CCAchievement.mm */; };
+		278A6328162B331900D6DFFB /* AchievementDelegateWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 278A6326162B331900D6DFFB /* AchievementDelegateWrapper.mm */; };
+		278A6329162B331900D6DFFB /* AchievementDelegateWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 278A6327162B331900D6DFFB /* AchievementDelegateWrapper.h */; };
+		278A632E162B3B7300D6DFFB /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 278A632D162B3B7300D6DFFB /* GameKit.framework */; };
+		278A6401162B5A2400D6DFFB /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 278A6400162B5A2300D6DFFB /* libcurl.a */; };
 		D43F7F8A15C7D8BA00D713FC /* CCTouch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43F7F8915C7D8BA00D713FC /* CCTouch.cpp */; };
 /* End PBXBuildFile section */
 
@@ -588,6 +595,13 @@
 		1551A627158F2ADE00E66CFE /* CCTouchHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTouchHandler.h; sourceTree = "<group>"; };
 		1551A873158F2B4700E66CFE /* cocos2dx-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "cocos2dx-Prefix.pch"; sourceTree = "<group>"; };
 		2628297915EC7064002C4240 /* ccTypeInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccTypeInfo.h; sourceTree = "<group>"; };
+		278A631F162B30E800D6DFFB /* CCAchievementDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAchievementDelegate.h; sourceTree = "<group>"; };
+		278A6322162B326900D6DFFB /* CCAchievement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAchievement.h; sourceTree = "<group>"; };
+		278A6323162B326900D6DFFB /* CCAchievement.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCAchievement.mm; sourceTree = "<group>"; };
+		278A6326162B331900D6DFFB /* AchievementDelegateWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AchievementDelegateWrapper.mm; sourceTree = "<group>"; };
+		278A6327162B331900D6DFFB /* AchievementDelegateWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AchievementDelegateWrapper.h; sourceTree = "<group>"; };
+		278A632D162B3B7300D6DFFB /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		278A6400162B5A2300D6DFFB /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		D43F7F8915C7D8BA00D713FC /* CCTouch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTouch.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -596,7 +610,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				278A632E162B3B7300D6DFFB /* GameKit.framework in Frameworks */,
 				1551A343158F2AB200E66CFE /* Foundation.framework in Frameworks */,
+				278A6401162B5A2400D6DFFB /* libcurl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,6 +640,8 @@
 		1551A341158F2AB200E66CFE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				278A6400162B5A2300D6DFFB /* libcurl.a */,
+				278A632D162B3B7300D6DFFB /* GameKit.framework */,
 				1551A342158F2AB200E66CFE /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -925,6 +943,7 @@
 		1551A43F158F2ADE00E66CFE /* platform */ = {
 			isa = PBXGroup;
 			children = (
+				278A631F162B30E800D6DFFB /* CCAchievementDelegate.h */,
 				1551A46C158F2ADE00E66CFE /* CCAccelerometerDelegate.h */,
 				1551A46D158F2ADE00E66CFE /* CCApplicationProtocol.h */,
 				1551A46E158F2ADE00E66CFE /* CCCommon.h */,
@@ -947,6 +966,10 @@
 		1551A47B158F2ADE00E66CFE /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				278A6326162B331900D6DFFB /* AchievementDelegateWrapper.mm */,
+				278A6327162B331900D6DFFB /* AchievementDelegateWrapper.h */,
+				278A6322162B326900D6DFFB /* CCAchievement.h */,
+				278A6323162B326900D6DFFB /* CCAchievement.mm */,
 				1551A47C158F2ADE00E66CFE /* AccelerometerDelegateWrapper.h */,
 				1551A47D158F2ADE00E66CFE /* AccelerometerDelegateWrapper.mm */,
 				1551A47E158F2ADE00E66CFE /* CCAccelerometer.h */,
@@ -1350,6 +1373,9 @@
 				1551A874158F2B4700E66CFE /* cocos2dx-Prefix.pch in Headers */,
 				154269DD15B5653000712A7F /* CCNotificationCenter.h in Headers */,
 				2628297A15EC7064002C4240 /* ccTypeInfo.h in Headers */,
+				278A6320162B30E800D6DFFB /* CCAchievementDelegate.h in Headers */,
+				278A6324162B326900D6DFFB /* CCAchievement.h in Headers */,
+				278A6329162B331900D6DFFB /* AchievementDelegateWrapper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1529,6 +1555,8 @@
 				1551A871158F2ADF00E66CFE /* CCTouchHandler.cpp in Sources */,
 				154269DC15B5653000712A7F /* CCNotificationCenter.cpp in Sources */,
 				D43F7F8A15C7D8BA00D713FC /* CCTouch.cpp in Sources */,
+				278A6325162B326900D6DFFB /* CCAchievement.mm in Sources */,
+				278A6328162B331900D6DFFB /* AchievementDelegateWrapper.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1599,7 +1627,10 @@
 					"\"$(SDKROOT)/usr/include/libxml2\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../platform/third_party/ios/libraries\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1623,7 +1654,10 @@
 					"\"$(SDKROOT)/usr/include/libxml2\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../platform/third_party/ios/libraries\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

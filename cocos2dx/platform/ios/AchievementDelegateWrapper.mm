@@ -22,44 +22,44 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "AchievementsDelegateWrapper.h"
+#import "AchievementDelegateWrapper.h"
 
 
-static NSString* kCachedAchievementsFile = @"CachedAchievements.archive";
+static NSString* kCachedAchievementFile = @"CachedAchievement.archive";
 
-@interface AchievementsDispatcher (Private)
+@interface AchievementDispatcher (Private)
 -(void) authenticateLocalPlayer;
 -(void) registerForLocalPlayerAuthChange;
 //-(void) onLocalPlayerAuthenticationChanged;
 -(void) setLastError:(NSError*)error;
--(void) initCachedAchievements;
+-(void) initCachedAchievement;
 -(void) cacheAchievement:(GKAchievement*)achievement;
 -(void) uncacheAchievement:(GKAchievement*)achievement;
--(void) loadAchievements;
+-(void) loadAchievement;
 -(UIViewController*) getRootViewController;
 @end
 
 
 
-@implementation AchievementsDispatcher
+@implementation AchievementDispatcher
 
-static AchievementsDispatcher* s_pAchievementsDispatcher;
+static AchievementDispatcher* s_pAchievementDispatcher;
 
 #pragma mark Init & Dealloc
 @synthesize delegate_;
 @synthesize isGameCenterAvailable;
 @synthesize lastError;
-@synthesize achievements;
+@synthesize m_Achievements;
 
-//@synthesize achievements_;
+//@synthesize achievement_;
 
-+ (id) sharedAchievementsDispather
++ (id) sharedAchievementDispather
 {
-    if (s_pAchievementsDispatcher == nil) {
-        s_pAchievementsDispatcher = [[self alloc] init];
+    if (s_pAchievementDispatcher == nil) {
+        s_pAchievementDispatcher = [[self alloc] init];
     }
     
-    return s_pAchievementsDispatcher;
+    return s_pAchievementDispatcher;
 }
 
 - (id) init
@@ -79,7 +79,7 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
         NSLog(@"GameCenter available = %@", isGameCenterAvailable ? @"YES" : @"NO");
 
         [self registerForLocalPlayerAuthChange];
-        [self initCachedAchievements];
+        [self initCachedAchievement];
         [self authenticateLocalPlayer];
 
     }
@@ -93,28 +93,28 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
     
     [lastError release];
     
-    [self saveCachedAchievements];
-    [cachedAchievements release];
-    [achievements release];
+    [self saveCachedAchievement];
+    [cachedAchievement release];
+    [m_Achievements release];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    s_pAchievementsDispatcher = nil;
+    s_pAchievementDispatcher = nil;
     delegate_ = nil;
     [super dealloc];
 }
 
-- (void) addDelegate: (cocos2d::CCAchievementsDelegate *) delegate
+- (void) addDelegate: (cocos2d::CCAchievementDelegate *) delegate
 {
     delegate_ = delegate;
     /*This would cause an infinite loop
     if (delegate_)
     {
-        [[CCAchievements sharedAchievements] setDelegate:self];
+        [[CCAchievement sharedAchievement] setDelegate:self];
     }
     else 
     {
-        [[CCAchievements sharedAchievements] setDelegate:nil];
+        [[CCAchievement sharedAchievement] setDelegate:nil];
     }*/
 }
 
@@ -149,8 +149,8 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
       
       if (error == nil)
       {
-        [self reportCachedAchievements];
-        [self loadAchievements];
+        [self reportCachedAchievement];
+        [self loadAchievement];
       }
     }];
     
@@ -182,7 +182,7 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
 	
 	if (localPlayer.authenticated)
 	{
-		[self resetAchievements];
+		[self resetAchievement];
 	}	
     if(delegate_) delegate_->onLocalPlayerAuthenticationChanged();
 }
@@ -208,33 +208,33 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
 
 
 
-#pragma mark Achievements
+#pragma mark Achievement
 
--(void) loadAchievements
+-(void) loadAchievement
 {
   if (isGameCenterAvailable == NO)
     return;
 
-  [GKAchievement loadAchievementsWithCompletionHandler:^(NSArray* loadedAchievements, NSError* error)
+  [GKAchievement loadAchievementsWithCompletionHandler:^(NSArray* loadedAchievement, NSError* error)
   {
     [self setLastError:error];
      
-    if (achievements == nil)
+    if (m_Achievements == nil)
     {
-      achievements = [[NSMutableDictionary alloc] init];
+      m_Achievements = [[NSMutableDictionary alloc] init];
     }
     else
     {
-      [achievements removeAllObjects];
+      [m_Achievements removeAllObjects];
     }
 
-    for (GKAchievement* achievement in loadedAchievements)
+    for (GKAchievement* achievement in loadedAchievement)
     {
-      [achievements setObject:achievement forKey:achievement.identifier];
+      [m_Achievements setObject:achievement forKey:achievement.identifier];
     }
      
-    //[delegate_ onAchievementsLoaded:achievements];
-    if(delegate_) delegate_->onAchievementsLoaded();
+    //[delegate_ onAchievementLoaded:achievement];
+    if(delegate_) delegate_->onAchievementLoaded();
   }];
 }
 
@@ -244,13 +244,13 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
     return nil;
     
   // Try to get an existing achievement with this identifier
-  GKAchievement* achievement = [achievements objectForKey:identifier];
+  GKAchievement* achievement = [m_Achievements objectForKey:identifier];
   
   if (achievement == nil)
   {
     // Create a new achievement object
     achievement = [[[GKAchievement alloc] initWithIdentifier:identifier] autorelease];
-    [achievements setObject:achievement forKey:achievement.identifier];
+    [m_Achievements setObject:achievement forKey:achievement.identifier];
   }
   
   return [[achievement retain] autorelease];
@@ -281,33 +281,33 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
   }
 }
 
--(void) resetAchievements
+-(void) resetAchievement
 {
   if (isGameCenterAvailable == NO)
     return;
   
-  [achievements removeAllObjects];
-  [cachedAchievements removeAllObjects];
+  [m_Achievements removeAllObjects];
+  [cachedAchievement removeAllObjects];
   
   [GKAchievement resetAchievementsWithCompletionHandler:^(NSError* error)
   {
     [self setLastError:error];
     bool success = (error == nil);
-    //[[AchievementsDispatcher sharedAchievementsDispather] onResetAchievements:success];
-    if(delegate_) delegate_->onResetAchievements(success);
+    //[[AchievementDispatcher sharedAchievementDispather] onResetAchievement:success];
+    if(delegate_) delegate_->onResetAchievement(success);
 
   }];
 }
 
--(void) reportCachedAchievements
+-(void) reportCachedAchievement
 {
   if (isGameCenterAvailable == NO)
     return;
   
-  if ([cachedAchievements count] == 0)
+  if ([cachedAchievement count] == 0)
     return;
 
-  for (GKAchievement* achievement in [cachedAchievements allValues])
+  for (GKAchievement* achievement in [cachedAchievement allValues])
   {
     [achievement reportAchievementWithCompletionHandler:^(NSError* error)
     {
@@ -320,46 +320,46 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
   }
 }
 
--(void) initCachedAchievements
+-(void) initCachedAchievement
 {
-  NSString* file = [NSHomeDirectory() stringByAppendingPathComponent:kCachedAchievementsFile];
+  NSString* file = [NSHomeDirectory() stringByAppendingPathComponent:kCachedAchievementFile];
   id object = [NSKeyedUnarchiver unarchiveObjectWithFile:file];
   
   if ([object isKindOfClass:[NSMutableDictionary class]])
   {
-    NSMutableDictionary* loadedAchievements = (NSMutableDictionary*)object;
-    cachedAchievements = [[NSMutableDictionary alloc] initWithDictionary:loadedAchievements];
+    NSMutableDictionary* loadedAchievement = (NSMutableDictionary*)object;
+    cachedAchievement = [[NSMutableDictionary alloc] initWithDictionary:loadedAchievement];
   }
   else
   {
-    cachedAchievements = [[NSMutableDictionary alloc] init];
+    cachedAchievement = [[NSMutableDictionary alloc] init];
   }
 }
 
--(void) saveCachedAchievements
+-(void) saveCachedAchievement
 {
-  NSString* file = [NSHomeDirectory() stringByAppendingPathComponent:kCachedAchievementsFile];
-  [NSKeyedArchiver archiveRootObject:cachedAchievements toFile:file];
+  NSString* file = [NSHomeDirectory() stringByAppendingPathComponent:kCachedAchievementFile];
+  [NSKeyedArchiver archiveRootObject:cachedAchievement toFile:file];
 }
 
 -(void) cacheAchievement:(GKAchievement*)achievement
 {
-  [cachedAchievements setObject:achievement forKey:achievement.identifier];
+  [cachedAchievement setObject:achievement forKey:achievement.identifier];
   
-  // Save to disk immediately, to keep achievements around even if the game crashes.
-  [self saveCachedAchievements];
+  // Save to disk immediately, to keep achievement around even if the game crashes.
+  [self saveCachedAchievement];
 }
 
 -(void) uncacheAchievement:(GKAchievement*)achievement
 {
-  [cachedAchievements removeObjectForKey:achievement.identifier];
+  [cachedAchievement removeObjectForKey:achievement.identifier];
   
   // Save to disk immediately, to keep the removed cached achievement from being loaded again
-  [self saveCachedAchievements];
+  [self saveCachedAchievement];
 }
 
 
-#pragma mark Views (Leaderboard, Achievements)
+#pragma mark Views (Leaderboard, Achievement)
 
 // Helper methods
 
@@ -382,26 +382,26 @@ static AchievementsDispatcher* s_pAchievementsDispatcher;
 
 
 
-// Achievements
+// Achievement
 
--(void) showAchievements
+-(void) showAchievement
 {
   if (isGameCenterAvailable == NO)
     return;
   
-  GKAchievementViewController* achievementsVC = [[[GKAchievementViewController alloc] init] autorelease];
-  if (achievementsVC != nil)
+  GKAchievementViewController* achievementVC = [[[GKAchievementViewController alloc] init] autorelease];
+  if (achievementVC != nil)
   {
-    achievementsVC.achievementDelegate = self;
-    [self presentViewController:achievementsVC];
+    achievementVC.achievementDelegate = self;
+    [self presentViewController:achievementVC];
   }
 }
 
 -(void) achievementViewControllerDidFinish:(GKAchievementViewController*)viewController
 {
   [self dismissModalViewController];
-  //[[AchievementsDispatcher sharedAchievementsDispather] onAchievementsViewDismissed];
-  if(delegate_) delegate_->onAchievementsViewDismissed();
+  //[[AchievementDispatcher sharedAchievementDispather] onAchievementViewDismissed];
+  if(delegate_) delegate_->onAchievementViewDismissed();
 
 }
 

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "touch_dispatcher/CCTouchDispatcher.h"
 #include "keypad_dispatcher/CCKeypadDispatcher.h"
 #include "CCAccelerometer.h"
-//#include "CCAchievements.h"
+#include "CCAchievement.h"
 //#include "CCLeaderboard.h"
 #include "CCDirector.h"
 #include "support/CCPointExtension.h"
@@ -224,33 +224,34 @@ void CCLayer::setKeypadEnabled(bool enabled)
 }
 
     
-/// HasAchievements getter
-/*bool CCLayer::getAreAchievementsEnabled()
+/// HasAchievement getter
+bool CCLayer::getIsAchievementEnabled()
 {
-    return m_bAreAchievementsEnabled;
+    return m_bIsAchievementEnabled;
 }
-/// areAchievementsEnabled setter
-void CCLayer::setAreAchievementsEnabled(bool enabled)
+/// isAchievementEnabled setter
+void CCLayer::setIsAchievementEnabled(bool enabled)
 {
-    if (enabled != m_bAreAchievementsEnabled)
+    if (enabled != m_bIsAchievementEnabled)
     {
-        m_bAreAchievementsEnabled = enabled;
+        m_bIsAchievementEnabled = enabled;
 
         if (m_bIsRunning)
         {
             if (enabled)
             {
-                CCAchievements::sharedAchievements()->setDelegate(this);
+                CCAchievement::sharedAchievement()->setDelegate(this);
             }
             else
             {
-                CCAchievements::sharedAchievements()->setDelegate(NULL);
+                CCAchievement::sharedAchievement()->setDelegate(NULL);
             }
         }
     }
 }
 
 /// IsLeaderboardEnabled getter
+/*
 bool CCLayer::getIsLeaderboardEnabled()
 {
     return m_bIsLeaderboardEnabled;

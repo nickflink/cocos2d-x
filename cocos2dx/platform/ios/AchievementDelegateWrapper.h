@@ -23,58 +23,49 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "CCAchievementsDelegate.h"
+#import "CCAchievementDelegate.h"
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 
-/*@protocol AchievementsDelegateProtocol
-
--(void) onLocalPlayerAuthenticationChanged;
--(void) onAchievementReported:(GKAchievement*)achievement;
--(void) onAchievementsLoaded:(NSDictionary*)achievements;
--(void) onResetAchievements:(bool)success;
--(void) onAchievementsViewDismissed;
-
-@end*/
 
 
-@interface AchievementsDispatcher : NSObject<GKAchievementViewControllerDelegate/*, AchievementsDelegateProtocol*/>
+@interface AchievementDispatcher : NSObject<GKAchievementViewControllerDelegate/*, AchievementDelegateProtocol*/>
 {
-	//id<AchievementsDelegateProtocol> delegate;
-	//cocos2d::CCAchievementsDelegate *delegate_;
+	//id<AchievementDelegateProtocol> delegate;
+	//cocos2d::CCAchievementDelegate *delegate_;
 	bool isGameCenterAvailable;
 	NSError* lastError;
 	
-	NSMutableDictionary* achievements;
-	NSMutableDictionary* cachedAchievements;
+	NSMutableDictionary* m_Achievements;
+	NSMutableDictionary* cachedAchievement;
 }
 
-@property (readwrite) cocos2d::CCAchievementsDelegate *delegate_;
+@property (readwrite) cocos2d::CCAchievementDelegate *delegate_;
 @property (nonatomic, readonly) bool isGameCenterAvailable;
 @property (nonatomic, readonly) NSError* lastError;
-@property (nonatomic, readonly) NSMutableDictionary* achievements;
+@property (nonatomic, readonly) NSMutableDictionary* m_Achievements;
 
-+ (id) sharedAchievementsDispather;
++ (id) sharedAchievementDispather;
 - (id) init;
 - (void) dealloc;
-- (void) addDelegate: (cocos2d::CCAchievementsDelegate *) delegate;
+- (void) addDelegate: (cocos2d::CCAchievementDelegate *) delegate;
 - (void) setLastError:(NSError*)error;
 - (void) authenticateLocalPlayer;
 - (void) onLocalPlayerAuthenticationChanged;
 - (void) registerForLocalPlayerAuthChange;
-- (void) loadAchievements;
+- (void) loadAchievement;
 - (GKAchievement*) getAchievementByID:(NSString*)identifier;
 - (void) reportAchievementWithID:(NSString*)identifier percentComplete:(float)percent;
-- (void) resetAchievements;
-- (void) reportCachedAchievements;
-- (void) initCachedAchievements;
-- (void) saveCachedAchievements;
+- (void) resetAchievement;
+- (void) reportCachedAchievement;
+- (void) initCachedAchievement;
+- (void) saveCachedAchievement;
 - (void) cacheAchievement:(GKAchievement*)achievement;
 - (void) uncacheAchievement:(GKAchievement*)achievement;
 - (UIViewController*) getRootViewController;
 - (void) presentViewController:(UIViewController*)vc;
 - (void) dismissModalViewController;
-- (void) showAchievements;
+- (void) showAchievement;
 - (void) achievementViewControllerDidFinish:(GKAchievementViewController*)viewController;
 
 

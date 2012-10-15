@@ -1,6 +1,5 @@
 /****************************************************************************
-Copyright (c) 2012 cocos2d-x.org
-Copyright (c) 2012 Nick Flink
+Copyright (c) 2010 cocos2d-x.org
 
 http://www.cocos2d-x.org
 
@@ -21,6 +20,41 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-THIS PLATFORM IS NOT YET SUPPORTED!
 ****************************************************************************/
+
+#ifndef __CCACHIEVEMENT_DELEGATE_H__
+#define __CCACHIEVEMENT_DELEGATE_H__
+
+#include "CCCommon.h"
+
+NS_CC_BEGIN
+/**
+@brief The device achievement reports values for each axis in units of g-force 
+*/
+/*typedef struct 
+{
+    double x;
+    double y;
+    double z;
+
+    double timestamp;
+} CCAcceleration;
+*/
+/**
+@brief 
+The CCAchievementDelegate defines a single method for
+receiving acceleration-related data from the system.
+*/
+class CC_DLL CCAchievementDelegate
+{
+public:
+    virtual void onLocalPlayerAuthenticationChanged() {}
+    virtual void onAchievementLoaded(/*NSDictionary**/) {}
+    virtual void onAchievementReported(/*GKAchievement*)achievement*/) {}
+    virtual void onResetAchievement(bool success) {CC_UNUSED_PARAM(success);}
+    virtual void onAchievementViewDismissed() {}
+};
+
+NS_CC_END
+
+#endif

@@ -31,6 +31,7 @@ THE SOFTWARE.
 #include "CCProtocols.h"
 #include "touch_dispatcher/CCTouchDelegateProtocol.h"
 #include "platform/CCAccelerometerDelegate.h"
+#include "platform/CCAchievementDelegate.h"
 #include "keypad_dispatcher/CCKeypadDelegate.h"
 #include "cocoa/CCArray.h"
 
@@ -51,8 +52,9 @@ class CCTouchScriptHandlerEntry;
 All features from CCNode are valid, plus the following new features:
 - It can receive iPhone Touches
 - It can receive Accelerometer input
+- It can receive Achievement/Leaderboard events
 */
-class CC_DLL CCLayer : public CCNode, public CCTouchDelegate, public CCAccelerometerDelegate, public CCKeypadDelegate
+class CC_DLL CCLayer : public CCNode, public CCTouchDelegate, public CCAccelerometerDelegate, public CCKeypadDelegate, public CCAchievementDelegate
 {
 public:
     CCLayer();
@@ -118,12 +120,20 @@ public:
     */
     bool isKeypadEnabled();
     void setKeypadEnabled(bool value);
+    /** whether or not it will receive achievement events
+    You can enable / disable achievement events with this property.
+    it's new in cocos2d-x
+    */
+    bool getIsAchievementEnabled();
+    void setIsAchievementEnabled(bool enabled);
+
     
     inline CCTouchScriptHandlerEntry* getScriptHandlerEntry() { return m_pScriptHandlerEntry; };
 protected:   
     bool m_bIsTouchEnabled;
     bool m_bIsAccelerometerEnabled;
     bool m_bIsKeypadEnabled;
+    bool m_bIsAchievementEnabled;
     
 private:
     // Script touch events handler

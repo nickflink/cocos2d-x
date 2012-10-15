@@ -1,6 +1,5 @@
 /****************************************************************************
-Copyright (c) 2012 cocos2d-x.org
-Copyright (c) 2012 Nick Flink
+Copyright (c) 2010 cocos2d-x.org
 
 http://www.cocos2d-x.org
 
@@ -21,6 +20,41 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-THIS PLATFORM IS NOT YET SUPPORTED!
 ****************************************************************************/
+
+#ifndef __PLATFORM_IPHONE_CCACHIEVEMENT_H__
+#define __PLATFORM_IPHONE_CCACHIEVEMENT_H__
+
+#include "platform/CCAchievementDelegate.h"
+
+namespace   cocos2d {
+
+class CC_DLL CCAchievement
+{
+public:
+    CCAchievement();
+    ~CCAchievement();
+
+    static CCAchievement* sharedAchievement();
+
+    void  setDelegate(CCAchievementDelegate* pDelegate);
+    void  onLocalPlayerAuthenticationChanged();
+    void  onAchievementReported();//GKAchievement *acheivement);
+    void  onAchievementLoaded();//NSDictionary *achievement);
+    void  onResetAchievement(bool success);
+    void  onAchievementViewDismissed();
+    bool  isCompleted(const char *achievementName) const;
+    float getPercentComplete(const char *achievementName) const;
+    void  updateAchievementPercentage(const char *achievementName, float percent);
+    void  resetAchievement();
+    void  showAchievement();
+
+
+
+private:
+    static CCAchievement* m_spUIAchievement;
+};
+
+}//namespace   cocos2d
+
+#endif

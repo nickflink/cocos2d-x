@@ -22,85 +22,85 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "CCAchievements.h"
-#include "AchievementsDelegateWrapper.h"
+#include "CCAchievement.h"
+#include "AchievementDelegateWrapper.h"
 
 namespace cocos2d {
     
-    CCAchievements* CCAchievements::m_spUIAchievements = NULL;
+    CCAchievement* CCAchievement::m_spUIAchievement = NULL;
     
-    CCAchievements::CCAchievements()
+    CCAchievement::CCAchievement()
     {
         return;
     }
     
-    CCAchievements::~CCAchievements()
+    CCAchievement::~CCAchievement()
     {
         return;
     }
     
-    CCAchievements* CCAchievements::sharedAchievements()
+    CCAchievement* CCAchievement::sharedAchievement()
     {
-        if (m_spUIAchievements == NULL) {
-            m_spUIAchievements = new CCAchievements();
+        if (m_spUIAchievement == NULL) {
+            m_spUIAchievement = new CCAchievement();
         }
         
-        return m_spUIAchievements;
+        return m_spUIAchievement;
     }
     
-    void CCAchievements::setDelegate(CCAchievementsDelegate* pDelegate)
+    void CCAchievement::setDelegate(CCAchievementDelegate* pDelegate)
     {
-        [[AchievementsDispatcher sharedAchievementsDispather] addDelegate:pDelegate];
+        [[AchievementDispatcher sharedAchievementDispather] addDelegate:pDelegate];
     }
     
-    void CCAchievements::onLocalPlayerAuthenticationChanged()
+    void CCAchievement::onLocalPlayerAuthenticationChanged()
     {
         return;
     }
-    void CCAchievements::onAchievementReported(/*GKAchievement *acheivement*/)
+    void CCAchievement::onAchievementReported(/*GKAchievement *acheivement*/)
     {
         return;
     }
-    void CCAchievements::onAchievementsLoaded(/*NSDictionary *achievements*/)
+    void CCAchievement::onAchievementLoaded(/*NSDictionary *achievement*/)
     {
         return;
     }
-    void CCAchievements::onResetAchievements(bool success)
+    void CCAchievement::onResetAchievement(bool success)
     {
         return;
     }
-    void CCAchievements::onAchievementsViewDismissed()
+    void CCAchievement::onAchievementViewDismissed()
     {
         return;
     }
-    bool CCAchievements::isCompleted(const char *achievementName) const
+    bool CCAchievement::isCompleted(const char *achievementName) const
     {
-        AchievementsDispatcher *ad = [AchievementsDispatcher sharedAchievementsDispather];
+        AchievementDispatcher *ad = [AchievementDispatcher sharedAchievementDispather];
         NSString *achievementId = [NSString stringWithUTF8String:achievementName];
         GKAchievement* achievement = [ad getAchievementByID:achievementId];
         return achievement.completed;
     }
-    float CCAchievements::getPercentComplete(const char *achievementName) const
+    float CCAchievement::getPercentComplete(const char *achievementName) const
     {
-        AchievementsDispatcher *ad = [AchievementsDispatcher sharedAchievementsDispather];
+        AchievementDispatcher *ad = [AchievementDispatcher sharedAchievementDispather];
         NSString *achievementId = [NSString stringWithUTF8String:achievementName];
         GKAchievement* achievement = [ad getAchievementByID:achievementId];
         return achievement.percentComplete;
     }
-    void CCAchievements::updateAchievementPercentage(const char *achievementName, float percent)
+    void CCAchievement::updateAchievementPercentage(const char *achievementName, float percent)
     {
-        AchievementsDispatcher *ad = [AchievementsDispatcher sharedAchievementsDispather];
+        AchievementDispatcher *ad = [AchievementDispatcher sharedAchievementDispather];
         NSString *achievementId = [NSString stringWithUTF8String:achievementName];
         [ad reportAchievementWithID:achievementId percentComplete:percent];
         return;
     }
-    void  CCAchievements::resetAchievements()
+    void  CCAchievement::resetAchievement()
     {
-        [[AchievementsDispatcher sharedAchievementsDispather] resetAchievements];
+        [[AchievementDispatcher sharedAchievementDispather] resetAchievement];
     }
-    void  CCAchievements::showAchievements()
+    void  CCAchievement::showAchievement()
     {
-        [[AchievementsDispatcher sharedAchievementsDispather] showAchievements];
+        [[AchievementDispatcher sharedAchievementDispather] showAchievement];
     }
 }
 

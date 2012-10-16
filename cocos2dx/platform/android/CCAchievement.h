@@ -22,37 +22,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __PLATFORM_ANDROID_CCACHIEVEMENTS_H__
-#define __PLATFORM_ANDROID_CCACHIEVEMENTS_H__
+#ifndef __PLATFORM_ANDROID_CCACHIEVEMENT_H__
+#define __PLATFORM_ANDROID_CCACHIEVEMENT_H__
 
-#include "CCAchievementsDelegate.h"
+#include "platform/CCAchievementDelegate.h"
 
 namespace   cocos2d {
 
-class CC_DLL CCAchievements
+class CC_DLL CCAchievement
 {
 public:
-    CCAchievements();
-    ~CCAchievements();
+    CCAchievement();
+    ~CCAchievement();
 
-    static CCAchievements* sharedAchievements();
+    static CCAchievement* sharedAchievement();
 
-    void  setDelegate(CCAchievementsDelegate* pDelegate);
+    void  setDelegate(CCAchievementDelegate* pDelegate);
     void  onLocalPlayerAuthenticationChanged();
     void  onAchievementReported(/*GKAchievement *acheivement*/);
-    void  onAchievementsLoaded(/*NSDictionary *achievements*/);
-    void  onResetAchievements(bool success);
-    void  onAchievementsViewDismissed();
+    void  onAchievementLoaded(/*NSDictionary *Achievement*/);
+    void  onResetAchievement(bool success);
+    void  onAchievementViewDismissed();
     bool  isCompleted(const char *achievementName) const;
     float getPercentComplete(const char *achievementName) const;
     void  updateAchievementPercentage(const char *achievementName, float percent);
-    void  resetAchievements();
-    void  showAchievements();
+    void  resetAchievement();
+    void  showAchievement();
 
 
 
 private:
-    static CCAchievements* m_spUIAchievements;
+    static CCAchievement* m_spUIAchievement;
 };
 
 }//namespace   cocos2d 

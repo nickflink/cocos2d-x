@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCACHIEVEMENTS_DELEGATE_H__
-#define __CCACHIEVEMENTS_DELEGATE_H__
+#ifndef __CCACHIEVEMENT_DELEGATE_H__
+#define __CCACHIEVEMENT_DELEGATE_H__
 
 /*#include "CCCommon.h"
 
@@ -34,18 +34,18 @@ namespace   cocos2d {
 
 ///
 ///@brief 
-///The CCAchievementsDelegate defines a single method for
+///The CCAchievementDelegate defines a single method for
 ///receiving acceleration-related data from the system.
 
-class CC_DLL CCAchievementsDelegate
+class CC_DLL CCAchievementDelegate
 {
 public:
 
     virtual void onLocalPlayerAuthenticationChanged(){}
     virtual void onAchievementReported(){}//GKAchievement *acheivement);
-    virtual void onAchievementsLoaded(){}//NSDictionary *achievements);
-    virtual void onResetAchievements(bool success){CC_UNUSED_PARAM(success);}
-    virtual void onAchievementsViewDismissed(){}
+    virtual void onAchievementLoaded(){}//NSDictionary *achievement);
+    virtual void onResetAchievement(bool success){CC_UNUSED_PARAM(success);}
+    virtual void onAchievementViewDismissed(){}
     
 
 };

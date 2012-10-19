@@ -51,7 +51,7 @@ private:
 NS_CC_EXT_END
 
 
-#import "CCLeaderboardDelegate.h"
+#import "CCLeaderboard.h"
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 

@@ -37,7 +37,9 @@
 #include "GUI/CCScrollView/CCTableView.h"
 #include "GUI/CCEditBox/CCEditBox.h"
 
+#include "GameStats/Achievement/CCAchievement.h"
 #include "GameStats/Leaderboard/CCLeaderboard.h"
+
 
 #include "network/HttpRequest.h"
 #include "network/HttpResponse.h"

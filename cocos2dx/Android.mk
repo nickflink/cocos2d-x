@@ -91,7 +91,6 @@ platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxAccelerometer.cpp \
 platform/android/jni/JniHelper.cpp \
 platform/android/jni/IMEJni.cpp \
 platform/android/jni/TouchesJni.cpp \
-platform/android/CCAchievement.cpp \
 script_support/CCScriptSupport.cpp \
 shaders/ccShaders.cpp \
 shaders/CCGLProgram.cpp \

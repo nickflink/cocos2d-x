@@ -39,7 +39,6 @@ public:
     CCAchievementImpl(CCAchievement* pAchievement) : m_pAchievement(pAchievement), m_pDelegate(NULL) {}
     virtual ~CCAchievementImpl() {}
     virtual void setDelegate(CCAchievementDelegate* pDelegate){ m_pDelegate = pDelegate; };
-    virtual void submitScore(int64_t score, const char *category) = 0;
     virtual void showAchievement() = 0;
     
 protected:

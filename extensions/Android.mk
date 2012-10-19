@@ -47,7 +47,11 @@ GUI/CCScrollView/CCTableViewCell.cpp \
 GUI/CCScrollView/CCSorting.cpp \
 GUI/CCEditBox/CCEditBox.cpp \
 GUI/CCEditBox/CCEditBoxImplAndroid.cpp \
-network/HttpClient.cpp
+network/HttpClient.cpp \
+GameStats/Achievement/CCAchievement.cpp \
+GameStats/Achievement/CCAchievementImplAndroid.cpp \
+GameStats/Leaderboard/CCLeaderboard.cpp \
+GameStats/Leaderboard/CCLeaderboardImplAndroid.cpp
 
 LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_curl_static
@@ -56,6 +60,7 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH) \
                            $(LOCAL_PATH)/CCBReader \
                            $(LOCAL_PATH)/GUI/CCControlExtension \
                            $(LOCAL_PATH)/GUI/CCScrollView \
+                           $(LOCAL_PATH)/GameStats/Achievement \
                            $(LOCAL_PATH)/network
                     
 include $(BUILD_STATIC_LIBRARY)

@@ -55,18 +55,17 @@ std::map<std::string, js::RootedObject*> globals;
 static void executeJSFunctionFromReservedSpot(JSContext *cx, JSObject *obj,
                                               jsval &dataVal, jsval &retval) {
 
-    //  if(p->jsclass->JSCLASS_HAS_RESERVED_SLOTS(1)) {
     jsval func = JS_GetReservedSlot(obj, 0);
 
     if(func == JSVAL_VOID) { return; }
     jsval thisObj = JS_GetReservedSlot(obj, 1);
+	JSAutoCompartment ac(cx, obj);
     if(thisObj == JSVAL_VOID) {
         JS_CallFunctionValue(cx, obj, func, 1, &dataVal, &retval);
     } else {
         assert(!JSVAL_IS_PRIMITIVE(thisObj));
         JS_CallFunctionValue(cx, JSVAL_TO_OBJECT(thisObj), func, 1, &dataVal, &retval);
     }
-    //  }
 }
 
 static void getTouchesFuncName(int eventType, std::string &funcName) {
@@ -163,6 +162,7 @@ static void executeJSFunctionWithName(JSContext *cx, JSObject *obj,
         if(temp_retval == JSVAL_VOID) {
             return;
         }
+		JSAutoCompartment ac(cx, obj);
         JS_CallFunctionName(cx, obj, funcName,
                             1, &dataVal, &retval);
     }
@@ -218,7 +218,7 @@ void jsb_register_cocos2d_config( JSContext *_cx, JSObject *cocos2d)
 // #else
     str = JS_InternString(_cx, "mobile");
 // #endif
-    JS_DefineProperty(_cx, ccconfig, "deviceType", STRING_TO_JSVAL(str), NULL, NULL, JSPROP_ENUMERATE | JSPROP_READONLY | JSPROP_PERMANENT);
+    JS_DefineProperty(_cx, ccconfig, "platform", STRING_TO_JSVAL(str), NULL, NULL, JSPROP_ENUMERATE | JSPROP_READONLY | JSPROP_PERMANENT);
 
     // config.engine: Type of renderer
     // 'cocos2d', 'cocos2d-x', 'cocos2d-html5/canvas', 'cocos2d-html5/webgl', etc..
@@ -296,7 +296,6 @@ void registerDefaultClasses(JSContext* cx, JSObject* global) {
     JS_DefineFunction(cx, global, "forceGC", ScriptingCore::forceGC, 0, JSPROP_READONLY | JSPROP_PERMANENT);
 
     // these are used in the debug socket
-    JS_DefineFunction(cx, global, "newGlobal", jsNewGlobal, 1, JSPROP_READONLY | JSPROP_PERMANENT);
     JS_DefineFunction(cx, global, "_socketOpen", jsSocketOpen, 1, JSPROP_READONLY | JSPROP_PERMANENT);
     JS_DefineFunction(cx, global, "_socketWrite", jsSocketWrite, 1, JSPROP_READONLY | JSPROP_PERMANENT);
     JS_DefineFunction(cx, global, "_socketRead", jsSocketRead, 1, JSPROP_READONLY | JSPROP_PERMANENT);
@@ -318,6 +317,7 @@ ScriptingCore::ScriptingCore()
 : rt_(NULL)
 , cx_(NULL)
 , global_(NULL)
+, debugGlobal_(NULL)
 {
     // set utf8 strings internally (we don't need utf16)
     JS_SetCStringsAreUTF8();
@@ -337,8 +337,8 @@ void ScriptingCore::string_report(jsval val) {
         if (NULL == str) {
             LOGD("val : return string is NULL");
         } else {
-            LOGD("val : return string =\n%s\n",
-                 JS_EncodeString(this->getGlobalContext(), str));
+			JSStringWrapper wrapper(str);
+            LOGD("val : return string =\n%s\n", (char *)wrapper);
         }
     } else if (JSVAL_IS_NUMBER(val)) {
         double number;
@@ -361,13 +361,11 @@ JSBool ScriptingCore::evalString(const char *string, jsval *outVal, const char *
     JSScript* script = JS_CompileScript(cx, global, string, strlen(string), filename, 1);
     if (script) {
         // JSAutoCompartment ac(cx, global);
-        JSAutoEnterCompartment ac;
-        ac.enter(cx, global);
-        JSBool evaluatedOK = JS_ExecuteScript(cx_, global_, script, &rval);
+		JSAutoCompartment ac(cx, global);
+        JSBool evaluatedOK = JS_ExecuteScript(cx, global, script, &rval);
         if (JS_FALSE == evaluatedOK) {
             fprintf(stderr, "(evaluatedOK == JS_FALSE)\n");
         }
-        ac.leave();
         return evaluatedOK;
     }
     return false;
@@ -406,6 +404,7 @@ void ScriptingCore::createGlobalContext() {
         this->cx_ = NULL;
         this->rt_ = NULL;
     }
+	JS_SetCStringsAreUTF8();
     this->rt_ = JS_NewRuntime(10 * 1024 * 1024);
     this->cx_ = JS_NewContext(rt_, 10240);
     JS_SetOptions(this->cx_, JSOPTION_TYPE_INFERENCE);
@@ -455,13 +454,11 @@ JSBool ScriptingCore::runScript(const char *path, JSObject* global, JSContext* c
     if (script) {
         jsval rval;
         filename_script[path] = script;
-        JSAutoEnterCompartment ac;
-        ac.enter(cx, global);
+		JSAutoCompartment ac(cx, global);
         evaluatedOK = JS_ExecuteScript(cx, global, script, &rval);
         if (JS_FALSE == evaluatedOK) {
-            fprintf(stderr, "(evaluatedOK == JS_FALSE)\n");
+            CCLog("(evaluatedOK == JS_FALSE)");
         }
-        ac.leave();
     }
     return evaluatedOK;
 }
@@ -492,8 +489,8 @@ JSBool ScriptingCore::log(JSContext* cx, uint32_t argc, jsval *vp)
         JSString *string = NULL;
         JS_ConvertArguments(cx, argc, JS_ARGV(cx, vp), "S", &string);
         if (string) {
-            char *cstr = JS_EncodeString(cx, string);
-            js_log(cstr);
+			JSStringWrapper wrapper(string);
+            js_log((char *)wrapper);
         }
     }
     return JS_TRUE;
@@ -525,24 +522,22 @@ JSBool ScriptingCore::executeScript(JSContext *cx, uint32_t argc, jsval *vp)
     if (argc >= 1) {
         jsval* argv = JS_ARGV(cx, vp);
         JSString* str = JS_ValueToString(cx, argv[0]);
-        const char* path = JS_EncodeString(cx, str);
+		JSStringWrapper path(str);
         JSBool res = false;
         if (argc == 2 && argv[1].isString()) {
             JSString* globalName = JSVAL_TO_STRING(argv[1]);
-            const char* name = JS_EncodeString(cx, globalName);
+			JSStringWrapper name(globalName);
             js::RootedObject* rootedGlobal = globals[name];
             if (rootedGlobal) {
-                JS_free(cx, (void*)name);
                 res = ScriptingCore::getInstance()->runScript(path, rootedGlobal->get());
             } else {
-                JS_ReportError(cx, "Invalid global object: %s", name);
+                JS_ReportError(cx, "Invalid global object: %s", (char*)name);
                 return JS_FALSE;
             }
         } else {
             JSObject* glob = JS_GetGlobalForScopeChain(cx);
             res = ScriptingCore::getInstance()->runScript(path, glob);
         }
-        JS_free(cx, (void*)path);
         return res;
     }
     return JS_TRUE;
@@ -600,7 +595,7 @@ JSBool ScriptingCore::removeRootJS(JSContext *cx, uint32_t argc, jsval *vp)
 
 void ScriptingCore::pauseSchedulesAndActions(CCNode *node) {
 
-    CCArray * arr = JSSchedule::getTargetForNativeNode(node);
+    CCArray * arr = JSScheduleWrapper::getTargetForNativeNode(node);
     if(! arr) return;
     for(unsigned int i = 0; i < arr->count(); ++i) {
         if(arr->objectAtIndex(i)) {
@@ -612,7 +607,7 @@ void ScriptingCore::pauseSchedulesAndActions(CCNode *node) {
 
 void ScriptingCore::resumeSchedulesAndActions(CCNode *node) {
 
-    CCArray * arr = JSSchedule::getTargetForNativeNode(node);
+    CCArray * arr = JSScheduleWrapper::getTargetForNativeNode(node);
     if(!arr) return;
     for(unsigned int i = 0; i < arr->count(); ++i) {
         if(!arr->objectAtIndex(i)) continue;
@@ -620,6 +615,18 @@ void ScriptingCore::resumeSchedulesAndActions(CCNode *node) {
     }
 }
 
+void ScriptingCore::cleanupSchedulesAndActions(CCNode *node) {
+ 
+    CCArray * arr = JSCallFuncWrapper::getTargetForNativeNode(node);
+    if(arr) {
+        arr->removeAllObjects();
+    }
+    
+    arr = JSScheduleWrapper::getTargetForNativeNode(node);
+    if(arr) {
+        arr->removeAllObjects();
+    }
+}
 
 int ScriptingCore::executeNodeEvent(CCNode* pNode, int nAction)
 {
@@ -650,6 +657,9 @@ int ScriptingCore::executeNodeEvent(CCNode* pNode, int nAction)
     else if(nAction == kCCNodeOnExitTransitionDidStart)
     {
         executeJSFunctionWithName(this->cx_, p->obj, "onExitTransitionDidStart", dataVal, retval);
+    }
+    else if(nAction == kCCNodeOnCleanup) {
+        cleanupSchedulesAndActions(pNode);
     }
 
     return 1;
@@ -729,21 +739,36 @@ int ScriptingCore::executeLayerTouchesEvent(CCLayer* pLayer, int eventType, CCSe
 
 int ScriptingCore::executeLayerTouchEvent(CCLayer* pLayer, int eventType, CCTouch *pTouch)
 {
-    return 0;
+    std::string funcName = "";
+    getTouchFuncName(eventType, funcName);
+    
+    jsval jsret;
+    getJSTouchObject(this->getGlobalContext(), pTouch, jsret);
+    JSObject *jsObj = JSVAL_TO_OBJECT(jsret);
+    bool retval = executeFunctionWithObjectData(pLayer,  funcName.c_str(), jsObj);
+    
+    removeJSTouchObject(this->getGlobalContext(), pTouch, jsret);
+    
+    return retval;
 }
 
-int ScriptingCore::executeFunctionWithObjectData(CCNode *self, const char *name, JSObject *obj) {
+bool ScriptingCore::executeFunctionWithObjectData(CCNode *self, const char *name, JSObject *obj) {
 
     js_proxy_t * p;
     JS_GET_PROXY(p, self);
-    if (!p) return 0;
-
+    if (!p) return false;
+    
     jsval retval;
     jsval dataVal = OBJECT_TO_JSVAL(obj);
 
     executeJSFunctionWithName(this->cx_, p->obj, name, dataVal, retval);
-
-    return 1;
+    if(JSVAL_IS_NULL(retval)) {
+        return false;
+    }
+    else if(JSVAL_IS_BOOLEAN(retval)) {
+        return JSVAL_TO_BOOLEAN(retval);
+    }
+    return false;
 }
 
 int ScriptingCore::executeFunctionWithOwner(jsval owner, const char *name, jsval data) {
@@ -753,6 +778,18 @@ int ScriptingCore::executeFunctionWithOwner(jsval owner, const char *name, jsval
 
     return 1;
 }
+
+int ScriptingCore::executeAccelerometerEvent(CCLayer *pLayer, CCAcceleration *pAccelerationValue) {
+
+    jsval value = ccacceleration_to_jsval(this->getGlobalContext(), *pAccelerationValue);
+    JS_AddValueRoot(this->getGlobalContext(), &value);
+    
+    executeFunctionWithObjectData(pLayer, "onAccelerometer", JSVAL_TO_OBJECT(value));
+    
+    JS_RemoveValueRoot(this->getGlobalContext(), &value);
+    return 1;
+}
+
 
 int ScriptingCore::executeCustomTouchesEvent(int eventType,
                                        CCSet *pTouches, JSObject *obj)
@@ -829,9 +866,7 @@ long long jsval_to_long_long(JSContext *cx, jsval v) {
 
 std::string jsval_to_std_string(JSContext *cx, jsval v) {
     JSString *tmp = JS_ValueToString(cx, v);
-    char *rawStr = JS_EncodeString(cx, tmp);
-    std::string ret = std::string(rawStr);
-    JS_free(cx, rawStr);
+	JSStringWrapper ret(tmp);
     return ret;
 }
 
@@ -852,6 +887,25 @@ CCPoint jsval_to_ccpoint(JSContext *cx, jsval v) {
     assert(ok == JS_TRUE);
     return cocos2d::CCPoint(x, y);
 }
+
+CCAcceleration jsval_to_ccacceleration(JSContext *cx, jsval v) {
+    JSObject *tmp;
+    jsval jsx, jsy, jsz, jstimestamp;
+    double x, y, timestamp, z;
+    JSBool ok = JS_ValueToObject(cx, v, &tmp) &&
+    JS_GetProperty(cx, tmp, "x", &jsx) &&
+    JS_GetProperty(cx, tmp, "y", &jsy) &&
+    JS_GetProperty(cx, tmp, "z", &jsz) &&
+    JS_GetProperty(cx, tmp, "timestamp", &jstimestamp) &&
+    JS_ValueToNumber(cx, jsx, &x) &&
+    JS_ValueToNumber(cx, jsy, &y) &&
+    JS_ValueToNumber(cx, jsz, &z) &&
+    JS_ValueToNumber(cx, jstimestamp, &timestamp);
+    assert(ok == JS_TRUE);
+    CCAcceleration ret = {x, y, z, timestamp};
+    return ret;
+}
+
 
 CCRect jsval_to_ccrect(JSContext *cx, jsval v) {
     JSObject *tmp;
@@ -994,20 +1048,105 @@ CCArray* jsval_to_ccarray(JSContext* cx, jsval v) {
 
 
 jsval ccarray_to_jsval(JSContext* cx, CCArray *arr) {
-
-  JSObject *jsretArr = JS_NewArrayObject(cx, 0, NULL);
-
-  for(int i = 0; i < arr->count(); ++i) {
-
-    CCObject *obj = arr->objectAtIndex(i);
-    js_proxy_t *proxy = js_get_or_create_proxy<cocos2d::CCObject>(cx, obj);
-    jsval arrElement = OBJECT_TO_JSVAL(proxy->obj);
-
-    if(!JS_SetElement(cx, jsretArr, i, &arrElement)) {
-      break;
+    
+    JSObject *jsretArr = JS_NewArrayObject(cx, 0, NULL);
+    
+    for(int i = 0; i < arr->count(); ++i) {
+        jsval arrElement;
+        CCObject *obj = arr->objectAtIndex(i);
+        const char *type = typeid(*obj).name();
+        
+        CCString *testString = dynamic_cast<cocos2d::CCString *>(obj);
+        CCDictionary* testDict = NULL;
+        CCArray* testArray = NULL;
+        // XXX: Only supports string, since all data read from plist files will be stored as string in cocos2d-x
+        // Do we need to convert string to js base type ? 
+        if(testString) {
+            arrElement = c_string_to_jsval(cx, testString->getCString());
+        } else if ((testDict = dynamic_cast<cocos2d::CCDictionary*>(obj))) {
+            arrElement = ccdictionary_to_jsval(cx, testDict);
+        } else if ((testArray = dynamic_cast<cocos2d::CCArray*>(obj))) {
+            arrElement = ccarray_to_jsval(cx, testArray);
+        } else {
+            js_proxy_t *proxy = js_get_or_create_proxy<cocos2d::CCObject>(cx, obj);
+            arrElement = OBJECT_TO_JSVAL(proxy->obj);
+        }
+        
+        if(!JS_SetElement(cx, jsretArr, i, &arrElement)) {
+            break;
+        }
     }
-  }
-  return OBJECT_TO_JSVAL(jsretArr);
+    return OBJECT_TO_JSVAL(jsretArr);
+}
+
+jsval ccdictionary_to_jsval(JSContext* cx, CCDictionary* dict)
+{
+    JSObject* jsRet = JS_NewObject(cx, NULL, NULL, NULL);
+    CCDictElement* pElement = NULL;
+    CCDICT_FOREACH(dict, pElement)
+    {
+        jsval dictElement;
+        CCString* obj = dynamic_cast<CCString*>(pElement->getObject());
+
+        CCString *testString = dynamic_cast<cocos2d::CCString *>(obj);
+        CCDictionary* testDict = NULL;
+        CCArray* testArray = NULL;
+        // XXX: Only supports string, since all data read from plist files will be stored as string in cocos2d-x
+        // Do we need to convert string to js base type ? 
+        if(testString) {
+            dictElement = c_string_to_jsval(cx, testString->getCString());
+        } else if ((testDict = dynamic_cast<cocos2d::CCDictionary*>(obj))) {
+            dictElement = ccdictionary_to_jsval(cx, testDict);
+        } else if ((testArray = dynamic_cast<cocos2d::CCArray*>(obj))) {
+            dictElement = ccarray_to_jsval(cx, testArray);
+        } else {
+            js_proxy_t *proxy = js_get_or_create_proxy<cocos2d::CCObject>(cx, obj);
+            dictElement = OBJECT_TO_JSVAL(proxy->obj);
+        }
+        
+        const char* key = pElement->getStrKey();
+        if (key && strlen(key) > 0)
+        {
+            JS_SetProperty(cx, jsRet, key, &dictElement);
+        }
+    }
+    return OBJECT_TO_JSVAL(jsRet);
+}
+
+CCDictionary* jsval_to_ccdictionary(JSContext* cx, jsval v) {
+    
+    JSObject *itEl = JS_NewPropertyIterator(cx, JSVAL_TO_OBJECT(v));
+    CCDictionary *dict = NULL;
+    
+    jsid propId;
+    do {
+        
+        jsval prop;
+        JS_GetPropertyById(cx, JSVAL_TO_OBJECT(v), propId, &prop);
+                
+        js_proxy_t *proxy;
+        JSObject *tmp = JSVAL_TO_OBJECT(prop);
+        JS_GET_NATIVE_PROXY(proxy, tmp);
+        cocos2d::CCObject* cobj = (cocos2d::CCObject *)(proxy ? proxy->ptr : NULL);
+        TEST_NATIVE_OBJECT(cx, cobj)
+        
+        jsval key;
+        std::string keyStr;
+        if(JSID_IS_STRING(propId)) {
+            JS_IdToValue(cx, propId, &key);
+            keyStr = jsval_to_std_string(cx, key);
+        }
+        
+        if(JSVAL_IS_NULL(key)) continue;
+        
+        if(!dict) {
+            dict = CCDictionary::create();
+        }
+        dict->setObject(cobj, keyStr);
+        
+    } while(JS_NextProperty(cx, itEl, &propId));
+    
+    return dict;
 }
 
 jsval long_long_to_jsval(JSContext* cx, long long v) {
@@ -1033,6 +1172,19 @@ jsval ccpoint_to_jsval(JSContext* cx, CCPoint& v) {
     if (!tmp) return JSVAL_NULL;
     JSBool ok = JS_DefineProperty(cx, tmp, "x", DOUBLE_TO_JSVAL(v.x), NULL, NULL, JSPROP_ENUMERATE | JSPROP_PERMANENT) &&
                 JS_DefineProperty(cx, tmp, "y", DOUBLE_TO_JSVAL(v.y), NULL, NULL, JSPROP_ENUMERATE | JSPROP_PERMANENT);
+    if (ok) {
+        return OBJECT_TO_JSVAL(tmp);
+    }
+    return JSVAL_NULL;
+}
+
+jsval ccacceleration_to_jsval(JSContext* cx, CCAcceleration& v) {
+    JSObject *tmp = JS_NewObject(cx, NULL, NULL, NULL);
+    if (!tmp) return JSVAL_NULL;
+    JSBool ok = JS_DefineProperty(cx, tmp, "x", DOUBLE_TO_JSVAL(v.x), NULL, NULL, JSPROP_ENUMERATE | JSPROP_PERMANENT) &&
+    JS_DefineProperty(cx, tmp, "y", DOUBLE_TO_JSVAL(v.y), NULL, NULL, JSPROP_ENUMERATE | JSPROP_PERMANENT) &&
+    JS_DefineProperty(cx, tmp, "z", DOUBLE_TO_JSVAL(v.z), NULL, NULL, JSPROP_ENUMERATE | JSPROP_PERMANENT) &&
+    JS_DefineProperty(cx, tmp, "timestamp", DOUBLE_TO_JSVAL(v.timestamp), NULL, NULL, JSPROP_ENUMERATE | JSPROP_PERMANENT);
     if (ok) {
         return OBJECT_TO_JSVAL(tmp);
     }
@@ -1100,7 +1252,7 @@ jsval cccolor4f_to_jsval(JSContext* cx, ccColor4F& v) {
     return JSVAL_NULL;
 }
 
-jsval cccolor3b_to_jsval(JSContext* cx, ccColor3B& v) {
+jsval cccolor3b_to_jsval(JSContext* cx, const ccColor3B& v) {
     JSObject *tmp = JS_NewObject(cx, NULL, NULL, NULL);
     if (!tmp) return JSVAL_NULL;
     JSBool ok = JS_DefineProperty(cx, tmp, "r", INT_TO_JSVAL(v.r), NULL, NULL, JSPROP_ENUMERATE | JSPROP_PERMANENT) &&
@@ -1112,51 +1264,81 @@ jsval cccolor3b_to_jsval(JSContext* cx, ccColor3B& v) {
     return JSVAL_NULL;
 }
 
-#pragma mark - Debug Socket
+#pragma mark - Debug
 
-JSObject* NewGlobalObject(JSContext* cx)
+void ScriptingCore::enableDebugger() {
+	
+	if (debugGlobal_ == NULL) {
+		debugGlobal_ = NewGlobalObject(cx_, true);
+		// these are used in the debug socket
+		JS_DefineFunction(cx_, debugGlobal_, "log", ScriptingCore::log, 0, JSPROP_READONLY | JSPROP_PERMANENT);
+		JS_DefineFunction(cx_, debugGlobal_, "_getScript", jsGetScript, 1, JSPROP_READONLY | JSPROP_PERMANENT);
+		JS_DefineFunction(cx_, debugGlobal_, "_socketOpen", jsSocketOpen, 1, JSPROP_READONLY | JSPROP_PERMANENT);
+		JS_DefineFunction(cx_, debugGlobal_, "_socketWrite", jsSocketWrite, 1, JSPROP_READONLY | JSPROP_PERMANENT);
+		JS_DefineFunction(cx_, debugGlobal_, "_socketRead", jsSocketRead, 1, JSPROP_READONLY | JSPROP_PERMANENT);
+		JS_DefineFunction(cx_, debugGlobal_, "_socketClose", jsSocketClose, 1, JSPROP_READONLY | JSPROP_PERMANENT);
+		
+		runScript("debugger.js", debugGlobal_);
+		// prepare the debugger
+		do {
+			jsval argv = OBJECT_TO_JSVAL(global_);
+			jsval out;
+			JS_WrapObject(cx_, &debugGlobal_);
+			JSAutoCompartment ac(cx_, debugGlobal_);
+			JS_CallFunctionName(cx_, debugGlobal_, "_prepareDebugger", 1, &argv, &out);
+		} while (0);
+		// define the start debugger function
+		JS_DefineFunction(cx_, global_, "startDebugger", jsStartDebugger, 3, JSPROP_READONLY | JSPROP_PERMANENT);
+	}
+}
+
+JSBool jsStartDebugger(JSContext* cx, unsigned argc, jsval* vp)
+{
+	JSObject* debugGlobal = ScriptingCore::getInstance()->getDebugGlobal();
+	if (argc == 3) {
+		jsval* argv = JS_ARGV(cx, vp);
+		jsval out;
+		JS_WrapObject(cx, &debugGlobal);
+		JSAutoCompartment ac(cx, debugGlobal);
+		JS_CallFunctionName(cx, debugGlobal, "_startDebugger", 3, argv, &out);
+		return JS_TRUE;
+	}
+	return JS_FALSE;
+}
+
+JSBool jsGetScript(JSContext* cx, unsigned argc, jsval* vp)
+{
+	jsval* argv = JS_ARGV(cx, vp);
+	if (argc == 1 && argv[0].isString()) {
+		JSString* str = argv[0].toString();
+		JSStringWrapper wrapper(str);
+		JSScript* script = filename_script[(char *)wrapper];
+		if (script) {
+			JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL((JSObject*)script));
+		} else {
+			JS_SET_RVAL(cx, vp, JSVAL_NULL);
+		}
+	}
+	return JS_TRUE;
+}
+
+JSObject* NewGlobalObject(JSContext* cx, bool debug)
 {
 	JSObject* glob = JS_NewGlobalObject(cx, &global_class, NULL);
 	if (!glob) {
 		return NULL;
 	}
-	JSAutoEnterCompartment ac;
-	ac.enter(cx, glob);
+	JSAutoCompartment ac(cx, glob);
 	JSBool ok = JS_TRUE;
 	ok = JS_InitStandardClasses(cx, glob);
 	if (ok)
 		JS_InitReflect(cx, glob);
-	if (ok)
+	if (ok && debug)
 		ok = JS_DefineDebuggerObject(cx, glob);
-	ac.leave();
 	if (!ok)
 		return NULL;
 
     return glob;
-}
-
-JSBool jsNewGlobal(JSContext* cx, unsigned argc, jsval* vp)
-{
-    if (argc == 1) {
-        jsval *argv = JS_ARGV(cx, vp);
-        JSString *jsstr = JS_ValueToString(cx, argv[0]);
-        std::string key = JS_EncodeString(cx, jsstr);
-        js::RootedObject *global = globals[key];
-        if (!global) {
-            JSObject* g = NewGlobalObject(cx);
-            global = new js::RootedObject(cx, g);
-            JS_WrapObject(cx, global->address());
-            globals[key] = global;
-            // register everything on the list on this new global object
-            for (std::vector<sc_register_sth>::iterator it = registrationList.begin(); it != registrationList.end(); it++) {
-                sc_register_sth callback = *it;
-                callback(cx, g);
-            }
-        }
-        JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(*global));
-        return JS_TRUE;
-    }
-    return JS_FALSE;
 }
 
 // open a socket, bind it to a port and start listening, all at once :)
@@ -1222,7 +1404,7 @@ JSBool jsSocketRead(JSContext* cx, unsigned argc, jsval* vp)
         char buff[1024];
         JSString* outStr = JS_NewStringCopyZ(cx, "");
 
-        size_t bytesRead;
+        int bytesRead;
         while ((bytesRead = read(s, buff, 1024)) > 0) {
             JSString* newStr = JS_NewStringCopyN(cx, buff, bytesRead);
             outStr = JS_ConcatStrings(cx, outStr, newStr);
@@ -1243,15 +1425,12 @@ JSBool jsSocketWrite(JSContext* cx, unsigned argc, jsval* vp)
     if (argc == 2) {
         jsval* argv = JS_ARGV(cx, vp);
         int s;
-        const char* str;
 
         s = JSVAL_TO_INT(argv[0]);
         JSString* jsstr = JS_ValueToString(cx, argv[1]);
-        str = JS_EncodeString(cx, jsstr);
+		JSStringWrapper str(jsstr);
 
         write(s, str, strlen(str));
-
-        JS_free(cx, (void*)str);
     }
     return JS_TRUE;
 }

@@ -288,7 +288,6 @@
 		15FBEE6D164BBF77008CB2C3 /* CCDrawNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15FBEE6C164BBF77008CB2C3 /* CCDrawNode.cpp */; };
 		2628297A15EC7064002C4240 /* ccTypeInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2628297915EC7064002C4240 /* ccTypeInfo.h */; };
 		278A632E162B3B7300D6DFFB /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 278A632D162B3B7300D6DFFB /* GameKit.framework */; };
-		278A6401162B5A2400D6DFFB /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 278A6400162B5A2300D6DFFB /* libcurl.a */; };
 		D43F7F8A15C7D8BA00D713FC /* CCTouch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D43F7F8915C7D8BA00D713FC /* CCTouch.cpp */; };
 /* End PBXBuildFile section */
 
@@ -588,7 +587,6 @@
 			files = (
 				278A632E162B3B7300D6DFFB /* GameKit.framework in Frameworks */,
 				1551A343158F2AB200E66CFE /* Foundation.framework in Frameworks */,
-				278A6401162B5A2400D6DFFB /* libcurl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

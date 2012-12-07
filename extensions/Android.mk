@@ -51,7 +51,7 @@ network/HttpClient.cpp \
 GameStats/Achievement/CCAchievement.cpp \
 GameStats/Achievement/CCAchievementImplAndroid.cpp \
 GameStats/Leaderboard/CCLeaderboard.cpp \
-GameStats/Leaderboard/CCLeaderboardImplAndroid.cpp
+GameStats/Leaderboard/CCLeaderboardImplAndroid.cpp \
 physics_nodes/CCPhysicsDebugNode.cpp \
 physics_nodes/CCPhysicsSprite.cpp 
 

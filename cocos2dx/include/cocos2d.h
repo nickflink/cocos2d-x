@@ -57,6 +57,7 @@ THE SOFTWARE.
 #include "base_nodes/CCAtlasNode.h"
 
 // cocoa
+#include "cocoa/CCLocalizedString.h"
 #include "cocoa/CCAffineTransform.h"
 #include "cocoa/CCDictionary.h"
 #include "cocoa/CCObject.h"

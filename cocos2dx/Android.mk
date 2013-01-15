@@ -27,6 +27,7 @@ actions/CCActionTiledGrid.cpp \
 actions/CCActionTween.cpp \
 base_nodes/CCAtlasNode.cpp \
 base_nodes/CCNode.cpp \
+cocoa/CCLocalizedString.cpp \
 cocoa/CCAffineTransform.cpp \
 cocoa/CCGeometry.cpp \
 cocoa/CCAutoreleasePool.cpp \

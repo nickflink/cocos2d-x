@@ -191,7 +191,9 @@ void CCNode::setVertexZ(float var)
 /// rotation getter
 float CCNode::getRotation()
 {
+#ifdef NFHACK_ASSERT_ON_CONFLICTING_ROTATION
     CCAssert(m_fRotationX == m_fRotationY, "CCNode#rotation. RotationX != RotationY. Don't know which one to return");
+#endif
     return m_fRotationX;
 }
 

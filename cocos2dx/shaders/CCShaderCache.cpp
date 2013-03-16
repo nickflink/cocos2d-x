@@ -207,9 +207,11 @@ void CCShaderCache::reloadDefaultShaders()
     //
 	// Position, Legth(TexCoords, Color (used by Draw Node basically )
 	//
+#ifdef NFHACK_USE_kCCShader_PositionLengthTexureColor_SHADER
     p = programForKey(kCCShader_PositionLengthTexureColor);
     p->reset();
     loadDefaultShader(p, kCCShaderType_Position_uColor);
+#endif
 }
 
 void CCShaderCache::loadDefaultShader(CCGLProgram *p, int type)

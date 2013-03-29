@@ -54,7 +54,7 @@ const char * CCLocalizedString(const char * mKey,const char * mComment)
         string line, fullPath, contents;
         
         // Get absolute path of file
-        fullPath = CCFileUtils::sharedFileUtils()-> fullPathFromRelativePath( fileName );
+        fullPath = CCFileUtils::sharedFileUtils()->fullPathForFilename( fileName );
         
         // Get data of file
         fileContents = CCFileUtils::sharedFileUtils()->getFileData( fullPath.c_str( ) , "r", &fileSize );

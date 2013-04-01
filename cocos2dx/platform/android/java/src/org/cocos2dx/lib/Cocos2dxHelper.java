@@ -32,6 +32,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.res.AssetManager;
 import android.os.Build;
+import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
@@ -112,6 +113,25 @@ public class Cocos2dxHelper {
 	public static AssetManager getAssetManager() {
 		return Cocos2dxHelper.sAssetManager;
 	}
+
+	// ===========================================================
+	// Vibrate Methods
+	// ===========================================================
+	public static void vibrate(long time)
+	{
+		Cocos2dxHelper.sCocos2dSound.vibrate(time);
+	}
+
+	public static void vibrateWithPattern(long pattern[], int repeat)
+	{
+		Cocos2dxHelper.sCocos2dSound.vibrateWithPattern(pattern, repeat);
+	}
+
+	public static void cancelVibrate()
+	{
+		Cocos2dxHelper.sCocos2dSound.cancelVibrate();
+	}
+
 
 	public static void enableAccelerometer() {
 		Cocos2dxHelper.sAccelerometerEnabled = true;

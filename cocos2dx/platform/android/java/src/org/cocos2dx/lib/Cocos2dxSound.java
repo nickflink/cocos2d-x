@@ -33,6 +33,7 @@ import java.util.concurrent.Semaphore;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Vibrator;
 import android.util.Log;
 
 public class Cocos2dxSound {
@@ -298,6 +299,26 @@ public class Cocos2dxSound {
 		streamIDs.add(streamID);
 		
 		return streamID;
+	}
+	// ===========================================================
+	// Vibrate Methods
+	// ===========================================================
+	public void vibrate(long time)
+	{
+		Vibrator v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+		v.vibrate(time);
+	}
+
+	public void vibrateWithPattern(long[] pattern, int repeat)
+	{
+		Vibrator v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+		v.vibrate(pattern, repeat);
+	}
+
+	public void cancelVibrate()
+	{
+		Vibrator v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+		v.cancel();
 	}
 
 	// ===========================================================

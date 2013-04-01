@@ -440,4 +440,63 @@ extern "C"
         methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
+
+    void vibrateJNI(long long time)
+    {
+        //jmethodID vibrateID = getMethodID("vibrate", "(J)V");
+        //if (vibrateID)
+        //{
+        //    env->CallStaticVoidMethod(classOfCocos2dxActivity, vibrateID, time);
+        //}
+        JniMethodInfo methodInfo;
+        
+        if (! getStaticMethodInfo(methodInfo, "vibrate", "(J)V"))
+        {
+            return ;
+        }
+        
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, time);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
+    
+    void vibrateWithPatternJNI(long long pattern[], int repeat)
+    {
+        //jmethodID vibrateWithPatternID = getMethodID("vibrateWithPattern", "([JI)V");
+        //int elements = sizeof(pattern);
+        //jlongArray jLongArray = env->NewLongArray(elements);
+        //env->SetLongArrayRegion(jLongArray, 0, elements, (jlong*) pattern);
+        //if (vibrateWithPatternID)
+        //{
+        //    env->CallStaticVoidMethod(classOfCocos2dxActivity, vibrateWithPatternID, jLongArray, repeat);
+        //}
+        JniMethodInfo methodInfo;
+        
+        if (! getStaticMethodInfo(methodInfo, "vibrateWithPattern", "(J)V"))
+        {
+            return ;
+        }
+        int elements = sizeof(pattern);
+        jlongArray jLongArray = methodInfo.env->NewLongArray(elements);
+        
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jLongArray, repeat);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
+    
+    void cancelVibrateJNI()
+    {
+        //jmethodID cancelVibrateID = getMethodID("cancelVibrate", "()V");
+        //if (cancelVibrateID)
+        //{
+        //    env->CallStaticVoidMethod(classOfCocos2dxActivity, cancelVibrateID);
+        //}
+        JniMethodInfo methodInfo;
+        
+        if (! getStaticMethodInfo(methodInfo, "cancelVibrate", "()V"))
+        {
+            return ;
+        }
+        
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
 }

@@ -209,6 +209,22 @@ public:
     @param[in]        pszFilePath        The path of the effect file,or the FileName of T_SoundResInfo
     */
     void unloadEffect(const char* pszFilePath);
+
+    /**
+    @brief          trigger a vibration for time
+    @param[in]        time        The time in milliseconds to vibrate
+    */
+    void vibrate(long long time);
+    /**
+    @brief          trigger a vibration for a patter of times
+    @param[in]        pattern       The pattern of times in milliseconds to vibrate
+    @param[in]        repeat        continue with the pattern until cancel
+    */
+    void vibrateWithPattern(long long pattern[], int repeat);
+    /**
+    @brief          cancel all triggered vibrations
+    */
+    void cancelVibrate();
 };
 
 } // end of namespace CocosDenshion

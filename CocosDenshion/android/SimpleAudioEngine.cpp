@@ -305,4 +305,19 @@ void SimpleAudioEngine::stopAllEffects()
 	}
 }
 
+void SimpleAudioEngine::vibrate(long long time)
+{
+	vibrateJNI(time);
+}
+
+void SimpleAudioEngine::vibrateWithPattern(long long pattern[], int repeat)
+{
+	vibrateWithPatternJNI(pattern, repeat);
+}
+
+void SimpleAudioEngine::cancelVibrate()
+{
+	cancelVibrateJNI();
+}
+
 }

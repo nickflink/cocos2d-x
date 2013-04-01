@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.os.Vibrator;
 
 public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelperListener {
 	// ===========================================================
@@ -45,6 +46,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
 	
 	private Cocos2dxGLSurfaceView mGLSurfaceView;
 	private Cocos2dxHandler mHandler;
+	private static Cocos2dxSound soundPlayer;
 	private static Context sContext = null;
 	
 	public static Context getContext() {
@@ -59,10 +61,9 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		sContext = this;
-    	this.mHandler = new Cocos2dxHandler(this);
-
-    	this.init();
-
+		this.mHandler = new Cocos2dxHandler(this);
+		soundPlayer = new Cocos2dxSound(this);
+		this.init();
 		Cocos2dxHelper.init(this, this);
 	}
 
@@ -109,6 +110,24 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
 	@Override
 	public void runOnGLThread(final Runnable pRunnable) {
 		this.mGLSurfaceView.queueEvent(pRunnable);
+	}
+
+	// ===========================================================
+	// Vibrate Methods
+	// ===========================================================
+	public static void vibrate(long time)
+	{
+		soundPlayer.vibrate(time);
+	}
+
+	public static void vibrateWithPattern(long pattern[], int repeat)
+	{
+		soundPlayer.vibrateWithPattern(pattern, repeat);
+	}
+
+	public static void cancelVibrate()
+	{
+		soundPlayer.cancelVibrate();
 	}
 
 	// ===========================================================

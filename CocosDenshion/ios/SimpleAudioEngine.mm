@@ -139,6 +139,25 @@ static void static_stopAllEffects()
     [[SimpleAudioEngine sharedEngine] stopAllEffects];
 }
 
+static void static_vibrate(long long time)
+{
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    //[[SimpleAudioEngine sharedEngine] vibrate];
+    return;
+}
+
+static void static_vibrateWithPattern(long long pattern[], int repeat)
+{
+    //[[SimpleAudioEngine sharedEngine] pattern, repeat];
+    return;
+}
+
+static void static_cancelVibrate()
+{
+    //[[SimpleAudioEngine sharedEngine] cancelVibrate];
+    return;
+}
+
 namespace CocosDenshion {
 
 static SimpleAudioEngine *s_pEngine;
@@ -287,6 +306,21 @@ void SimpleAudioEngine::resumeAllEffects()
 void SimpleAudioEngine::stopAllEffects()
 {
     static_stopAllEffects();
+}
+
+void SimpleAudioEngine::vibrate(long long time)
+{
+    static_vibrate(time);
+}
+
+void SimpleAudioEngine::vibrateWithPattern(long long pattern[], int repeat)
+{
+    static_vibrateWithPattern(pattern, repeat);
+}
+
+void SimpleAudioEngine::cancelVibrate()
+{
+    static_cancelVibrate();
 }
 
 } // endof namespace CocosDenshion {

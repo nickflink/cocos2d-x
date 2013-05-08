@@ -305,6 +305,11 @@ void SimpleAudioEngine::stopAllEffects()
 	}
 }
 
+bool SimpleAudioEngine::hasVibrator()
+{
+	return hasVibratorJNI();
+}
+
 void SimpleAudioEngine::vibrate(long long time)
 {
 	vibrateJNI(time);

@@ -117,6 +117,11 @@ public class Cocos2dxHelper {
 	// ===========================================================
 	// Vibrate Methods
 	// ===========================================================
+	public static boolean hasVibrator()
+	{
+		return Cocos2dxHelper.sCocos2dSound.hasVibrator();
+	}
+
 	public static void vibrate(long time)
 	{
 		Cocos2dxHelper.sCocos2dSound.vibrate(time);

@@ -211,6 +211,11 @@ public:
     void unloadEffect(const char* pszFilePath);
 
     /**
+    @brief          check whether or not the device has a vibrator
+    */
+    bool hasVibrator();
+
+    /**
     @brief          trigger a vibration for time
     @param[in]        time        The time in milliseconds to vibrate
     */

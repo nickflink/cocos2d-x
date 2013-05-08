@@ -139,22 +139,35 @@ static void static_stopAllEffects()
     [[SimpleAudioEngine sharedEngine] stopAllEffects];
 }
 
+static bool static_hasVibrator()
+{
+    bool ret = false;
+    //This is ugly but I can't find any other way to do this
+    if([[UIDevice currentDevice].model isEqualToString:@"iPhone"]) {
+        ret = true;
+    }
+    return ret;
+}
+
 static void static_vibrate(long long time)
 {
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-    //[[SimpleAudioEngine sharedEngine] vibrate];
     return;
 }
 
 static void static_vibrateWithPattern(long long pattern[], int repeat)
 {
-    //[[SimpleAudioEngine sharedEngine] pattern, repeat];
+    //This does nothing for now but it should be possible
+    //http://stackoverflow.com/questions/12966467/are-there-apis-for-custom-vibrations-in-ios
+    //AudioServicesPlaySystemSoundWithVibration
     return;
 }
 
 static void static_cancelVibrate()
 {
-    //[[SimpleAudioEngine sharedEngine] cancelVibrate];
+    //This does nothing for now but it should be possible
+    //http://stackoverflow.com/questions/12966467/are-there-apis-for-custom-vibrations-in-ios
+    //AudioServicesStopSystemSound
     return;
 }
 
@@ -306,6 +319,11 @@ void SimpleAudioEngine::resumeAllEffects()
 void SimpleAudioEngine::stopAllEffects()
 {
     static_stopAllEffects();
+}
+
+bool SimpleAudioEngine::hasVibrator()
+{
+    return static_hasVibrator();
 }
 
 void SimpleAudioEngine::vibrate(long long time)

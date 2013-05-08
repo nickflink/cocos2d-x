@@ -1702,6 +1702,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/..\"",
 					"\"$(SRCROOT)/../kazmath/include\"",
+					"\"$(SDKROOT)/../extensions\"",
 					"\"$(SDKROOT)/usr/include/libxml2\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -1729,6 +1730,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/..\"",
 					"\"$(SRCROOT)/../kazmath/include\"",
+					"\"$(SDKROOT)/../extensions\"",
 					"\"$(SDKROOT)/usr/include/libxml2\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;

@@ -307,10 +307,10 @@ public class Cocos2dxSound {
 	public boolean hasVibrator()
 	{
 		boolean hasVibrator = true;
-		//if(android.os.Build.VERSION.SDK_INT >= 11) {
-		//	Vibrator v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
-		//	hasVibrator = v.hasVibrator();
-		//}
+		if(android.os.Build.VERSION.SDK_INT >= 11) {
+			Vibrator v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+			hasVibrator = v.hasVibrator();
+		}
 		return hasVibrator;
 	}
 	public void vibrate(long time)

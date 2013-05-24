@@ -331,7 +331,11 @@ public:
 	
     /** returns a shared instance of the director */
     static CCDirector* sharedDirector(void);
-
+public:
+    // add memory method
+    static double getAvailableBytes();
+    static double getAvailableKiloBytes();
+    static double getAvailableMegaBytes();
 protected:
 
     void purgeDirector();

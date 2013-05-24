@@ -59,6 +59,11 @@ THE SOFTWARE.
 #include "CCEGLView.h"
 #include <string>
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include <mach/mach.h>
+#include <mach/mach_host.h>
+#endif
+
 /**
  Position of the FPS
  
@@ -610,6 +615,35 @@ void CCDirector::popToRootScene(void)
 void CCDirector::end()
 {
     m_bPurgeDirecotorInNextLoop = true;
+}
+
+// add method
+double CCDirector::getAvailableBytes() {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    vm_statistics_data_t vmStats;
+    mach_msg_type_number_t infoCount = HOST_VM_INFO_COUNT;
+    kern_return_t kernReturn = host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&vmStats, &infoCount);
+
+    if (kernReturn != KERN_SUCCESS)
+    {
+        CCLog("FAILURE kernReturn = %d", kernReturn);
+        return 0.0f;
+    }
+    return (vm_page_size * vmStats.free_count);
+#else
+    CCLog("FAILURE getAvailableBytes not implemented for this platform");
+    return 0.0f;
+#endif
+}
+
+double CCDirector::getAvailableKiloBytes()
+{
+    return CCDirector::getAvailableBytes() / 1024.0;
+}
+
+double CCDirector::getAvailableMegaBytes()
+{
+    return CCDirector::getAvailableKiloBytes() / 1024.0;
 }
 
 void CCDirector::purgeDirector()

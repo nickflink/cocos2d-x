@@ -27,6 +27,19 @@
 #include "CCLeaderboardImpl.h"
 
 NS_CC_EXT_BEGIN
+// singleton stuff
+static CCLeaderboard *s_SharedLeaderboard = NULL;
+
+CCLeaderboard* CCLeaderboard::sharedLeaderboard(void)
+{
+    if (!s_SharedLeaderboard)
+    {
+        s_SharedLeaderboard = new CCLeaderboard();
+        s_SharedLeaderboard->init();
+    }
+
+    return s_SharedLeaderboard;
+}
 
 CCLeaderboard::CCLeaderboard(void)
 : m_pLeaderboardImpl(NULL)
@@ -65,7 +78,6 @@ void CCLeaderboard::showLeaderboard()
     {
         m_pLeaderboardImpl->showLeaderboard();
     }
-    
 }
 
 

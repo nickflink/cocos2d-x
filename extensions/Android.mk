@@ -49,10 +49,10 @@ GUI/CCScrollView/CCSorting.cpp \
 GUI/CCEditBox/CCEditBox.cpp \
 GUI/CCEditBox/CCEditBoxImplAndroid.cpp \
 network/HttpClient.cpp \
-GameStats/Achievement/CCAchievement.cpp \
-GameStats/Achievement/CCAchievementImplAndroid.cpp \
-GameStats/Leaderboard/CCLeaderboard.cpp \
-GameStats/Leaderboard/CCLeaderboardImplAndroid.cpp \
+GameServices/Achievement/CCAchievement.cpp \
+GameServices/Achievement/CCAchievementImplAndroid.cpp \
+GameServices/Leaderboard/CCLeaderboard.cpp \
+GameServices/Leaderboard/CCLeaderboardImplAndroid.cpp \
 physics_nodes/CCPhysicsDebugNode.cpp \
 physics_nodes/CCPhysicsSprite.cpp \
 LocalStorage/LocalStorageAndroid.cpp \
@@ -86,7 +86,6 @@ LOCAL_CFLAGS += -DCC_ENABLE_CHIPMUNK_INTEGRATION=1
 LOCAL_EXPORT_CFLAGS += -DCC_ENABLE_CHIPMUNK_INTEGRATION=1
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH) \
-                           $(LOCAL_PATH)/GameStats/Achievement \
                            $(LOCAL_PATH)/CCBReader \
                            $(LOCAL_PATH)/GUI/CCControlExtension \
                            $(LOCAL_PATH)/GUI/CCScrollView \

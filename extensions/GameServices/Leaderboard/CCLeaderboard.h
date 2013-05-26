@@ -41,7 +41,7 @@ class CCLeaderboardDelegate
 {
 public:
     virtual ~CCLeaderboardDelegate() {};
-    
+
     virtual void onLocalPlayerAuthenticationChanged(){}
 //    virtual void onLeaderboardReported(){}//GKLeaderboard *acheivement);
 //    virtual void onLeaderboardLoaded(){}//NSDictionary *leaderboard);
@@ -57,34 +57,36 @@ public:
 ///You can use this widget to display platform specific leaderboards
 ///
 ///
- 
+
 class CCLeaderboard
 : public CCControl
 {
-public:
+private:
     ///
     ///Constructor.
     ///
     CCLeaderboard(void);
-    
+
+public:
     ///
     ///Destructor.
     ///
     virtual ~CCLeaderboard(void);
 
-    CREATE_FUNC(CCLeaderboard);
-    
+    static CCLeaderboard* sharedLeaderboard(void);
+    //CREATE_FUNC(CCLeaderboard);
+
     bool init();
-    
+
     ///
     ///Set the delegate for leaderboard.
     ///
     void setDelegate(CCLeaderboardDelegate* pDelegate);
-    
-    virtual void showLeaderboard();
-    
 
-    
+    virtual void showLeaderboard();
+
+
+
 protected:
     CCLeaderboardImpl*      m_pLeaderboardImpl;
     CCLeaderboardDelegate*  m_pDelegate;

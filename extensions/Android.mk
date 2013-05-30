@@ -49,10 +49,6 @@ GUI/CCScrollView/CCSorting.cpp \
 GUI/CCEditBox/CCEditBox.cpp \
 GUI/CCEditBox/CCEditBoxImplAndroid.cpp \
 network/HttpClient.cpp \
-GameServices/Achievement/CCAchievement.cpp \
-GameServices/Achievement/CCAchievementImplAndroid.cpp \
-GameServices/Leaderboard/CCLeaderboard.cpp \
-GameServices/Leaderboard/CCLeaderboardImplAndroid.cpp \
 physics_nodes/CCPhysicsDebugNode.cpp \
 physics_nodes/CCPhysicsSprite.cpp \
 LocalStorage/LocalStorageAndroid.cpp \

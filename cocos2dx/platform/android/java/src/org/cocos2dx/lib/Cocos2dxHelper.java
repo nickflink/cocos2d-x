@@ -76,7 +76,7 @@ public class Cocos2dxHelper {
 		Cocos2dxHelper.sCocos2dxHelperListener = pCocos2dxHelperListener;
 		//Set this
 		Cocos2dxHelper.sCocos2dxGameServiceHelperListener = null;
-		Cocos2dxHelper.sCocos2dxGameServiceHelper = null;
+		Cocos2dxHelper.sCocos2dxGameServiceHelper = new Cocos2dxGameServiceHelper((Activity)pContext);
 
 		Cocos2dxHelper.sPackageName = applicationInfo.packageName;
 		Cocos2dxHelper.sFileDirectory = pContext.getFilesDir().getAbsolutePath();
@@ -131,22 +131,16 @@ public class Cocos2dxHelper {
 	public static void showLeaderboard()
 	{
 		Log.e(Cocos2dxHelper.TAG, "showLeaderboard");
-		Cocos2dxGameServiceActivity gameServiceActivity = ((Cocos2dxGameServiceActivity)sContext);
-		gameServiceActivity.showLeaderboard();
-		//((Cocos2dxGameServiceActivity)sContext).runOnUiThread(new Runnable() {
-		//		public void run() {
-		//				Cocos2dxGameServiceActivity gameServiceActivity = ((Cocos2dxGameServiceActivity)sContext);
-		//				Intent leaderboardIntent = gameServiceActivity.getGamesClient().getLeaderboardIntent("CgkI6-7Xw6MGEAIQA");
-		//				gameServiceActivity.startActivityForResult(leaderboardIntent, 5001);
-		//		}
-		//});
-
-
-
-		//if (Cocos2dxHelper.sCocos2dxGameServiceHelper != null)
-		//{
-		//	Cocos2dxHelper.sCocos2dxGameServiceHelper.showLeaderboard();
-		//}
+		((Activity)sContext).runOnUiThread(new Runnable() {
+				public void run() {
+					if(sCocos2dxGameServiceHelper.isSignedIn()) {
+						Activity activity = (Activity)sContext;
+						activity.startActivityForResult(sCocos2dxGameServiceHelper.getGamesClient().getAllLeaderboardsIntent(), /*RC_UNUSED*/9002);
+					} else {
+						sCocos2dxGameServiceHelper.showAlert("NL: You must sign in to use leaderboards");
+					}
+				}
+		});
 		return;
 	}
 

@@ -28,20 +28,26 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
+import org.cocos2dx.lib.Cocos2dxGameServiceActivity;
+import org.cocos2dx.lib.Cocos2dxGameServiceHelper;
+import org.cocos2dx.lib.Cocos2dxGameServiceHelper.Cocos2dxGameServiceHelperListener;
 
 public class Cocos2dxHelper {
 	// ===========================================================
 	// Constants
 	// ===========================================================
 	private static final String PREFS_NAME = "Cocos2dxPrefsFile";
+	private static final String TAG = Cocos2dxHelper.class.getSimpleName();
 
 	// ===========================================================
 	// Fields
@@ -56,6 +62,8 @@ public class Cocos2dxHelper {
 	private static String sFileDirectory;
 	private static Context sContext = null;
 	private static Cocos2dxHelperListener sCocos2dxHelperListener;
+	private static Cocos2dxGameServiceHelper sCocos2dxGameServiceHelper;
+	private static Cocos2dxGameServiceHelperListener sCocos2dxGameServiceHelperListener;
 
 	// ===========================================================
 	// Constructors
@@ -66,6 +74,9 @@ public class Cocos2dxHelper {
 		
 		Cocos2dxHelper.sContext = pContext;
 		Cocos2dxHelper.sCocos2dxHelperListener = pCocos2dxHelperListener;
+		//Set this
+		Cocos2dxHelper.sCocos2dxGameServiceHelperListener = null;
+		Cocos2dxHelper.sCocos2dxGameServiceHelper = null;
 
 		Cocos2dxHelper.sPackageName = applicationInfo.packageName;
 		Cocos2dxHelper.sFileDirectory = pContext.getFilesDir().getAbsolutePath();
@@ -112,6 +123,31 @@ public class Cocos2dxHelper {
 
 	public static AssetManager getAssetManager() {
 		return Cocos2dxHelper.sAssetManager;
+	}
+	// ===========================================================
+	// GameServices Methods
+	// ===========================================================
+
+	public static void showLeaderboard()
+	{
+		Log.e(Cocos2dxHelper.TAG, "showLeaderboard");
+		Cocos2dxGameServiceActivity gameServiceActivity = ((Cocos2dxGameServiceActivity)sContext);
+		gameServiceActivity.showLeaderboard();
+		//((Cocos2dxGameServiceActivity)sContext).runOnUiThread(new Runnable() {
+		//		public void run() {
+		//				Cocos2dxGameServiceActivity gameServiceActivity = ((Cocos2dxGameServiceActivity)sContext);
+		//				Intent leaderboardIntent = gameServiceActivity.getGamesClient().getLeaderboardIntent("CgkI6-7Xw6MGEAIQA");
+		//				gameServiceActivity.startActivityForResult(leaderboardIntent, 5001);
+		//		}
+		//});
+
+
+
+		//if (Cocos2dxHelper.sCocos2dxGameServiceHelper != null)
+		//{
+		//	Cocos2dxHelper.sCocos2dxGameServiceHelper.showLeaderboard();
+		//}
+		return;
 	}
 
 	// ===========================================================

@@ -16,6 +16,7 @@
 
 package org.cocos2dx.lib;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +25,6 @@ import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.games.GamesClient;
 import com.google.android.gms.plus.PlusClient;
-import org.cocos2dx.lib.Cocos2dxActivity;
 
 /**
  * Example base class for games. This implementation takes care of setting up
@@ -43,10 +43,9 @@ import org.cocos2dx.lib.Cocos2dxActivity;
  *
  * @author Bruno Oliveira (Google)
  */
-public abstract class Cocos2dxGameServiceActivity extends Cocos2dxActivity implements
-        Cocos2dxGameServiceHelper.Cocos2dxGameServiceHelperListener {
+//public class Cocos2dxGameServiceActivity extends FragmentActivity implements Cocos2dxGameServiceHelper.Cocos2dxGameServiceHelperListener {
+public class Cocos2dxGameServiceActivity implements Cocos2dxGameServiceHelper.Cocos2dxGameServiceHelperListener {
 
-    private static final String TAG = Cocos2dxGameServiceActivity.class.getSimpleName();
     // The game helper object. This class is mainly a wrapper around this object.
     protected Cocos2dxGameServiceHelper mHelper;
 
@@ -61,9 +60,9 @@ public abstract class Cocos2dxGameServiceActivity extends Cocos2dxActivity imple
     protected int mRequestedClients = CLIENT_GAMES;
 
     /** Constructs a Cocos2dxGameServiceActivity with default client (GamesClient). */
-    protected Cocos2dxGameServiceActivity() {
+    public Cocos2dxGameServiceActivity(Activity activity) {
         super();
-        mHelper = new Cocos2dxGameServiceHelper(this);
+        mHelper = new Cocos2dxGameServiceHelper(activity);
     }
 
     /**
@@ -89,89 +88,100 @@ public abstract class Cocos2dxGameServiceActivity extends Cocos2dxActivity imple
         mRequestedClients = requestedClients;
     }
 
+//    @Override
+//    protected void onCreate(Bundle b) {
+//        super.onCreate(b);
+//        mHelper = new Cocos2dxGameServiceHelper(this);
+//        mHelper.setup(this, mRequestedClients);
+//    }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        mHelper.onStart(this);
+//    }
+
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        mHelper.onStop();
+//    }
+
+//    @Override
+//    protected void onActivityResult(int request, int response, Intent data) {
+//        super.onActivityResult(request, response, data);
+//        mHelper.onActivityResult(request, response, data);
+//    }
+
+    //Cocos2dxGameServiceHelperListener Overrides
     @Override
-    protected void onCreate(Bundle b) {
-        super.onCreate(b);
-        mHelper = new Cocos2dxGameServiceHelper(this);
-        mHelper.setup(this, mRequestedClients);
+    public void onSignInFailed() {
+        mHelper.debugLog("handle onSignInFailed gracefully");
     }
 
     @Override
-    protected void onStart() {
-        Log.e(TAG, "onStart");
-        super.onStart();
-        mHelper.onStart(this);
+    public void onSignInSucceeded() {
+        mHelper.debugLog("handle onSignInSucceeded gracefully");
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mHelper.onStop();
-    }
 
-    @Override
-    protected void onActivityResult(int request, int response, Intent data) {
-        super.onActivityResult(request, response, data);
-        mHelper.onActivityResult(request, response, data);
-    }
-
-    protected GamesClient getGamesClient() {
+    public GamesClient getGamesClient() {
         return mHelper.getGamesClient();
     }
 
-    protected AppStateClient getAppStateClient() {
+    public AppStateClient getAppStateClient() {
         return mHelper.getAppStateClient();
     }
 
-    protected PlusClient getPlusClient() {
+    public PlusClient getPlusClient() {
         return mHelper.getPlusClient();
     }
 
-    protected boolean isSignedIn() {
+    public boolean isSignedIn() {
         return mHelper.isSignedIn();
     }
 
-    protected void beginUserInitiatedSignIn() {
+    public void beginUserInitiatedSignIn() {
         mHelper.beginUserInitiatedSignIn();
     }
 
-    protected void signOut() {
+    public void signOut() {
         mHelper.signOut();
     }
 
-    protected void showAlert(String title, String message) {
+    public void showAlert(String title, String message) {
         mHelper.showAlert(title, message);
     }
 
-    protected void showAlert(String message) {
+    public void showAlert(String message) {
         mHelper.showAlert(message);
     }
 
-    protected void enableDebugLog(boolean enabled, String tag) {
+    public void enableDebugLog(boolean enabled, String tag) {
         mHelper.enableDebugLog(enabled, tag);
     }
 
-    protected String getInvitationId() {
+    public String getInvitationId() {
         return mHelper.getInvitationId();
     }
 
-    protected void reconnectClients(int whichClients) {
+    public void reconnectClients(int whichClients) {
         mHelper.reconnectClients(whichClients);
     }
 
-    protected String getScopes() {
+    public String getScopes() {
         return mHelper.getScopes();
     }
 
-    protected boolean hasSignInError() {
+    public boolean hasSignInError() {
         return mHelper.hasSignInError();
     }
 
-    protected ConnectionResult getSignInError() {
+    public ConnectionResult getSignInError() {
         return mHelper.getSignInError();
     }
 
-    protected void setSignInMessages(String signingInMessage, String signingOutMessage) {
+    public void setSignInMessages(String signingInMessage, String signingOutMessage) {
         mHelper.setSigningInMessage(signingInMessage);
         mHelper.setSigningOutMessage(signingOutMessage);
     }

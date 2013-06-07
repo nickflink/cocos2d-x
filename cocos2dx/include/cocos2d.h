@@ -86,6 +86,7 @@ THE SOFTWARE.
 #include "ccConfig.h"
 #include "ccMacros.h"
 #include "ccTypes.h"
+#include "CCGameServices.h"
 
 // kazmath
 #include "kazmath/include/kazmath/kazmath.h"

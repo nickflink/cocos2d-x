@@ -128,6 +128,10 @@ public class Cocos2dxHelper {
 	// GameServices Methods
 	// ===========================================================
 
+	public static boolean isSignedIn() {
+		return sCocos2dxGameServiceHelper.isSignedIn();
+	}
+
 	public static void showLeaderboard()
 	{
 		Log.e(Cocos2dxHelper.TAG, "showLeaderboard");

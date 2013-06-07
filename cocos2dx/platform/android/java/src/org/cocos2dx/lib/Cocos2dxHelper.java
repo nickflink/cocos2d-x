@@ -131,6 +131,10 @@ public class Cocos2dxHelper {
 	public static boolean isSignedIn() {
 		return sCocos2dxGameServiceHelper.isSignedIn();
 	}
+	
+	public static void beginUserInitiatedSignIn() {
+		sCocos2dxGameServiceHelper.beginUserInitiatedSignIn();
+	}
 
 	public static void showLeaderboard()
 	{
@@ -139,6 +143,7 @@ public class Cocos2dxHelper {
 				public void run() {
 					if(sCocos2dxGameServiceHelper.isSignedIn()) {
 						Activity activity = (Activity)sContext;
+						//sCocos2dxGameServiceHelper.setup(sCocos2dxGameServiceHelperListener);
 						activity.startActivityForResult(sCocos2dxGameServiceHelper.getGamesClient().getAllLeaderboardsIntent(), /*RC_UNUSED*/9002);
 					} else {
 						sCocos2dxGameServiceHelper.showAlert("NL: You must sign in to use leaderboards");

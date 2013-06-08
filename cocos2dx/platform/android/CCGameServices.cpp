@@ -46,4 +46,12 @@ void CCGameServices::submitScore(int64_t score, const char *category) {
     CCLog("This needs implemented");
     CCAssert(false, "implement CCGameServices::submitScore");
 }
+
+void CCGameServices::onSignInFailed() {
+    CCLog("CCGameServices::onSignInFailed");
+}
+
+void CCGameServices::onSignInSucceeded() {
+    CCLog("CCGameServices::onSignInFailed");
+}
 NS_CC_END

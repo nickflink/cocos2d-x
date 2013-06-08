@@ -40,7 +40,6 @@ import android.view.Display;
 import android.view.WindowManager;
 import org.cocos2dx.lib.Cocos2dxGameServiceActivity;
 import org.cocos2dx.lib.Cocos2dxGameServiceHelper;
-import org.cocos2dx.lib.Cocos2dxGameServiceHelper.Cocos2dxGameServiceHelperListener;
 
 public class Cocos2dxHelper {
 	// ===========================================================
@@ -63,7 +62,6 @@ public class Cocos2dxHelper {
 	private static Context sContext = null;
 	private static Cocos2dxHelperListener sCocos2dxHelperListener;
 	private static Cocos2dxGameServiceHelper sCocos2dxGameServiceHelper;
-	private static Cocos2dxGameServiceHelperListener sCocos2dxGameServiceHelperListener;
 
 	// ===========================================================
 	// Constructors
@@ -75,8 +73,8 @@ public class Cocos2dxHelper {
 		Cocos2dxHelper.sContext = pContext;
 		Cocos2dxHelper.sCocos2dxHelperListener = pCocos2dxHelperListener;
 		//Set this
-		Cocos2dxHelper.sCocos2dxGameServiceHelperListener = null;
 		Cocos2dxHelper.sCocos2dxGameServiceHelper = new Cocos2dxGameServiceHelper((Activity)pContext);
+		Cocos2dxHelper.sCocos2dxGameServiceHelper.setup();
 
 		Cocos2dxHelper.sPackageName = applicationInfo.packageName;
 		Cocos2dxHelper.sFileDirectory = pContext.getFilesDir().getAbsolutePath();
@@ -133,7 +131,17 @@ public class Cocos2dxHelper {
 	}
 	
 	public static void beginUserInitiatedSignIn() {
-		sCocos2dxGameServiceHelper.beginUserInitiatedSignIn();
+		Log.e(Cocos2dxHelper.TAG, "showLeaderboard");
+		((Activity)sContext).runOnUiThread(new Runnable() {
+				public void run() {
+					if(!sCocos2dxGameServiceHelper.isSignedIn()) {
+						sCocos2dxGameServiceHelper.beginUserInitiatedSignIn();
+					} else {
+						sCocos2dxGameServiceHelper.showAlert("NL: You are already signed in");
+					}
+				}
+		});
+		return;
 	}
 
 	public static void showLeaderboard()
@@ -143,7 +151,6 @@ public class Cocos2dxHelper {
 				public void run() {
 					if(sCocos2dxGameServiceHelper.isSignedIn()) {
 						Activity activity = (Activity)sContext;
-						//sCocos2dxGameServiceHelper.setup(sCocos2dxGameServiceHelperListener);
 						activity.startActivityForResult(sCocos2dxGameServiceHelper.getGamesClient().getAllLeaderboardsIntent(), /*RC_UNUSED*/9002);
 					} else {
 						sCocos2dxGameServiceHelper.showAlert("NL: You must sign in to use leaderboards");

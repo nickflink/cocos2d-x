@@ -35,6 +35,11 @@ public:
     virtual void beginUserInitiatedSignIn();
     virtual void showLeaderboard();
     virtual void submitScore(int64_t score, const char *category);
+    //
+    //Callbacks.
+    //
+    virtual void onSignInFailed();
+    virtual void onSignInSucceeded();
 };
 
 NS_CC_END

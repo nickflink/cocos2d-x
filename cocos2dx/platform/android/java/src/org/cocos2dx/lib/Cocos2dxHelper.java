@@ -38,7 +38,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-import org.cocos2dx.lib.Cocos2dxGameServiceActivity;
 import org.cocos2dx.lib.Cocos2dxGameServiceHelper;
 
 public class Cocos2dxHelper {

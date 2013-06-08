@@ -41,6 +41,7 @@ import com.google.android.gms.plus.PlusClient;
 
 public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.ConnectionCallbacks,
         GooglePlayServicesClient.OnConnectionFailedListener, OnSignOutCompleteListener {
+
     private static final String TAG = Cocos2dxGameServiceHelper.class.getSimpleName();
     /**
      * The Activity we are bound to. We need to keep a reference to the Activity
@@ -111,8 +112,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     boolean mSignedIn = false;
 
     // Print debug logs?
-    boolean mDebugLog = false;
-    String mDebugTag = "BaseGameActivity";
+    boolean mDebugLog = true;//false;
 
     // Messages (can be set by the developer).
     String mSigningInMessage = "";
@@ -330,9 +330,8 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     }
 
     /** Enables debug logging, with the given logcat tag. */
-    public void enableDebugLog(boolean enabled, String tag) {
+    public void enableDebugLog(boolean enabled) {
         mDebugLog = enabled;
-        mDebugTag = tag;
     }
 
     /**
@@ -712,9 +711,8 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     }
 
     void debugLog(String message) {
-        if (true || mDebugLog)
-            //Log.d(mDebugTag, message);
-            Log.e(mDebugTag, message);
+        if (mDebugLog)
+            Log.e(TAG, message);
     }
 
     @Override

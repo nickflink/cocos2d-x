@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01F00A7A1762B098001F1546 /* CCGameServices.h in Headers */ = {isa = PBXBuildFile; fileRef = 01F00A791762B098001F1546 /* CCGameServices.h */; };
+		01F00A7E1762B0CD001F1546 /* CCGameServices_objc.h in Headers */ = {isa = PBXBuildFile; fileRef = 01F00A7B1762B0CD001F1546 /* CCGameServices_objc.h */; };
+		01F00A7F1762B0CD001F1546 /* CCGameServices_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F00A7C1762B0CD001F1546 /* CCGameServices_objc.m */; };
+		01F00A801762B0CD001F1546 /* CCGameServices.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01F00A7D1762B0CD001F1546 /* CCGameServices.mm */; };
 		154269DC15B5653000712A7F /* CCNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 154269DA15B5653000712A7F /* CCNotificationCenter.cpp */; };
 		154269DD15B5653000712A7F /* CCNotificationCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 154269DB15B5653000712A7F /* CCNotificationCenter.h */; };
 		1551A343158F2AB200E66CFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1551A342158F2AB200E66CFE /* Foundation.framework */; };
@@ -314,6 +318,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01F00A791762B098001F1546 /* CCGameServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGameServices.h; sourceTree = "<group>"; };
+		01F00A7B1762B0CD001F1546 /* CCGameServices_objc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGameServices_objc.h; sourceTree = "<group>"; };
+		01F00A7C1762B0CD001F1546 /* CCGameServices_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCGameServices_objc.m; sourceTree = "<group>"; };
+		01F00A7D1762B0CD001F1546 /* CCGameServices.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCGameServices.mm; sourceTree = "<group>"; };
 		154269DA15B5653000712A7F /* CCNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCNotificationCenter.cpp; sourceTree = "<group>"; };
 		154269DB15B5653000712A7F /* CCNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNotificationCenter.h; sourceTree = "<group>"; };
 		1551A33F158F2AB200E66CFE /* libcocos2dx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcocos2dx.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -799,6 +807,7 @@
 		1551A3E8158F2ADE00E66CFE /* include */ = {
 			isa = PBXGroup;
 			children = (
+				01F00A791762B098001F1546 /* CCGameServices.h */,
 				1551A3E9158F2ADE00E66CFE /* ccConfig.h */,
 				1551A3EA158F2ADE00E66CFE /* CCEventType.h */,
 				1551A3EB158F2ADE00E66CFE /* ccMacros.h */,
@@ -997,6 +1006,9 @@
 		1551A47B158F2ADE00E66CFE /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				01F00A7B1762B0CD001F1546 /* CCGameServices_objc.h */,
+				01F00A7C1762B0CD001F1546 /* CCGameServices_objc.m */,
+				01F00A7D1762B0CD001F1546 /* CCGameServices.mm */,
 				1551A47C158F2ADE00E66CFE /* AccelerometerDelegateWrapper.h */,
 				1551A47D158F2ADE00E66CFE /* AccelerometerDelegateWrapper.mm */,
 				1551A47E158F2ADE00E66CFE /* CCAccelerometer.h */,
@@ -1450,6 +1462,8 @@
 				1A5B48EA16F084CC008568FC /* CCBool.h in Headers */,
 				1A5B48EB16F084CC008568FC /* CCDouble.h in Headers */,
 				1A5B48EC16F084CC008568FC /* CCFloat.h in Headers */,
+				01F00A7A1762B098001F1546 /* CCGameServices.h in Headers */,
+				01F00A7E1762B0CD001F1546 /* CCGameServices_objc.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1635,6 +1649,8 @@
 				46A393F616E5D01B00210B16 /* CCUserDefault.cpp in Sources */,
 				46A393F816E5D01B00210B16 /* CCUserDefault.mm in Sources */,
 				46A393F916E5D01B00210B16 /* CCUserDefaultAndroid.cpp in Sources */,
+				01F00A7F1762B0CD001F1546 /* CCGameServices_objc.m in Sources */,
+				01F00A801762B0CD001F1546 /* CCGameServices.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

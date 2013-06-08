@@ -42,25 +42,6 @@ import com.google.android.gms.plus.PlusClient;
 public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.ConnectionCallbacks,
         GooglePlayServicesClient.OnConnectionFailedListener, OnSignOutCompleteListener {
     private static final String TAG = Cocos2dxGameServiceHelper.class.getSimpleName();
-
-    /** Listener for sign-in success or failure events. */
-    public interface Cocos2dxGameServiceHelperListener {
-        /**
-         * Called when sign-in fails. As a result, a "Sign-In" button can be
-         * shown to the user; when that button is clicked, call
-         * @link{GamesHelper#beginUserInitiatedSignIn}. Note that not all calls to this
-         * method mean an error; it may be a result of the fact that automatic
-         * sign-in could not proceed because user interaction was required
-         * (consent dialogs). So implementations of this method should NOT
-         * display an error message unless a call to @link{GamesHelper#hasSignInError}
-         * indicates that an error indeed occurred.
-         */
-        void onSignInFailed();
-
-        /** Called when sign-in succeeds. */
-        void onSignInSucceeded();
-    }
-
     /**
      * The Activity we are bound to. We need to keep a reference to the Activity
      * because some games methods require an Activity (a Context won't do). We
@@ -143,9 +124,6 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     // Otherwise, it's null.
     String mInvitationId;
 
-    // Listener
-    Cocos2dxGameServiceHelperListener mListener = null;
-
     /**
      * Construct a Cocos2dxGameServiceHelper object, initially tied to the given Activity.
      * After constructing this object, call @link{setup} from the onCreate()
@@ -174,11 +152,11 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     }
 
     /**
-     * Same as calling @link{setup(Cocos2dxGameServiceHelperListener, int)} requesting only the
+     * Same as calling @link{setup(int)} requesting only the
      * CLIENT_GAMES client.
      */
-    public void setup(Cocos2dxGameServiceHelperListener listener) {
-        setup(listener, CLIENT_GAMES);
+    public void setup() {
+        setup(CLIENT_GAMES);
     }
 
     /**
@@ -192,8 +170,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
      *            CLIENT_GAMES, CLIENT_PLUS and CLIENT_APPSTATE, or CLIENT_ALL
      *            to request all clients.
      */
-    public void setup(Cocos2dxGameServiceHelperListener listener, int clientsToUse) {
-        mListener = listener;
+    public void setup(int clientsToUse) {
         mRequestedClients = clientsToUse;
 
         Vector<String> scopesVector = new Vector<String>();
@@ -344,9 +321,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
 
     /**
      * Returns the invitation ID received through an invitation notification.
-     * This should be called from your Cocos2dxGameServiceHelperListener's
-     *
-     * @link{Cocos2dxGameServiceHelperListener#onSignInSucceeded} method, to check if there's an
+     * This should be called from onSignInSucceeded method, to check if there's an
      * invitation available. In that case, accept the invitation.
      * @return The id of the invitation, or null if none was received.
      */
@@ -431,7 +406,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     /**
      * Starts a user-initiated sign-in flow. This should be called when the user
      * clicks on a "Sign In" button. As a result, authentication/consent dialogs
-     * may show up. At the end of the process, the Cocos2dxGameServiceHelperListener's
+     * may show up. At the end of the process,
      * onSignInSucceeded() or onSignInFailed() methods will be called.
      */
     public void beginUserInitiatedSignIn() {
@@ -450,8 +425,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
             debugLog("Google Play services not available. Show error dialog.");
             Dialog errorDialog = getErrorDialog(result);
             errorDialog.show();
-            if (mListener != null)
-                mListener.onSignInFailed();
+            onSignInFailed();
             return;
         }
 
@@ -622,9 +596,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
         mAutoSignIn = true;
         mUserInitiatedSignIn = false;
         dismissDialog();
-        if (mListener != null) {
-            mListener.onSignInSucceeded();
-        }
+        onSignInSucceeded();
     }
 
     /** Handles a connection failure reported by a client. */
@@ -644,9 +616,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
             // sign in.
             debugLog("onConnectionFailed: since user didn't initiate sign-in, failing now.");
             mConnectionResult = result;
-            if (mListener != null) {
-                mListener.onSignInFailed();
-            }
+            onSignInFailed();
             return;
         }
 
@@ -707,9 +677,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
             // get error dialog for that specific problem
             errorDialog = getErrorDialog(mConnectionResult.getErrorCode());
             errorDialog.show();
-            if (mListener != null) {
-                mListener.onSignInFailed();
-            }
+            onSignInFailed();
         } else {
             // this is a bug
             Log.e("Cocos2dxGameServiceHelper", "giveUp() called with no mConnectionResult");
@@ -726,9 +694,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
         mSignInError = false;
         mInvitationId = null;
         mConnectedClients = CLIENT_NONE;
-        if (mListener != null) {
-            mListener.onSignInFailed();
-        }
+        onSignInFailed();
     }
 
     /** Returns an error dialog that's appropriate for the given error code. */
@@ -757,4 +723,10 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
         if (mGamesClient.isConnected())
             mGamesClient.disconnect();
     }
+
+    // ===========================================================
+    // Native Methods
+    // ===========================================================
+    public static native void onSignInFailed();
+    public static native void onSignInSucceeded();
 }

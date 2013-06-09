@@ -605,6 +605,8 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
         mConnectionResult = result;
         debugLog("onConnectionFailed: result " + result.getErrorCode());
         dismissDialog();
+        //NFHACK GIVING UP RIGHT AWAY
+        //giveUp();
 
         if (!mUserInitiatedSignIn) {
             // If the user didn't initiate the sign-in, we don't try to resolve
@@ -664,6 +666,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
      * new version, etc).
      */
     void giveUp() {
+        debugLog("giveUp and display dialog");
         mSignInError = true;
         mAutoSignIn = false;
         dismissDialog();

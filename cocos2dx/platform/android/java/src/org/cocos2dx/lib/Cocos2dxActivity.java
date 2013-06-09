@@ -27,6 +27,7 @@ import org.cocos2dx.lib.Cocos2dxHelper.Cocos2dxHelperListener;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
@@ -73,6 +74,25 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+
+	@Override
+	protected void onStart() {
+			super.onStart();
+			Cocos2dxHelper.onStart();
+	}
+
+	@Override
+	protected void onStop() {
+			super.onStop();
+			Cocos2dxHelper.onStop();
+	}
+
+	@Override
+	protected void onActivityResult(int request, int response, Intent data) {
+			super.onActivityResult(request, response, data);
+			Cocos2dxHelper.onActivityResult(request, response, data);
+	}
+
 
 	@Override
 	protected void onResume() {

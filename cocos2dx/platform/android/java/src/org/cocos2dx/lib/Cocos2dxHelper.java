@@ -148,13 +148,14 @@ public class Cocos2dxHelper {
 	}
 	
 	public static void beginUserInitiatedSignIn() {
-		Log.e(Cocos2dxHelper.TAG, "showLeaderboard");
+		Log.d(Cocos2dxHelper.TAG, "beginUserInitiatedSignIn");
 		((Activity)sContext).runOnUiThread(new Runnable() {
 				public void run() {
 					if(!sCocos2dxGameServiceHelper.isSignedIn()) {
 						sCocos2dxGameServiceHelper.beginUserInitiatedSignIn();
 					} else {
-						sCocos2dxGameServiceHelper.showAlert("NL: You are already signed in");
+						//sCocos2dxGameServiceHelper.showAlert("NL: You are already signed in");
+						Log.e(Cocos2dxHelper.TAG, "NL: You are already signed in");
 					}
 				}
 		});
@@ -163,14 +164,31 @@ public class Cocos2dxHelper {
 
 	public static void showLeaderboard()
 	{
-		Log.e(Cocos2dxHelper.TAG, "showLeaderboard");
+		Log.d(Cocos2dxHelper.TAG, "showLeaderboard");
 		((Activity)sContext).runOnUiThread(new Runnable() {
 				public void run() {
 					if(sCocos2dxGameServiceHelper.isSignedIn()) {
 						Activity activity = (Activity)sContext;
 						activity.startActivityForResult(sCocos2dxGameServiceHelper.getGamesClient().getAllLeaderboardsIntent(), /*RC_UNUSED*/9002);
 					} else {
-						sCocos2dxGameServiceHelper.showAlert("NL: You must sign in to use leaderboards");
+						//sCocos2dxGameServiceHelper.showAlert("NL: You must sign in to use leaderboards");
+						Log.e(Cocos2dxHelper.TAG, "NL: You must sign in to use leaderboards");
+					}
+				}
+		});
+		return;
+	}
+
+	public static void submitScore(final String category, final long score)
+	{
+		Log.d(Cocos2dxHelper.TAG, "submitScore");
+		((Activity)sContext).runOnUiThread(new Runnable() {
+				public void run() {
+					if(sCocos2dxGameServiceHelper.isSignedIn()) {
+						sCocos2dxGameServiceHelper.getGamesClient().submitScore(category, score);
+					} else {
+						//sCocos2dxGameServiceHelper.showAlert("NL: You must sign in to submit scores");
+						Log.e(Cocos2dxHelper.TAG, "NL: You must sign in to submit scores");
 					}
 				}
 		});

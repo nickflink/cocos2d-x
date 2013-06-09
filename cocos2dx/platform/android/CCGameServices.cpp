@@ -42,8 +42,9 @@ void CCGameServices::showLeaderboard() {
     //CCAssert(false, "implement CCGameServices::showLeaderboard");
 }
 
-void CCGameServices::submitScore(int64_t score, const char *category) {
+void CCGameServices::submitScore(const char *category, long long score) {
     CCLog("This needs implemented");
+    submitScoreJNI(category, score);
     CCAssert(false, "implement CCGameServices::submitScore");
 }
 
@@ -52,6 +53,7 @@ void CCGameServices::addSignInDelegate(CCSignInDelegate *pDelegate) {
 }
 
 void CCGameServices::removeSignInDelegate(CCSignInDelegate *pDelegate) {
+   // m_pSignInHandlers.erase(pDelegate);
     for(std::vector<CCSignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
         if(reinterpret_cast<size_t>(*it) == reinterpret_cast<size_t>(pDelegate)) {
             m_pSignInHandlers.erase(it);

@@ -11,7 +11,8 @@ Copyright (c) 2013 Nicholas Flink
 extern "C"
 {
     extern bool isSignedInJNI();
-    extern void showLeaderboardJNI();
     extern void beginUserInitiatedSignInJNI();
+    extern void showLeaderboardJNI();
+    extern void submitScoreJNI(const char *category, long long score);
 }
 #endif //__CCGameServicesJni_H__

@@ -15,7 +15,7 @@ class CC_DLL CCSignInDelegate
 public:
 
     CCSignInDelegate() {}
-    virtual ~CCSignInDelegate() {}
+    virtual ~CCSignInDelegate() {CCLog("CCSignInDelegate::~CCSignInDelegate");}
     virtual void ccOnSignInSucceeded() = 0;
     virtual void ccOnSignInFailed() = 0;
 };
@@ -45,7 +45,7 @@ public:
     virtual bool isSignedIn();
     virtual void beginUserInitiatedSignIn();
     virtual void showLeaderboard();
-    virtual void submitScore(int64_t score, const char *category);
+    virtual void submitScore(const char *category, long long score);
     virtual void addSignInDelegate(CCSignInDelegate *pDelegate);
     virtual void removeSignInDelegate(CCSignInDelegate *pDelegate);
     //

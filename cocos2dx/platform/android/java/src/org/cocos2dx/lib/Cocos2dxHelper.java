@@ -74,6 +74,8 @@ public class Cocos2dxHelper {
 		//Set this
 		Cocos2dxHelper.sCocos2dxGameServiceHelper = new Cocos2dxGameServiceHelper((Activity)pContext);
 		Cocos2dxHelper.sCocos2dxGameServiceHelper.setup();
+		Cocos2dxHelper.sCocos2dxGameServiceHelper.setSigningInMessage("NL: signing in");
+		Cocos2dxHelper.sCocos2dxGameServiceHelper.setSigningOutMessage("NL: signing out");
 
 		Cocos2dxHelper.sPackageName = applicationInfo.packageName;
 		Cocos2dxHelper.sFileDirectory = pContext.getFilesDir().getAbsolutePath();
@@ -84,6 +86,22 @@ public class Cocos2dxHelper {
 		Cocos2dxHelper.sCocos2dSound = new Cocos2dxSound(pContext);
 		Cocos2dxHelper.sAssetManager = pContext.getAssets();
 		Cocos2dxBitmap.setContext(pContext);
+	}
+
+	// ===========================================================
+	// Activity passthru methods
+	// ===========================================================
+	public static void onStart() {
+		Activity activity = ((Activity)sContext);
+		Cocos2dxHelper.sCocos2dxGameServiceHelper.onStart(activity);
+	}
+
+	public static void onStop() {
+		Cocos2dxHelper.sCocos2dxGameServiceHelper.onStop();
+	}
+
+	public static void onActivityResult(int request, int response, Intent data) {
+		Cocos2dxHelper.sCocos2dxGameServiceHelper.onActivityResult(request, response, data);
 	}
 
 	// ===========================================================

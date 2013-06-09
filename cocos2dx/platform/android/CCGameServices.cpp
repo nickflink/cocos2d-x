@@ -47,11 +47,30 @@ void CCGameServices::submitScore(int64_t score, const char *category) {
     CCAssert(false, "implement CCGameServices::submitScore");
 }
 
+void CCGameServices::addSignInDelegate(CCSignInDelegate *pDelegate) {
+    m_pSignInHandlers.push_back(pDelegate);
+}
+
+void CCGameServices::removeSignInDelegate(CCSignInDelegate *pDelegate) {
+    for(std::vector<CCSignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
+        if(reinterpret_cast<size_t>(*it) == reinterpret_cast<size_t>(pDelegate)) {
+            m_pSignInHandlers.erase(it);
+        }
+    }
+}
+
 void CCGameServices::onSignInFailed() {
     CCLog("CCGameServices::onSignInFailed");
+    for(std::vector<CCSignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
+        (*it)->ccOnSignInFailed();
+    }
 }
 
 void CCGameServices::onSignInSucceeded() {
-    CCLog("CCGameServices::onSignInFailed");
+    CCLog("CCGameServices::onSignInSucceeded");
+    for(std::vector<CCSignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
+        (*it)->ccOnSignInSucceeded();
+    }
 }
+
 NS_CC_END

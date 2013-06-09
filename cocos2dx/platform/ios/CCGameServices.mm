@@ -4,13 +4,9 @@ Copyright (c) 2013 Nicholas Flink
 ****************************************************************************/
 
 #include "CCGameServices.h"
-#include "CCGameServices_objc.h"
+#include "CCGameKitHelper.h"
 
 NS_CC_BEGIN
-static void static_showLeaderboard()
-{
-    //[[CCGameServices sharedGameServices] showLeaderboard];
-}
 
 // singleton stuff
 static CCGameServices *s_SharedGameServices = NULL;
@@ -35,7 +31,7 @@ bool CCGameServices::init(void) {
 
 bool CCGameServices::isSignedIn() {
     CCLog("CCGameServices::isSignedIn");
-    return false;
+    return [[CCGameKitHelper sharedHelper] isAuthenticated];
 }
 
 void CCGameServices::beginUserInitiatedSignIn() {
@@ -44,7 +40,7 @@ void CCGameServices::beginUserInitiatedSignIn() {
 
 void CCGameServices::showLeaderboard() {
     CCLog("CCGameServices::showLeaderboard");
-    static_showLeaderboard();
+    [[CCGameKitHelper sharedHelper] showLeaderboard:nil];
     //CCAssert(false, "implement CCGameServices::showLeaderboard");
 }
 
@@ -53,13 +49,26 @@ void CCGameServices::submitScore(int64_t score, const char *category) {
     CCAssert(false, "implement CCGameServices::submitScore");
 }
 
+void CCGameServices::addSignInDelegate(CCSignInDelegate *pDelegate) {
+    m_pSignInHandlers.push_back(pDelegate);
+}
+
+void CCGameServices::removeSignInDelegate(CCSignInDelegate *pDelegate) {
+    m_pSignInHandlers.erase(std::remove(m_pSignInHandlers.begin(), m_pSignInHandlers.end(), pDelegate), m_pSignInHandlers.end());
+}
+
 void CCGameServices::onSignInFailed() {
     CCLog("CCGameServices::onSignInFailed");
+    for(std::vector<CCSignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
+        (*it)->ccOnSignInFailed();
+    }
 }
 
 void CCGameServices::onSignInSucceeded() {
     CCLog("CCGameServices::onSignInSucceeded");
+    for(std::vector<CCSignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
+        (*it)->ccOnSignInSucceeded();
+    }
 }
-
 
 NS_CC_END

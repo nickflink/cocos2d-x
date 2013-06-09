@@ -10,6 +10,17 @@ Copyright (c) 2013 Nicholas Flink
 
 NS_CC_BEGIN
 
+class CC_DLL CCSignInDelegate
+{
+public:
+
+    CCSignInDelegate() {}
+    virtual ~CCSignInDelegate() {}
+    virtual void ccOnSignInSucceeded() = 0;
+    virtual void ccOnSignInFailed() = 0;
+};
+
+
 ///
 ///\brief Class for CCGameServices
 //
@@ -35,11 +46,16 @@ public:
     virtual void beginUserInitiatedSignIn();
     virtual void showLeaderboard();
     virtual void submitScore(int64_t score, const char *category);
+    virtual void addSignInDelegate(CCSignInDelegate *pDelegate);
+    virtual void removeSignInDelegate(CCSignInDelegate *pDelegate);
     //
     //Callbacks.
     //
     virtual void onSignInFailed();
     virtual void onSignInSucceeded();
+  private:
+    std::vector<CCSignInDelegate*>m_pSignInHandlers;
+
 };
 
 NS_CC_END

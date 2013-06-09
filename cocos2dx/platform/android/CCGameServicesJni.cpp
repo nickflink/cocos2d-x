@@ -142,7 +142,7 @@ extern "C"
         {
             return ;
         }
-        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, time);
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, category, score);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
 }

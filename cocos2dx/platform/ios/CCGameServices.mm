@@ -54,7 +54,19 @@ void CCGameServices::addSignInDelegate(CCSignInDelegate *pDelegate) {
 }
 
 void CCGameServices::removeSignInDelegate(CCSignInDelegate *pDelegate) {
-    m_pSignInHandlers.erase(std::remove(m_pSignInHandlers.begin(), m_pSignInHandlers.end(), pDelegate), m_pSignInHandlers.end());
+    //m_pSignInHandlers.erase(std::remove(m_pSignInHandlers.begin(), m_pSignInHandlers.end(), pDelegate), m_pSignInHandlers.end());
+    int indexToErase = -1;
+    int index = 0;
+    for(std::vector<CCSignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
+        if(reinterpret_cast<size_t>(*it) == reinterpret_cast<size_t>(pDelegate)) {
+            indexToErase = index;
+            break;
+        }
+        index++;
+    }
+    if(indexToErase >= 0) {
+        m_pSignInHandlers.erase(m_pSignInHandlers.begin() + indexToErase);
+    }
 }
 
 void CCGameServices::onSignInFailed() {

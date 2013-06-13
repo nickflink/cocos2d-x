@@ -44,7 +44,7 @@ void CCGameServices::showLeaderboard() {
     //CCAssert(false, "implement CCGameServices::showLeaderboard");
 }
 
-void CCGameServices::submitScore(const char *category, long long score) {
+void CCGameServices::submitScore(const char *category, long score) {
     CCLog("This needs implemented");
     [[CCGameKitHelper sharedHelper] reportScore:score forLeaderboard:[NSString stringWithFormat:@"%s", category]];
 }

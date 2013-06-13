@@ -136,7 +136,7 @@ extern "C"
         methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
-    void submitScoreJNI(const char *category, long long score) {
+    void submitScoreJNI(const char *category, long score) {
         JniMethodInfo methodInfo;
         if (!getStaticMethodInfo(methodInfo, "submitScore", "(Ljava/lang/String;J)V"))
         {

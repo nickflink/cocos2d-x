@@ -307,8 +307,8 @@ public class Cocos2dxSound {
 	public boolean hasVibrator()
 	{
 		boolean hasVibrator = true;
-		//NFHACK: Update SDK or just figure out how to make the below work in eclipse
 		if(android.os.Build.VERSION.SDK_INT >= 11) {
+			//@TargetApi(11)
 			Vibrator v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
 			hasVibrator = v.hasVibrator();
 		}

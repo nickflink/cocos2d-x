@@ -13,6 +13,6 @@ extern "C"
     extern bool isSignedInJNI();
     extern void beginUserInitiatedSignInJNI();
     extern void showLeaderboardJNI();
-    extern void submitScoreJNI(const char *category, long long score);
+    extern void submitScoreJNI(const char *category, long score);
 }
 #endif //__CCGameServicesJni_H__

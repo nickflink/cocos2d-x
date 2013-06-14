@@ -43,9 +43,9 @@ void CCGameServices::showLeaderboard() {
 }
 
 void CCGameServices::submitScore(const char *category, long score) {
-    CCLog("This needs implemented");
+    CCLog("> CCGameServices::submitScore:%d toCategory:%s", score, category);
     submitScoreJNI(category, score);
-    CCAssert(false, "implement CCGameServices::submitScore");
+    CCLog("< CCGameServices::submitScore");
 }
 
 void CCGameServices::addSignInDelegate(CCSignInDelegate *pDelegate) {

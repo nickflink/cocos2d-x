@@ -179,13 +179,15 @@ public class Cocos2dxHelper {
 		return;
 	}
 
-	public static void submitScore(final String category, final long score)
+//NFHACK should be submitScore(final String category, final long score)
+	public static void submitScore(final String category, final int score)
 	{
-		Log.d(Cocos2dxHelper.TAG, "submitScore");
+		Log.d(Cocos2dxHelper.TAG, "submitScore:"+score+" toCategory:"+category);
 		((Activity)sContext).runOnUiThread(new Runnable() {
 				public void run() {
 					if(sCocos2dxGameServiceHelper.isSignedIn()) {
 						sCocos2dxGameServiceHelper.getGamesClient().submitScore(category, score);
+						//Log.e(Cocos2dxHelper.TAG, "Submitting "+score+" to category "+category);
 					} else {
 						//sCocos2dxGameServiceHelper.showAlert("NL: You must sign in to submit scores");
 						Log.e(Cocos2dxHelper.TAG, "NL: You must sign in to submit scores");

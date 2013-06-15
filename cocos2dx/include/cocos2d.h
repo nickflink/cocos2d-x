@@ -86,7 +86,6 @@ THE SOFTWARE.
 #include "ccConfig.h"
 #include "ccMacros.h"
 #include "ccTypes.h"
-#include "CCGameServices.h"
 
 // kazmath
 #include "kazmath/include/kazmath/kazmath.h"
@@ -125,6 +124,7 @@ THE SOFTWARE.
 #include "particle_nodes/CCParticleSystemQuad.h"
 
 // platform
+#include "platform/CCGameServices.h"
 #include "platform/CCDevice.h"
 #include "platform/CCCommon.h"
 #include "platform/CCFileUtils.h"

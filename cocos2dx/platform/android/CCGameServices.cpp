@@ -3,7 +3,7 @@ Copyright (c) 2013 gogododo
 Copyright (c) 2013 Nicholas Flink
 ****************************************************************************/
 
-#include "CCGameServices.h"
+#include "platform/CCGameServices.h"
 #include "CCGameServicesJni.h"
 
 NS_CC_BEGIN
@@ -39,11 +39,10 @@ void CCGameServices::beginUserInitiatedSignIn() {
 void CCGameServices::showLeaderboard() {
     CCLog("CCGameServices::showLeaderboard");
     showLeaderboardJNI();
-    //CCAssert(false, "implement CCGameServices::showLeaderboard");
 }
 
-void CCGameServices::submitScore(const char *category, long score) {
-    CCLog("> CCGameServices::submitScore:%d toCategory:%s", score, category);
+void CCGameServices::submitScore(const char *category, long long score) {
+    CCLog("> CCGameServices::submitScore:%lld toCategory:%s", score, category);
     submitScoreJNI(category, score);
     CCLog("< CCGameServices::submitScore");
 }

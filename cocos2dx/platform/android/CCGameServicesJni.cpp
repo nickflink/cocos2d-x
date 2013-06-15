@@ -136,19 +136,23 @@ extern "C"
         methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
-    void submitScoreJNI(const char *category, long score) {
-char buf[1024];
-snprintf(buf, 1025, "submitScoreJNI:%d toCategory:%s", score, category);
-__android_log_print(ANDROID_LOG_DEBUG, "cocos2d-x debug info",  buf);
+    void submitScoreJNI(const char *category, long long score) {
+        char scoreBuf[32];
+        snprintf(scoreBuf, 32, "%lld", score);
+//char buf[1024];
+//snprintf(buf, 1024, "submitScoreJNI:%s toCategory:%s", scoreBuf, category);
+//__android_log_print(ANDROID_LOG_DEBUG, "cocos2d-x debug info",  buf);
         JniMethodInfo methodInfo;
-        //NFHACK should be (Ljava/lang/String;J)V passing a long
-        if (!getStaticMethodInfo(methodInfo, "submitScore", "(Ljava/lang/String;I)V"))
+        //We can not pass a long long over jni so we convert it to a string
+        if (!getStaticMethodInfo(methodInfo, "submitScore", "(Ljava/lang/String;Ljava/lang/String;)V"))
         {
             return ;
         }
-        jstring stringArg = methodInfo.env->NewStringUTF(category);
-        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, stringArg, score);
-        methodInfo.env->DeleteLocalRef(stringArg);
+        jstring stringCategory = methodInfo.env->NewStringUTF(category);
+        jstring stringScore = methodInfo.env->NewStringUTF(scoreBuf);
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, stringCategory, stringScore);
+        methodInfo.env->DeleteLocalRef(stringCategory);
+        methodInfo.env->DeleteLocalRef(stringScore);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
 }

@@ -45,7 +45,7 @@ public:
     virtual bool isSignedIn();
     virtual void beginUserInitiatedSignIn();
     virtual void showLeaderboard();
-    virtual void submitScore(const char *category, long score);
+    virtual void submitScore(const char *category, long long score);
     virtual void addSignInDelegate(CCSignInDelegate *pDelegate);
     virtual void removeSignInDelegate(CCSignInDelegate *pDelegate);
     //

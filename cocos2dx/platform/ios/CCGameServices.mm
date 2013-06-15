@@ -44,6 +44,12 @@ void CCGameServices::showLeaderboard() {
     //CCAssert(false, "implement CCGameServices::showLeaderboard");
 }
 
+void CCGameServices::showAchievement() {
+    CCLog("CCGameServices::showAchievement");
+    [[CCGameKitHelper sharedHelper] showAchievements];
+    //CCAssert(false, "implement CCGameServices::showLeaderboard");
+}
+
 void CCGameServices::submitScore(const char *category, long long score) {
     [[CCGameKitHelper sharedHelper] reportScore:score forLeaderboard:[NSString stringWithFormat:@"%s", category]];
 }

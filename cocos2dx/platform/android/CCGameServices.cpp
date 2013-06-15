@@ -41,6 +41,11 @@ void CCGameServices::showLeaderboard() {
     showLeaderboardJNI();
 }
 
+void CCGameServices::showAchievement() {
+    CCLog("CCGameServices::showAchievement");
+    showAchievementJNI();
+}
+
 void CCGameServices::submitScore(const char *category, long long score) {
     CCLog("> CCGameServices::submitScore:%lld toCategory:%s", score, category);
     submitScoreJNI(category, score);

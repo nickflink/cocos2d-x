@@ -1,4 +1,4 @@
-#include "include/CCGameServices.h"
+#include "platform/CCGameServices.h"
 #include "JniHelper.h"
 #include <jni.h>
 

@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01804960176CA4D20022EA82 /* CCGameServices.h in Headers */ = {isa = PBXBuildFile; fileRef = 0180495F176CA4D20022EA82 /* CCGameServices.h */; };
 		01AC06341764C73C00FE069D /* CCGameKitHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC06321764C73C00FE069D /* CCGameKitHelper.h */; };
 		01AC06371764FCCC00FE069D /* CCGameKitHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01AC06361764FCCC00FE069D /* CCGameKitHelper.mm */; };
-		01F00A7A1762B098001F1546 /* CCGameServices.h in Headers */ = {isa = PBXBuildFile; fileRef = 01F00A791762B098001F1546 /* CCGameServices.h */; };
 		01F00A801762B0CD001F1546 /* CCGameServices.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01F00A7D1762B0CD001F1546 /* CCGameServices.mm */; };
 		154269DC15B5653000712A7F /* CCNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 154269DA15B5653000712A7F /* CCNotificationCenter.cpp */; };
 		154269DD15B5653000712A7F /* CCNotificationCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 154269DB15B5653000712A7F /* CCNotificationCenter.h */; };
@@ -318,9 +318,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0180495F176CA4D20022EA82 /* CCGameServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGameServices.h; sourceTree = "<group>"; };
 		01AC06321764C73C00FE069D /* CCGameKitHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGameKitHelper.h; sourceTree = "<group>"; };
 		01AC06361764FCCC00FE069D /* CCGameKitHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCGameKitHelper.mm; sourceTree = "<group>"; };
-		01F00A791762B098001F1546 /* CCGameServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGameServices.h; sourceTree = "<group>"; };
 		01F00A7D1762B0CD001F1546 /* CCGameServices.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCGameServices.mm; sourceTree = "<group>"; };
 		154269DA15B5653000712A7F /* CCNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCNotificationCenter.cpp; sourceTree = "<group>"; };
 		154269DB15B5653000712A7F /* CCNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNotificationCenter.h; sourceTree = "<group>"; };
@@ -807,7 +807,6 @@
 		1551A3E8158F2ADE00E66CFE /* include */ = {
 			isa = PBXGroup;
 			children = (
-				01F00A791762B098001F1546 /* CCGameServices.h */,
 				1551A3E9158F2ADE00E66CFE /* ccConfig.h */,
 				1551A3EA158F2ADE00E66CFE /* CCEventType.h */,
 				1551A3EB158F2ADE00E66CFE /* ccMacros.h */,
@@ -980,6 +979,7 @@
 		1551A43F158F2ADE00E66CFE /* platform */ = {
 			isa = PBXGroup;
 			children = (
+				0180495F176CA4D20022EA82 /* CCGameServices.h */,
 				1551A46C158F2ADE00E66CFE /* CCAccelerometerDelegate.h */,
 				1551A46D158F2ADE00E66CFE /* CCApplicationProtocol.h */,
 				1551A46E158F2ADE00E66CFE /* CCCommon.h */,
@@ -1462,8 +1462,8 @@
 				1A5B48EA16F084CC008568FC /* CCBool.h in Headers */,
 				1A5B48EB16F084CC008568FC /* CCDouble.h in Headers */,
 				1A5B48EC16F084CC008568FC /* CCFloat.h in Headers */,
-				01F00A7A1762B098001F1546 /* CCGameServices.h in Headers */,
 				01AC06341764C73C00FE069D /* CCGameKitHelper.h in Headers */,
+				01804960176CA4D20022EA82 /* CCGameServices.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

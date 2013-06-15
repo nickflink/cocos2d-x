@@ -25,7 +25,6 @@ package org.cocos2dx.lib;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -179,13 +178,13 @@ public class Cocos2dxHelper {
 		return;
 	}
 
-//NFHACK should be submitScore(final String category, final long score)
-	public static void submitScore(final String category, final int score)
+	public static void submitScore(final String category, final String stringScore)
 	{
-		Log.d(Cocos2dxHelper.TAG, "submitScore:"+score+" toCategory:"+category);
+		Log.d(Cocos2dxHelper.TAG, "submitScore:"+stringScore+" toCategory:"+category);
 		((Activity)sContext).runOnUiThread(new Runnable() {
 				public void run() {
 					if(sCocos2dxGameServiceHelper.isSignedIn()) {
+						long score = Long.parseLong(stringScore);
 						sCocos2dxGameServiceHelper.getGamesClient().submitScore(category, score);
 						//Log.e(Cocos2dxHelper.TAG, "Submitting "+score+" to category "+category);
 					} else {

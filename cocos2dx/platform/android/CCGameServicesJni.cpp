@@ -136,6 +136,14 @@ extern "C"
         methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
+    void showAchievementJNI() {
+        JniMethodInfo methodInfo;
+        if (! getStaticMethodInfo(methodInfo, "showAchievement", "()V")) {
+            return;
+        }
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
     void submitScoreJNI(const char *category, long long score) {
         char scoreBuf[32];
         snprintf(scoreBuf, 32, "%lld", score);

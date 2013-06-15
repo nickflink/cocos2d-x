@@ -161,6 +161,23 @@ public class Cocos2dxHelper {
 		return;
 	}
 
+	public static void showAchievement()
+	{
+		Log.d(Cocos2dxHelper.TAG, "showAchievement");
+		((Activity)sContext).runOnUiThread(new Runnable() {
+				public void run() {
+					if(sCocos2dxGameServiceHelper.isSignedIn()) {
+						Activity activity = (Activity)sContext;
+						activity.startActivityForResult(sCocos2dxGameServiceHelper.getGamesClient().getAchievementsIntent(), /*RC_UNUSED*/9002);
+					} else {
+						//sCocos2dxGameServiceHelper.showAlert("NL: You must sign in to use leaderboards");
+						Log.e(Cocos2dxHelper.TAG, "NL: You must sign in to use achievements");
+					}
+				}
+		});
+		return;
+	}
+
 	public static void showLeaderboard()
 	{
 		Log.d(Cocos2dxHelper.TAG, "showLeaderboard");

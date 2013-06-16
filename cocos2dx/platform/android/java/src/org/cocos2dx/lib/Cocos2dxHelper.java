@@ -195,6 +195,23 @@ public class Cocos2dxHelper {
 		return;
 	}
 
+	public static void reportAchievement(final String category, final int portion) {
+		Log.d(Cocos2dxHelper.TAG, "reportAchievement:("+category+", "+portion+")");
+		((Activity)sContext).runOnUiThread(new Runnable() {
+				public void run() {
+					if(sCocos2dxGameServiceHelper.isSignedIn()) {
+						if(portion == 0) {
+							sCocos2dxGameServiceHelper.getGamesClient().unlockAchievement(category);
+						} else {
+							sCocos2dxGameServiceHelper.getGamesClient().incrementAchievement(category, portion);
+						}
+					} else {
+						Log.e(Cocos2dxHelper.TAG, "NL: You must sign in to report achievements");
+					}
+				}
+		});
+	}
+
 	public static void submitScore(final String category, final String stringScore)
 	{
 		Log.d(Cocos2dxHelper.TAG, "submitScore:"+stringScore+" toCategory:"+category);

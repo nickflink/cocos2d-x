@@ -46,6 +46,8 @@ public:
     virtual void beginUserInitiatedSignIn();
     virtual void showLeaderboard();
     virtual void showAchievement();
+    virtual void reportAchievement(const char *category);
+    virtual void reportAchievement(const char *category, int portion);
     virtual void submitScore(const char *category, long long score);
     virtual void addSignInDelegate(CCSignInDelegate *pDelegate);
     virtual void removeSignInDelegate(CCSignInDelegate *pDelegate);

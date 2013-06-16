@@ -28,6 +28,7 @@ import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.widget.Toast;
 
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.common.ConnectionResult;
@@ -305,6 +306,11 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
 
         // let go of the Activity reference
         mActivity = null;
+    }
+
+    /** Convenience method to show a toast. */
+    public void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     /** Convenience method to show an alert dialog. */

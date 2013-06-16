@@ -46,8 +46,18 @@ void CCGameServices::showLeaderboard() {
 
 void CCGameServices::showAchievement() {
     CCLog("CCGameServices::showAchievement");
+    //[[CCGameKitHelper sharedHelper] resetAchievements];//For testing
     [[CCGameKitHelper sharedHelper] showAchievements];
     //CCAssert(false, "implement CCGameServices::showLeaderboard");
+}
+
+void CCGameServices::reportAchievement(const char *category) {
+    reportAchievement(category, 100);
+}
+
+
+void CCGameServices::reportAchievement(const char *category, int portion) {
+    [[CCGameKitHelper sharedHelper] reportAchievement:[NSString stringWithFormat:@"%s", category] percentComplete:(double)portion];
 }
 
 void CCGameServices::submitScore(const char *category, long long score) {

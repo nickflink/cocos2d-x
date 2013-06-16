@@ -144,6 +144,18 @@ extern "C"
         methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
+    void reportAchievementJNI(const char *category, int portion) {
+        JniMethodInfo methodInfo;
+        //We can not pass a long long over jni so we convert it to a string
+        if (!getStaticMethodInfo(methodInfo, "reportAchievement", "(Ljava/lang/String;I)V"))
+        {
+            return ;
+        }
+        jstring stringCategory = methodInfo.env->NewStringUTF(category);
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, stringCategory, portion);
+        methodInfo.env->DeleteLocalRef(stringCategory);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
     void submitScoreJNI(const char *category, long long score) {
         char scoreBuf[32];
         snprintf(scoreBuf, 32, "%lld", score);

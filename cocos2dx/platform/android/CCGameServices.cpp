@@ -46,6 +46,16 @@ void CCGameServices::showAchievement() {
     showAchievementJNI();
 }
 
+void CCGameServices::reportAchievement(const char *category) {
+    reportAchievement(category, 0);
+}
+
+void CCGameServices::reportAchievement(const char *category, int portion) {
+    CCLog("> CCGameServices::reportAchievement(category=%s portion=%d)", category, portion);
+    reportAchievementJNI(category, portion);
+    CCLog("< CCGameServices::reportAchievement");
+}
+
 void CCGameServices::submitScore(const char *category, long long score) {
     CCLog("> CCGameServices::submitScore:%lld toCategory:%s", score, category);
     submitScoreJNI(category, score);

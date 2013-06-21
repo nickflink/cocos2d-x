@@ -43,50 +43,48 @@ import com.google.android.gms.plus.PlusClient;
 public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.ConnectionCallbacks,
         GooglePlayServicesClient.OnConnectionFailedListener, OnSignOutCompleteListener {
 
+    // ===========================================================
+    // Constants
+    // ===========================================================
     private static final String TAG = Cocos2dxGameServiceHelper.class.getSimpleName();
-    /**
-     * The Activity we are bound to. We need to keep a reference to the Activity
-     * because some games methods require an Activity (a Context won't do). We
-     * are careful not to leak these references: we release them on onStop().
-     */
-    Activity mActivity = null;
-
-    // OAuth scopes required for the clients. Initialized in setup().
-    String mScopes[];
-
     // Request code we use when invoking other Activities to complete the
     // sign-in flow.
-    final static int RC_RESOLVE = 9001;
-
+    private final static int RC_RESOLVE = 9001;
     // Request code when invoking Activities whose result we don't care about.
-    final static int RC_UNUSED = 9002;
-
-    // Client objects we manage. If a given client is not enabled, it is null.
-    GamesClient mGamesClient = null;
-    PlusClient mPlusClient = null;
-    AppStateClient mAppStateClient = null;
-
+    private final static int RC_UNUSED = 9002;
     // What clients we manage (OR-able values, can be combined as flags)
     public final static int CLIENT_NONE = 0x00;
     public final static int CLIENT_GAMES = 0x01;
     public final static int CLIENT_PLUS = 0x02;
     public final static int CLIENT_APPSTATE = 0x04;
     public final static int CLIENT_ALL = CLIENT_GAMES | CLIENT_PLUS | CLIENT_APPSTATE;
-
+    // ===========================================================
+    // Fields
+    // ===========================================================
+    private static Context sContext = null;
+    private static volatile Cocos2dxGameServiceHelper sInstance = null;
+    //
+    // The Activity we are bound to. We need to keep a reference to the Activity
+    // because some games methods require an Activity (a Context won't do). We
+    // are careful not to leak these references: we release them on onStop().
+    //
+    private Activity mActivity = null;
+    // OAuth scopes required for the clients. Initialized in setup().
+    private String mScopes[];
+    // Client objects we manage. If a given client is not enabled, it is null.
+    private GamesClient mGamesClient = null;
+    private PlusClient mPlusClient = null;
+    private AppStateClient mAppStateClient = null;
     // What clients were requested? (bit flags)
-    int mRequestedClients = CLIENT_NONE;
-
+    private int mRequestedClients = CLIENT_NONE;
     // What clients are currently connected? (bit flags)
-    int mConnectedClients = CLIENT_NONE;
-
+    private int mConnectedClients = CLIENT_NONE;
     // What client are we currently connecting?
-    int mClientCurrentlyConnecting = CLIENT_NONE;
-
+    private int mClientCurrentlyConnecting = CLIENT_NONE;
     // A progress dialog we show when we are trying to sign the user is
-    ProgressDialog mProgressDialog = null;
-
+    private ProgressDialog mProgressDialog = null;
     // Whether to automatically try to sign in on onStart().
-    boolean mAutoSignIn = true;
+    private boolean mAutoSignIn = true;
 
     /*
      * Whether user has specifically requested that the sign-in process begin.
@@ -130,8 +128,114 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
      * After constructing this object, call @link{setup} from the onCreate()
      * method of your Activity.
      */
-    public Cocos2dxGameServiceHelper(Activity activity) {
+    private Cocos2dxGameServiceHelper() {
+    }
+
+    public static Cocos2dxGameServiceHelper getInstance() {
+        if (sInstance == null) {
+            synchronized ( Cocos2dxGameServiceHelper.class ){
+                if (sInstance == null) {
+                    sInstance = new Cocos2dxGameServiceHelper();
+                }
+            }
+        }
+        return sInstance;
+    }
+
+    public void initWithActivity(Activity activity) {
         mActivity = activity;
+        setup();
+        setSigningInMessage("NL: signing in");
+        setSigningOutMessage("NL: signing out");
+    }
+//
+// Static Jni Entrypoints
+//
+    /** static jni entry point that returns whether or not the user is signed in. */
+    public static boolean isSignedInJni() {
+        getInstance().debugLog("isSignedInJni");
+        return getInstance().isSignedIn();
+    }
+
+    public static void beginUserInitiatedSignInJni() {
+      getInstance().debugLog("beginUserInitiatedSignInJni");
+      getInstance().mActivity.runOnUiThread(new Runnable() {
+          public void run() {
+            if(!getInstance().isSignedIn()) {
+              getInstance().beginUserInitiatedSignIn();
+            } else {
+              getInstance().debugLog("responseCode != RESULT_OK, so not reconnecting.");
+            }
+          }
+      });
+      return;
+    }
+
+    public static void showAchievementJni()
+    {
+      getInstance().debugLog("showAchievementJni");
+      getInstance().mActivity.runOnUiThread(new Runnable() {
+          public void run() {
+            if(getInstance().isSignedIn()) {
+              getInstance().mActivity.startActivityForResult(getInstance().getGamesClient().getAchievementsIntent(), /*RC_UNUSED*/9002);
+            } else {
+              //getInstance().showAlert("NL: You must sign in to use leaderboards");
+              getInstance().debugLog("NL: You must sign in to use achievements");
+            }
+          }
+      });
+      return;
+    }
+
+    public static void showLeaderboardJni()
+    {
+      getInstance().debugLog("showLeaderboardJni");
+      getInstance().mActivity.runOnUiThread(new Runnable() {
+          public void run() {
+            if(getInstance().isSignedIn()) {
+              getInstance().mActivity.startActivityForResult(getInstance().getGamesClient().getAllLeaderboardsIntent(), /*RC_UNUSED*/9002);
+            } else {
+              //getInstance().showAlert("NL: You must sign in to use leaderboards");
+              getInstance().debugLog("NL: You must sign in to use leaderboards");
+            }
+          }
+      });
+      return;
+    }
+
+    public static void reportAchievementJni(final String category, final int portion) {
+      getInstance().debugLog("reportAchievementJni:("+category+", "+portion+")");
+      getInstance().mActivity.runOnUiThread(new Runnable() {
+          public void run() {
+            if(getInstance().isSignedIn()) {
+              if(portion == 0) {
+                getInstance().getGamesClient().unlockAchievement(category);
+              } else {
+                getInstance().getGamesClient().incrementAchievement(category, portion);
+              }
+            } else {
+              getInstance().debugLog("NL: You must sign in to report achievements");
+            }
+          }
+      });
+    }
+
+    public static void submitScoreJni(final String category, final String stringScore)
+    {
+      getInstance().debugLog("submitScoreJni:"+stringScore+" toCategory:"+category);
+      getInstance().mActivity.runOnUiThread(new Runnable() {
+          public void run() {
+            if(getInstance().isSignedIn()) {
+              long score = Long.parseLong(stringScore);
+              getInstance().getGamesClient().submitScore(category, score);
+              //getInstance().debugLog("Submitting "+score+" to category "+category);
+            } else {
+              //getInstance().showAlert("NL: You must sign in to submit scores");
+              getInstance().debugLog("NL: You must sign in to submit scores");
+            }
+          }
+      });
+      return;
     }
 
     /** Sets the message that appears onscreen while signing in. */

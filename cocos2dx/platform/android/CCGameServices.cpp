@@ -33,6 +33,7 @@ bool CCGameServices::isSignedIn() {
 }
 
 void CCGameServices::beginUserInitiatedSignIn() {
+    CCLog("CCGameServices::beginUserInitiatedSignIn");
     return beginUserInitiatedSignInJNI();
 }
 

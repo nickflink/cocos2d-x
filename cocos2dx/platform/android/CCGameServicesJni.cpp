@@ -9,7 +9,6 @@ Copyright (c) 2013 Nicholas Flink
 
 #define  LOG_TAG    "libCCGameServices"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
-#define  CLASS_NAME "org/cocos2dx/lib/Cocos2dxHelper"
 
 typedef struct JniMethodInfo_
 {
@@ -68,10 +67,10 @@ extern "C"
     // get class and make it a global reference, release it at endJni().
     static jclass getClassID(JNIEnv *pEnv)
     {
-        jclass ret = pEnv->FindClass(CLASS_NAME);
+        jclass ret = pEnv->FindClass("org/cocos2dx/lib/Cocos2dxGameServiceHelper");
         if (! ret)
         {
-            LOGD("Failed to find class of %s", CLASS_NAME);
+            LOGD("Failed to find class of %s", "org/cocos2dx/lib/Cocos2dxGameServiceHelper");
         }
         
         return ret;
@@ -113,7 +112,7 @@ extern "C"
     bool isSignedInJNI() {
         JniMethodInfo methodInfo;
         jboolean ret = false;
-        if (! getStaticMethodInfo(methodInfo, "isSignedIn", "()Z")) {
+        if (! getStaticMethodInfo(methodInfo, "isSignedInJni", "()Z")) {
             return ret;
         }
         ret = methodInfo.env->CallStaticBooleanMethod(methodInfo.classID, methodInfo.methodID);
@@ -122,7 +121,7 @@ extern "C"
     }
     void beginUserInitiatedSignInJNI() {
         JniMethodInfo methodInfo;
-        if (! getStaticMethodInfo(methodInfo, "beginUserInitiatedSignIn", "()V")) {
+        if (! getStaticMethodInfo(methodInfo, "beginUserInitiatedSignInJni", "()V")) {
             return;
         }
         methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
@@ -130,7 +129,7 @@ extern "C"
     }
     void showLeaderboardJNI() {
         JniMethodInfo methodInfo;
-        if (! getStaticMethodInfo(methodInfo, "showLeaderboard", "()V")) {
+        if (! getStaticMethodInfo(methodInfo, "showLeaderboardJni", "()V")) {
             return;
         }
         methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
@@ -138,7 +137,7 @@ extern "C"
     }
     void showAchievementJNI() {
         JniMethodInfo methodInfo;
-        if (! getStaticMethodInfo(methodInfo, "showAchievement", "()V")) {
+        if (! getStaticMethodInfo(methodInfo, "showAchievementJni", "()V")) {
             return;
         }
         methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
@@ -147,7 +146,7 @@ extern "C"
     void reportAchievementJNI(const char *category, int portion) {
         JniMethodInfo methodInfo;
         //We can not pass a long long over jni so we convert it to a string
-        if (!getStaticMethodInfo(methodInfo, "reportAchievement", "(Ljava/lang/String;I)V"))
+        if (!getStaticMethodInfo(methodInfo, "reportAchievementJni", "(Ljava/lang/String;I)V"))
         {
             return ;
         }
@@ -164,7 +163,7 @@ extern "C"
 //__android_log_print(ANDROID_LOG_DEBUG, "cocos2d-x debug info",  buf);
         JniMethodInfo methodInfo;
         //We can not pass a long long over jni so we convert it to a string
-        if (!getStaticMethodInfo(methodInfo, "submitScore", "(Ljava/lang/String;Ljava/lang/String;)V"))
+        if (!getStaticMethodInfo(methodInfo, "submitScoreJni", "(Ljava/lang/String;Ljava/lang/String;)V"))
         {
             return ;
         }

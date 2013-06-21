@@ -59,22 +59,21 @@ public class Cocos2dxHelper {
 	private static String sFileDirectory;
 	private static Context sContext = null;
 	private static Cocos2dxHelperListener sCocos2dxHelperListener;
-	private static Cocos2dxGameServiceHelper sCocos2dxGameServiceHelper;
+	//private static Cocos2dxGameServiceHelper sCocos2dxGameServiceHelper;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
 	public static void init(final Context pContext, final Cocos2dxHelperListener pCocos2dxHelperListener) {
 		final ApplicationInfo applicationInfo = pContext.getApplicationInfo();
 		
 		Cocos2dxHelper.sContext = pContext;
 		Cocos2dxHelper.sCocos2dxHelperListener = pCocos2dxHelperListener;
 		//Set this
-		Cocos2dxHelper.sCocos2dxGameServiceHelper = new Cocos2dxGameServiceHelper((Activity)pContext);
-		Cocos2dxHelper.sCocos2dxGameServiceHelper.setup();
-		Cocos2dxHelper.sCocos2dxGameServiceHelper.setSigningInMessage("NL: signing in");
-		Cocos2dxHelper.sCocos2dxGameServiceHelper.setSigningOutMessage("NL: signing out");
+		//Cocos2dxHelper.sCocos2dxGameServiceHelper = new Cocos2dxGameServiceHelper((Activity)pContext);
+		//Cocos2dxHelper.sCocos2dxGameServiceHelper.setup();
+		//Cocos2dxHelper.sCocos2dxGameServiceHelper.setSigningInMessage("NL: signing in");
+		//Cocos2dxHelper.sCocos2dxGameServiceHelper.setSigningOutMessage("NL: signing out");
 
 		Cocos2dxHelper.sPackageName = applicationInfo.packageName;
 		Cocos2dxHelper.sFileDirectory = pContext.getFilesDir().getAbsolutePath();
@@ -93,15 +92,15 @@ public class Cocos2dxHelper {
 	// ===========================================================
 	public static void onStart() {
 		Activity activity = ((Activity)sContext);
-		Cocos2dxHelper.sCocos2dxGameServiceHelper.onStart(activity);
+		//Cocos2dxHelper.sCocos2dxGameServiceHelper.onStart(activity);
 	}
 
 	public static void onStop() {
-		Cocos2dxHelper.sCocos2dxGameServiceHelper.onStop();
+		//Cocos2dxHelper.sCocos2dxGameServiceHelper.onStop();
 	}
 
 	public static void onActivityResult(int request, int response, Intent data) {
-		Cocos2dxHelper.sCocos2dxGameServiceHelper.onActivityResult(request, response, data);
+		//Cocos2dxHelper.sCocos2dxGameServiceHelper.onActivityResult(request, response, data);
 	}
 
 	// ===========================================================
@@ -143,93 +142,93 @@ public class Cocos2dxHelper {
 	// GameServices Methods
 	// ===========================================================
 
-	public static boolean isSignedIn() {
-		return sCocos2dxGameServiceHelper.isSignedIn();
-	}
-	
-	public static void beginUserInitiatedSignIn() {
-		Log.d(Cocos2dxHelper.TAG, "beginUserInitiatedSignIn");
-		((Activity)sContext).runOnUiThread(new Runnable() {
-				public void run() {
-					if(!sCocos2dxGameServiceHelper.isSignedIn()) {
-						sCocos2dxGameServiceHelper.beginUserInitiatedSignIn();
-					} else {
-						//sCocos2dxGameServiceHelper.showAlert("NL: You are already signed in");
-						Log.e(Cocos2dxHelper.TAG, "NL: You are already signed in");
-					}
-				}
-		});
-		return;
-	}
+	//public static boolean isSignedIn() {
+	//	return sCocos2dxGameServiceHelper.isSignedIn();
+	//}
+	//
+	//public static void beginUserInitiatedSignIn() {
+	//	Log.d(Cocos2dxHelper.TAG, "beginUserInitiatedSignIn");
+	//	((Activity)sContext).runOnUiThread(new Runnable() {
+	//			public void run() {
+	//				if(!sCocos2dxGameServiceHelper.isSignedIn()) {
+	//					sCocos2dxGameServiceHelper.beginUserInitiatedSignIn();
+	//				} else {
+	//					//sCocos2dxGameServiceHelper.showAlert("NL: You are already signed in");
+	//					Log.e(Cocos2dxHelper.TAG, "NL: You are already signed in");
+	//				}
+	//			}
+	//	});
+	//	return;
+	//}
 
-	public static void showAchievement()
-	{
-		Log.d(Cocos2dxHelper.TAG, "showAchievement");
-		((Activity)sContext).runOnUiThread(new Runnable() {
-				public void run() {
-					if(sCocos2dxGameServiceHelper.isSignedIn()) {
-						Activity activity = (Activity)sContext;
-						activity.startActivityForResult(sCocos2dxGameServiceHelper.getGamesClient().getAchievementsIntent(), /*RC_UNUSED*/9002);
-					} else {
-						//sCocos2dxGameServiceHelper.showAlert("NL: You must sign in to use leaderboards");
-						Log.e(Cocos2dxHelper.TAG, "NL: You must sign in to use achievements");
-					}
-				}
-		});
-		return;
-	}
+	//public static void showAchievement()
+	//{
+	//	Log.d(Cocos2dxHelper.TAG, "showAchievement");
+	//	((Activity)sContext).runOnUiThread(new Runnable() {
+	//			public void run() {
+	//				if(sCocos2dxGameServiceHelper.isSignedIn()) {
+	//					Activity activity = (Activity)sContext;
+	//					activity.startActivityForResult(sCocos2dxGameServiceHelper.getGamesClient().getAchievementsIntent(), /*RC_UNUSED*/9002);
+	//				} else {
+	//					//sCocos2dxGameServiceHelper.showAlert("NL: You must sign in to use leaderboards");
+	//					Log.e(Cocos2dxHelper.TAG, "NL: You must sign in to use achievements");
+	//				}
+	//			}
+	//	});
+	//	return;
+	//}
 
-	public static void showLeaderboard()
-	{
-		Log.d(Cocos2dxHelper.TAG, "showLeaderboard");
-		((Activity)sContext).runOnUiThread(new Runnable() {
-				public void run() {
-					if(sCocos2dxGameServiceHelper.isSignedIn()) {
-						Activity activity = (Activity)sContext;
-						activity.startActivityForResult(sCocos2dxGameServiceHelper.getGamesClient().getAllLeaderboardsIntent(), /*RC_UNUSED*/9002);
-					} else {
-						//sCocos2dxGameServiceHelper.showAlert("NL: You must sign in to use leaderboards");
-						Log.e(Cocos2dxHelper.TAG, "NL: You must sign in to use leaderboards");
-					}
-				}
-		});
-		return;
-	}
+	//public static void showLeaderboard()
+	//{
+	//	Log.d(Cocos2dxHelper.TAG, "showLeaderboard");
+	//	((Activity)sContext).runOnUiThread(new Runnable() {
+	//			public void run() {
+	//				if(sCocos2dxGameServiceHelper.isSignedIn()) {
+	//					Activity activity = (Activity)sContext;
+	//					activity.startActivityForResult(sCocos2dxGameServiceHelper.getGamesClient().getAllLeaderboardsIntent(), /*RC_UNUSED*/9002);
+	//				} else {
+	//					//sCocos2dxGameServiceHelper.showAlert("NL: You must sign in to use leaderboards");
+	//					Log.e(Cocos2dxHelper.TAG, "NL: You must sign in to use leaderboards");
+	//				}
+	//			}
+	//	});
+	//	return;
+	//}
 
-	public static void reportAchievement(final String category, final int portion) {
-		Log.d(Cocos2dxHelper.TAG, "reportAchievement:("+category+", "+portion+")");
-		((Activity)sContext).runOnUiThread(new Runnable() {
-				public void run() {
-					if(sCocos2dxGameServiceHelper.isSignedIn()) {
-						if(portion == 0) {
-							sCocos2dxGameServiceHelper.getGamesClient().unlockAchievement(category);
-						} else {
-							sCocos2dxGameServiceHelper.getGamesClient().incrementAchievement(category, portion);
-						}
-					} else {
-						Log.e(Cocos2dxHelper.TAG, "NL: You must sign in to report achievements");
-					}
-				}
-		});
-	}
+	//public static void reportAchievement(final String category, final int portion) {
+	//	Log.d(Cocos2dxHelper.TAG, "reportAchievement:("+category+", "+portion+")");
+	//	((Activity)sContext).runOnUiThread(new Runnable() {
+	//			public void run() {
+	//				if(sCocos2dxGameServiceHelper.isSignedIn()) {
+	//					if(portion == 0) {
+	//						sCocos2dxGameServiceHelper.getGamesClient().unlockAchievement(category);
+	//					} else {
+	//						sCocos2dxGameServiceHelper.getGamesClient().incrementAchievement(category, portion);
+	//					}
+	//				} else {
+	//					Log.e(Cocos2dxHelper.TAG, "NL: You must sign in to report achievements");
+	//				}
+	//			}
+	//	});
+	//}
 
-	public static void submitScore(final String category, final String stringScore)
-	{
-		Log.d(Cocos2dxHelper.TAG, "submitScore:"+stringScore+" toCategory:"+category);
-		((Activity)sContext).runOnUiThread(new Runnable() {
-				public void run() {
-					if(sCocos2dxGameServiceHelper.isSignedIn()) {
-						long score = Long.parseLong(stringScore);
-						sCocos2dxGameServiceHelper.getGamesClient().submitScore(category, score);
-						//Log.e(Cocos2dxHelper.TAG, "Submitting "+score+" to category "+category);
-					} else {
-						//sCocos2dxGameServiceHelper.showAlert("NL: You must sign in to submit scores");
-						Log.e(Cocos2dxHelper.TAG, "NL: You must sign in to submit scores");
-					}
-				}
-		});
-		return;
-	}
+	//public static void submitScore(final String category, final String stringScore)
+	//{
+	//	Log.d(Cocos2dxHelper.TAG, "submitScore:"+stringScore+" toCategory:"+category);
+	//	((Activity)sContext).runOnUiThread(new Runnable() {
+	//			public void run() {
+	//				if(sCocos2dxGameServiceHelper.isSignedIn()) {
+	//					long score = Long.parseLong(stringScore);
+	//					sCocos2dxGameServiceHelper.getGamesClient().submitScore(category, score);
+	//					//Log.e(Cocos2dxHelper.TAG, "Submitting "+score+" to category "+category);
+	//				} else {
+	//					//sCocos2dxGameServiceHelper.showAlert("NL: You must sign in to submit scores");
+	//					Log.e(Cocos2dxHelper.TAG, "NL: You must sign in to submit scores");
+	//				}
+	//			}
+	//	});
+	//	return;
+	//}
 
 	// ===========================================================
 	// Vibrate Methods

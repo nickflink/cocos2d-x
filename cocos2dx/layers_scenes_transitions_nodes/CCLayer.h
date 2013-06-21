@@ -59,7 +59,6 @@ class CCTouchScriptHandlerEntry;
 All features from CCNode are valid, plus the following new features:
 - It can receive iPhone Touches
 - It can receive Accelerometer input
-- It can receive Achievement/Leaderboard events
 */
 class CC_DLL CCLayer : public CCNode, public CCTouchDelegate, public CCAccelerometerDelegate, public CCKeypadDelegate
 {
@@ -153,7 +152,6 @@ protected:
     bool m_bTouchEnabled;
     bool m_bAccelerometerEnabled;
     bool m_bKeypadEnabled;
-    bool m_bAchievementEnabled;
     
 private:
     // Script touch events handler

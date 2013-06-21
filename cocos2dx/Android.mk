@@ -1,7 +1,5 @@
 LOCAL_PATH := $(call my-dir)
 
-## Static Library
-
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := cocos2dx_static
@@ -151,20 +149,12 @@ touch_dispatcher/CCTouch.cpp
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/include \
                     $(LOCAL_PATH)/kazmath/include \
-                    $(LOCAL_PATH)/platform/android \
-                    $(LOCAL_PATH)/platform/third_party/android/source/libpng \
-                    $(LOCAL_PATH)/platform/third_party/android/source/libjpeg \
-                    $(LOCAL_PATH)/platform/third_party/android/prebuilt/libtiff/include \
-                    $(LOCAL_PATH)/platform/third_party/android/prebuilt/libcurl/include \
+                    $(LOCAL_PATH)/platform/android
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/include \
                     $(LOCAL_PATH)/kazmath/include \
-                    $(LOCAL_PATH)/platform/android \
-                    $(LOCAL_PATH)/platform/third_party/android/source/libpng \
-                    $(LOCAL_PATH)/platform/third_party/android/source/libjpeg \
-                    $(LOCAL_PATH)/platform/third_party/android/prebuilt/libtiff/include \
-                    $(LOCAL_PATH)/platform/third_party/android/prebuilt/libcurl/include \
+                    $(LOCAL_PATH)/platform/android
 
 LOCAL_LDLIBS := -lGLESv2 \
                 -llog \
@@ -181,11 +171,8 @@ LOCAL_WHOLE_STATIC_LIBRARIES += cocos_libtiff_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_libwebp_static
 
 # define the macro to compile through support/zip_support/ioapi.c
-LOCAL_CFLAGS := -DUSE_FILE32API
-LOCAL_EXPORT_CFLAGS := -DUSE_FILE32API
-# NFHACK WHAT IS Wno-psabi and do we need it?
-#LOCAL_CFLAGS := -Wno-psabi -DUSE_FILE32API
-#LOCAL_EXPORT_CFLAGS := -Wno-psabi -DUSE_FILE32API
+LOCAL_CFLAGS := -Wno-psabi -DUSE_FILE32API
+LOCAL_EXPORT_CFLAGS := -Wno-psabi -DUSE_FILE32API
 
 include $(BUILD_STATIC_LIBRARY)
 

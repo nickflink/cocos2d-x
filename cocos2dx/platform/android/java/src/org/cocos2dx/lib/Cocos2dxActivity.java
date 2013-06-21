@@ -27,7 +27,6 @@ import org.cocos2dx.lib.Cocos2dxHelper.Cocos2dxHelperListener;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
@@ -62,8 +61,10 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		sContext = this;
-		this.mHandler = new Cocos2dxHandler(this);
-		this.init();
+    	this.mHandler = new Cocos2dxHandler(this);
+
+    	this.init();
+
 		Cocos2dxHelper.init(this, this);
 	}
 
@@ -78,6 +79,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
 	@Override
 	protected void onResume() {
 		super.onResume();
+
 		Cocos2dxHelper.onResume();
 		this.mGLSurfaceView.onResume();
 	}
@@ -85,6 +87,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
 	@Override
 	protected void onPause() {
 		super.onPause();
+
 		Cocos2dxHelper.onPause();
 		this.mGLSurfaceView.onPause();
 	}

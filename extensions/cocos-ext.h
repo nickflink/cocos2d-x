@@ -32,6 +32,11 @@
 #include "CCBReader/CCData.h"
 #include "CCBReader/CCNode+CCBRelativePositioning.h"
 
+#include "crypto/base64/libb64.h"
+#include "crypto/CCCrypto.h"
+#include "crypto/md5/md5.h"
+#include "crypto/sha1/sha1.h"
+
 #include "GUI/CCControlExtension/CCControlExtensions.h"
 #include "GUI/CCScrollView/CCScrollView.h"
 #include "GUI/CCScrollView/CCTableView.h"

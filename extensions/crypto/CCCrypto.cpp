@@ -1,6 +1,7 @@
 
 #include "crypto/CCCrypto.h"
 #include <stdlib.h>
+#include <string.h>
 
 extern "C" {
 #include "crypto/base64/libb64.h"

@@ -125,6 +125,7 @@ THE SOFTWARE.
 
 // platform
 #include "platform/CCGameServices.h"
+#include "platform/CCInAppBilling.h"
 #include "platform/CCDevice.h"
 #include "platform/CCCommon.h"
 #include "platform/CCFileUtils.h"

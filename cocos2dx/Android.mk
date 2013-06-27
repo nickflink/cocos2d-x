@@ -92,6 +92,8 @@ platform/android/CCFileUtilsAndroid.cpp \
 platform/android/CCGameServices.cpp \
 platform/android/CCGameServicesJni.cpp \
 platform/android/CCImage.cpp \
+platform/android/CCInAppBilling.cpp \
+platform/android/CCInAppBillingJni.cpp \
 platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxBitmap.cpp \
 platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxHelper.cpp \
 platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxRenderer.cpp \

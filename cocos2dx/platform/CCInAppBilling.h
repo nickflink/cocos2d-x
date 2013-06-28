@@ -43,6 +43,7 @@ public:
     static CCInAppBilling* sharedInAppBilling(void);
     virtual ~CCInAppBilling(void);
     virtual void setup();
+    virtual void refreshPurchases();
     virtual void inAppPurchase(const char *name);
     virtual void addPurchaseDelegate(CCPurchaseDelegate *pDelegate);
     virtual void removePurchaseDelegate(CCPurchaseDelegate *pDelegate);

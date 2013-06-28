@@ -30,12 +30,17 @@ bool CCInAppBilling::init(void) {
 }
 
 void CCInAppBilling::setup() {
-    CCLog("CCInAppBilling::beginUserInitiatedPurchase");
+    CCLog("CCInAppBilling::setup");
+}
+
+void CCInAppBilling::refreshPurchases() {
+    CCLog("CCInAppBilling::refreshPurchases");
+    [[CCStoreKitHelper sharedHelper] restoreCompletedTransactions];
 }
 
 void CCInAppBilling::inAppPurchase(const char *name) {
-    CCAssert(false, "implement CCInAppBilling::inAppPurchase");
-    //[[CCStoreKitHelper sharedHelper] reportAchievement:[NSString stringWithFormat:@"%s", category] percentComplete:(double)portion];
+    CCLog("CCInAppBilling::inAppPurchase");
+    [[CCStoreKitHelper sharedHelper] inAppPurchase:[NSString stringWithFormat:@"%s", name]];
 }
 
 void CCInAppBilling::addPurchaseDelegate(CCPurchaseDelegate *pDelegate) {

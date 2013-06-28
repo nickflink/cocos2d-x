@@ -100,11 +100,6 @@
         }];
     }
 }
-#pragma mark - Security
--(void) setSecretKey:(NSString*)key
-{
-    self.secretKey = key;
-}
 
 #pragma mark - Leaderboard
 -(void) reportScore:(long long)aScore forLeaderboard:(NSString*)leaderboardId

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01CC18C1177CBB4D00E694E5 /* CCInAppBilling.h in Headers */ = {isa = PBXBuildFile; fileRef = 01CC18C0177CBB4D00E694E5 /* CCInAppBilling.h */; };
+		01CC18C7177E00A900E694E5 /* CCInAppBilling.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01CC18C3177E00A900E694E5 /* CCInAppBilling.mm */; };
+		01CC18C8177E00A900E694E5 /* CCStoreKitHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 01CC18C4177E00A900E694E5 /* CCStoreKitHelper.h */; };
+		01CC18C9177E00A900E694E5 /* CCStoreKitHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01CC18C5177E00A900E694E5 /* CCStoreKitHelper.mm */; };
 		01D0DC851774FA4300EACCCC /* CCGameKitHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 01D0DC821774FA4300EACCCC /* CCGameKitHelper.h */; };
 		01D0DC861774FA4300EACCCC /* CCGameKitHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01D0DC831774FA4300EACCCC /* CCGameKitHelper.mm */; };
 		01D0DC871774FA4300EACCCC /* CCGameServices.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01D0DC841774FA4300EACCCC /* CCGameServices.mm */; };
@@ -325,6 +329,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01CC18C0177CBB4D00E694E5 /* CCInAppBilling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInAppBilling.h; sourceTree = "<group>"; };
+		01CC18C3177E00A900E694E5 /* CCInAppBilling.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCInAppBilling.mm; sourceTree = "<group>"; };
+		01CC18C4177E00A900E694E5 /* CCStoreKitHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCStoreKitHelper.h; sourceTree = "<group>"; };
+		01CC18C5177E00A900E694E5 /* CCStoreKitHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCStoreKitHelper.mm; sourceTree = "<group>"; };
 		01D0DC821774FA4300EACCCC /* CCGameKitHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGameKitHelper.h; sourceTree = "<group>"; };
 		01D0DC831774FA4300EACCCC /* CCGameKitHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCGameKitHelper.mm; sourceTree = "<group>"; };
 		01D0DC841774FA4300EACCCC /* CCGameServices.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCGameServices.mm; sourceTree = "<group>"; };
@@ -991,6 +999,7 @@
 		1551A43F158F2ADE00E66CFE /* platform */ = {
 			isa = PBXGroup;
 			children = (
+				01CC18C0177CBB4D00E694E5 /* CCInAppBilling.h */,
 				01D0DC881774FA5A00EACCCC /* CCGameServices.h */,
 				1551A46C158F2ADE00E66CFE /* CCAccelerometerDelegate.h */,
 				1551A46D158F2ADE00E66CFE /* CCApplicationProtocol.h */,
@@ -1018,6 +1027,9 @@
 		1551A47B158F2ADE00E66CFE /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				01CC18C3177E00A900E694E5 /* CCInAppBilling.mm */,
+				01CC18C4177E00A900E694E5 /* CCStoreKitHelper.h */,
+				01CC18C5177E00A900E694E5 /* CCStoreKitHelper.mm */,
 				01D0DC821774FA4300EACCCC /* CCGameKitHelper.h */,
 				01D0DC831774FA4300EACCCC /* CCGameKitHelper.mm */,
 				01D0DC841774FA4300EACCCC /* CCGameServices.mm */,
@@ -1494,6 +1506,8 @@
 				01D0DC851774FA4300EACCCC /* CCGameKitHelper.h in Headers */,
 				01D0DC891774FA5A00EACCCC /* CCGameServices.h in Headers */,
 				01D0DC8D1774FA7700EACCCC /* CCLocalizedString.h in Headers */,
+				01CC18C1177CBB4D00E694E5 /* CCInAppBilling.h in Headers */,
+				01CC18C8177E00A900E694E5 /* CCStoreKitHelper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1685,6 +1699,8 @@
 				01D0DC861774FA4300EACCCC /* CCGameKitHelper.mm in Sources */,
 				01D0DC871774FA4300EACCCC /* CCGameServices.mm in Sources */,
 				01D0DC8C1774FA7700EACCCC /* CCLocalizedString.cpp in Sources */,
+				01CC18C7177E00A900E694E5 /* CCInAppBilling.mm in Sources */,
+				01CC18C9177E00A900E694E5 /* CCStoreKitHelper.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

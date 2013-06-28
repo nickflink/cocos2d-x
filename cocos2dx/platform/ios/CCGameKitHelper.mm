@@ -48,9 +48,8 @@
 -(id) init
 {
     self = [super init];
-    if (self)
-    {
-        [self authenticatePlayer];
+    if(self) {
+        [self setSecretKey:@"REPLACE WITH YOUR SECURE KEY"];
     }
     return self;
 }
@@ -101,8 +100,11 @@
         }];
     }
 }
-
-
+#pragma mark - Security
+-(void) setSecretKey:(NSString*)key
+{
+    self.secretKey = key;
+}
 
 #pragma mark - Leaderboard
 -(void) reportScore:(long long)aScore forLeaderboard:(NSString*)leaderboardId
@@ -372,7 +374,7 @@
     }
     else
     {
-        NSData *decryptedData = [self decryptData:binaryFile withKey:SECRET_KEY];
+        NSData *decryptedData = [self decryptData:binaryFile withKey:self.secretKey];
         dictionary = [NSKeyedUnarchiver unarchiveObjectWithData:decryptedData];
     }
     
@@ -394,7 +396,7 @@
     [tempDic setObject:data forKey:key];
     
     NSData *dicData = [NSKeyedArchiver archivedDataWithRootObject:tempDic];
-    NSData *encryptedData = [self encryptData:dicData withKey:SECRET_KEY];
+    NSData *encryptedData = [self encryptData:dicData withKey:self.secretKey];
     [encryptedData writeToFile:[self filePath] atomically:YES];
 }
 

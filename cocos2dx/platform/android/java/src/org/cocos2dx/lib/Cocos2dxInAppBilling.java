@@ -74,49 +74,26 @@ public class Cocos2dxInAppBilling {
         return sInstance;
     }
 
-    public void initWithActivity(Activity activity) {
-        mActivity = activity;
-        //setup();
-        //setSigningInMessage("NL: signing in");
-        //setSigningOutMessage("NL: signing out");
-    }
-
-    Context getContext() {
+    private Context getContext() {
         return mActivity;
     }
 
-    //@Override
-    public void onCreate() {
-    //public void onCreate(Bundle savedInstanceState) {
-        //super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
-
+    /* base64EncodedPublicKey should be YOUR APPLICATION'S PUBLIC KEY
+     * (that you got from the Google Play developer console). This is not your
+     * developer public key, it's the *app-specific* public key.
+     *
+     * Instead of just storing the entire literal string here embedded in the
+     * program,  construct the key at runtime from pieces or
+     * use bit manipulation (for example, XOR with some other string) to hide
+     * the actual key.  The key itself is not secret information, but we don't
+     * want to make it easy for an attacker to replace the public key with one
+     * of their own and then fake messages from the server.
+     */
+    public void initWithActivityAndKey(Activity activity, String base64EncodedPublicKey) {
+        mActivity = activity;
         // load game data
         //loadData();
 
-        /* base64EncodedPublicKey should be YOUR APPLICATION'S PUBLIC KEY
-         * (that you got from the Google Play developer console). This is not your
-         * developer public key, it's the *app-specific* public key.
-         *
-         * Instead of just storing the entire literal string here embedded in the
-         * program,  construct the key at runtime from pieces or
-         * use bit manipulation (for example, XOR with some other string) to hide
-         * the actual key.  The key itself is not secret information, but we don't
-         * want to make it easy for an attacker to replace the public key with one
-         * of their own and then fake messages from the server.
-         */
-        String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjSW2xv1KAU+BR5toGdw/k49ZaISPwyGffXjI8LG/J/qaoB110rQhY71YIn4JSL7W0Z44Fd7tTErz1FjU0+Js/J6rttKSyaE7Y46xFE+QehqdJfJ48yqNu9631PXGrstUMdHvnFGLxY7l4Zs52SdIukCTDXVfKWQYo0/WMbHFurNbzPPIf4/iZsscq/ImsVq1GW74bOM+40DtebhkhPa4E+V9cl/MVIGtCYPatBrXJMZHKJfXeQtyQl47t+UyiDJdmvvjymA/ZRNxbx1A30nNUphgRtFjzhACWqMojnT73aNRNQXTi+oRGGG+pi9EbcjAFVxNgiz+r6Rb5KNhr55vdwIDAQAB";
-
-        
-        // Some sanity checks to see if the developer (that's you!) really followed the
-        //// instructions to run this sample (don't put these checks on your app!)
-        //if (base64EncodedPublicKey.contains("CONSTRUCT_YOUR")) {
-        //    throw new RuntimeException("Please put your app's public key in MainActivity.java. See README.");
-        //}
-        //if (getPackageName().startsWith("com.example")) {
-        //    throw new RuntimeException("Please change the sample's package name! See README.");
-        //}
-        
         // Create the helper, passing it our context and the public key to verify signatures with
         Log.d(TAG, "Creating IAB helper.");
         //mHelper = new IabHelper(this, base64EncodedPublicKey);
@@ -134,7 +111,7 @@ public class Cocos2dxInAppBilling {
 
                 if (!result.isSuccess()) {
                     // Oh noes, there was a problem.
-                    complain("Problem setting up in-app billing: " + result);
+                    Log.e(TAG,"Problem setting up in-app billing: " + result);
                     return;
                 }
 
@@ -150,7 +127,7 @@ public class Cocos2dxInAppBilling {
         public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
             Log.d(TAG, "Query inventory finished.");
             if (result.isFailure()) {
-                complain("Failed to query inventory: " + result);
+                Log.e(TAG,"Failed to query inventory: " + result);
                 return;
             }
 
@@ -189,17 +166,26 @@ public class Cocos2dxInAppBilling {
         }
     };
 
+    public void onInAppPurchase(String name) {
+
     // User clicked the "Buy Gas" button
-    public void onBuyGasButtonClicked(View arg0) {
+    //public void onBuyGasButtonClicked(View arg0) {
         Log.d(TAG, "Buy gas button clicked.");
+        ///* TODO: for security, generate your payload here for verification. See the comments on 
+        // *        verifyDeveloperPayload() for more info. Since this is a SAMPLE, we just use 
+        // *        an empty string, but on a production app you should carefully generate this. */
+        String payload = ""; 
+        setWaitScreen(true);
+        mHelper.launchPurchaseFlow(mActivity, name, RC_REQUEST, 
+                mPurchaseFinishedListener, payload);
 
         //if (mSubscribedToInfiniteGas) {
-        //    complain("No need! You're subscribed to infinite gas. Isn't that awesome?");
+        //    Log.e(TAG,"No need! You're subscribed to infinite gas. Isn't that awesome?");
         //    return;
         //}
         //
         //if (mTank >= TANK_MAX) {
-        //    complain("Your tank is full. Drive around a bit!");
+        //    Log.e(TAG,"Your tank is full. Drive around a bit!");
         //    return;
         //}
 
@@ -235,7 +221,7 @@ public class Cocos2dxInAppBilling {
     // flow for subscription.
     public void onInfiniteGasButtonClicked(View arg0) {
         //if (!mHelper.subscriptionsSupported()) {
-        //    complain("Subscriptions not supported on your device yet. Sorry!");
+        //    Log.e(TAG,"Subscriptions not supported on your device yet. Sorry!");
         //    return;
         //}
         //
@@ -252,20 +238,15 @@ public class Cocos2dxInAppBilling {
     }
     
     //@Override
-    //protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    //    Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
-
-    //    // Pass on the activity result to the helper for handling
-    //    if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
-    //        // not handled, so handle it ourselves (here's where you'd
-    //        // perform any handling of activity results not related to in-app
-    //        // billing...
-    //        super.onActivityResult(requestCode, resultCode, data);
-    //    }
-    //    else {
-    //        Log.d(TAG, "onActivityResult handled by IABUtil.");
-    //    }
-    //}
+    /**
+     * Handle activity result. Call this method from your Activity's
+     * onActivityResult callback.
+     */
+    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+        //Returns true if handled otherwise
+        //false means that you should handle it in your activity
+        return mHelper.handleActivityResult(requestCode, resultCode, data);
+    }
     
     /** Verifies the developer payload of a purchase. */
     boolean verifyDeveloperPayload(Purchase p) {
@@ -302,17 +283,20 @@ public class Cocos2dxInAppBilling {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
             Log.d(TAG, "Purchase finished: " + result + ", purchase: " + purchase);
             if (result.isFailure()) {
-                complain("Error purchasing: " + result);
+                Log.e(TAG,"Error purchasing: " + result);
+                onPurchaseFailed();
                 setWaitScreen(false);
                 return;
             }
             if (!verifyDeveloperPayload(purchase)) {
-                complain("Error purchasing. Authenticity verification failed.");
+                Log.e(TAG,"Error purchasing. Authenticity verification failed.");
+                onPurchaseFailed();
                 setWaitScreen(false);
                 return;
             }
 
             Log.d(TAG, "Purchase successful.");
+            onPurchaseSucceeded();
 
             //if (purchase.getSku().equals(SKU_GAS)) {
             //    // bought 1/4 tank of gas. So consume it.
@@ -356,7 +340,7 @@ public class Cocos2dxInAppBilling {
                 //alert("You filled 1/4 tank. Your tank is now " + String.valueOf(mTank) + "/4 full!");
             }
             else {
-                complain("Error while consuming: " + result);
+                Log.e(TAG,"Error while consuming: " + result);
             }
             //updateUi();
             setWaitScreen(false);
@@ -395,11 +379,6 @@ public class Cocos2dxInAppBilling {
         //findViewById(R.id.screen_wait).setVisibility(set ? View.VISIBLE : View.GONE);
     }
 
-    void complain(String message) {
-        Log.e(TAG, "**** TrivialDrive Error: " + message);
-        alert("Error: " + message);
-    }
-
     void alert(String message) {
         //AlertDialog.Builder bld = new AlertDialog.Builder(this);
         AlertDialog.Builder bld = new AlertDialog.Builder(getContext());
@@ -428,4 +407,9 @@ public class Cocos2dxInAppBilling {
     //    mTank = sp.getInt("tank", 2);
     //    Log.d(TAG, "Loaded data: tank = " + String.valueOf(mTank));
     //}
+    // ===========================================================
+    // Native Methods
+    // ===========================================================
+    public static native void onPurchaseFailed();
+    public static native void onPurchaseSucceeded();
 }

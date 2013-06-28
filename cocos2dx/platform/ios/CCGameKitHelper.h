@@ -29,11 +29,6 @@
     #define ABGAMEKITHELPER_LOGGING 1
 #endif
 
-/**
- * Set SECRET_KEY for proper encryption
- */
-#define SECRET_KEY @"MySecretKeyHere"
-
 @interface CCGameKitHelper : NSObject
 
 /**
@@ -41,6 +36,12 @@
  * Call it once on application start to authenticate local player
  */
 +(id) sharedHelper;
+
+/**
+ * Authentication
+ */
+-(void) setSecretKey:(NSString*)key;
+-(void) authenticatePlayer;
 
 
 /**
@@ -65,5 +66,7 @@
 
 
 @property (nonatomic, assign, getter = isAuthenticated) BOOL authenticated;
+@property (nonatomic, assign) NSString *secretKey;
+
 
 @end

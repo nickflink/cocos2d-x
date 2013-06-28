@@ -32,9 +32,13 @@ bool CCGameServices::isSignedIn() {
     return isSignedInJNI();
 }
 
-void CCGameServices::beginUserInitiatedSignIn() {
-    CCLog("CCGameServices::beginUserInitiatedSignIn");
+void CCGameServices::signIn() {
+    CCLog("CCGameServices::signIn");
     return beginUserInitiatedSignInJNI();
+}
+
+void CCGameServices::setSecretKey(const char *key) {
+    CCLog("CCGameServices::setSecretKey - No key necessary for android");
 }
 
 void CCGameServices::showLeaderboard() {

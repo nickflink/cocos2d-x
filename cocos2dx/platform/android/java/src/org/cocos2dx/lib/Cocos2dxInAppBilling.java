@@ -166,7 +166,7 @@ public class Cocos2dxInAppBilling {
         }
     };
 
-    public void onInAppPurchase(String name) {
+    public void inAppPurchase(String name) {
 
     // User clicked the "Buy Gas" button
     //public void onBuyGasButtonClicked(View arg0) {

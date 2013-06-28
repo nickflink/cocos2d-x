@@ -33,6 +33,10 @@ void CCInAppBilling::setup() {
     return setupJNI();
 }
 
+void CCInAppBilling::refreshPurchases() {
+    
+}
+
 void CCInAppBilling::inAppPurchase(const char *name) {
     CCLog("> CCInAppBilling::inAppPurchase(name=%s)", name);
     inAppPurchaseJNI(name);

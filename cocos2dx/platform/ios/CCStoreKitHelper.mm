@@ -2,7 +2,6 @@
 //  CCStoreKitHelper.m
 //
 
-#import <CommonCrypto/CommonCryptor.h>
 #import "CCStoreKitHelper.h"
 #include "CCInAppBilling.h"
 
@@ -33,35 +32,93 @@
     return self;
 }
 
+- (void) addProductIdentifiers:(NSSet *)productIdentifiers {
+ 
+    // Store product identifiers
+    _productIdentifiers = productIdentifiers;
+
+    // Check for previously purchased products
+    _purchasedProductIdentifiers = [NSMutableSet set];
+    for (NSString * productIdentifier in _productIdentifiers) {
+        BOOL productPurchased = [[NSUserDefaults standardUserDefaults] boolForKey:productIdentifier];
+        if (productPurchased) {
+            [_purchasedProductIdentifiers addObject:productIdentifier];
+            NSLog(@"Previously purchased: %@", productIdentifier);
+        } else {
+            NSLog(@"Not purchased: %@", productIdentifier);
+        }
+    }
+}
+
+- (void)requestProductsWithCompletionHandler:(RequestProductsCompletionHandler)completionHandler {
+ 
+    // 1
+    _completionHandler = [completionHandler copy];
+ 
+    // 2
+    _productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:_productIdentifiers];
+    _productsRequest.delegate = self;
+    [_productsRequest start];
+ 
+}
+
 -(void) inAppPurchase:(NSString*)name
 {
+    cocos2d::CCInAppBilling::sharedInAppBilling()->onPurchaseFailed();
     return;
 }
 
-#pragma mark -
-#pragma mark SKProductsRequestDelegate methods
-
-- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
-{
-    /*NSArray *products = response.products;
-    proUpgradeProduct = [products count] == 1 ? [[products firstObject] retain] : nil;
-    if (proUpgradeProduct)
-    {
-        NSLog(@"Product title: %@" , proUpgradeProduct.localizedTitle);
-        NSLog(@"Product description: %@" , proUpgradeProduct.localizedDescription);
-        NSLog(@"Product price: %@" , proUpgradeProduct.price);
-        NSLog(@"Product id: %@" , proUpgradeProduct.productIdentifier);
+#pragma mark - SKProductsRequestDelegate
+ 
+- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
+ 
+    NSLog(@"Loaded list of products...");
+    _productsRequest = nil;
+ 
+    NSArray * skProducts = response.products;
+    for (SKProduct * skProduct in skProducts) {
+        NSLog(@"Found product: %@ %@ %0.2f",
+              skProduct.productIdentifier,
+              skProduct.localizedTitle,
+              skProduct.price.floatValue);
     }
-    
-    for (NSString *invalidProductId in response.invalidProductIdentifiers)
-    {
-        NSLog(@"Invalid product id: %@" , invalidProductId);
-    }
-    
-    // finally release the reqest we alloc/init’ed in requestProUpgradeProductData
-    [productsRequest release];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kInAppPurchaseManagerProductsFetchedNotification object:self userInfo:nil];*/
+ 
+    _completionHandler(YES, skProducts);
+    _completionHandler = nil;
+ 
 }
+ 
+- (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
+ 
+    NSLog(@"Failed to load list of products.");
+    _productsRequest = nil;
+ 
+    _completionHandler(NO, nil);
+    _completionHandler = nil;
+ 
+}
+
+- (BOOL)productPurchased:(NSString *)productIdentifier {
+    return [_purchasedProductIdentifiers containsObject:productIdentifier];
+}
+ 
+- (void)buyProduct:(SKProduct *)product {
+ 
+    NSLog(@"Buying %@...", product.productIdentifier);
+ 
+    SKPayment * payment = [SKPayment paymentWithProduct:product];
+    [[SKPaymentQueue defaultQueue] addPayment:payment];
+ 
+}
+
+- (void)restoreCompletedTransactions {
+    [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+}
+
+SKProductsRequest * _productsRequest;
+RequestProductsCompletionHandler _completionHandler;
+NSSet * _productIdentifiers;
+NSMutableSet * _purchasedProductIdentifiers;
+
 
 @end

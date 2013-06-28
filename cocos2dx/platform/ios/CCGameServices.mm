@@ -34,9 +34,16 @@ bool CCGameServices::isSignedIn() {
     return [[CCGameKitHelper sharedHelper] isAuthenticated];
 }
 
-void CCGameServices::beginUserInitiatedSignIn() {
-    CCLog("CCGameServices::beginUserInitiatedSignIn");
+void CCGameServices::signIn() {
+    CCLog("CCGameServices::signIn");
+    return [[CCGameKitHelper sharedHelper] authenticatePlayer];
 }
+
+void CCGameServices::setSecretKey(const char *key) {
+    CCLog("CCGameServices::setSecretKey");
+    [[CCGameKitHelper sharedHelper] setSecretKey:[NSString stringWithFormat:@"%s", key]];
+}
+
 
 void CCGameServices::showLeaderboard() {
     CCLog("CCGameServices::showLeaderboard");
@@ -58,6 +65,7 @@ void CCGameServices::reportAchievement(const char *category) {
 
 void CCGameServices::reportAchievement(const char *category, int portion) {
     [[CCGameKitHelper sharedHelper] reportAchievement:[NSString stringWithFormat:@"%s", category] percentComplete:(double)portion];
+    [[CCGameKitHelper sharedHelper] showNotification:[NSString stringWithFormat:@"%s", category] identifier:[NSString stringWithFormat:@"%s", category]];
 }
 
 void CCGameServices::submitScore(const char *category, long long score) {

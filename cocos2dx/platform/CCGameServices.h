@@ -43,7 +43,8 @@ public:
     static CCGameServices* sharedGameServices(void);
     virtual ~CCGameServices(void);
     virtual bool isSignedIn();
-    virtual void beginUserInitiatedSignIn();
+    virtual void signIn();
+    virtual void setSecretKey(const char *key);
     virtual void showLeaderboard();
     virtual void showAchievement();
     virtual void reportAchievement(const char *category);

@@ -10,12 +10,12 @@ Copyright (c) 2013 Nicholas Flink
 
 NS_CC_BEGIN
 
-class CC_DLL CCInAppBillingDelegate
+class CC_DLL CCPurchaseDelegate
 {
 public:
 
-    CCInAppBillingDelegate() {}
-    virtual ~CCInAppBillingDelegate() {CCLog("CCInAppBillingDelegate::~CCInAppBillingDelegate");}
+    CCPurchaseDelegate() {}
+    virtual ~CCPurchaseDelegate() {CCLog("CCPurchaseDelegate::~CCPurchaseDelegate");}
     virtual void ccOnPurchaseSucceeded() = 0;
     virtual void ccOnPurchaseFailed() = 0;
 };
@@ -44,8 +44,8 @@ public:
     virtual ~CCInAppBilling(void);
     virtual void setup();
     virtual void inAppPurchase(const char *name);
-    virtual void addInAppBillingDelegate(CCInAppBillingDelegate *pDelegate);
-    virtual void removeInAppBillingDelegate(CCInAppBillingDelegate *pDelegate);
+    virtual void addPurchaseDelegate(CCPurchaseDelegate *pDelegate);
+    virtual void removePurchaseDelegate(CCPurchaseDelegate *pDelegate);
     //
     //Callbacks.
     //
@@ -55,7 +55,7 @@ public:
 
     CC_SYNTHESIZE_READONLY(bool, m_bIsSetup, IsSetup);
   private:
-    std::vector<CCInAppBillingDelegate*>m_pInAppBillingHandlers;
+    std::vector<CCPurchaseDelegate*>m_pPurchaseHandlers;
 
 };
 

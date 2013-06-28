@@ -3,10 +3,11 @@ Copyright (c) 2013 gogododo
 Copyright (c) 2013 Nicholas Flink
 ****************************************************************************/
 
-#include "platform/CCInAppBilling.h"
-#include "CCInAppBillingJni.h"
+#include "CCInAppBilling.h"
+#include "CCStoreKitHelper.h"
 
 NS_CC_BEGIN
+
 // singleton stuff
 static CCInAppBilling *s_SharedInAppBilling = NULL;
 CCInAppBilling* CCInAppBilling::sharedInAppBilling(void) {
@@ -17,7 +18,7 @@ CCInAppBilling* CCInAppBilling::sharedInAppBilling(void) {
     return s_SharedInAppBilling;
 }
 
-CCInAppBilling::CCInAppBilling(void) : m_bIsSetup(false) {
+CCInAppBilling::CCInAppBilling(void) {
 }
 
 CCInAppBilling::~CCInAppBilling(void) {
@@ -29,14 +30,12 @@ bool CCInAppBilling::init(void) {
 }
 
 void CCInAppBilling::setup() {
-    CCLog("CCInAppBilling::setup");
-    return setupJNI();
+    CCLog("CCInAppBilling::beginUserInitiatedPurchase");
 }
 
 void CCInAppBilling::inAppPurchase(const char *name) {
-    CCLog("> CCInAppBilling::inAppPurchase(name=%s)", name);
-    inAppPurchaseJNI(name);
-    CCLog("< CCInAppBilling::inAppPurchase");
+    CCAssert(false, "implement CCInAppBilling::inAppPurchase");
+    //[[CCStoreKitHelper sharedHelper] reportAchievement:[NSString stringWithFormat:@"%s", category] percentComplete:(double)portion];
 }
 
 void CCInAppBilling::addPurchaseDelegate(CCPurchaseDelegate *pDelegate) {
@@ -44,6 +43,7 @@ void CCInAppBilling::addPurchaseDelegate(CCPurchaseDelegate *pDelegate) {
 }
 
 void CCInAppBilling::removePurchaseDelegate(CCPurchaseDelegate *pDelegate) {
+    //m_pPurchaseHandlers.erase(std::remove(m_pPurchaseHandlers.begin(), m_pPurchaseHandlers.end(), pDelegate), m_pPurchaseHandlers.end());
     int indexToErase = -1;
     int index = 0;
     for(std::vector<CCPurchaseDelegate*>::iterator it = m_pPurchaseHandlers.begin(); it != m_pPurchaseHandlers.end(); ++it) {
@@ -59,7 +59,7 @@ void CCInAppBilling::removePurchaseDelegate(CCPurchaseDelegate *pDelegate) {
 }
 
 void CCInAppBilling::onSetupComplete() {
-    m_bIsSetup = true;
+    CCAssert(false, "Implement CCInAppBilling::onSetupComplete");
 }
 
 void CCInAppBilling::onPurchaseFailed() {

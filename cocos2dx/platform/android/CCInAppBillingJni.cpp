@@ -117,6 +117,16 @@ extern "C"
         methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
+
+    void refreshPurchasesJNI() {
+        JniMethodInfo methodInfo;
+        if (! getStaticMethodInfo(methodInfo, "refreshPurchasesJNI", "()V")) {
+            return;
+        }
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
+
     void inAppPurchaseJNI(const char *name) {
         JniMethodInfo methodInfo;
         //We can not pass a long long over jni so we convert it to a string

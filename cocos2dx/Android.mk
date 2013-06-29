@@ -99,6 +99,7 @@ platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxHelper.cpp \
 platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxRenderer.cpp \
 platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxAccelerometer.cpp \
 platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxGameServiceHelper.cpp \
+platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxInAppBilling.cpp \
 platform/android/jni/JniHelper.cpp \
 platform/android/jni/IMEJni.cpp \
 platform/android/jni/TouchesJni.cpp \

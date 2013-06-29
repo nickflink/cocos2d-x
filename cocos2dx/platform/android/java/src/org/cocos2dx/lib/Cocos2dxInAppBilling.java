@@ -166,7 +166,11 @@ public class Cocos2dxInAppBilling {
         }
     };
 
-    public void inAppPurchase(String name) {
+    public static void refreshPurchasesJNI() {
+        Log.e(TAG, "implement refreshPurchasesJNI");
+    }
+
+    public static void inAppPurchaseJNI(String name) {
 
     // User clicked the "Buy Gas" button
     //public void onBuyGasButtonClicked(View arg0) {
@@ -175,9 +179,8 @@ public class Cocos2dxInAppBilling {
         // *        verifyDeveloperPayload() for more info. Since this is a SAMPLE, we just use 
         // *        an empty string, but on a production app you should carefully generate this. */
         String payload = ""; 
-        setWaitScreen(true);
-        mHelper.launchPurchaseFlow(mActivity, name, RC_REQUEST, 
-                mPurchaseFinishedListener, payload);
+        getInstance().setWaitScreen(true);
+        getInstance().mHelper.launchPurchaseFlow(getInstance().mActivity, name, RC_REQUEST, getInstance().mPurchaseFinishedListener, payload);
 
         //if (mSubscribedToInfiniteGas) {
         //    Log.e(TAG,"No need! You're subscribed to infinite gas. Isn't that awesome?");
@@ -284,19 +287,19 @@ public class Cocos2dxInAppBilling {
             Log.d(TAG, "Purchase finished: " + result + ", purchase: " + purchase);
             if (result.isFailure()) {
                 Log.e(TAG,"Error purchasing: " + result);
-                onPurchaseFailed();
+                failPurchase();
                 setWaitScreen(false);
                 return;
             }
             if (!verifyDeveloperPayload(purchase)) {
                 Log.e(TAG,"Error purchasing. Authenticity verification failed.");
-                onPurchaseFailed();
+                failPurchase();
                 setWaitScreen(false);
                 return;
             }
 
             Log.d(TAG, "Purchase successful.");
-            onPurchaseSucceeded();
+            succeedPurchase();
 
             //if (purchase.getSku().equals(SKU_GAS)) {
             //    // bought 1/4 tank of gas. So consume it.
@@ -371,6 +374,13 @@ public class Cocos2dxInAppBilling {
     //    if (mHelper != null) mHelper.dispose();
     //    mHelper = null;
     //}
+    void succeedPurchase() {
+        onPurchaseSucceeded();
+    }
+
+    void failPurchase() {
+        onPurchaseFailed();
+    }
 
     // Enables or disables the "please wait" screen.
     void setWaitScreen(boolean set) {

@@ -34,7 +34,7 @@ void CCInAppBilling::setup() {
 }
 
 void CCInAppBilling::refreshPurchases() {
-    
+    refreshPurchasesJNI();
 }
 
 void CCInAppBilling::inAppPurchase(const char *name) {

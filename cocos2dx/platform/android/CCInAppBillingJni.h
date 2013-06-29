@@ -11,6 +11,7 @@ Copyright (c) 2013 Nicholas Flink
 extern "C"
 {
     extern void setupJNI();
+    extern void refreshPurchasesJNI();
     extern void inAppPurchaseJNI(const char *name);
 }
 #endif //__CCInAppBillingJni_H__

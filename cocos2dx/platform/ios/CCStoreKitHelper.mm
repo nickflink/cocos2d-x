@@ -27,7 +27,11 @@
     self = [super init];
     if (self)
     {
-        //[self authenticatePlayer];
+        _products = nil;
+        _productsRequest = nil;
+        _completionHandler = nil;
+        _productIdentifiers = nil;
+        _purchasedProductIdentifiers = nil;
     }
     return self;
 }
@@ -35,9 +39,25 @@
 - (void) addProductIdentifiers:(NSSet *)productIdentifiers {
  
     // Store product identifiers
-    _productIdentifiers = productIdentifiers;
+    if(_productIdentifiers == nil) {
+        _productIdentifiers = [NSMutableSet set];
+    }
+    [_productIdentifiers unionSet:productIdentifiers];
+}
 
-    // Check for previously purchased products
+- (void) requestProductsWithCompletionHandler:(RequestProductsCompletionHandler)completionHandler {
+ 
+    // 1
+    _completionHandler = [completionHandler copy];
+ 
+    // 2
+    _productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:_productIdentifiers];
+    _productsRequest.delegate = self;
+    [_productsRequest start];
+}
+
+- (void) requestProducts {
+// Check for previously purchased products
     _purchasedProductIdentifiers = [NSMutableSet set];
     for (NSString * productIdentifier in _productIdentifiers) {
         BOOL productPurchased = [[NSUserDefaults standardUserDefaults] boolForKey:productIdentifier];
@@ -48,29 +68,36 @@
             NSLog(@"Not purchased: %@", productIdentifier);
         }
     }
-}
 
-- (void)requestProductsWithCompletionHandler:(RequestProductsCompletionHandler)completionHandler {
- 
-    // 1
-    _completionHandler = [completionHandler copy];
- 
-    // 2
-    _productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:_productIdentifiers];
-    _productsRequest.delegate = self;
-    [_productsRequest start];
- 
+    [self requestProductsWithCompletionHandler:^(BOOL success, NSArray *products) {
+        if (success) {
+            _products = products;
+        } else {
+            NSLog(@"Handle error requesting products");
+        }
+    }];
 }
 
 -(void) inAppPurchase:(NSString*)name
 {
-    cocos2d::CCInAppBilling::sharedInAppBilling()->onPurchaseFailed();
+    bool found = false;
+    for (SKProduct * product in _products) {
+        if(name == product.productIdentifier) {
+          [self buyProduct:product];
+          found = true;
+            break;
+        }
+    }
+    if(!found) {
+        NSLog(@"Product not found");
+        cocos2d::CCInAppBilling::sharedInAppBilling()->onPurchaseFailed();
+    }
     return;
 }
 
 #pragma mark - SKProductsRequestDelegate
  
-- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
+- (void) productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
  
     NSLog(@"Loaded list of products...");
     _productsRequest = nil;
@@ -115,9 +142,10 @@
     [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
 }
 
+NSArray *_products;
 SKProductsRequest * _productsRequest;
 RequestProductsCompletionHandler _completionHandler;
-NSSet * _productIdentifiers;
+NSMutableSet * _productIdentifiers;
 NSMutableSet * _purchasedProductIdentifiers;
 
 

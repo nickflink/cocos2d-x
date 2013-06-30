@@ -17,7 +17,7 @@ typedef void (^RequestProductsCompletionHandler)(BOOL success, NSArray * product
 + (id) sharedHelper;
 
 - (void) addProductIdentifiers:(NSSet *)productIdentifiers;
-- (void) requestProductsWithCompletionHandler:(RequestProductsCompletionHandler)completionHandler;
+- (void) requestProducts;
 - (void) inAppPurchase:(NSString*)name;
 - (void) buyProduct:(SKProduct *)product;
 - (BOOL) productPurchased:(NSString *)productIdentifier;

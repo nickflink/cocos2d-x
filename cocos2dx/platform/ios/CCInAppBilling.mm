@@ -31,6 +31,12 @@ bool CCInAppBilling::init(void) {
 
 void CCInAppBilling::setup() {
     CCLog("CCInAppBilling::setup");
+    [[CCStoreKitHelper sharedHelper] requestProducts];
+
+}
+
+void CCInAppBilling::addProduct(const char *name) {
+    [[CCStoreKitHelper sharedHelper] addProductIdentifiers:[NSSet setWithObject:[NSString stringWithFormat:@"%s", name]]];
 }
 
 void CCInAppBilling::refreshPurchases() {

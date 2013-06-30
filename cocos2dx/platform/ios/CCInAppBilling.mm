@@ -44,7 +44,8 @@ void CCInAppBilling::refreshPurchases() {
     [[CCStoreKitHelper sharedHelper] restoreCompletedTransactions];
 }
 
-void CCInAppBilling::inAppPurchase(const char *name) {
+void CCInAppBilling::inAppPurchase(const char *name, const char *receipt) {
+    CC_UNUSED_PARAM(receipt);
     CCLog("CCInAppBilling::inAppPurchase");
     [[CCStoreKitHelper sharedHelper] inAppPurchase:[NSString stringWithFormat:@"%s", name]];
 }

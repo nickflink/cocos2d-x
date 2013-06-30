@@ -33,13 +33,17 @@ void CCInAppBilling::setup() {
     return setupJNI();
 }
 
+void CCInAppBilling::addProduct(const char *name) {
+    CCLog("CCInAppBilling::addProduct NOT used for android");
+}
+
 void CCInAppBilling::refreshPurchases() {
     refreshPurchasesJNI();
 }
 
-void CCInAppBilling::inAppPurchase(const char *name) {
+void CCInAppBilling::inAppPurchase(const char *name, const char *receipt) {
     CCLog("> CCInAppBilling::inAppPurchase(name=%s)", name);
-    inAppPurchaseJNI(name);
+    inAppPurchaseJNI(name, receipt);
     CCLog("< CCInAppBilling::inAppPurchase");
 }
 

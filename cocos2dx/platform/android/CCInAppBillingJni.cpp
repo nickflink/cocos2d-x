@@ -127,16 +127,18 @@ extern "C"
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
 
-    void inAppPurchaseJNI(const char *name) {
+    void inAppPurchaseJNI(const char *name, const char *receipt) {
         JniMethodInfo methodInfo;
         //We can not pass a long long over jni so we convert it to a string
-        if (!getStaticMethodInfo(methodInfo, "inAppPurchaseJNI", "(Ljava/lang/String;)V"))
+        if (!getStaticMethodInfo(methodInfo, "inAppPurchaseJNI", "(Ljava/lang/String;Ljava/lang/String;)V"))
         {
             return ;
         }
         jstring stringName = methodInfo.env->NewStringUTF(name);
-        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, stringName);
+        jstring stringReceipt = methodInfo.env->NewStringUTF(receipt);
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, stringName, stringReceipt);
         methodInfo.env->DeleteLocalRef(stringName);
+        methodInfo.env->DeleteLocalRef(stringReceipt);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
 }

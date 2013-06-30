@@ -12,6 +12,6 @@ extern "C"
 {
     extern void setupJNI();
     extern void refreshPurchasesJNI();
-    extern void inAppPurchaseJNI(const char *name);
+    extern void inAppPurchaseJNI(const char *name, const char *receipt);
 }
 #endif //__CCInAppBillingJni_H__

@@ -166,21 +166,20 @@ public class Cocos2dxInAppBilling {
         }
     };
 
+    public static void setupJNI() {
+        Log.e(TAG, "implement setupJNI");
+    }
     public static void refreshPurchasesJNI() {
         Log.e(TAG, "implement refreshPurchasesJNI");
     }
 
-    public static void inAppPurchaseJNI(String name) {
+    public static void inAppPurchaseJNI(String name, String receipt) {
 
     // User clicked the "Buy Gas" button
     //public void onBuyGasButtonClicked(View arg0) {
         Log.d(TAG, "Buy gas button clicked.");
-        ///* TODO: for security, generate your payload here for verification. See the comments on 
-        // *        verifyDeveloperPayload() for more info. Since this is a SAMPLE, we just use 
-        // *        an empty string, but on a production app you should carefully generate this. */
-        String payload = ""; 
         getInstance().setWaitScreen(true);
-        getInstance().mHelper.launchPurchaseFlow(getInstance().mActivity, name, RC_REQUEST, getInstance().mPurchaseFinishedListener, payload);
+        getInstance().mHelper.launchPurchaseFlow(getInstance().mActivity, name, RC_REQUEST, getInstance().mPurchaseFinishedListener, receipt);
 
         //if (mSubscribedToInfiniteGas) {
         //    Log.e(TAG,"No need! You're subscribed to infinite gas. Isn't that awesome?");
@@ -384,7 +383,7 @@ public class Cocos2dxInAppBilling {
 
     // Enables or disables the "please wait" screen.
     void setWaitScreen(boolean set) {
-        Log.e(TAG, "ERROR: need to implement setWaitScreen");
+        //Log.e(TAG, "ERROR: need to implement setWaitScreen");
         //findViewById(R.id.screen_main).setVisibility(set ? View.GONE : View.VISIBLE);
         //findViewById(R.id.screen_wait).setVisibility(set ? View.VISIBLE : View.GONE);
     }

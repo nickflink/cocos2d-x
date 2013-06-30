@@ -45,7 +45,7 @@ public:
     virtual void setup();
     virtual void addProduct(const char *name);
     virtual void refreshPurchases();
-    virtual void inAppPurchase(const char *name);
+    virtual void inAppPurchase(const char *name, const char *receipt);
     virtual void addPurchaseDelegate(CCPurchaseDelegate *pDelegate);
     virtual void removePurchaseDelegate(CCPurchaseDelegate *pDelegate);
     //

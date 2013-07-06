@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01DFA20A17886892003A6FA8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01DFA20917886892003A6FA8 /* SystemConfiguration.framework */; };
 		FACAD88C1762C1B500D75ADE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACAD88B1762C1B500D75ADE /* Foundation.framework */; };
 		FACAD89F1762C22300D75ADE /* SocialTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = FACAD89E1762C22300D75ADE /* SocialTwitter.m */; };
 		FACAD8BA1762C61A00D75ADE /* FHSTwitterEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = FACAD8A51762C61A00D75ADE /* FHSTwitterEngine.m */; };
@@ -34,6 +35,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		01DFA20917886892003A6FA8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		FACAD8881762C1B500D75ADE /* libPluginTwitter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPluginTwitter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FACAD88B1762C1B500D75ADE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FACAD89D1762C22300D75ADE /* SocialTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialTwitter.h; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 			files = (
 				FACAD8C41762C64100D75ADE /* UIKit.framework in Frameworks */,
 				FACAD88C1762C1B500D75ADE /* Foundation.framework in Frameworks */,
+				01DFA20A17886892003A6FA8 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +100,7 @@
 		FACAD88A1762C1B500D75ADE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				01DFA20917886892003A6FA8 /* SystemConfiguration.framework */,
 				FACAD8C31762C64100D75ADE /* UIKit.framework */,
 				FACAD88B1762C1B500D75ADE /* Foundation.framework */,
 			);

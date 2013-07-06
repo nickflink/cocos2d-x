@@ -36,20 +36,43 @@
 - (void) configDeveloperInfo : (NSMutableDictionary*) cpInfo
 {
     [FBAppCall handleDidBecomeActiveWithSession:self.session];
-    /*NSString* appKey = [cpInfo objectForKey:@"FacebookKey"];
-    NSString* appSecret = [cpInfo objectForKey:@"FacebookSecret"];
-
-    if (nil == appKey || nil == appSecret) {
-        return;
+    if(self.session == nil) {
+        self.session = [[FBSession alloc] init];
+        if (self.session.state == FBSessionStateCreatedTokenLoaded) {
+            // even though we had a cached token, we need to login to make the session usable
+            [self.session openWithCompletionHandler:^(FBSession *session,
+                                                             FBSessionState status, 
+                                                             NSError *error) {
+                // we should have a state machine updated here
+                NSLog(@"openWithCompletionHandler finished");
+            }];
+        }
     }
-
-    [[FHSFacebookEngine sharedEngine]permanentlySetConsumerKey:appKey andSecret:appSecret];*/
 }
 
 - (void) share: (NSMutableDictionary*) shareInfo
 {
     self.mShareInfo = shareInfo;
-    [FBAppCall handleDidBecomeActiveWithSession:self.session];
+    if(self.session == nil) {
+        NSLog(@"ERROR in share self.session should not be nil at this point");
+        self.session = [[FBSession alloc] init];
+    }
+    if(self.session.isOpen) {
+        [self doShare];
+    } else {
+        // even though we had a cached token, we need to login to make the session usable
+        [self.session openWithCompletionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+            if(error) {
+                NSLog(@"Error share %@", [error localizedDescription]);
+            }
+            if(self.session.isOpen) {
+            // we should verify the error state and status here
+            
+                [self doShare];
+            }
+        }];
+    }
+//    [FBAppCall handleDidBecomeActiveWithSession:self.session];
 
     /*if ([[FHSFacebookEngine sharedEngine]isAuthorized])
     {

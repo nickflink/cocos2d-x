@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0137615517876EED00D7FCC9 /* SocialFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 0137615417876EED00D7FCC9 /* SocialFacebook.m */; };
+		01C784691788D444000F8285 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01C784681788D444000F8285 /* FacebookSDK.framework */; };
 		FACAD88C1762C1B500D75ADE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACAD88B1762C1B500D75ADE /* Foundation.framework */; };
 		FACAD8C41762C64100D75ADE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACAD8C31762C64100D75ADE /* UIKit.framework */; };
 /* End PBXBuildFile section */
@@ -28,6 +29,7 @@
 		0137615217876EED00D7FCC9 /* PluginFacebook-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PluginFacebook-Prefix.pch"; sourceTree = "<group>"; };
 		0137615317876EED00D7FCC9 /* SocialFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialFacebook.h; sourceTree = "<group>"; };
 		0137615417876EED00D7FCC9 /* SocialFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialFacebook.m; sourceTree = "<group>"; };
+		01C784681788D444000F8285 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = "../../../../facebook-ios-sdk/build/FacebookSDK.framework"; sourceTree = "<group>"; };
 		FACAD8881762C1B500D75ADE /* libPluginFacebook.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPluginFacebook.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FACAD88B1762C1B500D75ADE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FACAD8C31762C64100D75ADE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -38,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01C784691788D444000F8285 /* FacebookSDK.framework in Frameworks */,
 				FACAD8C41762C64100D75ADE /* UIKit.framework in Frameworks */,
 				FACAD88C1762C1B500D75ADE /* Foundation.framework in Frameworks */,
 			);
@@ -68,6 +71,7 @@
 		FACAD88A1762C1B500D75ADE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				01C784681788D444000F8285 /* FacebookSDK.framework */,
 				FACAD8C31762C64100D75ADE /* UIKit.framework */,
 				FACAD88B1762C1B500D75ADE /* Foundation.framework */,
 			);
@@ -187,6 +191,10 @@
 			buildSettings = {
 				CLANG_CXX_LIBRARY = "libc++";
 				DSTROOT = /tmp/PluginFacebook.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../facebook-ios-sdk/build\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PluginFacebook-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../protocols/platform/ios";
@@ -201,6 +209,10 @@
 			buildSettings = {
 				CLANG_CXX_LIBRARY = "libc++";
 				DSTROOT = /tmp/PluginFacebook.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../facebook-ios-sdk/build\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PluginFacebook-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../protocols/platform/ios";

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01C7846B1788D485000F8285 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01C7846A1788D485000F8285 /* StoreKit.framework */; };
+		01C7846D1788D48E000F8285 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01C7846C1788D48E000F8285 /* GameKit.framework */; };
 		01CC18C1177CBB4D00E694E5 /* CCInAppBilling.h in Headers */ = {isa = PBXBuildFile; fileRef = 01CC18C0177CBB4D00E694E5 /* CCInAppBilling.h */; };
 		01CC18C7177E00A900E694E5 /* CCInAppBilling.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01CC18C3177E00A900E694E5 /* CCInAppBilling.mm */; };
 		01CC18C8177E00A900E694E5 /* CCStoreKitHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 01CC18C4177E00A900E694E5 /* CCStoreKitHelper.h */; };
@@ -329,6 +331,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01C7846A1788D485000F8285 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		01C7846C1788D48E000F8285 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		01CC18C0177CBB4D00E694E5 /* CCInAppBilling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInAppBilling.h; sourceTree = "<group>"; };
 		01CC18C3177E00A900E694E5 /* CCInAppBilling.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCInAppBilling.mm; sourceTree = "<group>"; };
 		01CC18C4177E00A900E694E5 /* CCStoreKitHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCStoreKitHelper.h; sourceTree = "<group>"; };
@@ -658,6 +662,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01C7846D1788D48E000F8285 /* GameKit.framework in Frameworks */,
+				01C7846B1788D485000F8285 /* StoreKit.framework in Frameworks */,
 				1551A343158F2AB200E66CFE /* Foundation.framework in Frameworks */,
 				1A3199AE16C0E3A200207637 /* libwebp.a in Frameworks */,
 			);
@@ -669,6 +675,8 @@
 		1551A334158F2AB200E66CFE = {
 			isa = PBXGroup;
 			children = (
+				01C7846C1788D48E000F8285 /* GameKit.framework */,
+				01C7846A1788D485000F8285 /* StoreKit.framework */,
 				1551A873158F2B4700E66CFE /* cocos2dx-Prefix.pch */,
 				1551A353158F2ADE00E66CFE /* cocos2dx */,
 				1551A341158F2AB200E66CFE /* Frameworks */,

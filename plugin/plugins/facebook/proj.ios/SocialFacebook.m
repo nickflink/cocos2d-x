@@ -23,7 +23,7 @@
  ****************************************************************************/
 
 #import "SocialFacebook.h"
-//#import "FHSFacebookEngine.h"
+#import <FacebookSDK/FacebookSDK.h>
 #import "SocialWrapper.h"
 
 #define OUTPUT_LOG(...)     if (self.debug) NSLog(__VA_ARGS__);
@@ -35,6 +35,7 @@
 
 - (void) configDeveloperInfo : (NSMutableDictionary*) cpInfo
 {
+    [FBAppCall handleDidBecomeActiveWithSession:self.session];
     /*NSString* appKey = [cpInfo objectForKey:@"FacebookKey"];
     NSString* appSecret = [cpInfo objectForKey:@"FacebookSecret"];
 
@@ -48,6 +49,8 @@
 - (void) share: (NSMutableDictionary*) shareInfo
 {
     self.mShareInfo = shareInfo;
+    [FBAppCall handleDidBecomeActiveWithSession:self.session];
+
     /*if ([[FHSFacebookEngine sharedEngine]isAuthorized])
     {
         [self doShare];

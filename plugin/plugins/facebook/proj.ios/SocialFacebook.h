@@ -23,6 +23,7 @@
  ****************************************************************************/
 
 #import "InterfaceSocial.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface SocialFacebook : NSObject <InterfaceSocial>
 {
@@ -31,6 +32,7 @@
 
 @property BOOL debug;
 @property (copy, nonatomic) NSMutableDictionary* mShareInfo;
+@property (strong, nonatomic) FBSession *session;
 
 /**
  * @brief interfaces of protocol : InterfaceSocial
@@ -40,5 +42,6 @@
 - (void) setDebugMode: (BOOL) debug;
 - (NSString*) getSDKVersion;
 - (NSString*) getPluginVersion;
+
 
 @end

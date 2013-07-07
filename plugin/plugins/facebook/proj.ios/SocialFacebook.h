@@ -25,6 +25,14 @@
 #import "InterfaceSocial.h"
 #import <FacebookSDK/FacebookSDK.h>
 
+typedef enum eFacebookEngineState {
+    kFacebookEngineState_CLOSED,
+    kFacebookEngineState_SIGNING_IN,
+    kFacebookEngineState_OPEN,
+    kFacebookEngineState_PERMISSION_REQ,
+    kFacebookEngineState_UPLOADING_PHOTO,
+} FacebookEngineState;
+
 @interface SocialFacebook : NSObject <InterfaceSocial>
 {
     
@@ -32,7 +40,8 @@
 
 @property BOOL debug;
 @property (copy, nonatomic) NSMutableDictionary* mShareInfo;
-@property (strong, nonatomic) FBSession *session;
+@property (strong, nonatomic) FBSession *mSession;
+@property (atomic, assign) FacebookEngineState mState;
 
 /**
  * @brief interfaces of protocol : InterfaceSocial

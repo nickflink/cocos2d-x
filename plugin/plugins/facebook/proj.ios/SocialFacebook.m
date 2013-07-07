@@ -31,47 +31,71 @@
 @implementation SocialFacebook
 
 @synthesize mShareInfo;
+@synthesize mState;
+
 @synthesize debug = __debug;
 
 - (void) configDeveloperInfo : (NSMutableDictionary*) cpInfo
 {
-    [FBAppCall handleDidBecomeActiveWithSession:self.session];
-    if(self.session == nil) {
-        self.session = [[FBSession alloc] init];
-        if (self.session.state == FBSessionStateCreatedTokenLoaded) {
-            // even though we had a cached token, we need to login to make the session usable
-            [self.session openWithCompletionHandler:^(FBSession *session,
-                                                             FBSessionState status, 
-                                                             NSError *error) {
-                // we should have a state machine updated here
-                NSLog(@"openWithCompletionHandler finished");
-            }];
-        }
-    }
+    mState = kFacebookEngineState_CLOSED;
+    NSLog(@"SocialFacebook::configDeveloperInfo");
+    //[FBAppCall handleDidBecomeActiveWithSession:self.mSession];
+    //if(self.mSession == nil) {
+    //  self.mSession = [[FBSession alloc] init];
+    //  if (self.mSession.state == FBSessionStateCreatedTokenLoaded) {
+    //      // even though we had a cached token, we need to login to make the session usable
+    //      [self.mSession openWithCompletionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+    //          // we should have a state machine updated here
+    //          NSLog(@"openWithCompletionHandler finished");
+    //      }];
+    //  }
+    //}
 }
 
 - (void) share: (NSMutableDictionary*) shareInfo
 {
+    NSLog(@"SocialFacebook::share");
     self.mShareInfo = shareInfo;
-    if(self.session == nil) {
+    if(self.mSession == nil) {
         NSLog(@"ERROR in share self.session should not be nil at this point");
-        self.session = [[FBSession alloc] init];
+        self.mSession = [[FBSession alloc] init];
     }
-    if(self.session.isOpen) {
-        [self doShare];
-    } else {
-        // even though we had a cached token, we need to login to make the session usable
-        [self.session openWithCompletionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-            if(error) {
-                NSLog(@"Error share %@", [error localizedDescription]);
-            }
-            if(self.session.isOpen) {
-            // we should verify the error state and status here
-            
+    switch(self.mSession.state) {
+        case FBSessionStateCreated:
+            NSLog(@"SocialFacebook::share - FBSessionStateCreated");
+            [self.mSession openWithCompletionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+                NSLog(@"SocialFacebook::share - session openWithCompletionHandler");
+                if(error) {
+                    NSLog(@"Error share %@", [error localizedDescription]);
+                }
+            }];
+            break;
+        case FBSessionStateCreatedTokenLoaded:
+            NSLog(@"SocialFacebook::share - FBSessionStateCreatedTokenLoaded");
+            break;
+        case FBSessionStateCreatedOpening:
+            NSLog(@"SocialFacebook::share - FBSessionStateCreatedOpening");
+            break;
+        case FBSessionStateOpen:
+            NSLog(@"SocialFacebook::share - FBSessionStateOpen");
+            [self doShare];
+            /*if(mState == kFacebookEngineState_CLOSED) {
+                mState = kFacebookEngineState_OPEN;
                 [self doShare];
-            }
-        }];
+            }*/
+            break;
+        case FBSessionStateOpenTokenExtended:
+            NSLog(@"SocialFacebook::share - FBSessionStateOpenTokenExtended");
+            break;
+        case FBSessionStateClosedLoginFailed:
+            NSLog(@"SocialFacebook::share - FBSessionStateClosedLoginFailed");
+            break;
+        case FBSessionStateClosed:
+            NSLog(@"SocialFacebook::share - FBSessionStateClosed");
+            break;
     }
+    NSLog(@"< SocialFacebook::share");
+
 //    [FBAppCall handleDidBecomeActiveWithSession:self.session];
 
     /*if ([[FHSFacebookEngine sharedEngine]isAuthorized])
@@ -89,53 +113,82 @@
     }*/
 }
 
+// Convenience method to perform some action that requires the "publish_actions" permissions.
+- (void) performPublishAction:(void (^)(void)) action {
+    NSLog(@"SocialFacebook::performPublishAction");
+    // we defer request for permission to post to the moment of post, then we check for the permission
+    //if ([FBSession.activeSession.permissions indexOfObject:@"publish_actions"] == NSNotFound) {
+    if ([self.mSession.permissions indexOfObject:@"publish_actions"] == NSNotFound) {
+        // if we don't already have the permission, then we request it now
+        NSLog(@"SocialFacebook::performPublishAction - requesting new permissions");
+        //[FBSession.activeSession requestNewPublishPermissions:@[@"publish_actions"] defaultAudience:FBSessionDefaultAudienceFriends completionHandler:^(FBSession *session, NSError *error) {
+        [self.mSession requestNewPublishPermissions:@[@"publish_actions"] defaultAudience:FBSessionDefaultAudienceFriends completionHandler:^(FBSession *session, NSError *error) {
+                NSLog(@"SocialFacebook::performPublishAction - session requestNewPublishPermissions");
+                if (!error) {
+                    action();
+                }
+                //For this example, ignore errors (such as if user cancels).
+        }];
+    } else {
+        action();
+    }
+    
+}
+
 - (void) setDebugMode: (BOOL) debug
 {
+    NSLog(@"SocialFacebook::setDebugMode");
     self.debug = debug;
 }
 
 - (NSString*) getSDKVersion
 {
+    NSLog(@"SocialFacebook::getSDKVersion");
     return @"20130607";
 }
 
 - (NSString*) getPluginVersion
 {
+    NSLog(@"SocialFacebook::getPluginVersion");
     return @"0.2.0";
 }
 
 - (void) doShare
 {
+    NSLog(@"SocialFacebook::doShare");
     if (nil == mShareInfo) {
         [SocialWrapper onShareResult:self withRet:kShareFail withMsg:@"Shared info error"];
         return;
     }
-
-    /*NSString* strText = [mShareInfo objectForKey:@"SharedText"];
+    NSString* strText = [mShareInfo objectForKey:@"SharedText"];
     NSString* strImagePath = [mShareInfo objectForKey:@"SharedImagePath"];
 
-    BOOL oldConfig = [UIApplication sharedApplication].networkActivityIndicatorVisible;
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //BOOL oldConfig = [UIApplication sharedApplication].networkActivityIndicatorVisible;
+    //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    NSError* returnCode = nil;
-    if (nil != strImagePath) {
-        NSData* data = [NSData dataWithContentsOfFile:strImagePath];
-        returnCode = [[FHSFacebookEngine sharedEngine] postTweet:strText withImageData:data];
-    } else {
-        returnCode = [[FHSFacebookEngine sharedEngine]postTweet:strText];
-    }
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = oldConfig;
-
-    if (returnCode) {
-        NSString* strErrorCode = [NSString stringWithFormat:@"ErrorCode %d", returnCode.code];
+    if (nil != strText ) {
+        NSString* strErrorCode = [NSString stringWithFormat:@"Implementation Error SharedText NOT implemented for SocialFacebook"];
         [SocialWrapper onShareResult:self withRet:kShareFail withMsg:strErrorCode];
-    } else {
-        [SocialWrapper onShareResult:self withRet:kShareSuccess withMsg:@"Share Succeed"];
-    }*/
+    }
+    if (nil != strImagePath) {
+        NSLog(@"SocialFacebook::doShare - sharing SharedImagePath");
+        [self performPublishAction:^{
+            NSLog(@"SocialFacebook::doShare - performPublishAction");
+            UIImage *img = [UIImage imageNamed:strImagePath];
+            [FBRequestConnection startForUploadPhoto:img completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                NSLog(@"SocialFacebook::doShare - FBRequestConnection startForUploadPhoto");
+                [self showAlert:@"Photo Post" result:result error:error];
+                //self.buttonPostPhoto.enabled = YES; UNBLOCK BUTTON
+            }];
+          //self.buttonPostPhoto.enabled = NO; BLOCK BUTTON
+        }];
+    }
+    //[UIApplication sharedApplication].networkActivityIndicatorVisible = oldConfig;
+
 }
 
 - (UIViewController *)getCurrentRootViewController {
-
+    NSLog(@"SocialFacebook::getCurrentRootViewController");
     UIViewController *result = nil;
 
     /*// Try to find the root view controller programmically
@@ -163,6 +216,43 @@
         NSAssert(NO, @"Could not find a root view controller.");*/
 
     return result;
+}
+
+// UIAlertView helper for post buttons
+- (void)showAlert:(NSString *)message
+           result:(id)result
+            error:(NSError *)error {
+    NSLog(@"SocialFacebook::showAlert");
+    NSString *alertMsg;
+    NSString *alertTitle;
+    if (error) {
+        alertTitle = @"Error";
+        if (error.fberrorShouldNotifyUser ||
+            error.fberrorCategory == FBErrorCategoryPermissions ||
+            error.fberrorCategory == FBErrorCategoryAuthenticationReopenSession) {
+            alertMsg = error.fberrorUserMessage;
+        } else {
+            alertMsg = @"Operation failed due to a connection problem, retry later.";
+        }
+    } else {
+        NSDictionary *resultDict = (NSDictionary *)result;
+        alertMsg = [NSString stringWithFormat:@"Successfully posted '%@'.", message];
+        NSString *postId = [resultDict valueForKey:@"id"];
+        if (!postId) {
+            postId = [resultDict valueForKey:@"postId"];
+        }
+        if (postId) {
+            alertMsg = [NSString stringWithFormat:@"%@\nPost ID: %@", alertMsg, postId];
+        }
+        alertTitle = @"Success";
+    }
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle
+                                                        message:alertMsg
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+    [alertView show];
 }
 
 @end

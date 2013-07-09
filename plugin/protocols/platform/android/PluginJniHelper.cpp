@@ -111,10 +111,10 @@ extern "C"
             methodID = pEnv->GetStaticMethodID(classID, methodName, paramCode);
             if (! methodID)
             {
-            	if(pEnv->ExceptionCheck())
-				{
-					pEnv->ExceptionClear();
-				}
+                if(pEnv->ExceptionCheck())
+                {
+                    pEnv->ExceptionClear();
+                }
                 LOGD("Failed to find static method id of %s", methodName);
                 break;
             }
@@ -147,10 +147,10 @@ extern "C"
             methodID = pEnv->GetMethodID(classID, methodName, paramCode);
             if (! methodID)
             {
-            	if(pEnv->ExceptionCheck())
-            	{
-            		pEnv->ExceptionClear();
-            	}
+                if(pEnv->ExceptionCheck())
+                {
+                    pEnv->ExceptionClear();
+                }
                 LOGD("Failed to find method %s in class %s", methodName, className);
                 break;
             }

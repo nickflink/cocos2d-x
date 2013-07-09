@@ -33,29 +33,29 @@ import android.util.Log;
 
 public class PluginWrapper {
 
-	protected static Context sContext = null;
-	protected static GLSurfaceView sGLSurfaceView = null; 
-	protected static Handler sMainThreadHandler = null;
-	private static final String TAG = "PluginWrapper";
-	
-	public static void init(Context context)
-	{
-		sContext = context;
-		if (null == sMainThreadHandler) {
-			sMainThreadHandler = new Handler();
-		}
-	}
+    protected static Context sContext = null;
+    protected static GLSurfaceView sGLSurfaceView = null; 
+    protected static Handler sMainThreadHandler = null;
+    private static final String TAG = "PluginWrapper";
+    
+    public static void init(Context context)
+    {
+        sContext = context;
+        if (null == sMainThreadHandler) {
+            sMainThreadHandler = new Handler();
+        }
+    }
 
-	public static void setGLSurfaceView(GLSurfaceView value) {
-		sGLSurfaceView = value;
-	}
-	
-	protected static Object initPlugin(String classFullName)
-	{
-		Log.i(TAG, "class name : ----" + classFullName + "----");
+    public static void setGLSurfaceView(GLSurfaceView value) {
+        sGLSurfaceView = value;
+    }
+    
+    protected static Object initPlugin(String classFullName)
+    {
+        Log.i(TAG, "class name : ----" + classFullName + "----");
         Class<?> c = null;
         try {
-        	String fullName = classFullName.replace('/', '.');
+            String fullName = classFullName.replace('/', '.');
             c = Class.forName(fullName);
         } catch (ClassNotFoundException e) {  
             Log.e(TAG, "Class " + classFullName + " not found.");
@@ -64,48 +64,48 @@ public class PluginWrapper {
         }
 
         try {
-        	Context ctx = getContext();
-			if (ctx != null) {
-	        	Object o = c.getDeclaredConstructor(Context.class).newInstance(ctx);
-				return o;
-			} else {
-				Log.e(TAG, "Plugin " + classFullName + " wasn't initialized.");
-			}
+            Context ctx = getContext();
+            if (ctx != null) {
+                Object o = c.getDeclaredConstructor(Context.class).newInstance(ctx);
+                return o;
+            } else {
+                Log.e(TAG, "Plugin " + classFullName + " wasn't initialized.");
+            }
         } catch (Exception e) {
-			e.printStackTrace();
-		}
+            e.printStackTrace();
+        }
         return null;
-	}
+    }
 
-	protected static int getPluginType(Object obj) {
-		int nRet = -1;
-		try
-		{
-			Field filedID = obj.getClass().getField("PluginType");
-			Integer nObj = (Integer) filedID.get(obj);
-			nRet = nObj.intValue();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    protected static int getPluginType(Object obj) {
+        int nRet = -1;
+        try
+        {
+            Field filedID = obj.getClass().getField("PluginType");
+            Integer nObj = (Integer) filedID.get(obj);
+            nRet = nObj.intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-		return nRet;
-	}
+        return nRet;
+    }
 
-	public static Context getContext() {
-		return sContext;
-	}
-	
-	public static void runOnGLThread(Runnable r) {
-		if (null != sGLSurfaceView) {
-			sGLSurfaceView.queueEvent(r);
-		} else {
-			Log.i(TAG, "runOnGLThread sGLSurfaceView is null");
-			r.run();
-		}
-	}
+    public static Context getContext() {
+        return sContext;
+    }
+    
+    public static void runOnGLThread(Runnable r) {
+        if (null != sGLSurfaceView) {
+            sGLSurfaceView.queueEvent(r);
+        } else {
+            Log.i(TAG, "runOnGLThread sGLSurfaceView is null");
+            r.run();
+        }
+    }
 
-	public static void runOnMainThread(Runnable r) {
-		if (null == sMainThreadHandler) return;
-		sMainThreadHandler.post(r);
-	}
+    public static void runOnMainThread(Runnable r) {
+        if (null == sMainThreadHandler) return;
+        sMainThreadHandler.post(r);
+    }
 }

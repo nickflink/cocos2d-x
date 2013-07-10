@@ -58,12 +58,12 @@
     self.mShareInfo = shareInfo;
     if(self.mSession == nil) {
         NSLog(@"ERROR in share self.session should not be nil at this point");
-        self.mSession = [[FBSession alloc] init];
+        self.mSession = [[FBSession alloc] initWithPermissions:[NSArray arrayWithObject:@"publish_actions"]];
     }
     switch(self.mSession.state) {
         case FBSessionStateCreated:
             NSLog(@"SocialFacebook::share - FBSessionStateCreated");
-            [self.mSession openWithCompletionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+            [self.mSession openWithBehavior:FBSessionLoginBehaviorForcingWebView completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
                 NSLog(@"SocialFacebook::share - session openWithCompletionHandler");
                 if(error) {
                     NSLog(@"Error share %@", [error localizedDescription]);
@@ -72,11 +72,22 @@
             break;
         case FBSessionStateCreatedTokenLoaded:
             NSLog(@"SocialFacebook::share - FBSessionStateCreatedTokenLoaded");
+            [self.mSession openWithBehavior:FBSessionLoginBehaviorForcingWebView completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+                NSLog(@"SocialFacebook::share - session openWithCompletionHandler");
+                if(error) {
+                    NSLog(@"Error share %@", [error localizedDescription]);
+                }
+            }];
             break;
         case FBSessionStateCreatedOpening:
             NSLog(@"SocialFacebook::share - FBSessionStateCreatedOpening");
+            //[FBAppCall handleDidBecomeActiveWithSession:self.mSession];
+            //[FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:self.session];
             break;
         case FBSessionStateOpen:
+            if ([FBSession activeSession] != self.mSession) {
+                [FBSession setActiveSession:self.mSession];
+            }
             NSLog(@"SocialFacebook::share - FBSessionStateOpen");
             [self doShare];
             /*if(mState == kFacebookEngineState_CLOSED) {
@@ -122,7 +133,10 @@
         // if we don't already have the permission, then we request it now
         NSLog(@"SocialFacebook::performPublishAction - requesting new permissions");
         //[FBSession.activeSession requestNewPublishPermissions:@[@"publish_actions"] defaultAudience:FBSessionDefaultAudienceFriends completionHandler:^(FBSession *session, NSError *error) {
-        [self.mSession requestNewPublishPermissions:@[@"publish_actions"] defaultAudience:FBSessionDefaultAudienceFriends completionHandler:^(FBSession *session, NSError *error) {
+        //NFHACK should NOT only be to me
+        FBSessionDefaultAudience defaultAudience = FBSessionDefaultAudienceOnlyMe;
+        //FBSessionDefaultAudience defaultAudience = FBSessionDefaultAudienceFriends;
+        [self.mSession requestNewPublishPermissions:@[@"publish_actions"] defaultAudience:defaultAudience completionHandler:^(FBSession *session, NSError *error) {
                 NSLog(@"SocialFacebook::performPublishAction - session requestNewPublishPermissions");
                 if (!error) {
                     action();
@@ -176,8 +190,10 @@
             NSLog(@"SocialFacebook::doShare - performPublishAction");
             UIImage *img = [UIImage imageNamed:strImagePath];
             [FBRequestConnection startForUploadPhoto:img completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+            //[FBRequestConnection startForPostStatusUpdate:(NSString *)@"Message test" completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
                 NSLog(@"SocialFacebook::doShare - FBRequestConnection startForUploadPhoto");
                 [self showAlert:@"Photo Post" result:result error:error];
+                [self.mSession close];
                 //self.buttonPostPhoto.enabled = YES; UNBLOCK BUTTON
             }];
           //self.buttonPostPhoto.enabled = NO; BLOCK BUTTON

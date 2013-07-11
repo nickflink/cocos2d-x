@@ -42,6 +42,7 @@ public:
     ///
     static CCGameServices* sharedGameServices(void);
     virtual ~CCGameServices(void);
+    virtual void setLocalizedMessages(const char *signingIn, const char *signingOut, const char *unknownError);
     virtual bool isSignedIn();
     virtual void signIn();
     virtual void setSecretKey(const char *key);

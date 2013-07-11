@@ -29,6 +29,10 @@ bool CCGameServices::init(void) {
     return success;
 }
 
+void CCGameServices::setLocalizedMessages(const char *signingIn, const char *signingOut, const char *unknownError) {
+    CCLog("CCGameServices::setLocalizedMessages is only used for android");
+}
+
 bool CCGameServices::isSignedIn() {
     CCLog("CCGameServices::isSignedIn");
     return [[CCGameKitHelper sharedHelper] isAuthenticated];

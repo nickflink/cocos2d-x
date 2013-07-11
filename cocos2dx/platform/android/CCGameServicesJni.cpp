@@ -108,6 +108,22 @@ extern "C"
         
         return bRet;
     }
+
+    void setLocalizedMessagesJNI(const char *signingIn, const char *signingOut, const char *unknownError) {
+        LOGD("setLocalizedMessagesJNI");
+        JniMethodInfo methodInfo;
+        if (! getStaticMethodInfo(methodInfo, "setLocalizedMessages", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V")) {
+            return;
+        }
+        jstring stringSigningIn = methodInfo.env->NewStringUTF(signingIn);
+        jstring stringSigningOut = methodInfo.env->NewStringUTF(signingOut);
+        jstring stringUnknownError = methodInfo.env->NewStringUTF(unknownError);
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, stringSigningIn, stringSigningOut, stringUnknownError);
+        methodInfo.env->DeleteLocalRef(stringSigningIn);
+        methodInfo.env->DeleteLocalRef(stringSigningOut);
+        methodInfo.env->DeleteLocalRef(stringUnknownError);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
     
     bool isSignedInJNI() {
         JniMethodInfo methodInfo;

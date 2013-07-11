@@ -37,6 +37,11 @@ void CCGameServices::signIn() {
     return beginUserInitiatedSignInJNI();
 }
 
+void CCGameServices::setLocalizedMessages(const char *signingIn, const char *signingOut, const char *unknownError) {
+    CCLog("CCGameServices::setLocalizedMessages");
+    setLocalizedMessagesJNI(signingIn, signingOut, unknownError);
+}
+
 void CCGameServices::setSecretKey(const char *key) {
     CCLog("CCGameServices::setSecretKey - No key necessary for android");
 }

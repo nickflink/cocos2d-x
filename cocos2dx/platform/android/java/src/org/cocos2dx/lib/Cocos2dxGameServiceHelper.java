@@ -116,7 +116,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     // Messages (can be set by the developer).
     String mSigningInMessage = "";
     String mSigningOutMessage = "";
-    String mUnknownErrorMessage = "Unknown error";
+    String mUnknownErrorMessage = "";
 
     // If we got an invitation id when we connected to the games client, it's
     // here.
@@ -145,8 +145,19 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     public void initWithActivity(Activity activity) {
         mActivity = activity;
         setup();
-        setSigningInMessage("NL: signing in");
-        setSigningOutMessage("NL: signing out");
+        //These should be localized
+        setLocalizedMessages("NL: signing in", "NL: signing out", "NL: unknown error");
+    }
+
+    public void onCreated() {
+        Cocos2dxGameServiceHelper.nativeInit();
+    }
+
+    public void setLocalizedMessages(String signingIn, String signingOut, String unknownError) {
+        getInstance().debugLog("setLocalizedMessages");
+        mSigningInMessage = signingIn;
+        mSigningOutMessage = signingOut;
+        mUnknownErrorMessage = unknownError;
     }
 //
 // Static Jni Entrypoints
@@ -179,8 +190,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
             if(getInstance().isSignedIn()) {
               getInstance().mActivity.startActivityForResult(getInstance().getGamesClient().getAchievementsIntent(), /*RC_UNUSED*/9002);
             } else {
-              //getInstance().showAlert("NL: You must sign in to use leaderboards");
-              getInstance().debugLog("NL: You must sign in to use achievements");
+              getInstance().debugLog("You must sign in to use achievements");
             }
           }
       });
@@ -195,8 +205,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
             if(getInstance().isSignedIn()) {
               getInstance().mActivity.startActivityForResult(getInstance().getGamesClient().getAllLeaderboardsIntent(), /*RC_UNUSED*/9002);
             } else {
-              //getInstance().showAlert("NL: You must sign in to use leaderboards");
-              getInstance().debugLog("NL: You must sign in to use leaderboards");
+              getInstance().debugLog("You must sign in to use leaderboards");
             }
           }
       });
@@ -228,24 +237,12 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
             if(getInstance().isSignedIn()) {
               long score = Long.parseLong(stringScore);
               getInstance().getGamesClient().submitScore(category, score);
-              //getInstance().debugLog("Submitting "+score+" to category "+category);
             } else {
-              //getInstance().showAlert("NL: You must sign in to submit scores");
               getInstance().debugLog("NL: You must sign in to submit scores");
             }
           }
       });
       return;
-    }
-
-    /** Sets the message that appears onscreen while signing in. */
-    public void setSigningInMessage(String message) {
-        mSigningInMessage = message;
-    }
-
-    /** Sets the message that appears onscreen while signing out. */
-    public void setSigningOutMessage(String message) {
-        mSigningOutMessage = message;
     }
 
     /**
@@ -840,4 +837,5 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     // ===========================================================
     public static native void onSignInFailed();
     public static native void onSignInSucceeded();
+    private static native void nativeInit();
 }

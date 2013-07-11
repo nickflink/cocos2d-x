@@ -10,6 +10,7 @@ Copyright (c) 2013 Nicholas Flink
 
 extern "C"
 {
+    extern void setLocalizedMessagesJNI(const char *signingIn, const char *signingOut, const char *unknownError);
     extern bool isSignedInJNI();
     extern void beginUserInitiatedSignInJNI();
     extern void showLeaderboardJNI();

@@ -75,6 +75,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 	protected void initView() {
 		this.setEGLContextClientVersion(2);
 		this.setFocusableInTouchMode(true);
+		this.setLowVisibility(true);
 
 		Cocos2dxGLSurfaceView.mCocos2dxGLSurfaceView = this;
 		Cocos2dxGLSurfaceView.sCocos2dxTextInputWraper = new Cocos2dxTextInputWraper(this);
@@ -151,6 +152,18 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 		}
 	}
 
+	public void setLowVisibility(boolean low) {
+		Log.d("GLSurfaceView", "setLowVisibility("+low+")");
+		int statusBarVisibility = STATUS_BAR_VISIBLE;
+		if (low) {
+			//For use since api level 11
+			statusBarVisibility = STATUS_BAR_HIDDEN;
+			//For use since api level 14
+			//statusBarVisibility = SYSTEM_UI_FLAG_LOW_PROFILE;
+		}
+		this.setSystemUiVisibility(statusBarVisibility);
+	}
+
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
@@ -158,6 +171,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 	@Override
 	public void onResume() {
 		super.onResume();
+		this.setLowVisibility(true);
 
 		this.queueEvent(new Runnable() {
 			@Override

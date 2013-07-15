@@ -7,6 +7,13 @@
 #include "JniHelper.h"
 #include <jni.h>
 
+#if 1//DEBUG
+#define  LOG_TAG    "Cocos2dxRenderer.cpp"
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+#else
+#define  LOGD(...) 
+#endif
+
 using namespace cocos2d;
 
 extern "C" {
@@ -16,7 +23,6 @@ extern "C" {
 
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeOnPause() {
         CCApplication::sharedApplication()->applicationDidEnterBackground();
-
         CCNotificationCenter::sharedNotificationCenter()->postNotification(EVENT_COME_TO_BACKGROUND, NULL);
     }
 

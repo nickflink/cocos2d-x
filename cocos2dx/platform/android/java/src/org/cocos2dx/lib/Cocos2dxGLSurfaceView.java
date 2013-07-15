@@ -25,6 +25,7 @@ package org.cocos2dx.lib;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -32,6 +33,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.inputmethod.InputMethodManager;
+import android.view.View;
 
 public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 	// ===========================================================
@@ -116,10 +118,9 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 	// Getter & Setter
 	// ===========================================================
 
-
-       public static Cocos2dxGLSurfaceView getInstance() {
-	   return mCocos2dxGLSurfaceView;
-       }
+	public static Cocos2dxGLSurfaceView getInstance() {
+		return mCocos2dxGLSurfaceView;
+	}
 
        public static void queueAccelerometer(final float x, final float y, final float z, final long timestamp) {	
 	   mCocos2dxGLSurfaceView.queueEvent(new Runnable() {
@@ -153,15 +154,27 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 	}
 
 	public void setLowVisibility(boolean low) {
-		Log.d("GLSurfaceView", "setLowVisibility("+low+")");
-		int statusBarVisibility = STATUS_BAR_VISIBLE;
-		if (low) {
-			//For use since api level 11
-			statusBarVisibility = STATUS_BAR_HIDDEN;
-			//For use since api level 14
-			//statusBarVisibility = SYSTEM_UI_FLAG_LOW_PROFILE;
+		// call depending on the api level
+		if(android.os.Build.VERSION.SDK_INT >= 11) {
+			Log.d(TAG, "setLowVisibility("+low+")");
+			int statusBarVisibility = 0;
+			if(android.os.Build.VERSION.SDK_INT >= 14) {
+				if (low) {
+					statusBarVisibility = SYSTEM_UI_FLAG_LOW_PROFILE;
+				} else {
+					statusBarVisibility = STATUS_BAR_VISIBLE;
+				}
+			} else {
+				if (low) {
+					statusBarVisibility = STATUS_BAR_HIDDEN;
+				} else {
+					statusBarVisibility = SYSTEM_UI_FLAG_VISIBLE;
+				}
+			}
+			this.setSystemUiVisibility(statusBarVisibility);
+		} else {
+			Log.d(TAG, "skipping setLowVisibility("+low+")");
 		}
-		this.setSystemUiVisibility(statusBarVisibility);
 	}
 
 	// ===========================================================
@@ -170,6 +183,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 
 	@Override
 	public void onResume() {
+		Log.d(TAG, "onResume");
 		super.onResume();
 		this.setLowVisibility(true);
 
@@ -183,6 +197,8 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 
 	@Override
 	public void onPause() {
+		Log.d(TAG, "onPause");
+		this.setLowVisibility(false);
 		this.queueEvent(new Runnable() {
 			@Override
 			public void run() {

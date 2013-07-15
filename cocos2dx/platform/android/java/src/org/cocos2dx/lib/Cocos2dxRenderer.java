@@ -23,10 +23,11 @@ THE SOFTWARE.
  ****************************************************************************/
 package org.cocos2dx.lib;
 
+import android.opengl.GLSurfaceView;
+import android.util.Log;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.opengl.GLSurfaceView;
 
 public class Cocos2dxRenderer implements GLSurfaceView.Renderer {
 	// ===========================================================
@@ -45,6 +46,7 @@ public class Cocos2dxRenderer implements GLSurfaceView.Renderer {
 	private long mLastTickInNanoSeconds;
 	private int mScreenWidth;
 	private int mScreenHeight;
+	private boolean mInitialized = false;
 
 	// ===========================================================
 	// Constructors
@@ -69,8 +71,13 @@ public class Cocos2dxRenderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onSurfaceCreated(final GL10 pGL10, final EGLConfig pEGLConfig) {
-		Cocos2dxRenderer.nativeInit(this.mScreenWidth, this.mScreenHeight);
-		this.mLastTickInNanoSeconds = System.nanoTime();
+		if(!mInitialized) {
+			Cocos2dxRenderer.nativeInit(this.mScreenWidth, this.mScreenHeight);
+			this.mLastTickInNanoSeconds = System.nanoTime();
+			mInitialized = true;
+		} else {
+			Log.e("Cocos2dxRenderer", "Double initialization");
+		}
 	}
 
 	@Override
@@ -142,11 +149,19 @@ public class Cocos2dxRenderer implements GLSurfaceView.Renderer {
 	}
 
 	public void handleOnPause() {
-		Cocos2dxRenderer.nativeOnPause();
+		if(mInitialized) {
+			Cocos2dxRenderer.nativeOnPause();
+		} else {
+			Log.e("Cocos2dxRenderer", "cannot pause until we are initialized");
+		}
 	}
 
 	public void handleOnResume() {
-		Cocos2dxRenderer.nativeOnResume();
+		if(mInitialized) {
+			Cocos2dxRenderer.nativeOnResume();
+		} else {
+			Log.e("Cocos2dxRenderer", "cannot resume until we are initialized");
+		}
 	}
 
 	private static native void nativeInsertText(final String pText);

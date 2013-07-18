@@ -1,25 +1,6 @@
 /****************************************************************************
-Copyright (c) 2012-2013 cocos2d-x.org
-
-http://www.cocos2d-x.org
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+Copyright (c) 2013 gogododo
+Copyright (c) 2013 Nicholas Flink
 ****************************************************************************/
 package org.cocos2dx.plugin;
 
@@ -32,6 +13,8 @@ import android.os.Handler;
 import android.util.Log;
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.Facebook;
+import com.facebook.android.FacebookError;
+import com.facebook.android.DialogError;
 import com.facebook.android.Facebook.DialogListener;
 import java.util.Hashtable;
 import java.lang.Thread;
@@ -45,6 +28,7 @@ import org.json.JSONObject;
 public class SocialFacebook implements InterfaceSocial {
 
 	private static final String TAG = "SocialFacebook";
+	private static final int AUTHORIZE_ACTIVITY_RESULT_CODE = 0;
 	private static Activity mContext = null;
 	private static InterfaceSocial mSocialAdapter = null;
 	protected static boolean bDebug = false;
@@ -74,15 +58,25 @@ public class SocialFacebook implements InterfaceSocial {
 	}
 
 	public SocialFacebook(Context context) {
-		mContext = (Activity) context;
 		mSocialAdapter = this;
-		mHandler = new Handler();
+		mContext = (Activity) context;
+		PluginWrapper.runOnMainThread(new Runnable() {
+			@Override
+			public void run() {
+				mHandler = new Handler();
+				//if (Utility.mFacebook.isSessionValid()) {
+				//	SessionEvents.onLogoutBegin();
+				//	AsyncFacebookRunner asyncRunner = new AsyncFacebookRunner(Utility.mFacebook);
+				//	asyncRunner.logout(mContext, new LogoutRequestListener());
+				//}
+			}
+		});
 	}
 	
 
 	@Override
 	public void configDeveloperInfo(Hashtable<String, String> cpInfo) {
-		LogD("initDeveloperInfo invoked " + cpInfo.toString());
+		LogD("configDeveloperInfo invoked " + cpInfo.toString());
 		try {
 			SocialFacebook.CONSUMER_KEY = cpInfo.get("FacebookAppKey");
 			SocialFacebook.CONSUMER_SECRET = cpInfo.get("FacebookAppSecret");
@@ -110,7 +104,7 @@ public class SocialFacebook implements InterfaceSocial {
 			//	}
 			//});
 		} catch (Exception e) {
-			LogE("Developer info is wrong!", e);
+			LogE("configDeveloperInfo failed!", e);
 		}
 	}
 
@@ -129,7 +123,13 @@ public class SocialFacebook implements InterfaceSocial {
 		}
 		if (!Utility.mFacebook.isSessionValid()) {
 			LogD("have no session need to log in");
-			return;
+			PluginWrapper.runOnMainThread(new Runnable() {
+				@Override
+				public void run() {
+					String[] permissions = { "publish_stream" };
+					Utility.mFacebook.authorize(mContext, permissions, AUTHORIZE_ACTIVITY_RESULT_CODE, new LoginDialogListener());
+				}
+			});
 		}
 		//// need login
 		//if(!mFacebook.hasAccessToken()){
@@ -228,6 +228,49 @@ public class SocialFacebook implements InterfaceSocial {
 			Utility.mAsyncRunner.request("me", params, new UserRequestListener());
 	}
 
+	private final class LoginDialogListener implements DialogListener {
+		@Override
+		public void onComplete(Bundle values) {
+			LogD("LoginDialogListener::onComplete");
+			SessionEvents.onLoginSuccess();
+		}
+
+		@Override
+		public void onFacebookError(FacebookError error) {
+			LogD("LoginDialogListener::onFacebookError"+error.getMessage());
+			SessionEvents.onLoginError(error.getMessage());
+		}
+
+		@Override
+		public void onError(DialogError error) {
+			LogD("LoginDialogListener::onError"+error.getMessage());
+			SessionEvents.onLoginError(error.getMessage());
+		}
+
+		@Override
+		public void onCancel() {
+			LogD("LoginDialogListener::onCancel");
+			SessionEvents.onLoginError("Action Canceled");
+		}
+	}
+
+	private class LogoutRequestListener extends BaseRequestListener {
+			@Override
+			public void onComplete(String response, final Object state) {
+				LogD("LogoutRequestListener::onComplete");
+					/*
+					 * callback should be run in the original thread, not the background
+					 * thread
+					 */
+					mHandler.post(new Runnable() {
+							@Override
+							public void run() {
+									SessionEvents.onLogoutFinish();
+							}
+					});
+			}
+	}
+
 	/*
 	 * Callback for fetching current user's name, picture, uid.
 	 */
@@ -235,6 +278,7 @@ public class SocialFacebook implements InterfaceSocial {
 	public class UserRequestListener extends BaseRequestListener {
 		@Override
 		public void onComplete(final String response, final Object state) {
+			LogD("UserRequestListener::onComplete");
 			JSONObject jsonObject;
 			try {
 				jsonObject = new JSONObject(response);
@@ -261,11 +305,12 @@ public class SocialFacebook implements InterfaceSocial {
 	public class FbAPIsAuthListener implements AuthListener {
 			@Override
 			public void onAuthSucceed() {
+				LogD("FbAPIsAuthListener::onAuthSucceed");
 				requestUserData();
 			}
 			@Override
 			public void onAuthFail(String error) {
-				LogD("ERROR: Login Failed: " + error);
+				LogD("FbAPIsAuthListener::onAuthSucceed ERROR: Login Failed: " + error);
 			}
 	}
 
@@ -276,10 +321,12 @@ public class SocialFacebook implements InterfaceSocial {
 	public class FbAPIsLogoutListener implements LogoutListener {
 			@Override
 			public void onLogoutBegin() {
+				LogD("FbAPIsLogoutListener::onLogoutBegin");
 				LogD("Logging out...");
 			}
 			@Override
 			public void onLogoutFinish() {
+				LogD("FbAPIsLogoutListener::onLogoutFinish");
 					LogD("You have logged out! ");
 					//mUserPic.setImageBitmap(null);
 			}

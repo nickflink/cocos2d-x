@@ -169,16 +169,19 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     }
 
     public static void beginUserInitiatedSignInJni() {
-      getInstance().debugLog("beginUserInitiatedSignInJni");
-      getInstance().mActivity.runOnUiThread(new Runnable() {
+      final Cocos2dxGameServiceHelper instance = getInstance();
+      if(instance != null) {
+        instance.debugLog("beginUserInitiatedSignInJni");
+        instance.mActivity.runOnUiThread(new Runnable() {
           public void run() {
-            if(!getInstance().isSignedIn()) {
-              getInstance().beginUserInitiatedSignIn();
+            if(!instance.isSignedIn()) {
+              instance.beginUserInitiatedSignIn();
             } else {
-              getInstance().debugLog("responseCode != RESULT_OK, so not reconnecting.");
+              instance.debugLog("responseCode != RESULT_OK, so not reconnecting.");
             }
           }
-      });
+        });
+      }
       return;
     }
 

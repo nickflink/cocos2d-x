@@ -32,7 +32,6 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 public class SocialFacebook implements InterfaceSocial {
 
 	private static final String TAG = "SocialFacebook";
@@ -42,15 +41,13 @@ public class SocialFacebook implements InterfaceSocial {
 	private static Activity mActivity = null;
 	private static InterfaceSocial mSocialAdapter = null;
 	protected static boolean bDebug = false;
+	protected static boolean bAsyncRunning = false;
 	private static String CONSUMER_KEY="";
 	private static String CONSUMER_SECRET="";
-	
-	//private static FacebookApp mFacebook = null;
 	private static boolean mIsInitialized = false;
 	private static Hashtable<String, String> mShareInfo = null;
 	private Handler mHandler;
 	private Session.StatusCallback statusCallback = new SessionStatusCallback();
-	
 	public static String KEY_TEXT="SharedText";
 	public static String KEY_IMAGE_PATH = "SharedImagePath";
 
@@ -114,11 +111,6 @@ public class SocialFacebook implements InterfaceSocial {
 			@Override
 			public void run() {
 				mHandler = new Handler();
-				//if (Utility.mFacebook.isSessionValid()) {
-				//	SessionEvents.onLogoutBegin();
-				//	AsyncFacebookRunner asyncRunner = new AsyncFacebookRunner(Utility.mFacebook);
-				//	asyncRunner.logout(mActivity, new LogoutRequestListener());
-				//}
 			}
 		});
 	}
@@ -164,7 +156,6 @@ public class SocialFacebook implements InterfaceSocial {
 		}
 	}
 
-
 	private class SessionStatusCallback implements Session.StatusCallback {
 		@Override
 		public void call(Session session, SessionState state, Exception exception) {
@@ -186,63 +177,70 @@ public class SocialFacebook implements InterfaceSocial {
 
 	@Override
 	public void share(Hashtable<String, String> info) {
-		LogD("share invoked " + info.toString());
-		mShareInfo =  info;
-		//String strText = info.get("SharedText");
-		String strImagePath = info.get("SharedImagePath");
-
-		if (! networkReachable()) {
-			shareResult(SocialWrapper.SHARERESULT_FAIL, "Network error!");
-			return;
-		}
-
-		if (! mIsInitialized) {
-			shareResult(SocialWrapper.SHARERESULT_FAIL, "Initialize failed!");
-			return;
-		}
-		Session session = Session.getActiveSession();
-		LogD("Session.getActiveSession "+java.lang.System.identityHashCode(session));
-		if (session != null && session.getState() == SessionState.OPENED) {
-			LogD("uploading photo");
-			if (strImagePath != null) {
-				LogD("opening photo using AssetManager"+strImagePath);
-				File file = new File(strImagePath);
-				if(file != null) {
-					Request.Callback callback = new Request.Callback() {
-						@Override
-						public void onCompleted(Response response) {
-							LogD("uploading photo completed");
-						}
-					};
-					try {
-						LogD("start Request to upload a photo");
-						//NFHACK this must be async!!!
-						//RequestAsyncTask asyncReq = Request.executeUploadPhotoRequestAsync(session, file, callback);
-						//asyncReq.execute();
-						Request request = Request.newUploadPhotoRequest(session, file, callback);
-						request.executeAndWait();
-						
-					} catch (FileNotFoundException e) {
-						LogD("file not found");
+		if (bAsyncRunning == false && networkReachable() && mIsInitialized) {
+			LogD("share invoked " + info.toString());
+			mShareInfo =  info;
+			String strImagePath = info.get("SharedImagePath");
+			Session session = Session.getActiveSession();
+			LogD("Session.getActiveSession "+java.lang.System.identityHashCode(session));
+			if (session != null && session.getState() == SessionState.OPENED) {
+				LogD("uploading photo");
+				if (strImagePath != null) {
+					LogD("opening photo using AssetManager"+strImagePath);
+					final File file = new File(strImagePath);
+					if(file != null) {
+							mActivity.runOnUiThread(new Runnable() {
+								public void run() {
+									try {
+										LogD("start Request to upload a photo");
+										bAsyncRunning = true;
+										Session session = Session.getActiveSession();
+										Request.Callback callback = new Request.Callback() {
+											@Override
+											public void onCompleted(Response response) {
+												LogD("uploading photo completed");
+												bAsyncRunning = false;
+											}
+										};
+										RequestAsyncTask asyncReq = Request.executeUploadPhotoRequestAsync(session, file, callback);
+									} catch (FileNotFoundException e) {
+										LogD("file not found");
+									}
+								}
+							});
+							
+					} else {
+						LogD("file not valid");
 					}
 				} else {
-					LogD("file not valid");
+					LogD("strImagePath not valid");
 				}
 			} else {
-				LogD("strImagePath not valid");
+				if(session == null) {
+					LogD("can not upload photo session null");
+				} else {
+					LogD("can not upload photo session "+java.lang.System.identityHashCode(session)+" in wrong state:"+SocialFacebook.stateToString(session.getState()));
+					Session activeSession = Session.getActiveSession();
+					LogD("Session.getActiveSession "+java.lang.System.identityHashCode(activeSession));
+					if(session != activeSession) {
+						LogD("Session.setActiveSession "+java.lang.System.identityHashCode(session));
+						Session.setActiveSession(session);
+						LogD("session is not the activeSession this causes errors");
+					}
+				}
 			}
 		} else {
-			if(session == null) {
-				LogD("can not upload photo session null");
-			} else {
-				LogD("can not upload photo session "+java.lang.System.identityHashCode(session)+" in wrong state:"+SocialFacebook.stateToString(session.getState()));
-				Session activeSession = Session.getActiveSession();
-				LogD("Session.getActiveSession "+java.lang.System.identityHashCode(activeSession));
-				if(session != activeSession) {
-					LogD("Session.setActiveSession "+java.lang.System.identityHashCode(session));
-					Session.setActiveSession(session);
-					LogD("session is not the activeSession this causes errors");
-				}
+			if (bAsyncRunning == false) {
+				shareResult(SocialWrapper.SHARERESULT_FAIL, "Async task already running!");
+				return;
+			}
+			if (! networkReachable()) {
+				shareResult(SocialWrapper.SHARERESULT_FAIL, "Network error!");
+				return;
+			}
+			if (! mIsInitialized) {
+				shareResult(SocialWrapper.SHARERESULT_FAIL, "Initialize failed!");
+				return;
 			}
 		}
 	}
@@ -290,117 +288,4 @@ public class SocialFacebook implements InterfaceSocial {
 		return "0.2.0";
 	}
 
-	/*
-	 * Request user name, and picture to show on the main screen.
-	 */
-	//public void requestUserData() {
-	//		LogD("Fetching user name, profile pic...");
-	//		Bundle params = new Bundle();
-	//		params.putString("fields", "name, picture");
-	//		Utility.mAsyncRunner.request("me", params, new UserRequestListener());
-	//}
-
-	//private final class LoginDialogListener implements DialogListener {
-	//	@Override
-	//	public void onComplete(Bundle values) {
-	//		LogD("LoginDialogListener::onComplete");
-	//		SessionEvents.onLoginSuccess();
-	//	}
-
-	//	@Override
-	//	public void onFacebookError(FacebookError error) {
-	//		LogD("LoginDialogListener::onFacebookError"+error.getMessage());
-	//		SessionEvents.onLoginError(error.getMessage());
-	//	}
-
-	//	@Override
-	//	public void onError(DialogError error) {
-	//		LogD("LoginDialogListener::onError"+error.getMessage());
-	//		SessionEvents.onLoginError(error.getMessage());
-	//	}
-
-	//	@Override
-	//	public void onCancel() {
-	//		LogD("LoginDialogListener::onCancel");
-	//		SessionEvents.onLoginError("Action Canceled");
-	//	}
-	//}
-
-	//private class LogoutRequestListener extends BaseRequestListener {
-	//		@Override
-	//		public void onComplete(String response, final Object state) {
-	//			LogD("LogoutRequestListener::onComplete");
-	//				/*
-	//				 * callback should be run in the original thread, not the background
-	//				 * thread
-	//				 */
-	//				mHandler.post(new Runnable() {
-	//						@Override
-	//						public void run() {
-	//								SessionEvents.onLogoutFinish();
-	//						}
-	//				});
-	//		}
-	//}
-
-	/*
-	 * Callback for fetching current user's name, picture, uid.
-	 */
-	//@SuppressWarnings("deprecation")
-	//public class UserRequestListener extends BaseRequestListener {
-	//	@Override
-	//	public void onComplete(final String response, final Object state) {
-	//		LogD("UserRequestListener::onComplete");
-	//		JSONObject jsonObject;
-	//		try {
-	//			jsonObject = new JSONObject(response);
-	//			final String picURL = jsonObject.getJSONObject("picture").getJSONObject("data").getString("url");
-	//			final String name = jsonObject.getString("name");
-	//			Utility.userUID = jsonObject.getString("id");
-	//			mHandler.post(new Runnable() {
-	//				@Override
-	//				public void run() {
-	//					LogD("Welcome " + name + "!");
-	//					//mUserPic.setImageBitmap(Utility.getBitmap(picURL));
-	//				}
-	//			});
-	//		} catch (JSONException e) {
-	//			e.printStackTrace();
-	//		}
-	//	}
-	//}
-
-	/*
-	 * The Callback for notifying the application when authorization succeeds or
-	 * fails.
-	 */
-	//public class FbAPIsAuthListener implements AuthListener {
-	//		@Override
-	//		public void onAuthSucceed() {
-	//			LogD("FbAPIsAuthListener::onAuthSucceed");
-	//			requestUserData();
-	//		}
-	//		@Override
-	//		public void onAuthFail(String error) {
-	//			LogD("FbAPIsAuthListener::onAuthSucceed ERROR: Login Failed: " + error);
-	//		}
-	//}
-
-	/*
-	 * The Callback for notifying the application when log out starts and
-	 * finishes.
-	 */
-	//public class FbAPIsLogoutListener implements LogoutListener {
-	//		@Override
-	//		public void onLogoutBegin() {
-	//			LogD("FbAPIsLogoutListener::onLogoutBegin");
-	//			LogD("Logging out...");
-	//		}
-	//		@Override
-	//		public void onLogoutFinish() {
-	//			LogD("FbAPIsLogoutListener::onLogoutFinish");
-	//				LogD("You have logged out! ");
-	//				//mUserPic.setImageBitmap(null);
-	//		}
-	//}
 }

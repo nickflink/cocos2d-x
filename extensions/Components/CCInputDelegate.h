@@ -30,48 +30,48 @@ THE SOFTWARE.
 
 NS_CC_EXT_BEGIN
 
-class CCInputDelegate : public CCTouchDelegate, public CCAccelerometerDelegate, public CCKeypadDelegate
+class InputDelegate : public TouchDelegate, public KeypadDelegate
 {
 protected:
-    CCInputDelegate(void);
-    virtual ~CCInputDelegate(void);
+    InputDelegate(void);
+    virtual ~InputDelegate(void);
     
 public:
-    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
-    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
-    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
-    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
-
-    virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
-    virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
-    virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
-    virtual void ccTouchesCancelled(CCSet *pTouches, CCEvent *pEvent);
-    
-    virtual void didAccelerate(CCAcceleration* pAccelerationValue);
-public:
-    virtual bool isTouchEnabled();
+    virtual bool isTouchEnabled() const;
     virtual void setTouchEnabled(bool value);
     
-    virtual bool isAccelerometerEnabled();
+    virtual bool isAccelerometerEnabled() const;
     virtual void setAccelerometerEnabled(bool value);
 
-    virtual bool isKeypadEnabled();
+    virtual bool isKeypadEnabled() const;
     virtual void setKeypadEnabled(bool value);
     
-    virtual void setTouchMode(ccTouchesMode mode);
-    virtual int getTouchMode();
+    virtual void setTouchMode(Touch::DispatchMode mode);
+    virtual Touch::DispatchMode getTouchMode() const;
     
     virtual void setTouchPriority(int priority);
-    virtual int  getTouchPriority();
-    
+    virtual int  getTouchPriority() const;
+
+    virtual void didAccelerate(Acceleration* accelerationValue);
+
+    // Overrides
+    virtual bool ccTouchBegan(Touch *touch, Event *event) override;
+    virtual void ccTouchMoved(Touch *touch, Event *event) override;
+    virtual void ccTouchEnded(Touch *touch, Event *event) override;
+    virtual void ccTouchCancelled(Touch *touch, Event *event) override;
+    virtual void ccTouchesBegan(Set *touches, Event *event) override;
+    virtual void ccTouchesMoved(Set *touches, Event *event) override;
+    virtual void ccTouchesEnded(Set *touches, Event *event) override;
+    virtual void ccTouchesCancelled(Set *touches, Event *event) override;
+
 protected:   
-    bool m_bTouchEnabled;
-    bool m_bAccelerometerEnabled;
-    bool m_bKeypadEnabled;
+    bool _touchEnabled;
+    bool _accelerometerEnabled;
+    bool _keypadEnabled;
     
 private:
-     int m_nTouchPriority;
-     ccTouchesMode m_eTouchMode;
+     int _touchPriority;
+    Touch::DispatchMode _touchMode;
 };
 
 NS_CC_EXT_END

@@ -151,6 +151,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/ccFPSImages.h</locationURI>
 		</link>
 		<link>
+			<name>src/ccTypes.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/ccTypes.cpp</locationURI>
+		</link>
+		<link>
 			<name>src/cocoa</name>
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/cocoa</locationURI>
@@ -179,6 +184,11 @@
 			<name>src/kazmath</name>
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/kazmath</locationURI>
+		</link>
+		<link>
+			<name>src/keyboard_dispatcher</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/keyboard_dispatcher</locationURI>
 		</link>
 		<link>
 			<name>src/keypad_dispatcher</name>
@@ -339,16 +349,6 @@
 			<name>src/platform/CCThread.h</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/platform/CCThread.h</locationURI>
-		</link>
-		<link>
-			<name>src/platform/platform.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/platform/platform.cpp</locationURI>
-		</link>
-		<link>
-			<name>src/platform/platform.h</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/platform/platform.h</locationURI>
 		</link>
 		<link>
 			<name>src/platform/tizen</name>

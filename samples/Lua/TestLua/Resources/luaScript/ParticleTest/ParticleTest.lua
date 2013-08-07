@@ -10,7 +10,7 @@ local titleLabel = nil
 local subtitleLabel = nil
 local baseLayer_entry = nil
 
-local s = CCDirector:sharedDirector():getWinSize()
+local s = CCDirector:getInstance():getWinSize()
 
 local function backAction()
 	SceneIdx = SceneIdx - 1
@@ -38,7 +38,7 @@ local function backCallback(sender)
 	scene:addChild(backAction())
 	scene:addChild(CreateBackMenuItem())
 
-	CCDirector:sharedDirector():replaceScene(scene)
+	CCDirector:getInstance():replaceScene(scene)
 end
 
 local function restartCallback(sender)
@@ -47,7 +47,7 @@ local function restartCallback(sender)
 	scene:addChild(restartAction())
 	scene:addChild(CreateBackMenuItem())
 
-	CCDirector:sharedDirector():replaceScene(scene)
+	CCDirector:getInstance():replaceScene(scene)
 end
 
 local function nextCallback(sender)
@@ -56,7 +56,7 @@ local function nextCallback(sender)
 	scene:addChild(nextAction())
 	scene:addChild(CreateBackMenuItem())
 
-	CCDirector:sharedDirector():replaceScene(scene)
+	CCDirector:getInstance():replaceScene(scene)
 end
 
 local function toggleCallback(sender)
@@ -85,7 +85,7 @@ local function update(dt)
 end
 
 local function baseLayer_onEnterOrExit(tag)
-	local scheduler = CCDirector:sharedDirector():getScheduler()
+	local scheduler = CCDirector:getInstance():getScheduler()
 	if tag == "enter" then
 		baseLayer_entry = scheduler:scheduleScriptFunc(update, 0, false)
 	elseif tag == "exit" then
@@ -94,7 +94,7 @@ local function baseLayer_onEnterOrExit(tag)
 end
 
 local function getBaseLayer()
-	local layer = CCLayerColor:create(ccc4(127,127,127,255))
+	local layer = CCLayerColor:create(Color4B(127,127,127,255))
 
     emitter = nil
 
@@ -124,37 +124,37 @@ local function getBaseLayer()
 	menu:addChild(item3)
 	menu:addChild(item4)
 
-    menu:setPosition(CCPointMake(0, 0))
-    item1:setPosition(CCPointMake(s.width/2 - item2:getContentSize().width * 2, item2:getContentSize().height / 2))
-    item2:setPosition(CCPointMake(s.width/2, item2:getContentSize().height / 2))
-    item3:setPosition(CCPointMake(s.width/2 + item2:getContentSize().width * 2, item2:getContentSize().height / 2))
-	item4:setPosition(ccp(0, 100))
-    item4:setAnchorPoint(ccp(0, 0))
+    menu:setPosition(CCPoint(0, 0))
+    item1:setPosition(CCPoint(s.width/2 - item2:getContentSize().width * 2, item2:getContentSize().height / 2))
+    item2:setPosition(CCPoint(s.width/2, item2:getContentSize().height / 2))
+    item3:setPosition(CCPoint(s.width/2 + item2:getContentSize().width * 2, item2:getContentSize().height / 2))
+	item4:setPosition(CCPoint(0, 100))
+    item4:setAnchorPoint(CCPoint(0, 0))
 
     layer:addChild(menu, 100)
 
     labelAtlas = CCLabelAtlas:create("0000", "fps_images.png", 12, 32, string.byte('.'))
     layer:addChild(labelAtlas, 100)
-    labelAtlas:setPosition(ccp(s.width - 66, 50))
+    labelAtlas:setPosition(CCPoint(s.width - 66, 50))
 
     -- moving background
     background = CCSprite:create(s_back3)
     layer:addChild(background, 5)
-    background:setPosition(ccp(s.width / 2, s.height - 180))
+    background:setPosition(CCPoint(s.width / 2, s.height - 180))
 
-    local move = CCMoveBy:create(4, ccp(300, 0))
+    local move = CCMoveBy:create(4, CCPoint(300, 0))
     local move_back = move:reverse()
     local seq = CCSequence:createWithTwoActions(move, move_back)
     background:runAction(CCRepeatForever:create(seq))
 
 	local function onTouchEnded(x, y)
-		local pos = CCPointMake(0, 0)
+		local pos = CCPoint(0, 0)
 		if background ~= nil then
-			pos = background:convertToWorldSpace(CCPointMake(0, 0))
+			pos = background:convertToWorldSpace(CCPoint(0, 0))
 		end
 
 		if emitter ~= nil then
-			local newPos = ccpSub(CCPointMake(x, y), pos)
+			local newPos = CCPoint.__sub(CCPoint(x, y), pos)
 			emitter:setPosition(newPos.x, newPos.y)
 		end
 	end
@@ -211,7 +211,7 @@ local function reorderParticles(dt)
 end
 
 local function ParticleReorder_onEnterOrExit(tag)
-	local scheduler = CCDirector:sharedDirector():getScheduler()
+	local scheduler = CCDirector:getInstance():getScheduler()
 	if tag == "enter" then
 		ParticleReorder_entry = scheduler:scheduleScriptFunc(reorderParticles, 1.0, false)
 	elseif tag == "exit" then
@@ -223,7 +223,7 @@ local function ParticleReorder()
 	ParticleReorder_layer = getBaseLayer()
 
 	ParticleReorder_Order = 0
-    ParticleReorder_layer:setColor(ccc3(0, 0, 0))
+    ParticleReorder_layer:setColor(Color3B(0, 0, 0))
     ParticleReorder_layer:removeChild(background, true)
     background = nil
 
@@ -241,13 +241,13 @@ local function ParticleReorder()
 		end
 
         local emitter1 = CCParticleSystemQuad:create("Particles/SmallSun.plist")
-        emitter1:setStartColor(ccc4f(1,0,0,1))
+        emitter1:setStartColor(Color4F(1,0,0,1))
         emitter1:setBlendAdditive(false)
         local emitter2 = CCParticleSystemQuad:create("Particles/SmallSun.plist")
-        emitter2:setStartColor(ccc4f(0,1,0,1))
+        emitter2:setStartColor(Color4F(0,1,0,1))
         emitter2:setBlendAdditive(false)
         local emitter3 = CCParticleSystemQuad:create("Particles/SmallSun.plist")
-        emitter3:setStartColor(ccc4f(0,0,1,1))
+        emitter3:setStartColor(Color4F(0,0,1,1))
         emitter3:setBlendAdditive(false)
 
 		local neg = nil
@@ -257,9 +257,9 @@ local function ParticleReorder()
 			neg = -1
 		end
 
-        emitter1:setPosition(ccp( s.width / 2 - 30, s.height / 2 + 60 * neg))
-        emitter2:setPosition(ccp( s.width / 2, s.height / 2 + 60 * neg))
-        emitter3:setPosition(ccp( s.width / 2 + 30, s.height / 2 + 60 * neg))
+        emitter1:setPosition(CCPoint( s.width / 2 - 30, s.height / 2 + 60 * neg))
+        emitter2:setPosition(CCPoint( s.width / 2, s.height / 2 + 60 * neg))
+        emitter3:setPosition(CCPoint( s.width / 2 + 30, s.height / 2 + 60 * neg))
 
         parent:addChild(emitter1, 0, 1)
         parent:addChild(emitter2, 0, 2)
@@ -301,7 +301,7 @@ local function switchRender(dt)
 end
 
 local function ParticleBatchHybrid_onEnterOrExit(tag)
-	local scheduler = CCDirector:sharedDirector():getScheduler()
+	local scheduler = CCDirector:getInstance():getScheduler()
 	if tag == "enter" then
 		ParticleBatchHybrid_entry = scheduler:scheduleScriptFunc(switchRender, 2.0, false)
 	elseif tag == "exit" then
@@ -313,7 +313,7 @@ end
 local function ParticleBatchHybrid()
 	local layer = getBaseLayer()
 
-	layer:setColor(ccc3(0, 0, 0))
+	layer:setColor(Color3B(0, 0, 0))
     layer:removeChild(background, true)
     background = nil
 
@@ -341,20 +341,20 @@ end
 local function ParticleBatchMultipleEmitters()
 	local layer = getBaseLayer()
 
-	layer:setColor(ccc3(0, 0, 0))
+	layer:setColor(Color3B(0, 0, 0))
     layer:removeChild(background, true)
     background = nil
 
     local emitter1 = CCParticleSystemQuad:create("Particles/LavaFlow.plist")
-    emitter1:setStartColor(ccc4f(1,0,0,1))
+    emitter1:setStartColor(Color4F(1,0,0,1))
     local emitter2 = CCParticleSystemQuad:create("Particles/LavaFlow.plist")
-    emitter2:setStartColor(ccc4f(0,1,0,1))
+    emitter2:setStartColor(Color4F(0,1,0,1))
     local emitter3 = CCParticleSystemQuad:create("Particles/LavaFlow.plist")
-    emitter3:setStartColor(ccc4f(0,0,1,1))
+    emitter3:setStartColor(Color4F(0,0,1,1))
 
-    emitter1:setPosition(ccp(s.width / 1.25, s.height / 1.25))
-    emitter2:setPosition(ccp(s.width / 2, s.height / 2))
-    emitter3:setPosition(ccp(s.width / 4, s.height / 4))
+    emitter1:setPosition(CCPoint(s.width / 1.25, s.height / 1.25))
+    emitter2:setPosition(CCPoint(s.width / 2, s.height / 2))
+    emitter3:setPosition(CCPoint(s.width / 4, s.height / 4))
 
     local batch = CCParticleBatchNode:createWithTexture(emitter1:getTexture())
 
@@ -378,7 +378,7 @@ local function DemoFlower()
 	emitter = CCParticleFlower:create()
 	-- emitter:retain()
     background:addChild(emitter, 10)
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_stars1))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_stars1))
 
     setEmitterPosition()
 
@@ -396,7 +396,7 @@ local function DemoGalaxy()
     -- emitter:retain()
     background:addChild(emitter, 10)
 
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_fire))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_fire))
 
     setEmitterPosition()
 
@@ -414,7 +414,7 @@ local function DemoFirework()
     -- emitter:retain()
     background:addChild(emitter, 10)
 
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_stars1))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_stars1))
 
     setEmitterPosition()
 
@@ -432,7 +432,7 @@ local function DemoSpiral()
     -- emitter:retain()
     background:addChild(emitter, 10)
 
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_fire))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_fire))
 
     setEmitterPosition()
 
@@ -450,7 +450,7 @@ local function DemoSun()
     -- emitter:retain()
     background:addChild(emitter, 10)
 
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_fire))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_fire))
 
     setEmitterPosition()
 
@@ -468,7 +468,7 @@ local function DemoMeteor()
     -- emitter:retain()
     background:addChild(emitter, 10)
 
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_fire))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_fire))
 
     setEmitterPosition()
 
@@ -486,7 +486,7 @@ local function DemoFire()
     -- emitter:retain()
     background:addChild(emitter, 10)
 
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_fire))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_fire))
     local pos_x, pos_y = emitter:getPosition()
     emitter:setPosition(pos_x, 100)
 
@@ -503,7 +503,7 @@ local function DemoSmoke()
 	emitter = CCParticleSmoke:create()
     -- emitter:retain()
     background:addChild(emitter, 10)
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_fire))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_fire))
 
     local pos_x, pos_y = emitter:getPosition()
     emitter:setPosition(pos_x, 100)
@@ -524,7 +524,7 @@ local function DemoExplosion()
     -- emitter:retain()
     background:addChild(emitter, 10)
 
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_stars1))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_stars1))
 
     emitter:setAutoRemoveOnFinish(true)
 
@@ -550,7 +550,7 @@ local function DemoSnow()
     emitter:setLifeVar(1)
 
     -- gravity
-    emitter:setGravity(CCPointMake(0, -10))
+    emitter:setGravity(CCPoint(0, -10))
 
     -- speed of particles
     emitter:setSpeed(130)
@@ -568,7 +568,7 @@ local function DemoSnow()
 
     emitter:setEmissionRate(emitter:getTotalParticles() / emitter:getLife())
 
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_snow))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_snow))
 
     setEmitterPosition()
 
@@ -590,7 +590,7 @@ local function DemoRain()
     emitter:setPosition(pos_x, pos_y - 100)
     emitter:setLife(4)
 
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_fire))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_fire))
 
     setEmitterPosition()
 
@@ -610,11 +610,11 @@ local function DemoBigFlower()
 
     background:addChild(emitter, 10)
     ----emitter:release()    -- win32 :  use this line or remove this line and use autorelease()
-    emitter:setTexture( CCTextureCache:sharedTextureCache():addImage(s_stars1) )
+    emitter:setTexture( CCTextureCache:getInstance():addImage(s_stars1) )
     emitter:setDuration(-1)
 
     -- gravity
-    emitter:setGravity(CCPointMake(0, 0))
+    emitter:setGravity(CCPoint(0, 0))
 
     -- angle
     emitter:setAngle(90)
@@ -634,7 +634,7 @@ local function DemoBigFlower()
 
     -- emitter position
     emitter:setPosition(160, 240)
-    emitter:setPosVar(ccp(0, 0))
+    emitter:setPosVar(CCPoint(0, 0))
 
     -- life of particles
     emitter:setLife(4)
@@ -647,15 +647,15 @@ local function DemoBigFlower()
     emitter:setEndSpinVar(0)
 
     -- color of particles
-    emitter:setStartColor(ccc4f(0.5, 0.5, 0.5, 1.0))
-    emitter:setStartColorVar(ccc4f(0.5, 0.5, 0.5, 1.0))
-    emitter:setEndColor(ccc4f(0.1, 0.1, 0.1, 0.2))
-    emitter:setEndColorVar(ccc4f(0.1, 0.1, 0.1, 0.2))
+    emitter:setStartColor(Color4F(0.5, 0.5, 0.5, 1.0))
+    emitter:setStartColorVar(Color4F(0.5, 0.5, 0.5, 1.0))
+    emitter:setEndColor(Color4F(0.1, 0.1, 0.1, 0.2))
+    emitter:setEndColorVar(Color4F(0.1, 0.1, 0.1, 0.2))
 
     -- size, in pixels
     emitter:setStartSize(80.0)
     emitter:setStartSizeVar(40.0)
-    emitter:setEndSize(kParticleStartSizeEqualToEndSize)
+    emitter:setEndSize(kCCParticleStartSizeEqualToEndSize)
 
     -- emits per second
     emitter:setEmissionRate(emitter:getTotalParticles() / emitter:getLife())
@@ -681,13 +681,13 @@ local function DemoRotFlower()
 
     background:addChild(emitter, 10)
     ----emitter:release()    -- win32 : Remove this line
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_stars2))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_stars2))
 
     -- duration
     emitter:setDuration(-1)
 
     -- gravity
-    emitter:setGravity(ccp(0, 0))
+    emitter:setGravity(CCPoint(0, 0))
 
     -- angle
     emitter:setAngle(90)
@@ -707,7 +707,7 @@ local function DemoRotFlower()
 
     -- emitter position
     emitter:setPosition(160, 240)
-    emitter:setPosVar(ccp(0, 0))
+    emitter:setPosVar(CCPoint(0, 0))
 
     -- life of particles
     emitter:setLife(3)
@@ -720,15 +720,15 @@ local function DemoRotFlower()
     emitter:setEndSpinVar(2000)
 
     -- color of particles
-	emitter:setStartColor(ccc4f(0.5, 0.5, 0.5, 1.0))
-    emitter:setStartColorVar(ccc4f(0.5, 0.5, 0.5, 1.0))
-    emitter:setEndColor(ccc4f(0.1, 0.1, 0.1, 0.2))
-    emitter:setEndColorVar(ccc4f(0.1, 0.1, 0.1, 0.2))
+	emitter:setStartColor(Color4F(0.5, 0.5, 0.5, 1.0))
+    emitter:setStartColorVar(Color4F(0.5, 0.5, 0.5, 1.0))
+    emitter:setEndColor(Color4F(0.1, 0.1, 0.1, 0.2))
+    emitter:setEndColorVar(Color4F(0.1, 0.1, 0.1, 0.2))
 
     -- size, in pixels
     emitter:setStartSize(30.0)
     emitter:setStartSizeVar(0)
-    emitter:setEndSize(kParticleStartSizeEqualToEndSize)
+    emitter:setEndSize(kCCParticleStartSizeEqualToEndSize)
 
     -- emits per second
     emitter:setEmissionRate(emitter:getTotalParticles() / emitter:getLife())
@@ -759,7 +759,7 @@ local function DemoModernArt()
     emitter:setDuration(-1)
 
     -- gravity
-    emitter:setGravity(CCPointMake(0,0))
+    emitter:setGravity(CCPoint(0,0))
 
     -- angle
     emitter:setAngle(0)
@@ -779,7 +779,7 @@ local function DemoModernArt()
 
     -- emitter position
     emitter:setPosition(s.width / 2, s.height / 2)
-    emitter:setPosVar(ccp(0, 0))
+    emitter:setPosVar(CCPoint(0, 0))
 
     -- life of particles
     emitter:setLife(2.0)
@@ -789,10 +789,10 @@ local function DemoModernArt()
     emitter:setEmissionRate(emitter:getTotalParticles() / emitter:getLife())
 
     -- color of particles
-	emitter:setStartColor(ccc4f(0.5, 0.5, 0.5, 1.0))
-    emitter:setStartColorVar(ccc4f(0.5, 0.5, 0.5, 1.0))
-    emitter:setEndColor(ccc4f(0.1, 0.1, 0.1, 0.2))
-    emitter:setEndColorVar(ccc4f(0.1, 0.1, 0.1, 0.2))
+	emitter:setStartColor(Color4F(0.5, 0.5, 0.5, 1.0))
+    emitter:setStartColorVar(Color4F(0.5, 0.5, 0.5, 1.0))
+    emitter:setEndColor(Color4F(0.1, 0.1, 0.1, 0.2))
+    emitter:setEndColorVar(Color4F(0.1, 0.1, 0.1, 0.2))
 
     -- size, in pixels
     emitter:setStartSize(1.0)
@@ -801,7 +801,7 @@ local function DemoModernArt()
     emitter:setEndSizeVar(8.0)
 
     -- texture
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_fire))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_fire))
 
     -- additive
     emitter:setBlendAdditive(false)
@@ -823,7 +823,7 @@ local function DemoRing()
 
     background:addChild(emitter, 10)
 
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_stars1))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_stars1))
     emitter:setLifeVar(0)
     emitter:setLife(10)
     emitter:setSpeed(100)
@@ -851,21 +851,21 @@ local function ParallaxParticle()
     local p1 = CCSprite:create(s_back3)
     local p2 = CCSprite:create(s_back3)
 
-    p:addChild(p1, 1, CCPointMake(0.5, 1), CCPointMake(0, 250))
-    p:addChild(p2, 2, CCPointMake(1.5, 1), CCPointMake(0, 50))
+    p:addChild(p1, 1, CCPoint(0.5, 1), CCPoint(0, 250))
+    p:addChild(p2, 2, CCPoint(1.5, 1), CCPoint(0, 50))
 
     emitter = CCParticleFlower:create()
     -- emitter:retain()
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage(s_fire))
+    emitter:setTexture(CCTextureCache:getInstance():addImage(s_fire))
 
     p1:addChild(emitter, 10)
     emitter:setPosition(250, 200)
 
     local par = CCParticleSun:create()
     p2:addChild(par, 10)
-    par:setTexture(CCTextureCache:sharedTextureCache():addImage(s_fire))
+    par:setTexture(CCTextureCache:getInstance():addImage(s_fire))
 
-    local move = CCMoveBy:create(4, CCPointMake(300,0))
+    local move = CCMoveBy:create(4, CCPoint(300,0))
     local move_back = move:reverse()
     local seq = CCSequence:createWithTwoActions(move, move_back)
     p:runAction(CCRepeatForever:create(seq))
@@ -880,7 +880,7 @@ end
 local function DemoParticleFromFile(name)
 	local layer = getBaseLayer()
 
-	layer:setColor(ccc3(0, 0, 0))
+	layer:setColor(Color3B(0, 0, 0))
     layer:removeChild(background, true)
     background = nil
 
@@ -902,14 +902,14 @@ end
 local function RadiusMode1()
 	local layer = getBaseLayer()
 
-	layer:setColor(ccc3(0, 0, 0))
+	layer:setColor(Color3B(0, 0, 0))
     layer:removeChild(background, true)
     background = nil
 
     emitter = CCParticleSystemQuad:new()
     emitter:initWithTotalParticles(200)
     layer:addChild(emitter, 10)
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage("Images/stars-grayscale.png"))
+    emitter:setTexture(CCTextureCache:getInstance():addImage("Images/stars-grayscale.png"))
 
     -- duration
     emitter:setDuration(kCCParticleDurationInfinity)
@@ -934,7 +934,7 @@ local function RadiusMode1()
 
     -- emitter position
     emitter:setPosition(s.width / 2, s.height / 2)
-    emitter:setPosVar(ccp(0, 0))
+    emitter:setPosVar(CCPoint(0, 0))
 
     -- life of particles
     emitter:setLife(5)
@@ -947,10 +947,10 @@ local function RadiusMode1()
     emitter:setEndSpinVar(0)
 
     -- color of particles
-    emitter:setStartColor(ccc4f(0.5, 0.5, 0.5, 1.0))
-    emitter:setStartColorVar(ccc4f(0.5, 0.5, 0.5, 1.0))
-    emitter:setEndColor(ccc4f(0.1, 0.1, 0.1, 0.2))
-    emitter:setEndColorVar(ccc4f(0.1, 0.1, 0.1, 0.2))
+    emitter:setStartColor(Color4F(0.5, 0.5, 0.5, 1.0))
+    emitter:setStartColorVar(Color4F(0.5, 0.5, 0.5, 1.0))
+    emitter:setEndColor(Color4F(0.1, 0.1, 0.1, 0.2))
+    emitter:setEndColorVar(Color4F(0.1, 0.1, 0.1, 0.2))
 
     -- size, in pixels
     emitter:setStartSize(32)
@@ -973,14 +973,14 @@ end
 local function RadiusMode2()
 	local layer = getBaseLayer()
 
-	layer:setColor(ccc3(0, 0, 0))
+	layer:setColor(Color3B(0, 0, 0))
     layer:removeChild(background, true)
     background = nil
 
     emitter = CCParticleSystemQuad:new()
     emitter:initWithTotalParticles(200)
     layer:addChild(emitter, 10)
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage("Images/stars-grayscale.png"))
+    emitter:setTexture(CCTextureCache:getInstance():addImage("Images/stars-grayscale.png"))
 
     -- duration
     emitter:setDuration(kCCParticleDurationInfinity)
@@ -1004,7 +1004,7 @@ local function RadiusMode2()
 
     -- emitter position
     emitter:setPosition(s.width / 2, s.height / 2)
-    emitter:setPosVar(ccp(0, 0))
+    emitter:setPosVar(CCPoint(0, 0))
 
     -- life of particles
     emitter:setLife(4)
@@ -1017,10 +1017,10 @@ local function RadiusMode2()
     emitter:setEndSpinVar(0)
 
     -- color of particles
-    emitter:setStartColor(ccc4f(0.5, 0.5, 0.5, 1.0))
-    emitter:setStartColorVar(ccc4f(0.5, 0.5, 0.5, 1.0))
-    emitter:setEndColor(ccc4f(0.1, 0.1, 0.1, 0.2))
-    emitter:setEndColorVar(ccc4f(0.1, 0.1, 0.1, 0.2))
+    emitter:setStartColor(Color4F(0.5, 0.5, 0.5, 1.0))
+    emitter:setStartColorVar(Color4F(0.5, 0.5, 0.5, 1.0))
+    emitter:setEndColor(Color4F(0.1, 0.1, 0.1, 0.2))
+    emitter:setEndColorVar(Color4F(0.1, 0.1, 0.1, 0.2))
 
     -- size, in pixels
     emitter:setStartSize(32)
@@ -1043,14 +1043,14 @@ end
 local function Issue704()
 	local layer = getBaseLayer()
 
-	layer:setColor(ccc3(0, 0, 0))
+	layer:setColor(Color3B(0, 0, 0))
     layer:removeChild(background, true)
     background = nil
 
     emitter = CCParticleSystemQuad:new()
     emitter:initWithTotalParticles(100)
     layer:addChild(emitter, 10)
-    emitter:setTexture(CCTextureCache:sharedTextureCache():addImage("Images/fire.png"))
+    emitter:setTexture(CCTextureCache:getInstance():addImage("Images/fire.png"))
 
     -- duration
     emitter:setDuration(kCCParticleDurationInfinity)
@@ -1075,7 +1075,7 @@ local function Issue704()
 
     -- emitter position
     emitter:setPosition(s.width / 2, s.height / 2)
-    emitter:setPosVar(ccp(0, 0))
+    emitter:setPosVar(CCPoint(0, 0))
 
     -- life of particles
     emitter:setLife(5)
@@ -1088,10 +1088,10 @@ local function Issue704()
     emitter:setEndSpinVar(0)
 
     -- color of particles
-    emitter:setStartColor(ccc4f(0.5, 0.5, 0.5, 1.0))
-    emitter:setStartColorVar(ccc4f(0.5, 0.5, 0.5, 1.0))
-    emitter:setEndColor(ccc4f(0.1, 0.1, 0.1, 0.2))
-    emitter:setEndColorVar(ccc4f(0.1, 0.1, 0.1, 0.2))
+    emitter:setStartColor(Color4F(0.5, 0.5, 0.5, 1.0))
+    emitter:setStartColorVar(Color4F(0.5, 0.5, 0.5, 1.0))
+    emitter:setEndColor(Color4F(0.1, 0.1, 0.1, 0.2))
+    emitter:setEndColorVar(Color4F(0.1, 0.1, 0.1, 0.2))
 
     -- size, in pixels
     emitter:setStartSize(16)
@@ -1122,12 +1122,12 @@ local function updateQuads(dt)
 	update(dt)
 
 	Issue870_index = math.mod(Issue870_index + 1, 4)
-    local rect = CCRectMake(Issue870_index * 32, 0, 32, 32)
+    local rect = CCRect(Issue870_index * 32, 0, 32, 32)
     emitter:setTextureWithRect(emitter:getTexture(), rect)
 end
 
 local function Issue870_onEnterOrExit(tag)
-	local scheduler = CCDirector:sharedDirector():getScheduler()
+	local scheduler = CCDirector:getInstance():getScheduler()
 	if tag == "enter" then
 		Issue870_entry = scheduler:scheduleScriptFunc(updateQuads, 2.0, false)
 	elseif tag == "exit" then
@@ -1138,13 +1138,13 @@ end
 local function Issue870()
 	local layer = getBaseLayer()
 
-	layer:setColor(ccc3(0, 0, 0))
+	layer:setColor(Color3B(0, 0, 0))
     layer:removeChild(background, true)
     background = nil
 
     local system = CCParticleSystemQuad:new()
     system:initWithFile("Particles/SpinningPeas.plist")
-    system:setTextureWithRect(CCTextureCache:sharedTextureCache():addImage("Images/particles.png"), CCRectMake(0,0,32,32))
+    system:setTextureWithRect(CCTextureCache:getInstance():addImage("Images/particles.png"), CCRect(0,0,32,32))
     layer:addChild(system, 10)
     emitter = system
 
@@ -1162,11 +1162,11 @@ end
 local function MultipleParticleSystems()
 	local layer = getBaseLayer()
 
-	layer:setColor(ccc3(0, 0, 0))
+	layer:setColor(Color3B(0, 0, 0))
     layer:removeChild(background, true)
     background = nil
 
-    CCTextureCache:sharedTextureCache():addImage("Images/particles.png")
+    CCTextureCache:getInstance():addImage("Images/particles.png")
 
     for i = 0, 4 do
         local particleSystem = CCParticleSystemQuad:create("Particles/SpinningPeas.plist")
@@ -1188,7 +1188,7 @@ end
 local function MultipleParticleSystemsBatched()
 	local layer = getBaseLayer()
 
-	layer:setColor(ccc3(0, 0, 0))
+	layer:setColor(Color3B(0, 0, 0))
     layer:removeChild(background, true)
     background = nil
 
@@ -1239,7 +1239,7 @@ local function removeSystem(dt)
 end
 
 local function AddAndDeleteParticleSystems_onEnterOrExit(tag)
-	local scheduler = CCDirector:sharedDirector():getScheduler()
+	local scheduler = CCDirector:getInstance():getScheduler()
 	if tag == "enter" then
 		AddAndDeleteParticleSystems_entry = scheduler:scheduleScriptFunc(removeSystem, 2.0, false)
 	elseif tag == "exit" then
@@ -1250,7 +1250,7 @@ end
 local function AddAndDeleteParticleSystems()
 	local layer = getBaseLayer()
 
-	layer:setColor(ccc3(0, 0, 0))
+	layer:setColor(Color3B(0, 0, 0))
     layer:removeChild(background, true)
     background = nil
 
@@ -1297,7 +1297,7 @@ local function reorderSystem(dt)
 end
 
 local function ReorderParticleSystems_onEnterOrExit(tag)
-	local scheduler = CCDirector:sharedDirector():getScheduler()
+	local scheduler = CCDirector:getInstance():getScheduler()
 	if tag == "enter" then
 		ReorderParticleSystems_entry = scheduler:scheduleScriptFunc(reorderSystem, 2.0, false)
 	elseif tag == "exit" then
@@ -1308,7 +1308,7 @@ end
 local function ReorderParticleSystems()
 	local layer = getBaseLayer()
 
-	layer:setColor(ccc3(0, 0, 0))
+	layer:setColor(Color3B(0, 0, 0))
     layer:removeChild(background ,true)
     background = nil
 
@@ -1344,7 +1344,7 @@ local function ReorderParticleSystems()
         particleSystem:setAngleVar(0)
 
         -- emitter position
-        particleSystem:setPosVar(ccp(0, 0))
+        particleSystem:setPosVar(CCPoint(0, 0))
 
         -- life of particles
         particleSystem:setLife(4)
@@ -1357,7 +1357,7 @@ local function ReorderParticleSystems()
         particleSystem:setEndSpinVar(0)
 
         -- color of particles
-		local startColor = ccColor4F:new()
+		local startColor = Color4F:new()
 		startColor.r = 0
 		startColor.g = 0
 		startColor.b = 0
@@ -1368,11 +1368,11 @@ local function ReorderParticleSystems()
 		end
 
         particleSystem:setStartColor(startColor)
-        particleSystem:setStartColorVar(ccc4f(0, 0, 0, 0))
+        particleSystem:setStartColorVar(Color4F(0, 0, 0, 0))
 
 		local endColor = startColor
         particleSystem:setEndColor(endColor)
-        particleSystem:setEndColorVar(ccc4f(0, 0, 0, 0))
+        particleSystem:setEndColorVar(Color4F(0, 0, 0, 0))
 
         -- size, in pixels
         particleSystem:setStartSize(32)
@@ -1405,23 +1405,23 @@ end
 local function PremultipliedAlphaTest()
 	local layer = getBaseLayer()
 
-	layer:setColor(ccc3(0, 0, 255))
+	layer:setColor(Color3B(0, 0, 255))
     layer:removeChild(background, true)
     background = nil
 
     emitter = CCParticleSystemQuad:create("Particles/BoilingFoam.plist")
 
-    local tBlendFunc = ccBlendFunc:new()
+    local tBlendFunc = BlendFunc:new()
 	tBlendFunc.src = 1 --GL_ONE
 	tBlendFunc.dst = 0x0303 --GL_ONE_MINUS_SRC_ALPHA
     emitter:setBlendFunc(tBlendFunc)
 
     --assert(emitter:getOpacityModifyRGB(), "Particle texture does not have premultiplied alpha, test is useless")
 
-    emitter:setStartColor(ccc4f(1, 1, 1, 1))
-    emitter:setEndColor(ccc4f(1, 1, 1, 0))
-    emitter:setStartColorVar(ccc4f(0, 0, 0, 0))
-    emitter:setEndColorVar(ccc4f(0, 0, 0, 0))
+    emitter:setStartColor(Color4F(1, 1, 1, 1))
+    emitter:setEndColor(Color4F(1, 1, 1, 0))
+    emitter:setStartColorVar(Color4F(0, 0, 0, 0))
+    emitter:setEndColorVar(Color4F(0, 0, 0, 0))
 
     layer:addChild(emitter, 10)
 
@@ -1436,7 +1436,7 @@ end
 local function PremultipliedAlphaTest2()
 	local layer = getBaseLayer()
 
-	layer:setColor(ccc3(0, 0, 0))
+	layer:setColor(Color3B(0, 0, 0))
     layer:removeChild(background, true)
     background = nil
 

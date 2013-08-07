@@ -43,28 +43,63 @@ static void _checkPath()
     }
 }
 
-CCFileUtils* CCFileUtils::sharedFileUtils()
+// D:/aaa/bbb/ccc/ddd/abc.txt --> D:\aaa\bbb\ccc\ddd\abc.txt
+static inline std::string convertPathFormatToWindowStyle(const std::string& path)
+{
+    std::string ret = path;
+    int len = ret.length();
+    for (int i = 0; i < len; ++i)
+    {
+        if (ret[i] == '/')
+        {
+            ret[i] = '\\';
+        }
+    }
+    return ret;
+}
+
+// D:\aaa\bbb\ccc\ddd\abc.txt --> D:/aaa/bbb/ccc/ddd/abc.txt
+static inline std::string convertPathFormatToUnixStyle(const std::string& path)
+{
+    std::string ret = path;
+    int len = ret.length();
+    for (int i = 0; i < len; ++i)
+    {
+        if (ret[i] == '\\')
+        {
+            ret[i] = '/';
+        }
+    }
+    return ret;
+}
+
+FileUtils* FileUtils::getInstance()
 {
     if (s_sharedFileUtils == NULL)
     {
-        s_sharedFileUtils = new CCFileUtilsWin32();
-        s_sharedFileUtils->init();
+        s_sharedFileUtils = new FileUtilsWin32();
+        if(!s_sharedFileUtils->init())
+        {
+          delete s_sharedFileUtils;
+          s_sharedFileUtils = NULL;
+          CCLOG("ERROR: Could not init CCFileUtilsWin32");
+        }
     }
     return s_sharedFileUtils;
 }
 
-CCFileUtilsWin32::CCFileUtilsWin32()
+FileUtilsWin32::FileUtilsWin32()
 {
 }
 
-bool CCFileUtilsWin32::init()
+bool FileUtilsWin32::init()
 {
     _checkPath();
-    m_strDefaultResRootPath = s_pszResourcePath;
-    return CCFileUtils::init();
+    _defaultResRootPath = s_pszResourcePath;
+    return FileUtils::init();
 }
 
-bool CCFileUtilsWin32::isFileExist(const std::string& strFilePath)
+bool FileUtilsWin32::isFileExist(const std::string& strFilePath)
 {
     if (0 == strFilePath.length())
     {
@@ -74,12 +109,17 @@ bool CCFileUtilsWin32::isFileExist(const std::string& strFilePath)
     std::string strPath = strFilePath;
     if (!isAbsolutePath(strPath))
     { // Not absolute path, add the default root path at the beginning.
-        strPath.insert(0, m_strDefaultResRootPath);
+        strPath.insert(0, _defaultResRootPath);
     }
-    return GetFileAttributesA(strPath.c_str()) != -1 ? true : false;
+
+    convertPathFormatToWindowStyle(strPath);
+    WCHAR wszBuf[MAX_PATH] = {0};
+    MultiByteToWideChar(CP_UTF8, 0, strPath.c_str(), -1, wszBuf, sizeof(wszBuf));
+
+    return GetFileAttributesW(wszBuf) != -1 ? true : false;
 }
 
-bool CCFileUtilsWin32::isAbsolutePath(const std::string& strPath)
+bool FileUtilsWin32::isAbsolutePath(const std::string& strPath)
 {
     if (   strPath.length() > 2 
         && ( (strPath[0] >= 'a' && strPath[0] <= 'z') || (strPath[0] >= 'A' && strPath[0] <= 'Z') )
@@ -90,7 +130,69 @@ bool CCFileUtilsWin32::isAbsolutePath(const std::string& strPath)
     return false;
 }
 
-string CCFileUtilsWin32::getWritablePath()
+unsigned char* FileUtilsWin32::getFileData(const char* filename, const char* mode, unsigned long* size)
+{
+    unsigned char * pBuffer = NULL;
+    CCASSERT(filename != NULL && size != NULL && mode != NULL, "Invalid parameters.");
+    *size = 0;
+    do
+    {
+        // read the file from hardware
+        std::string fullPath = fullPathForFilename(filename);
+
+        WCHAR wszBuf[MAX_PATH] = {0};
+        MultiByteToWideChar(CP_UTF8, 0, fullPath.c_str(), -1, wszBuf, sizeof(wszBuf));
+
+
+        HANDLE fileHandle = ::CreateFileW(wszBuf, GENERIC_READ, 0, NULL, OPEN_EXISTING, NULL, NULL);
+        CC_BREAK_IF(fileHandle == INVALID_HANDLE_VALUE);
+        
+        *size = ::GetFileSize(fileHandle, NULL);
+
+        pBuffer = new unsigned char[*size];
+        DWORD sizeRead = 0;
+        BOOL successed = FALSE;
+        successed = ::ReadFile(fileHandle, pBuffer, *size, &sizeRead, NULL);
+        ::CloseHandle(fileHandle);
+
+        if (!successed)
+        {
+            CC_SAFE_DELETE_ARRAY(pBuffer);
+        }
+    } while (0);
+    
+    if (! pBuffer)
+    {
+        std::string msg = "Get data from file(";
+        // Gets error code.
+        DWORD errorCode = ::GetLastError();
+        char errorCodeBuffer[20] = {0};
+        snprintf(errorCodeBuffer, sizeof(errorCodeBuffer), "%d", errorCode);
+
+        msg = msg + filename + ") failed, error code is " + errorCodeBuffer;
+        CCLOG("%s", msg.c_str());
+    }
+    return pBuffer;
+}
+
+std::string FileUtilsWin32::getPathForFilename(const std::string& filename, const std::string& resolutionDirectory, const std::string& searchPath)
+{
+    std::string unixFileName = convertPathFormatToUnixStyle(filename);
+    std::string unixResolutionDirector = convertPathFormatToUnixStyle(resolutionDirectory);
+    std::string unixSearchPath = convertPathFormatToUnixStyle(searchPath);
+
+    return FileUtils::getPathForFilename(unixFileName, unixResolutionDirector, unixSearchPath);
+}
+
+std::string FileUtilsWin32::getFullPathForDirectoryAndFilename(const std::string& strDirectory, const std::string& strFilename)
+{
+    std::string dosDirectory = convertPathFormatToWindowStyle(strDirectory);
+    std::string dosFilename = convertPathFormatToWindowStyle(strFilename);
+    
+    return FileUtils::getFullPathForDirectoryAndFilename(dosDirectory, dosFilename);
+}
+
+string FileUtilsWin32::getWritablePath()
 {
     // Get full path of executable, e.g. c:\Program Files (x86)\My Game Folder\MyGame.exe
     char full_path[_MAX_PATH + 1];

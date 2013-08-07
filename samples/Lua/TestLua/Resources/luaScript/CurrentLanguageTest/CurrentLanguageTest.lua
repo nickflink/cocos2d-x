@@ -2,12 +2,12 @@ local function CurrentLanguageTest()
     local ret = CCLayer:create()
     local  label = CCLabelTTF:create("Current language Test", "Arial", 28)
     ret:addChild(label, 0)
-    label:setPosition( ccp(VisibleRect:center().x, VisibleRect:top().y-50) )
+    label:setPosition( CCPoint(VisibleRect:center().x, VisibleRect:top().y-50) )
 
     local labelLanguage = CCLabelTTF:create("", "Arial", 20)
     labelLanguage:setPosition(VisibleRect:center())
 
-    local currentLanguageType = CCApplication:sharedApplication():getCurrentLanguage()
+    local currentLanguageType = CCApplication:getInstance():getCurrentLanguage()
 
     if currentLanguageType == kLanguageEnglish then
         labelLanguage:setString("current language is English")

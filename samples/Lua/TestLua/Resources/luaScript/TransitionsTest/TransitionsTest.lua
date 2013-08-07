@@ -4,7 +4,7 @@ require "luaScript/TransitionsTest/TransitionsName"
 local SceneIdx = -1
 local CurSceneNo = 2
 local TRANSITION_DURATION = 1.2
-local s = CCDirector:sharedDirector():getWinSize()
+local s = CCDirector:getInstance():getWinSize()
 
 local function switchSceneTypeNo()
     if CurSceneNo == 1 then
@@ -38,17 +38,17 @@ end
 
 local function backCallback(sender)
     local scene = backAction()
-    CCDirector:sharedDirector():replaceScene(scene)
+    CCDirector:getInstance():replaceScene(scene)
 end
 
 local function restartCallback(sender)
     local scene = restartAction()
-    CCDirector:sharedDirector():replaceScene(scene)
+    CCDirector:getInstance():replaceScene(scene)
 end
 
 local function nextCallback(sender)
     local scene = nextAction()
-    CCDirector:sharedDirector():replaceScene(scene)
+    CCDirector:getInstance():replaceScene(scene)
 end
 
 -----------------------------
@@ -59,16 +59,16 @@ local function createLayer1()
     local x, y = s.width, s.height
 
     local bg1 = CCSprite:create(s_back1)
-    bg1:setPosition(CCPointMake(s.width / 2, s.height / 2))
+    bg1:setPosition(CCPoint(s.width / 2, s.height / 2))
     layer:addChild(bg1, -1)
 
     local titleLabel = CCLabelTTF:create(Transition_Name[SceneIdx], "Thonburi", 32)
     layer:addChild(titleLabel)
-    titleLabel:setColor(ccc3(255,32,32))
+    titleLabel:setColor(Color3B(255,32,32))
     titleLabel:setPosition(x / 2, y - 100)
 
     local label = CCLabelTTF:create("SCENE 1", "Marker Felt", 38)
-    label:setColor(ccc3(16,16,255))
+    label:setColor(Color3B(16,16,255))
     label:setPosition(x / 2, y / 2)
     layer:addChild(label)
 
@@ -84,10 +84,10 @@ local function createLayer1()
     menu:addChild(item1)
     menu:addChild(item2)
     menu:addChild(item3)
-    menu:setPosition(CCPointMake(0, 0))
-    item1:setPosition(CCPointMake(s.width / 2 - item2:getContentSize().width * 2, item2:getContentSize().height / 2))
-    item2:setPosition(CCPointMake(s.width / 2, item2:getContentSize().height / 2))
-    item3:setPosition(CCPointMake(s.width / 2 + item2:getContentSize().width * 2, item2:getContentSize().height / 2))
+    menu:setPosition(CCPoint(0, 0))
+    item1:setPosition(CCPoint(s.width / 2 - item2:getContentSize().width * 2, item2:getContentSize().height / 2))
+    item2:setPosition(CCPoint(s.width / 2, item2:getContentSize().height / 2))
+    item3:setPosition(CCPoint(s.width / 2 + item2:getContentSize().width * 2, item2:getContentSize().height / 2))
 
     layer:addChild(menu, 1)
 
@@ -102,16 +102,16 @@ local function createLayer2()
     local x, y = s.width, s.height
 
     local bg1 = CCSprite:create(s_back2)
-    bg1:setPosition(CCPointMake(s.width / 2, s.height / 2))
+    bg1:setPosition(CCPoint(s.width / 2, s.height / 2))
     layer:addChild(bg1, -1)
 
     local titleLabel = CCLabelTTF:create(Transition_Name[SceneIdx], "Thonburi", 32 )
     layer:addChild(titleLabel)
-    titleLabel:setColor(ccc3(255,32,32))
+    titleLabel:setColor(Color3B(255,32,32))
     titleLabel:setPosition(x / 2, y - 100)
 
     local label = CCLabelTTF:create("SCENE 2", "Marker Felt", 38)
-    label:setColor(ccc3(16,16,255))
+    label:setColor(Color3B(16,16,255))
     label:setPosition(x / 2, y / 2)
     layer:addChild(label)
 
@@ -127,10 +127,10 @@ local function createLayer2()
     menu:addChild(item1)
     menu:addChild(item2)
     menu:addChild(item3)
-    menu:setPosition(CCPointMake(0, 0))
-    item1:setPosition(CCPointMake(s.width / 2 - item2:getContentSize().width * 2, item2:getContentSize().height / 2))
-    item2:setPosition(CCPointMake(s.width / 2, item2:getContentSize().height / 2))
-    item3:setPosition(CCPointMake(s.width / 2 + item2:getContentSize().width * 2, item2:getContentSize().height / 2))
+    menu:setPosition(CCPoint(0, 0))
+    item1:setPosition(CCPoint(s.width / 2 - item2:getContentSize().width * 2, item2:getContentSize().height / 2))
+    item2:setPosition(CCPoint(s.width / 2, item2:getContentSize().height / 2))
+    item3:setPosition(CCPoint(s.width / 2 + item2:getContentSize().width * 2, item2:getContentSize().height / 2))
 
     layer:addChild(menu, 1)
 
@@ -141,7 +141,7 @@ end
 -- Create Transition Test
 -----------------------------
 local function createTransition(index, t, scene)
-    CCDirector:sharedDirector():setDepthTest(false)
+    CCDirector:getInstance():setDepthTest(false)
 
     if firstEnter == true then
         firstEnter = false
@@ -165,10 +165,10 @@ local function createTransition(index, t, scene)
     elseif index == Transition_Table.CCTransitionCrossFade then
         scene = CCTransitionCrossFade:create(t, scene)
     elseif index == Transition_Table.TransitionPageForward then
-        CCDirector:sharedDirector():setDepthTest(true)
+        CCDirector:getInstance():setDepthTest(true)
         scene = CCTransitionPageTurn:create(t, scene, false)
     elseif index == Transition_Table.TransitionPageBackward then
-        CCDirector:sharedDirector():setDepthTest(true)
+        CCDirector:getInstance():setDepthTest(true)
         scene = CCTransitionPageTurn:create(t, scene, true)
     elseif index == Transition_Table.CCTransitionFadeTR then
         scene = CCTransitionFadeTR:create(t, scene)
@@ -187,7 +187,7 @@ local function createTransition(index, t, scene)
     elseif index == Transition_Table.CCTransitionFade then
         scene = CCTransitionFade:create(t, scene)
     elseif index == Transition_Table.FadeWhiteTransition then
-        scene = CCTransitionFade:create(t, scene, ccc3(255, 255, 255))
+        scene = CCTransitionFade:create(t, scene, Color3B(255, 255, 255))
     elseif index == Transition_Table.FlipXLeftOver then
         scene = CCTransitionFlipX:create(t, scene, kCCTransitionOrientationLeftOver)
     elseif index == Transition_Table.FlipXRightOver then

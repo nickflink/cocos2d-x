@@ -27,7 +27,7 @@
 
 #include <string>
 #include <curl/curl.h>
-#include <pthread.h>
+#include <mutex>
 
 #include "cocos2d.h"
 #include "ExtensionMacros.h"
@@ -44,19 +44,19 @@ class AssetsManagerDelegateProtocol;
 class AssetsManager
 {
 public:
-    enum ErrorCode
+    enum class ErrorCode
     {
         // Error caused by creating a file to store downloaded data
-        kCreateFile,
+        CREATE_FILE,
         /** Error caused by network
          -- network unavaivable
          -- timeout
          -- ...
          */
-        kNetwork,
+        NETWORK,
         /** There is not a new version
          */
-        kNoNewVersion,
+        NO_NEW_VERSION,
         /** Error caused in uncompressing stage
          -- can not open zip file
          -- can not read file global information
@@ -64,7 +64,7 @@ public:
          -- can not create a directory
          -- ...
          */
-        kUncompress,
+        UNCOMPRESS,
     };
     
     /* @brief Creates a AssetsManager with new package url, version code url and storage path.
@@ -137,7 +137,6 @@ public:
     
     /* downloadAndUncompress is the entry of a new thread 
      */
-    friend void* assetsManagerDownloadAndUncompress(void*);
     friend int assetsManagerProgressFunc(void *, double, double, double, double);
     
 protected:
@@ -147,6 +146,7 @@ protected:
     bool createDirectory(const char *path);
     void setSearchPath();
     void sendErrorMessage(ErrorCode code);
+    void downloadAndUncompress();
     
 private:
     typedef struct _Message
@@ -157,7 +157,7 @@ private:
         void* obj;
     } Message;
     
-    class Helper : public cocos2d::CCObject
+    class Helper : public cocos2d::Object
     {
     public:
         Helper();
@@ -170,7 +170,7 @@ private:
         void handleUpdateSucceed(Message *msg);
         
         std::list<Message*> *_messageQueue;
-        pthread_mutex_t _messageQueueMutex;
+        std::mutex _messageQueueMutex;
     };
     
 private:
@@ -187,10 +187,11 @@ private:
     
     CURL *_curl;
     Helper *_schedule;
-    pthread_t *_tid;
     unsigned int _connectionTimeout;
     
     AssetsManagerDelegateProtocol *_delegate; // weak reference
+    
+    bool _isDownloading;
 };
 
 class AssetsManagerDelegateProtocol
@@ -211,6 +212,10 @@ public:
      */
     virtual void onSuccess() {};
 };
+
+// Deprecated declaration
+CC_DEPRECATED_ATTRIBUTE typedef AssetsManager CCAssetsManager;
+CC_DEPRECATED_ATTRIBUTE typedef AssetsManagerDelegateProtocol CCAssetsManagerDelegateProtocol;
 
 NS_CC_EXT_END;
 

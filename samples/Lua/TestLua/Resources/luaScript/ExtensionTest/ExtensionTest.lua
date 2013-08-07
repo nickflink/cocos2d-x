@@ -12,7 +12,8 @@ local ExtensionTestEnum =
     TEST_WEBSOCKET          = 3,
     TEST_EDITBOX            = 4,
 	TEST_TABLEVIEW          = 5,
-    TEST_MAX_COUNT          = 6,
+    TEST_SCROLLVIEW         = 6,
+    TEST_MAX_COUNT          = 7,
 }
 
 local testsName =
@@ -23,6 +24,7 @@ local testsName =
     "WebSocketTest",
     "EditBoxTest",
     "TableViewTest",
+    "ScrollViewTest",
 }
 
 --Create toMainLayr MenuItem
@@ -33,14 +35,14 @@ function CreateExtensionsBasicLayerMenu(pMenu)
 	local function toMainLayer()
        local pScene = ExtensionsTestMain()
        if pScene ~= nil then
-           CCDirector:sharedDirector():replaceScene(pScene)
+           CCDirector:getInstance():replaceScene(pScene)
        end
     end	
     --Create BackMneu
     CCMenuItemFont:setFontName("Arial")
     CCMenuItemFont:setFontSize(24)
    	local pMenuItemFont = CCMenuItemFont:create("Back")
-    pMenuItemFont:setPosition(ccp(VisibleRect:rightBottom().x - 50, VisibleRect:rightBottom().y + 25))
+    pMenuItemFont:setPosition(CCPoint(VisibleRect:rightBottom().x - 50, VisibleRect:rightBottom().y + 25))
     pMenuItemFont:registerScriptTapHandler(toMainLayer)
     pMenu:addChild(pMenuItemFont)
 end
@@ -60,19 +62,19 @@ local function runNotificationCenterTest()
 		local pNewScene = CCScene:create()
 		local pNewLayer = CCLayer:create()
 		local function BaseInitSceneLayer(pLayer)
-		  if nil == pLayer then
-			  return
-		  end
-		  local s = CCDirector:sharedDirector():getWinSize()
+		if nil == pLayer then
+			return
+		end
+		local s = CCDirector:getInstance():getWinSize()
     	
     	local function toggleSwitch(tag,menuItem)
     		local toggleItem = tolua.cast(menuItem,"CCMenuItemToggle")
     		local nIndex     = toggleItem:getSelectedIndex()
-    		local selectedItem = toggleItem:selectedItem()
+    		local selectedItem = toggleItem:getSelectedItem()
     		if 0 == nIndex  then
     			selectedItem = nil
     		end
-    		CCNotificationCenter:sharedNotificationCenter():postNotification(NotificationCenterParam.MSG_SWITCH_STATE,selectedItem)
+    		CCNotificationCenter:getInstance():postNotification(NotificationCenterParam.MSG_SWITCH_STATE,selectedItem)
     	end
     	
     	local switchlabel1 = CCLabelTTF:create("switch off", "Marker Felt", 26)
@@ -86,11 +88,11 @@ local function runNotificationCenterTest()
     	switchitem:setSelectedIndex(1)
         local menu = CCMenu:create()
         menu:addChild(switchitem)
-    	menu:setPosition(ccp(s.width/2+100, s.height/2))
+    	menu:setPosition(CCPoint(s.width/2+100, s.height/2))
    		pLayer:addChild(menu)
 
     	local menuConnect = CCMenu:create()
-    	menuConnect:setPosition(ccp(0,0))
+    	menuConnect:setPosition(CCPoint(0,0))
     	pLayer:addChild(menuConnect)
     	local i = 1
     	local bSwitchOn = false
@@ -126,11 +128,10 @@ local function runNotificationCenterTest()
     		
     	local function setIsConnectToSwitch(pLight,bConnect,nIdx)
     		bConnectArray[nIdx]  = bConnect
-    		print("come in")
     		if bConnect then
-    			CCNotificationCenter:sharedNotificationCenter():registerScriptObserver(pLight, switchStateChanged,NotificationCenterParam.MSG_SWITCH_STATE)
+    			CCNotificationCenter:getInstance():registerScriptObserver(pLight, switchStateChanged,NotificationCenterParam.MSG_SWITCH_STATE)
     		else
-    			CCNotificationCenter:sharedNotificationCenter():unregisterScriptObserver(pLight,NotificationCenterParam.MSG_SWITCH_STATE)
+    			CCNotificationCenter:getInstance():unregisterScriptObserver(pLight,NotificationCenterParam.MSG_SWITCH_STATE)
     		end
     		updateLightState()
     	end
@@ -139,7 +140,7 @@ local function runNotificationCenterTest()
     	for  i = 1, 3 do 		   	
         	lightArray[i] = CCSprite:create("Images/Pea.png")
        		lightArray[i]:setTag(NotificationCenterParam.kTagLight + i)
-        	lightArray[i]:setPosition(ccp(100, s.height / 4 * i) )
+        	lightArray[i]:setPosition(CCPoint(100, s.height / 4 * i) )
         	pLayer:addChild(lightArray[i])
 			
         	local connectlabel1 = CCLabelTTF:create("not connected", "Marker Felt", 26)
@@ -164,7 +165,7 @@ local function runNotificationCenterTest()
     		
         	connectitem:registerScriptTapHandler(connectToSwitch)
         	local nX,nY = lightArray[i]:getPosition()
-        	connectitem:setPosition(ccp(nX,nY+50))
+        	connectitem:setPosition(CCPoint(nX,nY+50))
             
             menuConnect:addChild(connectitem, 0,connectitem:getTag())
            
@@ -181,52 +182,52 @@ local function runNotificationCenterTest()
     	   setIsConnectToSwitch(lightArray[i],bConnectArray[i],i)  
     	end
     	local toggleSelectIndex  = switchitem:getSelectedIndex()
-    	local toggleSelectedItem = switchitem:selectedItem()
+    	local toggleSelectedItem = switchitem:getSelectedItem()
     	if 0 == toggleSelectIndex  then
     		toggleSelectedItem = nil
     	end
-    	CCNotificationCenter:sharedNotificationCenter():postNotification(NotificationCenterParam.MSG_SWITCH_STATE, toggleSelectedItem)
+    	CCNotificationCenter:getInstance():postNotification(NotificationCenterParam.MSG_SWITCH_STATE, toggleSelectedItem)
     	
     	--for testing removeAllObservers */
     	local function doNothing()
     	end
-    	CCNotificationCenter:sharedNotificationCenter():registerScriptObserver(pNewLayer,doNothing, "random-observer1")
-    	CCNotificationCenter:sharedNotificationCenter():registerScriptObserver(pNewLayer,doNothing, "random-observer2")
-    	CCNotificationCenter:sharedNotificationCenter():registerScriptObserver(pNewLayer,doNothing, "random-observer3")
+    	CCNotificationCenter:getInstance():registerScriptObserver(pNewLayer,doNothing, "random-observer1")
+    	CCNotificationCenter:getInstance():registerScriptObserver(pNewLayer,doNothing, "random-observer2")
+    	CCNotificationCenter:getInstance():registerScriptObserver(pNewLayer,doNothing, "random-observer3")
     	
     	local function CreateToMainMenu(pMenu)
 		     if nil == pMenu then
 				return
 			 end
 			 local function toMainLayer()
-				local numObserversRemoved = CCNotificationCenter:sharedNotificationCenter():removeAllObservers(pNewLayer)
+				local numObserversRemoved = CCNotificationCenter:getInstance():removeAllObservers(pNewLayer)
 				if 3 ~= numObserversRemoved then
 					print("All observers were not removed!")
 				end
 				
 				for i = 1 , 3 do					 
 					 if bConnectArray[i] then
-					 	CCNotificationCenter:sharedNotificationCenter():unregisterScriptObserver(lightArray[i],NotificationCenterParam.MSG_SWITCH_STATE)
+					 	CCNotificationCenter:getInstance():unregisterScriptObserver(lightArray[i],NotificationCenterParam.MSG_SWITCH_STATE)
 					 end   		    			
 				end
 				
        			local pScene = ExtensionsTestMain()
        			if pScene ~= nil then
-           			CCDirector:sharedDirector():replaceScene(pScene)
+           			CCDirector:getInstance():replaceScene(pScene)
        			end
     		 end	
     		 --Create BackMneu
     		 CCMenuItemFont:setFontName("Arial")
     		 CCMenuItemFont:setFontSize(24)
    			 local pMenuItemFont = CCMenuItemFont:create("Back")
-    		 pMenuItemFont:setPosition(ccp(VisibleRect:rightBottom().x - 50, VisibleRect:rightBottom().y + 25))
+    		 pMenuItemFont:setPosition(CCPoint(VisibleRect:rightBottom().x - 50, VisibleRect:rightBottom().y + 25))
     		 pMenuItemFont:registerScriptTapHandler(toMainLayer)
     		 pMenu:addChild(pMenuItemFont)
 	   end
 	   --Add Menu
 	   local pToMainMenu = CCMenu:create()
        CreateToMainMenu(pToMainMenu)
-       pToMainMenu:setPosition(ccp(0, 0))
+       pToMainMenu:setPosition(CCPoint(0, 0))
        pLayer:addChild(pToMainMenu,10)    	
 	   end
     
@@ -306,7 +307,7 @@ local function runCCControlTest()
 			  CurrentControlScene()
    		end
    				
-    	local size = CCDirector:sharedDirector():getWinSize()
+    	local size = CCDirector:getInstance():getWinSize()
     	local item1 = CCMenuItemImage:create(s_pPathB1, s_pPathB2)
     	item1:registerScriptTapHandler(backCallback)
     	pMenu:addChild(item1,kItemTagBasic)
@@ -317,10 +318,10 @@ local function runCCControlTest()
     	pMenu:addChild(item3,kItemTagBasic) 
     	item3:registerScriptTapHandler(nextCallback)
     			
-    	local size = CCDirector:sharedDirector():getWinSize()
-    	item1:setPosition(CCPointMake(size.width / 2 - item2:getContentSize().width * 2, item2:getContentSize().height / 2))
-    	item2:setPosition(CCPointMake(size.width / 2, item2:getContentSize().height / 2))
-    	item3:setPosition(CCPointMake(size.width / 2 + item2:getContentSize().width * 2, item2:getContentSize().height / 2))
+    	local size = CCDirector:getInstance():getWinSize()
+    	item1:setPosition(CCPoint(size.width / 2 - item2:getContentSize().width * 2, item2:getContentSize().height / 2))
+    	item2:setPosition(CCPoint(size.width / 2, item2:getContentSize().height / 2))
+    	item3:setPosition(CCPoint(size.width / 2 + item2:getContentSize().width * 2, item2:getContentSize().height / 2))
     		 
 	end
 	
@@ -331,7 +332,7 @@ local function runCCControlTest()
 		--Add Menu
 		local pToMainMenu = CCMenu:create()
     	CreateExtensionsBasicLayerMenu(pToMainMenu)
-    	pToMainMenu:setPosition(ccp(0, 0))
+    	pToMainMenu:setPosition(CCPoint(0, 0))
     	pLayer:addChild(pToMainMenu,10)
     	
     	--Add the generated background
@@ -340,20 +341,20 @@ local function runCCControlTest()
         pLayer:addChild(pBackground)
         
         --Add the ribbon
-        local pRibbon = CCScale9Sprite:create("extensions/ribbon.png", CCRectMake(1, 1, 48, 55))
-        pRibbon:setContentSize(CCSizeMake(VisibleRect:getVisibleRect().size.width, 57))
-        pRibbon:setPosition(ccp(VisibleRect:center().x, VisibleRect:top().y - pRibbon:getContentSize().height / 2.0))
+        local pRibbon = CCScale9Sprite:create("extensions/ribbon.png", CCRect(1, 1, 48, 55))
+        pRibbon:setContentSize(CCSize(VisibleRect:getVisibleRect().size.width, 57))
+        pRibbon:setPosition(CCPoint(VisibleRect:center().x, VisibleRect:top().y - pRibbon:getContentSize().height / 2.0))
         pLayer:addChild(pRibbon)
         
         --Add the title
         pSceneTitleLabel = CCLabelTTF:create("Title", "Arial", 12)
-        pSceneTitleLabel:setPosition(ccp (VisibleRect:center().x, VisibleRect:top().y - pSceneTitleLabel:getContentSize().height / 2 - 5))
+        pSceneTitleLabel:setPosition(CCPoint (VisibleRect:center().x, VisibleRect:top().y - pSceneTitleLabel:getContentSize().height / 2 - 5))
         pLayer:addChild(pSceneTitleLabel, 1)
         pSceneTitleLabel:setString(pStrTitle)
     	
     	local pOperateMenu = CCMenu:create()
     	CreateBasicMenu(pOperateMenu)
-    	pOperateMenu:setPosition(ccp(0, 0))
+    	pOperateMenu:setPosition(CCPoint(0, 0))
 		pLayer:addChild(pOperateMenu,1)		
 	end
 	
@@ -362,15 +363,15 @@ local function runCCControlTest()
 			return
 		end
 		
-		local screenSize = CCDirector:sharedDirector():getWinSize()
+		local screenSize = CCDirector:getInstance():getWinSize()
 		--Add a label in which the slider value will be displayed
 		local pDisplayValueLabel = CCLabelTTF:create("Move the slider thumb!\nThe lower slider is restricted." ,"Marker Felt", 32)
         pDisplayValueLabel:retain()
-        pDisplayValueLabel:setAnchorPoint(ccp(0.5, -1.0))
-        pDisplayValueLabel:setPosition(ccp(screenSize.width / 1.7, screenSize.height / 2.0))
+        pDisplayValueLabel:setAnchorPoint(CCPoint(0.5, -1.0))
+        pDisplayValueLabel:setPosition(CCPoint(screenSize.width / 1.7, screenSize.height / 2.0))
         pLayer:addChild(pDisplayValueLabel)
         
-        local function valueChanged(strEventName,pSender)
+        local function valueChanged(pSender)
         	if nil == pSender or nil == pDisplayValueLabel then
         		return
         	end       	
@@ -388,26 +389,26 @@ local function runCCControlTest()
         end
         --Add the slider
         local pSlider = CCControlSlider:create("extensions/sliderTrack.png","extensions/sliderProgress.png" ,"extensions/sliderThumb.png")
-        pSlider:setAnchorPoint(ccp(0.5, 1.0))
+        pSlider:setAnchorPoint(CCPoint(0.5, 1.0))
         pSlider:setMinimumValue(0.0) 
         pSlider:setMaximumValue(5.0) 
-        pSlider:setPosition(ccp(screenSize.width / 2.0, screenSize.height / 2.0 + 16))
+        pSlider:setPosition(CCPoint(screenSize.width / 2.0, screenSize.height / 2.0 + 16))
 		pSlider:setTag(1)
         
         --When the value of the slider will change, the given selector will be call
-        pSlider:addHandleOfControlEvent(valueChanged, CCControlEventValueChanged)
+        pSlider:registerControlEventHandler(valueChanged, CCControlEventValueChanged)
 		
 		local pRestrictSlider = CCControlSlider:create("extensions/sliderTrack.png","extensions/sliderProgress.png" ,"extensions/sliderThumb.png")
-        pRestrictSlider:setAnchorPoint(ccp(0.5, 1.0))
+        pRestrictSlider:setAnchorPoint(CCPoint(0.5, 1.0))
         pRestrictSlider:setMinimumValue(0.0) 
         pRestrictSlider:setMaximumValue(5.0) 
 		pRestrictSlider:setMaximumAllowedValue(4.0)
 		pRestrictSlider:setMinimumAllowedValue(1.5)
 		pRestrictSlider:setValue(3.0)
-        pRestrictSlider:setPosition(ccp(screenSize.width / 2.0, screenSize.height / 2.0 - 24))
+        pRestrictSlider:setPosition(CCPoint(screenSize.width / 2.0, screenSize.height / 2.0 - 24))
 		pRestrictSlider:setTag(2)		
 		--same with restricted
-		pRestrictSlider:addHandleOfControlEvent(valueChanged, CCControlEventValueChanged)
+		pRestrictSlider:registerControlEventHandler(valueChanged, CCControlEventValueChanged)
 	    pLayer:addChild(pSlider)    
 		pLayer:addChild(pRestrictSlider)
 	end
@@ -417,17 +418,17 @@ local function runCCControlTest()
 		if nil == pLayer then
 			return
 		end
-		local screenSize = CCDirector:sharedDirector():getWinSize()
+		local screenSize = CCDirector:getInstance():getWinSize()
 		local pColorLabel = nil
 
         local pNode  = CCNode:create()
-        pNode:setPosition(ccp (screenSize.width / 2, screenSize.height / 2))
+        pNode:setPosition(CCPoint (screenSize.width / 2, screenSize.height / 2))
         pLayer:addChild(pNode, 1)
         
         local dLayer_width = 0
 
         --Create the colour picker,pStrEventName not use
-        local function colourValueChanged(pStrEventName,pSender)
+        local function colourValueChanged(pSender)
         	if nil == pSender or nil == pColorLabel then
         		return
         	end
@@ -437,17 +438,17 @@ local function runCCControlTest()
         	pColorLabel:setString(CCString:create(strFmt):getCString())       	
         end
         local pColourPicker = CCControlColourPicker:create()
-        pColourPicker:setColor(ccc3(37, 46, 252))
-        pColourPicker:setPosition(ccp (pColourPicker:getContentSize().width / 2, 0))
-        pColourPicker:addHandleOfControlEvent(colourValueChanged, CCControlEventValueChanged)
+        pColourPicker:setColor(Color3B(37, 46, 252))
+        pColourPicker:setPosition(CCPoint (pColourPicker:getContentSize().width / 2, 0))
+        pColourPicker:registerControlEventHandler(colourValueChanged, CCControlEventValueChanged)
         pNode:addChild(pColourPicker)     
 	
 	    dLayer_width = dLayer_width + pColourPicker:getContentSize().width
 	    
 	   --Add the black background for the text
         local pBackground = CCScale9Sprite:create("extensions/buttonBackground.png")
-        pBackground:setContentSize(CCSizeMake(150, 50))
-        pBackground:setPosition(ccp(dLayer_width + pBackground:getContentSize().width / 2.0, 0))
+        pBackground:setContentSize(CCSize(150, 50))
+        pBackground:setPosition(CCPoint(dLayer_width + pBackground:getContentSize().width / 2.0, 0))
         pNode:addChild(pBackground)
         dLayer_width = dLayer_width + pBackground:getContentSize().width
         
@@ -457,11 +458,11 @@ local function runCCControlTest()
         pNode:addChild(pColorLabel)
         
         --Set the layer size
-        pNode:setContentSize(CCSizeMake(dLayer_width, 0))
-        pNode:setAnchorPoint(ccp (0.5, 0.5))
+        pNode:setContentSize(CCSize(dLayer_width, 0))
+        pNode:setAnchorPoint(CCPoint (0.5, 0.5))
 
         --Update the color text
-	    colourValueChanged("", pColourPicker)
+	    colourValueChanged(pColourPicker)
 	end
 	
 	--SwitchTest
@@ -470,18 +471,18 @@ local function runCCControlTest()
 			return
 		end
 		
-		local screenSize = CCDirector:sharedDirector():getWinSize()
+		local screenSize = CCDirector:getInstance():getWinSize()
         
         local pNode = CCNode:create()
-        pNode:setPosition(ccp (screenSize.width / 2, screenSize.height / 2))
+        pNode:setPosition(CCPoint (screenSize.width / 2, screenSize.height / 2))
         pLayer:addChild(pNode, 1)
         
         local dLayer_width = 0
         
         --Add the black background for the text
         local pBackground = CCScale9Sprite:create("extensions/buttonBackground.png")
-        pBackground:setContentSize(CCSizeMake(80, 50))
-        pBackground:setPosition(ccp(dLayer_width + pBackground:getContentSize().width / 2.0, 0))
+        pBackground:setContentSize(CCSize(80, 50))
+        pBackground:setPosition(CCPoint(dLayer_width + pBackground:getContentSize().width / 2.0, 0))
         pNode:addChild(pBackground)       
         dLayer_width = dLayer_width + pBackground:getContentSize().width
         
@@ -492,7 +493,7 @@ local function runCCControlTest()
         pNode:addChild(pDisplayValueLabel)
         
         --Create the switch
-        local function valueChanged(strEventName,pSender)
+        local function valueChanged(pSender)
         	if nil == pDisplayValueLabel or nil == pSender then
         		return
         	end
@@ -512,16 +513,16 @@ local function runCCControlTest()
                 CCLabelTTF:create("On", "Arial-BoldMT", 16),
                 CCLabelTTF:create("Off", "Arial-BoldMT", 16)
             )
-        pSwitchControl:setPosition(ccp (dLayer_width + 10 + pSwitchControl:getContentSize().width / 2, 0))
+        pSwitchControl:setPosition(CCPoint (dLayer_width + 10 + pSwitchControl:getContentSize().width / 2, 0))
         pNode:addChild(pSwitchControl)
-        pSwitchControl:addHandleOfControlEvent(valueChanged, CCControlEventValueChanged)
+        pSwitchControl:registerControlEventHandler(valueChanged, CCControlEventValueChanged)
         
         --Set the layer size
-        pNode:setContentSize(CCSizeMake(dLayer_width, 0))
-        pNode:setAnchorPoint(ccp (0.5, 0.5))
+        pNode:setContentSize(CCSize(dLayer_width, 0))
+        pNode:setAnchorPoint(CCPoint (0.5, 0.5))
         
         --Update the value label
-        valueChanged("", pSwitchControl)
+        valueChanged(pSwitchControl)
 	end
 	
 	--Hvs:HelloVariableSize
@@ -532,11 +533,11 @@ local function runCCControlTest()
     
     	pTitleButton = CCLabelTTF:create(pStrTitle, "Marker Felt", 30)
 
-    	pTitleButton:setColor(ccc3(159, 168, 176))
+    	pTitleButton:setColor(Color3B(159, 168, 176))
     
     	local pButton = CCControlButton:create(pTitleButton, pBackgroundButton)
     	pButton:setBackgroundSpriteForState(pBackgroundHighlightedButton, CCControlStateHighlighted)
-    	pButton:setTitleColorForState(ccc3(255,255,255), CCControlStateHighlighted)
+    	pButton:setTitleColorForState(Color3B(255,255,255), CCControlStateHighlighted)
     
     	return pButton
 	end
@@ -546,7 +547,7 @@ local function runCCControlTest()
 			return
 		end
 		
-		local screenSize = CCDirector:sharedDirector():getWinSize()
+		local screenSize = CCDirector:getInstance():getWinSize()
 		local strArray   = CCArray:create()
 		strArray:addObject(CCString:create("Hello"))
 		strArray:addObject(CCString:create("Variable"))
@@ -565,7 +566,7 @@ local function runCCControlTest()
         	pObj = tolua.cast(strArray:objectAtIndex(i), "CCString")
         	--Creates a button with pLayer string as title
             local pButton = HvsStandardButtonWithTitle(pObj:getCString())	
-            pButton:setPosition(ccp (dTotalWidth + pButton:getContentSize().width / 2, pButton:getContentSize().height / 2))
+            pButton:setPosition(CCPoint (dTotalWidth + pButton:getContentSize().width / 2, pButton:getContentSize().height / 2))
             pNode:addChild(pButton)
             
             --Compute the size of the layer
@@ -573,30 +574,30 @@ local function runCCControlTest()
             dTotalWidth = dTotalWidth + pButton:getContentSize().width
     	end
 		
-		pNode:setAnchorPoint(ccp (0.5, 0.5))
-        pNode:setContentSize(CCSizeMake(dTotalWidth, dHeight))
-        pNode:setPosition(ccp(screenSize.width / 2.0, screenSize.height / 2.0))
+		pNode:setAnchorPoint(CCPoint (0.5, 0.5))
+        pNode:setContentSize(CCSize(dTotalWidth, dHeight))
+        pNode:setPosition(CCPoint(screenSize.width / 2.0, screenSize.height / 2.0))
         
         --Add the black background
         local pBackground = CCScale9Sprite:create("extensions/buttonBackground.png")
-        pBackground:setContentSize(CCSizeMake(dTotalWidth + 14, dHeight + 14))
-        pBackground:setPosition(ccp(screenSize.width / 2.0, screenSize.height / 2.0))
+        pBackground:setContentSize(CCSize(dTotalWidth + 14, dHeight + 14))
+        pBackground:setPosition(CCPoint(screenSize.width / 2.0, screenSize.height / 2.0))
         pLayer:addChild(pBackground)
 	end
 	
 	local function StylingStandardButtonWithTitle(pStrTitle)
     	local pBackgroundButton = CCScale9Sprite:create("extensions/button.png")
-    	pBackgroundButton:setPreferredSize(CCSizeMake(45, 45)) 
+    	pBackgroundButton:setPreferredSize(CCSize(45, 45)) 
     	local pBackgroundHighlightedButton = CCScale9Sprite:create("extensions/buttonHighlighted.png")
-    	pBackgroundHighlightedButton:setPreferredSize(CCSizeMake(45, 45)) 
+    	pBackgroundHighlightedButton:setPreferredSize(CCSize(45, 45)) 
     
         local pTitleButton = CCLabelTTF:create(pStrTitle, "Marker Felt", 30)
 
-    	pTitleButton:setColor(ccc3(159, 168, 176))
+    	pTitleButton:setColor(Color3B(159, 168, 176))
     
     	local pButton = CCControlButton:create(pTitleButton, pBackgroundButton)
         pButton:setBackgroundSpriteForState(pBackgroundHighlightedButton, CCControlStateHighlighted)
-    	pButton:setTitleColorForState(ccc3(255,255,255), CCControlStateHighlighted)
+    	pButton:setTitleColorForState(Color3B(255,255,255), CCControlStateHighlighted)
     
         return pButton
 	end
@@ -606,7 +607,7 @@ local function runCCControlTest()
 			return
 		end
 		
-		local screenSize = CCDirector:sharedDirector():getWinSize()
+		local screenSize = CCDirector:getInstance():getWinSize()
 
         local pNode = CCNode:create()
         pLayer:addChild(pNode, 1)
@@ -623,7 +624,7 @@ local function runCCControlTest()
           	    local strFmt = string.format("%d",math.random(0,32767) % 30)
                 local pButton = StylingStandardButtonWithTitle(CCString:create(strFmt):getCString())
                 pButton:setAdjustBackgroundImage(false)                                                  
-                pButton:setPosition(ccp (pButton:getContentSize().width / 2 + (pButton:getContentSize().width + nSpace) * i,
+                pButton:setPosition(CCPoint (pButton:getContentSize().width / 2 + (pButton:getContentSize().width + nSpace) * i,
                                          pButton:getContentSize().height / 2 + (pButton:getContentSize().height + nSpace) * j))
                 
                 pNode:addChild(pButton)
@@ -634,14 +635,14 @@ local function runCCControlTest()
         end
 
         
-        pNode:setAnchorPoint(ccp (0.5, 0.5))
-        pNode:setContentSize(CCSizeMake(nMax_w, nMax_h))
-        pNode:setPosition(ccp(screenSize.width / 2.0, screenSize.height / 2.0))
+        pNode:setAnchorPoint(CCPoint (0.5, 0.5))
+        pNode:setContentSize(CCSize(nMax_w, nMax_h))
+        pNode:setPosition(CCPoint(screenSize.width / 2.0, screenSize.height / 2.0))
         
         --Add the black background
         local pBackgroundButton = CCScale9Sprite:create("extensions/buttonBackground.png")
-        pBackgroundButton:setContentSize(CCSizeMake(nMax_w + 14, nMax_h + 14))
-        pBackgroundButton:setPosition(ccp(screenSize.width / 2.0, screenSize.height / 2.0))
+        pBackgroundButton:setContentSize(CCSize(nMax_w + 14, nMax_h + 14))
+        pBackgroundButton:setPosition(CCPoint(screenSize.width / 2.0, screenSize.height / 2.0))
         pLayer:addChild(pBackgroundButton)
 	end
 	
@@ -650,13 +651,13 @@ local function runCCControlTest()
 			return
 		end
 		
-		local screenSize = CCDirector:sharedDirector():getWinSize()
+		local screenSize = CCDirector:getInstance():getWinSize()
 
         --Add a label in which the button events will be displayed
         local pDisplayValueLabel = nil
         pDisplayValueLabel = CCLabelTTF:create("No Event", "Marker Felt", 32)
-        pDisplayValueLabel:setAnchorPoint(ccp(0.5, -1))
-       	pDisplayValueLabel:setPosition(ccp(screenSize.width / 2.0, screenSize.height / 2.0))
+        pDisplayValueLabel:setAnchorPoint(CCPoint(0.5, -1))
+       	pDisplayValueLabel:setPosition(CCPoint(screenSize.width / 2.0, screenSize.height / 2.0))
         pLayer:addChild(pDisplayValueLabel, 1)
         
         --Add the button
@@ -664,7 +665,7 @@ local function runCCControlTest()
         local pBackgroundHighlightedButton = CCScale9Sprite:create("extensions/buttonHighlighted.png")
         
         local pTitleButtonLabel = CCLabelTTF:create("Touch Me!", "Marker Felt", 30)
-        pTitleButtonLabel:setColor(ccc3(159, 168, 176))
+        pTitleButtonLabel:setColor(Color3B(159, 168, 176))
         
         local pControlButton = CCControlButton:create(pTitleButtonLabel, pBackgroundButton)
         local function touchDownAction()
@@ -726,23 +727,23 @@ local function runCCControlTest()
         
         
         pControlButton:setBackgroundSpriteForState(pBackgroundHighlightedButton, CCControlStateHighlighted)
-        pControlButton:setTitleColorForState(ccc3(255, 255, 255), CCControlStateHighlighted)
-        pControlButton:setAnchorPoint(ccp(0.5, 1))
-        pControlButton:setPosition(ccp(screenSize.width / 2.0, screenSize.height / 2.0))
-        pControlButton:addHandleOfControlEvent(touchDownAction,CCControlEventTouchDown)
-        pControlButton:addHandleOfControlEvent(touchDragInsideAction,CCControlEventTouchDragInside)
-        pControlButton:addHandleOfControlEvent(touchDragOutsideAction,CCControlEventTouchDragOutside)
-        pControlButton:addHandleOfControlEvent(touchDragEnterAction,CCControlEventTouchDragEnter)
-        pControlButton:addHandleOfControlEvent(touchDragExitAction,CCControlEventTouchDragExit)
-        pControlButton:addHandleOfControlEvent(touchUpInsideAction,CCControlEventTouchUpInside)
-        pControlButton:addHandleOfControlEvent(touchUpOutsideAction,CCControlEventTouchUpOutside)
-        pControlButton:addHandleOfControlEvent(touchCancelAction,CCControlEventTouchCancel)
+        pControlButton:setTitleColorForState(Color3B(255, 255, 255), CCControlStateHighlighted)
+        pControlButton:setAnchorPoint(CCPoint(0.5, 1))
+        pControlButton:setPosition(CCPoint(screenSize.width / 2.0, screenSize.height / 2.0))
+        pControlButton:registerControlEventHandler(touchDownAction,CCControlEventTouchDown)
+        pControlButton:registerControlEventHandler(touchDragInsideAction,CCControlEventTouchDragInside)
+        pControlButton:registerControlEventHandler(touchDragOutsideAction,CCControlEventTouchDragOutside)
+        pControlButton:registerControlEventHandler(touchDragEnterAction,CCControlEventTouchDragEnter)
+        pControlButton:registerControlEventHandler(touchDragExitAction,CCControlEventTouchDragExit)
+        pControlButton:registerControlEventHandler(touchUpInsideAction,CCControlEventTouchUpInside)
+        pControlButton:registerControlEventHandler(touchUpOutsideAction,CCControlEventTouchUpOutside)
+        pControlButton:registerControlEventHandler(touchCancelAction,CCControlEventTouchCancel)
         pLayer:addChild(pControlButton, 1)
 		
 		--Add the black background
         local pBackgroundButton = CCScale9Sprite:create("extensions/buttonBackground.png")
-        pBackgroundButton:setContentSize(CCSizeMake(300, 170))
-        pBackgroundButton:setPosition(ccp(screenSize.width / 2.0, screenSize.height / 2.0))
+        pBackgroundButton:setContentSize(CCSize(300, 170))
+        pBackgroundButton:setPosition(CCPoint(screenSize.width / 2.0, screenSize.height / 2.0))
         pLayer:addChild(pBackgroundButton)
 	end
 	--PotentiometerTest
@@ -751,18 +752,18 @@ local function runCCControlTest()
 			return
 		end
 		
-		local screenSize = CCDirector:sharedDirector():getWinSize()
+		local screenSize = CCDirector:getInstance():getWinSize()
         
         local pNode = CCNode:create()
-        pNode:setPosition(ccp (screenSize.width / 2, screenSize.height / 2))
+        pNode:setPosition(CCPoint (screenSize.width / 2, screenSize.height / 2))
         pLayer:addChild(pNode, 1)
         
         local dLayer_width = 0
         
         -- Add the black background for the text
         local pBackground  = CCScale9Sprite:create("extensions/buttonBackground.png")
-        pBackground:setContentSize(CCSizeMake(80, 50))
-        pBackground:setPosition(ccp(dLayer_width + pBackground:getContentSize().width / 2.0, 0))
+        pBackground:setContentSize(CCSize(80, 50))
+        pBackground:setPosition(CCPoint(dLayer_width + pBackground:getContentSize().width / 2.0, 0))
         pNode:addChild(pBackground)
         
         dLayer_width = dLayer_width + pBackground:getContentSize().width
@@ -772,7 +773,7 @@ local function runCCControlTest()
         pNode:addChild(pDisplayValueLabel)
 		
         -- Add the slider
-        local function valueChanged(strEventName,pSender)
+        local function valueChanged(pSender)
         	if nil == pSender then
         		return
         	end
@@ -783,21 +784,21 @@ local function runCCControlTest()
         end
         local pPotentiometer = CCControlPotentiometer:create("extensions/potentiometerTrack.png","extensions/potentiometerProgress.png"
                                                                                ,"extensions/potentiometerButton.png")
-        pPotentiometer:setPosition(ccp (dLayer_width + 10 + pPotentiometer:getContentSize().width / 2, 0))
+        pPotentiometer:setPosition(CCPoint (dLayer_width + 10 + pPotentiometer:getContentSize().width / 2, 0))
 
         -- When the value of the slider will change, the given selector will be call
-        pPotentiometer:addHandleOfControlEvent(valueChanged, CCControlEventValueChanged)
+        pPotentiometer:registerControlEventHandler(valueChanged, CCControlEventValueChanged)
         
 		pNode:addChild(pPotentiometer)
         
         dLayer_width = dLayer_width + pPotentiometer:getContentSize().width
         
         -- Set the layer size
-        pNode:setContentSize(CCSizeMake(dLayer_width, 0))
-        pNode:setAnchorPoint(ccp (0.5, 0.5))
+        pNode:setContentSize(CCSize(dLayer_width, 0))
+        pNode:setAnchorPoint(CCPoint (0.5, 0.5))
         
         -- Update the value label
-        valueChanged("", pPotentiometer)
+        valueChanged(pPotentiometer)
 	end
 	
 	local function InitStepperTest(pLayer)
@@ -805,18 +806,18 @@ local function runCCControlTest()
 			return
 		end
 		
-		local screenSize = CCDirector:sharedDirector():getWinSize()
+		local screenSize = CCDirector:getInstance():getWinSize()
         
         local pNode = CCNode:create()
-        pNode:setPosition(ccp (screenSize.width / 2, screenSize.height / 2))
+        pNode:setPosition(CCPoint (screenSize.width / 2, screenSize.height / 2))
         pLayer:addChild(pNode, 1)
         
         local layer_width          = 0
         
         -- Add the black background for the text
         local background  = CCScale9Sprite:create("extensions/buttonBackground.png")
-        background:setContentSize(CCSizeMake(100, 50))
-        background:setPosition(ccp(layer_width + background:getContentSize().width / 2.0, 0))
+        background:setContentSize(CCSize(100, 50))
+        background:setPosition(CCPoint(layer_width + background:getContentSize().width / 2.0, 0))
         pNode:addChild(background)
         
         local pDisplayValueLabel =  CCLabelTTF:create("0", "HelveticaNeue-Bold", 30)
@@ -829,7 +830,7 @@ local function runCCControlTest()
         local minusSprite       = CCSprite:create("extensions/stepper-minus.png")
     	local plusSprite        = CCSprite:create("extensions/stepper-plus.png")
     
-    	local function valueChanged(strEventName,pSender)
+    	local function valueChanged(pSender)
     		if nil == pDisplayValueLabel or nil == pSender then
     			return
     		end
@@ -839,18 +840,18 @@ local function runCCControlTest()
     		pDisplayValueLabel:setString(CCString:create(strFmt):getCString())
     	end
         local stepper   = CCControlStepper:create(minusSprite, plusSprite)
-        stepper:setPosition(ccp (layer_width + 10 + stepper:getContentSize().width / 2, 0))
-        stepper:addHandleOfControlEvent(valueChanged, CCControlEventValueChanged)
+        stepper:setPosition(CCPoint (layer_width + 10 + stepper:getContentSize().width / 2, 0))
+        stepper:registerControlEventHandler(valueChanged, CCControlEventValueChanged)
         pNode:addChild(stepper)
         
         layer_width  = layer_width + stepper:getContentSize().width
         
         -- Set the layer size
-        pNode:setContentSize(CCSizeMake(layer_width, 0))
-        pNode:setAnchorPoint(ccp (0.5, 0.5))
+        pNode:setContentSize(CCSize(layer_width, 0))
+        pNode:setAnchorPoint(CCPoint (0.5, 0.5))
         
         -- Update the value label
-        valueChanged("", stepper)
+        valueChanged(stepper)
 	end
 	
 	local function InitSpecialSceneLayer(pLayer)
@@ -881,7 +882,7 @@ local function runCCControlTest()
     	InitSpecialSceneLayer(pNewLayer)
 		pNewScene:addChild(pNewLayer)
 		if nil ~= pNewScene then
-		    CCDirector:sharedDirector():replaceScene(pNewScene)
+		    CCDirector:getInstance():replaceScene(pNewScene)
 		end
 		
     end
@@ -897,24 +898,24 @@ end
 local function runEditBoxTest()
 	local newScene = CCScene:create()
 	local newLayer = CCLayer:create()
-	local visibleOrigin = CCEGLView:sharedOpenGLView():getVisibleOrigin()
-    local visibleSize = CCEGLView:sharedOpenGLView():getVisibleSize()
+	local visibleOrigin = CCEGLView:getInstance():getVisibleOrigin()
+    local visibleSize = CCEGLView:getInstance():getVisibleSize()
     
     local pBg = CCSprite:create("Images/HelloWorld.png")
-    pBg:setPosition(ccp(visibleOrigin.x+visibleSize.width/2, visibleOrigin.y+visibleSize.height/2))
+    pBg:setPosition(CCPoint(visibleOrigin.x+visibleSize.width/2, visibleOrigin.y+visibleSize.height/2))
     newLayer:addChild(pBg)
     
     local TTFShowEditReturn = CCLabelTTF:create("No edit control return!", "", 30)
-    TTFShowEditReturn:setPosition(ccp(visibleOrigin.x+visibleSize.width/2, visibleOrigin.y + visibleSize.height - 50))
+    TTFShowEditReturn:setPosition(CCPoint(visibleOrigin.x+visibleSize.width/2, visibleOrigin.y + visibleSize.height - 50))
     newLayer:addChild(TTFShowEditReturn)
     
     -- Back Menu
 	local pToMainMenu = CCMenu:create()
     CreateExtensionsBasicLayerMenu(pToMainMenu)
-    pToMainMenu:setPosition(ccp(0, 0))
+    pToMainMenu:setPosition(CCPoint(0, 0))
     newLayer:addChild(pToMainMenu,10)
     
-    local editBoxSize = CCSizeMake(visibleSize.width - 100, 60)
+    local editBoxSize = CCSize(visibleSize.width - 100, 60)
     local EditName = nil
     local EditPassword = nil
     local EditEmail = nil
@@ -945,17 +946,17 @@ local function runEditBoxTest()
 	end
     -- top
     EditName = CCEditBox:create(editBoxSize, CCScale9Sprite:create("extensions/green_edit.png"))
-    EditName:setPosition(ccp(visibleOrigin.x+visibleSize.width/2, visibleOrigin.y+visibleSize.height*3/4))
-    local targetPlatform = CCApplication:sharedApplication():getTargetPlatform()
+    EditName:setPosition(CCPoint(visibleOrigin.x+visibleSize.width/2, visibleOrigin.y+visibleSize.height*3/4))
+    local targetPlatform = CCApplication:getInstance():getTargetPlatform()
     if kTargetIphone == targetPlatform or kTargetIpad == targetPlatform then
 	   EditName:setFontName("Paint Boy")
 	else
 		EditName:setFontName("fonts/Paint Boy.ttf")
 	end
     EditName:setFontSize(25)
-    EditName:setFontColor(ccc3(255,0,0))
+    EditName:setFontColor(Color3B(255,0,0))
     EditName:setPlaceHolder("Name:")
-    EditName:setPlaceholderFontColor(ccc3(255,255,255))
+    EditName:setPlaceholderFontColor(Color3B(255,255,255))
     EditName:setMaxLength(8)
     EditName:setReturnType(kKeyboardReturnTypeDone)
 	--Handler
@@ -964,7 +965,7 @@ local function runEditBoxTest()
    
     --middle
     EditPassword = CCEditBox:create(editBoxSize, CCScale9Sprite:create("extensions/orange_edit.png"))
-    EditPassword:setPosition(ccp(visibleOrigin.x+visibleSize.width/2, visibleOrigin.y+visibleSize.height/2))
+    EditPassword:setPosition(CCPoint(visibleOrigin.x+visibleSize.width/2, visibleOrigin.y+visibleSize.height/2))
 	if kTargetIphone == targetPlatform or kTargetIpad == targetPlatform then
 		EditPassword:setFont("American Typewriter", 30)
 	else
@@ -972,7 +973,7 @@ local function runEditBoxTest()
 	end
 	
 
-    EditPassword:setFontColor(ccc3(0,255,0))
+    EditPassword:setFontColor(Color3B(0,255,0))
     EditPassword:setPlaceHolder("Password:")
     EditPassword:setMaxLength(6)
     EditPassword:setInputFlag(kEditBoxInputFlagPassword)
@@ -981,34 +982,108 @@ local function runEditBoxTest()
     newLayer:addChild(EditPassword)
      
     --bottom
-    EditEmail = CCEditBox:create(CCSizeMake(editBoxSize.width, editBoxSize.height), CCScale9Sprite:create("extensions/yellow_edit.png"))
-    EditEmail:setPosition(ccp(visibleOrigin.x+visibleSize.width/2, visibleOrigin.y+visibleSize.height/4))
-    EditEmail:setAnchorPoint(ccp(0.5, 1.0))
+    EditEmail = CCEditBox:create(CCSize(editBoxSize.width, editBoxSize.height), CCScale9Sprite:create("extensions/yellow_edit.png"))
+    EditEmail:setPosition(CCPoint(visibleOrigin.x+visibleSize.width/2, visibleOrigin.y+visibleSize.height/4))
+    EditEmail:setAnchorPoint(CCPoint(0.5, 1.0))
     EditEmail:setPlaceHolder("Email:")
     EditEmail:setInputMode(kEditBoxInputModeEmailAddr)
     EditEmail:registerScriptEditBoxHandler(editBoxTextEventHandle)
     newLayer:addChild(EditEmail)   
-    newLayer:setPosition(ccp(10, 20))
+    newLayer:setPosition(CCPoint(10, 20))
     
 	
 	newScene:addChild(newLayer)
 	return newScene
 end
 
+local function runScrollViewTest()
+    local newScene = CCScene:create()
+    local newLayer = CCLayer:create()
+
+    -- Back Menu
+    local pToMainMenu = CCMenu:create()
+    CreateExtensionsBasicLayerMenu(pToMainMenu)
+    pToMainMenu:setPosition(CCPoint(0, 0))
+    newLayer:addChild(pToMainMenu,10)
+
+    local layerColor = CCLayerColor:create(Color4B(128,64,0,255))
+    newLayer:addChild(layerColor)
+
+    local scrollView1 = CCScrollView:create()
+    local screenSize = CCDirector:getInstance():getWinSize()
+    local function scrollView1DidScroll()
+        print("scrollView1DidScroll")
+    end
+    local function scrollView1DidZoom()
+        print("scrollView1DidZoom")
+    end
+    if nil ~= scrollView1 then
+        scrollView1:setViewSize(CCSize(screenSize.width / 2,screenSize.height))
+        scrollView1:setPosition(CCPoint(0,0))
+        scrollView1:setScale(1.0)
+        scrollView1:ignoreAnchorPointForPosition(true)
+        local flowersprite1 =  CCSprite:create("ccb/flower.jpg")
+        if nil ~= flowersprite1 then
+            scrollView1:setContainer(flowersprite1)
+            scrollView1:updateInset()
+        end
+        scrollView1:setDirection(kScrollViewDirectionBoth)
+        scrollView1:setClippingToBounds(true)
+        scrollView1:setBounceable(true)
+        scrollView1:setDelegate()
+        scrollView1:registerScriptHandler(scrollView1DidScroll,kScrollViewScriptScroll)
+        scrollView1:registerScriptHandler(scrollView1DidZoom,kScrollViewScriptZoom)
+    end
+    newLayer:addChild(scrollView1)
+
+    local scrollView2 = CCScrollView:create()
+    local function scrollView2DidScroll()
+        print("scrollView2DidScroll")
+    end
+    local function scrollView2DidZoom()
+        print("scrollView2DidZoom")
+    end
+    if nil ~= scrollView2 then
+        scrollView2:setViewSize(CCSize(screenSize.width / 2,screenSize.height))
+        scrollView2:setPosition(CCPoint(screenSize.width / 2,0))
+        scrollView2:setScale(1.0)
+        scrollView2:ignoreAnchorPointForPosition(true)
+        local flowersprite2 =  CCSprite:create("ccb/flower.jpg")
+        if nil ~= flowersprite2 then
+            scrollView2:setContainer(flowersprite2)
+            scrollView2:updateInset()
+        end
+        scrollView2:setDirection(kScrollViewDirectionBoth)
+        scrollView2:setClippingToBounds(true)
+        scrollView2:setBounceable(true)
+        scrollView2:setDelegate()
+        scrollView2:registerScriptHandler(scrollView2DidScroll,kScrollViewScriptScroll)
+        scrollView2:registerScriptHandler(scrollView2DidZoom,kScrollViewScriptZoom)
+    end
+    newLayer:addChild(scrollView2)
+
+    newScene:addChild(newLayer)
+    return newScene
+end
+
+
+
 local CreateExtensionsTestTable = 
 {
-	runNotificationCenterTest,
-	runCCControlTest,
-	runCocosBuilder,
-	runWebSocketTest,
-	runEditBoxTest,
-	runTableViewTest,	
+    runNotificationCenterTest,
+    runCCControlTest,
+    runCocosBuilder,
+    runWebSocketTest,
+    runEditBoxTest,
+    runTableViewTest,
+    runScrollViewTest,
 }
 
-local s = CCDirector:sharedDirector():getWinSize()
 
 local function ExtensionsMainLayer()
-	
+
+	local s = CCDirector:getInstance():getWinSize()
+
 	local function CreateExtensionsTestScene(nPerformanceNo)
 	  	local pNewscene = CreateExtensionsTestTable[nPerformanceNo]()
   		return pNewscene
@@ -1019,16 +1094,16 @@ local function ExtensionsMainLayer()
     	local nIdx = pMenuItem:getZOrder() - kItemTagBasic
 		local ExtensionsTestScene = CreateExtensionsTestScene(nIdx)
     	if nil ~= ExtensionsTestScene then
-         	CCDirector:sharedDirector():replaceScene(ExtensionsTestScene)
+         	CCDirector:getInstance():replaceScene(ExtensionsTestScene)
     	end
 	end
 	
 	local layer = CCLayer:create()
 	local menu = CCMenu:create()
-    menu:setPosition(CCPointMake(0, 0))
+    menu:setPosition(CCPoint(0, 0))
     CCMenuItemFont:setFontName("Arial")
     CCMenuItemFont:setFontSize(24)
-    local targetPlatform = CCApplication:sharedApplication():getTargetPlatform()
+    local targetPlatform = CCApplication:getInstance():getTargetPlatform()
     local bSupportWebSocket = false
     if (kTargetIphone == targetPlatform) or (kTargetIpad == targetPlatform) or (kTargetAndroid == targetPlatform) or (kTargetWindows == targetPlatform) then
         bSupportWebSocket = true
@@ -1045,6 +1120,7 @@ local function ExtensionsMainLayer()
         item:setPosition(s.width / 2, s.height - i * LINE_SPACE)
         menu:addChild(item, kItemTagBasic + i)
         if ((i == ExtensionTestEnum.TEST_WEBSOCKET + 1) and (false == bSupportWebSocket))
+        or ( i == ExtensionTestEnum.TEST_TABLEVIEW + 1)
         or ((i == ExtensionTestEnum.TEST_EDITBOX + 1) and (false == bSupportEdit)) then
             item:setEnabled(false)
         end

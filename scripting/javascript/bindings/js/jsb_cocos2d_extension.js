@@ -45,7 +45,7 @@ cc.KEYBOARD_RETURNTYPE_SEARCH = 3;
 cc.KEYBOARD_RETURNTYPE_GO = 4;
 
 /**
- * The EditBoxInputMode defines the type of text that the user is allowed * to enter.
+ * The EditBox::InputMode defines the type of text that the user is allowed * to enter.
  * @constant
  * @type Number
  */
@@ -155,6 +155,10 @@ cc.PhysicsSprite.prototype.setBody = function( body ) {
     if( body.handle !== undefined )
         b = body.handle;
     return this._setCPBody( b );
+};
+
+cc.PhysicsSprite.prototype.getBody = function() {
+    return this.getCPBody();
 };
 
 cc.ScrollView.extend = cc.Class.extend;

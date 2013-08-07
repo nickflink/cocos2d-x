@@ -1,4 +1,4 @@
-local size = CCDirector:sharedDirector():getWinSize()
+local size = CCDirector:getInstance():getWinSize()
 
 local function initWithLayer(layer)
 	grossini = CCSprite:create(s_pPathGrossini)
@@ -9,9 +9,9 @@ local function initWithLayer(layer)
 	layer:addChild(tamara, 2)
 	layer:addChild(kathia, 3)
 
-	grossini:setPosition(ccp(size.width / 2, size.height / 3))
-	tamara:setPosition(ccp(size.width / 2, 2 * size.height / 3))
-	kathia:setPosition(ccp(size.width / 2, size.height / 2))
+	grossini:setPosition(CCPoint(size.width / 2, size.height / 3))
+	tamara:setPosition(CCPoint(size.width / 2, 2 * size.height / 3))
+	kathia:setPosition(CCPoint(size.width / 2, size.height / 2))
 
 	Helper.initWithLayer(layer)
 end
@@ -25,15 +25,15 @@ local function centerSprites(numberOfSprites)
 	elseif numberOfSprites == 1 then
 		tamara:setVisible(false)
 		kathia:setVisible(false)
-		grossini:setPosition(ccp(size.width / 2, size.height / 2))
+		grossini:setPosition(CCPoint(size.width / 2, size.height / 2))
 	elseif numberOfSprites == 2 then
-		kathia:setPosition(ccp(size.width / 3, size.height / 2))
-		tamara:setPosition(ccp(2 * size.width / 3, size.height / 2))
+		kathia:setPosition(CCPoint(size.width / 3, size.height / 2))
+		tamara:setPosition(CCPoint(2 * size.width / 3, size.height / 2))
 		grossini:setVisible(false)
 	elseif numberOfSprites == 3 then
-		grossini:setPosition(ccp(size.width / 2, size.height / 2))
-		tamara:setPosition(ccp(size.width / 4, size.height / 2))
-		kathia:setPosition(ccp(3 * size.width / 4, size.height / 2))
+		grossini:setPosition(CCPoint(size.width / 2, size.height / 2))
+		tamara:setPosition(CCPoint(size.width / 4, size.height / 2))
+		kathia:setPosition(CCPoint(3 * size.width / 4, size.height / 2))
 	end
 end
 
@@ -41,15 +41,15 @@ local function alignSpritesLeft(numberOfSprites)
 	if numberOfSprites == 1 then
 		tamara:setVisible(false)
 		kathia:setVisible(false)
-		grossini:setPosition(ccp(60, size.height / 2))
+		grossini:setPosition(CCPoint(60, size.height / 2))
 	elseif numberOfSprites == 2 then
-		kathia:setPosition(ccp(60, size.height / 3))
-		tamara:setPosition(ccp(60, 2 * size.height / 3))
+		kathia:setPosition(CCPoint(60, size.height / 3))
+		tamara:setPosition(CCPoint(60, 2 * size.height / 3))
 		grossini:setVisible(false)
 	elseif numberOfSprites == 3 then
-		grossini:setPosition(ccp(60, size.height / 2))
-		tamara:setPosition(ccp(60, 2 * size.height / 3))
-		kathia:setPosition(ccp(60, size.height / 3))
+		grossini:setPosition(CCPoint(60, size.height / 2))
+		tamara:setPosition(CCPoint(60, 2 * size.height / 3))
+		kathia:setPosition(CCPoint(60, size.height / 3))
 	end
 end
 
@@ -63,15 +63,15 @@ local function ActionManual()
 
 	tamara:setScaleX(2.5)
 	tamara:setScaleY(-1.0)
-	tamara:setPosition(ccp(100, 70))
+	tamara:setPosition(CCPoint(100, 70))
 	tamara:setOpacity(128)
 
 	grossini:setRotation(120)
-	grossini:setPosition(ccp(size.width / 2, size.height / 2))
-	grossini:setColor(ccc3(255, 0, 0))
+	grossini:setPosition(CCPoint(size.width / 2, size.height / 2))
+	grossini:setColor(Color3B(255, 0, 0))
 
-	kathia:setPosition(ccp(size.width - 100, size.height / 2))
-	kathia:setColor(ccc3(0, 0, 255))
+	kathia:setPosition(CCPoint(size.width - 100, size.height / 2))
+	kathia:setColor(Color3B(0, 0, 255))
 
 	Helper.subtitleLabel:setString("Manual Transformation")
 	return layer
@@ -85,12 +85,12 @@ local function ActionMove()
 	initWithLayer(layer)
 
 	centerSprites(3)
-	local actionBy = CCMoveBy:create(2, ccp(80, 80))
+	local actionBy = CCMoveBy:create(2, CCPoint(80, 80))
 	local actionByBack = actionBy:reverse()
 
-	tamara:runAction(CCMoveTo:create(2, ccp(size.width - 40, size.height - 40)))
+	tamara:runAction(CCMoveTo:create(2, CCPoint(size.width - 40, size.height - 40)))
 	grossini:runAction(CCSequence:createWithTwoActions(actionBy, actionByBack))
-	kathia:runAction(CCMoveTo:create(1, ccp(40, 40)))
+	kathia:runAction(CCMoveTo:create(1, CCPoint(40, 40)))
 
 	Helper.subtitleLabel:setString("MoveTo / MoveBy")
 	return layer
@@ -176,16 +176,16 @@ local function ActionRotationalSkewVSStandardSkew()
     grossini:removeFromParentAndCleanup(true);
     kathia:removeFromParentAndCleanup(true);
 
-    local s = CCDirector:sharedDirector():getWinSize();
-    local boxSize = CCSizeMake(100.0, 100.0);
-    local box = CCLayerColor:create(ccc4(255,255,0,255));
-    box:setAnchorPoint(ccp(0.5,0.5));
+    local s = CCDirector:getInstance():getWinSize();
+    local boxSize = CCSize(100.0, 100.0);
+    local box = CCLayerColor:create(Color4B(255,255,0,255));
+    box:setAnchorPoint(CCPoint(0.5,0.5));
     box:setContentSize( boxSize );
     box:ignoreAnchorPointForPosition(false);
-    box:setPosition(ccp(s.width/2, s.height - 100 - box:getContentSize().height/2));
+    box:setPosition(CCPoint(s.width/2, s.height - 100 - box:getContentSize().height/2));
     layer:addChild(box);
     local label = CCLabelTTF:create("Standard cocos2d Skew", "Marker Felt", 16);
-    label:setPosition(ccp(s.width/2, s.height - 100 + label:getContentSize().height));
+    label:setPosition(CCPoint(s.width/2, s.height - 100 + label:getContentSize().height));
     layer:addChild(label);
     local actionTo = CCSkewBy:create(2, 360, 0);
     local actionToBack = CCSkewBy:create(2, -360, 0);
@@ -193,14 +193,14 @@ local function ActionRotationalSkewVSStandardSkew()
 
     box:runAction(seq);
 
-    box = CCLayerColor:create(ccc4(255,255,0,255));
-    box:setAnchorPoint(ccp(0.5,0.5));
+    box = CCLayerColor:create(Color4B(255,255,0,255));
+    box:setAnchorPoint(CCPoint(0.5,0.5));
     box:setContentSize(boxSize);
     box:ignoreAnchorPointForPosition(false);
-    box:setPosition(ccp(s.width/2, s.height - 250 - box:getContentSize().height/2));
+    box:setPosition(CCPoint(s.width/2, s.height - 250 - box:getContentSize().height/2));
     layer:addChild(box);
     label = CCLabelTTF:create("Rotational Skew", "Marker Felt", 16);
-    label:setPosition(ccp(s.width/2, s.height - 250 + label:getContentSize().height/2));
+    label:setPosition(CCPoint(s.width/2, s.height - 250 + label:getContentSize().height/2));
     layer:addChild(label);
     local actionTo2 = CCRotateBy:create(2, 360);
     local actionToBack2 = CCRotateBy:create(2, -360);
@@ -222,25 +222,25 @@ local function ActionSkewRotate()
     grossini:removeFromParentAndCleanup(true)
     kathia:removeFromParentAndCleanup(true)
 
-    local boxSize = CCSizeMake(100.0, 100.0)
+    local boxSize = CCSize(100.0, 100.0)
 
-    local box = CCLayerColor:create(ccc4(255, 255, 0, 255))
-    box:setAnchorPoint(ccp(0, 0))
+    local box = CCLayerColor:create(Color4B(255, 255, 0, 255))
+    box:setAnchorPoint(CCPoint(0, 0))
     box:setPosition(190, 110)
     box:setContentSize(boxSize)
 
 	local markrside = 10.0
-    local uL = CCLayerColor:create(ccc4(255, 0, 0, 255))
+    local uL = CCLayerColor:create(Color4B(255, 0, 0, 255))
     box:addChild(uL)
-    uL:setContentSize(CCSizeMake(markrside, markrside))
+    uL:setContentSize(CCSize(markrside, markrside))
     uL:setPosition(0, boxSize.height - markrside)
-    uL:setAnchorPoint(ccp(0, 0))
+    uL:setAnchorPoint(CCPoint(0, 0))
 
-    local uR = CCLayerColor:create(ccc4(0, 0, 255, 255))
+    local uR = CCLayerColor:create(Color4B(0, 0, 255, 255))
     box:addChild(uR)
-    uR:setContentSize(CCSizeMake(markrside, markrside))
+    uR:setContentSize(CCSize(markrside, markrside))
     uR:setPosition(boxSize.width - markrside, boxSize.height - markrside)
-    uR:setAnchorPoint(ccp(0, 0))
+    uR:setAnchorPoint(CCPoint(0, 0))
     layer:addChild(box)
 
     local actionTo = CCSkewTo:create(2, 0, 2)
@@ -268,9 +268,9 @@ local function ActionJump()
 
 	centerSprites(3)
 
-    local actionTo = CCJumpTo:create(2, ccp(300,300), 50, 4)
-    local actionBy = CCJumpBy:create(2, ccp(300,0), 50, 4)
-    local actionUp = CCJumpBy:create(2, ccp(0,0), 80, 4)
+    local actionTo = CCJumpTo:create(2, CCPoint(300,300), 50, 4)
+    local actionBy = CCJumpBy:create(2, CCPoint(300,0), 50, 4)
+    local actionUp = CCJumpBy:create(2, CCPoint(0,0), 80, 4)
     local actionByBack = actionBy:reverse()
 
     tamara:runAction(actionTo)
@@ -284,18 +284,6 @@ end
 --------------------------------------
 -- ActionCardinalSpline
 --------------------------------------
-local function drawCardinalSpline(array)
-	kmGLPushMatrix()
-	kmGLTranslatef(50, 50, 0)
-	ccDrawCardinalSpline(array, 0, 100)
-	kmGLPopMatrix()
-
-	kmGLPushMatrix()
-	kmGLTranslatef(size.width / 2, 50, 0)
-	ccDrawCardinalSpline(array, 1, 100)
-	kmGLPopMatrix()
-end
-
 local function ActionCardinalSpline()
 	local layer = CCLayer:create()
 	initWithLayer(layer)
@@ -303,27 +291,45 @@ local function ActionCardinalSpline()
 	centerSprites(2)
 
 	local array = CCPointArray:create(20)
-	array:addControlPoint(ccp(0, 0))
-	array:addControlPoint(ccp(size.width / 2 - 30, 0))
-	array:addControlPoint(ccp(size.width / 2 - 30, size.height - 80))
-	array:addControlPoint(ccp(0, size.height - 80))
-	array:addControlPoint(ccp(0, 0))
+	array:addControlPoint(CCPoint(0, 0))
+	array:addControlPoint(CCPoint(size.width / 2 - 30, 0))
+	array:addControlPoint(CCPoint(size.width / 2 - 30, size.height - 80))
+	array:addControlPoint(CCPoint(0, size.height - 80))
+	array:addControlPoint(CCPoint(0, 0))
 
 	local action = CCCardinalSplineBy:create(3, array, 0)
 	local reverse = action:reverse()
 	local seq = CCSequence:createWithTwoActions(action, reverse)
 
-	tamara:setPosition(ccp(50, 50))
+	tamara:setPosition(CCPoint(50, 50))
 	tamara:runAction(seq)
 
 	local action2 = CCCardinalSplineBy:create(3, array, 1)
 	local reverse2 = action2:reverse()
 	local seq2 = CCSequence:createWithTwoActions(action2, reverse2)
 
-	kathia:setPosition(ccp(size.width / 2, 50))
+	kathia:setPosition(CCPoint(size.width / 2, 50))
 	kathia:runAction(seq2)
 
-	drawCardinalSpline(array)
+    local function drawCardinalSpline()
+        kmGLPushMatrix()
+        kmGLTranslatef(50, 50, 0)
+        CCDrawPrimitives.ccDrawCardinalSpline(array, 0, 100)
+        kmGLPopMatrix()
+
+        kmGLPushMatrix()
+        kmGLTranslatef(size.width / 2, 50, 0)
+        CCDrawPrimitives.ccDrawCardinalSpline(array, 1, 100)
+        kmGLPopMatrix()
+    end
+
+    array:retain()
+    local glNode  = gl.glNodeCreate()
+    glNode:setContentSize(CCSize(size.width, size.height))
+    glNode:setAnchorPoint(CCPoint(0.5, 0.5))
+    glNode:registerScriptDrawHandler(drawCardinalSpline)
+    layer:addChild(glNode,-10)
+    glNode:setPosition( size.width / 2, size.height / 2)
 
 	Helper.titleLabel:setString("CardinalSplineBy / CardinalSplineAt")
 	Helper.subtitleLabel:setString("Cardinal Spline paths.\nTesting different tensions for one array")
@@ -333,31 +339,22 @@ end
 --------------------------------------
 -- ActionCatmullRom
 --------------------------------------
-local function drawCatmullRom(array1, array2)
-	kmGLPushMatrix()
-	kmGLTranslatef(50, 50, 0)
-	ccDrawCatmullRom(array1, 50)
-	kmGLPopMatrix()
-
-	ccDrawCatmullRom(array2,50)
-end
-
 local function ActionCatmullRom()
 	local layer = CCLayer:create()
 	initWithLayer(layer)
 
 	centerSprites(2)
 
-	tamara:setPosition(ccp(50, 50))
+	tamara:setPosition(CCPoint(50, 50))
 
     local array = CCPointArray:create(20)
-    array:addControlPoint(ccp(0, 0))
-    array:addControlPoint(ccp(80, 80))
-    array:addControlPoint(ccp(size.width - 80, 80))
-    array:addControlPoint(ccp(size.width - 80, size.height - 80))
-    array:addControlPoint(ccp(80, size.height - 80))
-    array:addControlPoint(ccp(80, 80))
-    array:addControlPoint(ccp(size.width / 2, size.height / 2))
+    array:addControlPoint(CCPoint(0, 0))
+    array:addControlPoint(CCPoint(80, 80))
+    array:addControlPoint(CCPoint(size.width - 80, 80))
+    array:addControlPoint(CCPoint(size.width - 80, size.height - 80))
+    array:addControlPoint(CCPoint(80, size.height - 80))
+    array:addControlPoint(CCPoint(80, 80))
+    array:addControlPoint(CCPoint(size.width / 2, size.height / 2))
 
     local action = CCCatmullRomBy:create(3, array)
     local reverse = action:reverse()
@@ -365,21 +362,37 @@ local function ActionCatmullRom()
 	tamara:runAction(seq)
 
     local array2 = CCPointArray:create(20)
-    array2:addControlPoint(ccp(size.width / 2, 30))
-    array2:addControlPoint(ccp(size.width  -80, 30))
-    array2:addControlPoint(ccp(size.width - 80, size.height - 80))
-    array2:addControlPoint(ccp(size.width / 2, size.height - 80))
-    array2:addControlPoint(ccp(size.width / 2, 30))
+    array2:addControlPoint(CCPoint(size.width / 2, 30))
+    array2:addControlPoint(CCPoint(size.width  -80, 30))
+    array2:addControlPoint(CCPoint(size.width - 80, size.height - 80))
+    array2:addControlPoint(CCPoint(size.width / 2, size.height - 80))
+    array2:addControlPoint(CCPoint(size.width / 2, 30))
 
     local action2 = CCCatmullRomTo:create(3, array2)
     local reverse2 = action2:reverse()
     local seq2 = CCSequence:createWithTwoActions(action2, reverse2)
     kathia:runAction(seq2)
 
-	drawCatmullRom(array, array2)
+    local function drawCatmullRom()
+        kmGLPushMatrix()
+        kmGLTranslatef(50, 50, 0)
+        CCDrawPrimitives.ccDrawCatmullRom(array, 50)
+        kmGLPopMatrix()
 
-	Helper.titleLabel:setString("CatmullRomBy / CatmullRomTo")
-	Helper.subtitleLabel:setString("Catmull Rom spline paths. Testing reverse too")
+        CCDrawPrimitives.ccDrawCatmullRom(array2,50)
+    end
+
+    array:retain()
+    array2:retain()
+    local glNode  = gl.glNodeCreate()
+    glNode:setContentSize(CCSize(size.width, size.height))
+    glNode:setAnchorPoint(CCPoint(0.5, 0.5))
+    glNode:registerScriptDrawHandler(drawCatmullRom)
+    layer:addChild(glNode,-10)
+    glNode:setPosition( size.width / 2, size.height / 2)
+
+    Helper.titleLabel:setString("CatmullRomBy / CatmullRomTo")
+    Helper.subtitleLabel:setString("Catmull Rom spline paths. Testing reverse too")
 	return layer
 end
 
@@ -394,25 +407,25 @@ local function ActionBezier()
 
 	-- sprite 1
     local bezier = ccBezierConfig()
-    bezier.controlPoint_1 = ccp(0, size.height / 2)
-    bezier.controlPoint_2 = ccp(300, - size.height / 2)
-    bezier.endPosition = ccp(300, 100)
+    bezier.controlPoint_1 = CCPoint(0, size.height / 2)
+    bezier.controlPoint_2 = CCPoint(300, - size.height / 2)
+    bezier.endPosition = CCPoint(300, 100)
 
     local bezierForward = CCBezierBy:create(3, bezier)
     local bezierBack = bezierForward:reverse()
     local rep = CCRepeatForever:create(CCSequence:createWithTwoActions(bezierForward, bezierBack))
 
     -- sprite 2
-    tamara:setPosition(ccp(80,160))
+    tamara:setPosition(CCPoint(80,160))
     local bezier2 = ccBezierConfig()
-    bezier2.controlPoint_1 = ccp(100, size.height / 2)
-    bezier2.controlPoint_2 = ccp(200, - size.height / 2)
-    bezier2.endPosition = ccp(240, 160)
+    bezier2.controlPoint_1 = CCPoint(100, size.height / 2)
+    bezier2.controlPoint_2 = CCPoint(200, - size.height / 2)
+    bezier2.endPosition = CCPoint(240, 160)
 
     local bezierTo1 = CCBezierTo:create(2, bezier2)
 
     -- sprite 3
-    kathia:setPosition(ccp(400,160))
+    kathia:setPosition(CCPoint(400,160))
     local bezierTo2 = CCBezierTo:create(2, bezier2)
 
     grossini:runAction(rep)
@@ -515,14 +528,14 @@ local function ActionAnimate()
     local action = CCAnimate:create(animation)
     grossini:runAction(CCSequence:createWithTwoActions(action, action:reverse()))
 
-    local cache = CCAnimationCache:sharedAnimationCache()
+    local cache = CCAnimationCache:getInstance()
     cache:addAnimationsWithFile("animations/animations-2.plist")
     local animation2 = cache:animationByName("dance_1")
 
     local action2 = CCAnimate:create(animation2)
     tamara:runAction(CCSequence:createWithTwoActions(action2, action2:reverse()))
 
-	local animation3 = animation2:copy():autorelease()
+	local animation3 = animation2:clone()
 	-- problem
     tolua.cast(animation3,"CCAnimation"):setLoops(4)
 
@@ -545,7 +558,7 @@ local function ActionSequence()
 	alignSpritesLeft(1)
 
 	local action = CCSequence:createWithTwoActions(
-        CCMoveBy:create(2, ccp(240,0)),
+        CCMoveBy:create(2, CCPoint(240,0)),
         CCRotateBy:create(2, 540))
 
     grossini:runAction(action)
@@ -569,38 +582,39 @@ end
 
 local function ActionSequenceCallback2(sender)
 	local label = CCLabelTTF:create("callback 2 called", "Marker Felt", 16)
-    label:setPosition(ccp(size.width / 4 * 2, size.height / 2))
+    label:setPosition(CCPoint(size.width / 4 * 2, size.height / 2))
 
     actionSequenceLayer:addChild(label)
 end
 
 local function ActionSequenceCallback3(sender)
 	local label = CCLabelTTF:create("callback 3 called", "Marker Felt", 16)
-    label:setPosition(ccp(size.width / 4 * 3, size.height / 2))
+    label:setPosition(CCPoint(size.width / 4 * 3, size.height / 2))
 
     actionSequenceLayer:addChild(label)
 end
 
 local function ActionSequence2()
-	actionSequenceLayer = CCLayer:create()
-	initWithLayer(actionSequenceLayer)
+    actionSequenceLayer = CCLayer:create()
+    initWithLayer(actionSequenceLayer)
 
-	alignSpritesLeft(1)
+    alignSpritesLeft(1)
 
-	grossini:setVisible(false)
-	local array = CCArray:create()
-	array:addObject(CCPlace:create(ccp(200,200)))
-	array:addObject(CCShow:create())
-	array:addObject(CCMoveBy:create(1, ccp(100,0)))
-	array:addObject(CCCallFunc:create(ActionSequenceCallback1))
-	array:addObject(CCCallFuncN:create(ActionSequenceCallback2))
-	array:addObject(CCCallFuncN:create(ActionSequenceCallback3))
-	local action = CCSequence:create(array)
+    grossini:setVisible(false)
+    local array = CCArray:create()
+    array:addObject(CCPlace:create(CCPoint(200,200)))
+    array:addObject(CCShow:create())
+    array:addObject(CCMoveBy:create(1, CCPoint(100,0)))
+    array:addObject(CCCallFunc:create(ActionSequenceCallback1))
+    array:addObject(CCCallFunc:create(ActionSequenceCallback2))
+    array:addObject(CCCallFunc:create(ActionSequenceCallback3))
+
+    local action = CCSequence:create(array)
 
     grossini:runAction(action)
 
-	Helper.subtitleLabel:setString("Sequence of InstantActions")
-	return actionSequenceLayer
+    Helper.subtitleLabel:setString("Sequence of InstantActions")
+    return actionSequenceLayer
 end
 
 --------------------------------------
@@ -613,7 +627,7 @@ local function ActionSpawn()
 	alignSpritesLeft(1)
 
 	local action = CCSpawn:createWithTwoActions(
-		CCJumpBy:create(2, ccp(300,0), 50, 4),
+		CCJumpBy:create(2, CCPoint(300,0), 50, 4),
 		CCRotateBy:create( 2,  720))
 
     grossini:runAction(action)
@@ -632,7 +646,7 @@ local function ActionReverse()
 
 	alignSpritesLeft(1)
 
-	local jump = CCJumpBy:create(2, ccp(300,0), 50, 4)
+	local jump = CCJumpBy:create(2, CCPoint(300,0), 50, 4)
     local action = CCSequence:createWithTwoActions(jump, jump:reverse())
 
     grossini:runAction(action)
@@ -651,7 +665,7 @@ local function ActionDelaytime()
 
 	alignSpritesLeft(1)
 
-	local move = CCMoveBy:create(1, ccp(150,0))
+	local move = CCMoveBy:create(1, CCPoint(150,0))
 	local array = CCArray:create()
 	array:addObject(move)
 	array:addObject(CCDelayTime:create(2))
@@ -673,10 +687,10 @@ local function ActionRepeat()
 
 	alignSpritesLeft(2)
 
-    local a1 = CCMoveBy:create(1, ccp(150,0))
-    local action1 = CCRepeat:create(CCSequence:createWithTwoActions(CCPlace:create(ccp(60,60)), a1), 3)
+    local a1 = CCMoveBy:create(1, CCPoint(150,0))
+    local action1 = CCRepeat:create(CCSequence:createWithTwoActions(CCPlace:create(CCPoint(60,60)), a1), 3)
 
-    local a2 = CCMoveBy:create(1, ccp(150,0))
+    local a2 = CCMoveBy:create(1, CCPoint(150,0))
     local action2 = CCRepeatForever:create(CCSequence:createWithTwoActions(a2, a1:reverse()))
 
     kathia:runAction(action1)
@@ -703,7 +717,7 @@ local function ActionRepeatForever()
 
     local action = CCSequence:createWithTwoActions(
         CCDelayTime:create(1),
-        CCCallFuncN:create(repeatForever))
+        CCCallFunc:create(repeatForever) )
 
     grossini:runAction(action)
 
@@ -724,7 +738,7 @@ local function ActionRotateToRepeat()
     local act2 = CCRotateTo:create(1, 0)
     local seq  = CCSequence:createWithTwoActions(act1, act2)
     local rep1 = CCRepeatForever:create(seq)
-    local rep2 = CCRepeat:create(tolua.cast(seq:copy():autorelease(), "CCSequence"), 10)
+    local rep2 = CCRepeat:create(tolua.cast(seq:clone(), "CCSequence"), 10)
 
     tamara:runAction(rep1)
     kathia:runAction(rep2)
@@ -795,19 +809,19 @@ local function ActionCallFunc()
 	centerSprites(3)
 
 	local action = CCSequence:createWithTwoActions(
-        CCMoveBy:create(2, ccp(200,0)),
-        CCCallFunc:create(CallFucnCallback1))
+        CCMoveBy:create(2, CCPoint(200,0)),
+        CCCallFunc:create(CallFucnCallback1) )
 
 	local array = CCArray:create()
 	array:addObject(CCScaleBy:create(2, 2))
 	array:addObject(CCFadeOut:create(2))
-	array:addObject(CCCallFuncN:create(CallFucnCallback2))
+	array:addObject(CCCallFunc:create(CallFucnCallback2))
     local action2 = CCSequence:create(array)
 
     local array2 = CCArray:create()
     array2:addObject(CCRotateBy:create(3 , 360))
     array2:addObject(CCFadeOut:create(2))
-    array2:addObject(CCCallFuncN:create(CallFucnCallback3))
+    array2:addObject(CCCallFunc:create(CallFucnCallback3))
     local action3 = CCSequence:create(array2)
 
     grossini:runAction(action)
@@ -844,8 +858,8 @@ local function ActionReverseSequence()
 
 	alignSpritesLeft(1)
 
-	local move1  = CCMoveBy:create(1, ccp(250,0))
-    local move2  = CCMoveBy:create(1, ccp(0,50))
+	local move1  = CCMoveBy:create(1, CCPoint(250,0))
+    local move2  = CCMoveBy:create(1, CCPoint(0,50))
 	local array  = CCArray:create()
 	array:addObject(move1)
 	array:addObject(move2)
@@ -870,8 +884,8 @@ local function ActionReverseSequence2()
 
 	-- Test:
     -- Sequence should work both with IntervalAction and InstantActions
-	local move1  = CCMoveBy:create(1, ccp(250,0))
-    local move2  = CCMoveBy:create(1, ccp(0,50))
+	local move1  = CCMoveBy:create(1, CCPoint(250,0))
+    local move2  = CCMoveBy:create(1, CCPoint(0,50))
 	local tog1 = CCToggleVisibility:create()
     local tog2 = CCToggleVisibility:create()
 	local array  = CCArray:createWithCapacity(10)
@@ -887,8 +901,8 @@ local function ActionReverseSequence2()
     -- Also test that the reverse of Hide is Show, and vice-versa
     kathia:runAction(action)
 
-    local move_tamara = CCMoveBy:create(1, ccp(100,0))
-    local move_tamara2 = CCMoveBy:create(1, ccp(50,0))
+    local move_tamara = CCMoveBy:create(1, CCPoint(100,0))
+    local move_tamara2 = CCMoveBy:create(1, CCPoint(50,0))
     local hide = CCHide:create()
 	local array2 = CCArray:createWithCapacity(10)
 	array2:addObject(move_tamara)
@@ -924,13 +938,13 @@ local function ActionOrbit()
     tamara:runAction(CCRepeatForever:create(action2))
     grossini:runAction(CCRepeatForever:create(action3))
 
-    local move = CCMoveBy:create(3, ccp(100,-100))
+    local move = CCMoveBy:create(3, CCPoint(100,-100))
     local move_back = move:reverse()
     local seq = CCSequence:createWithTwoActions(move, move_back)
     local rfe = CCRepeatForever:create(seq)
     kathia:runAction(rfe)
-    tamara:runAction(tolua.cast(rfe:copy():autorelease(), "CCActionInterval"))
-    grossini:runAction(tolua.cast(rfe:copy():autorelease(), "CCActionInterval"))
+    tamara:runAction(tolua.cast(rfe:clone(), "CCActionInterval"))
+    grossini:runAction(tolua.cast(rfe:clone(), "CCActionInterval"))
 
 
 	Helper.subtitleLabel:setString("OrbitCamera action")
@@ -946,15 +960,30 @@ local function ActionFollow()
 
 	centerSprites(1)
 
-	grossini:setPosition(ccp(-200, size.height / 2))
-    local move = CCMoveBy:create(2, ccp(size.width * 3, 0))
+	grossini:setPosition(CCPoint(-200, size.height / 2))
+    local move = CCMoveBy:create(2, CCPoint(size.width * 3, 0))
     local move_back = move:reverse()
     local seq = CCSequence:createWithTwoActions(move, move_back)
     local rep = CCRepeatForever:create(seq)
 
     grossini:runAction(rep)
 
-    layer:runAction(CCFollow:create(grossini, CCRectMake(0, 0, size.width * 2 - 100, size.height)))
+    layer:runAction(CCFollow:create(grossini, CCRect(0, 0, size.width * 2 - 100, size.height)))
+
+    local function draw()
+        local winSize = CCDirector:getInstance():getWinSize()
+        local x = winSize.width * 2 - 100
+        local y = winSize.height
+        local vertices = { CCPoint(5, 5), CCPoint(x - 5, 5), CCPoint(x - 5,y - 5), CCPoint(5,y - 5) }
+        CCDrawPrimitives.ccDrawPoly(vertices, 4, true)
+    end
+
+    local glNode  = gl.glNodeCreate()
+    glNode:setContentSize(CCSize(size.width, size.height))
+    glNode:setAnchorPoint(CCPoint(0.5, 0.5))
+    glNode:registerScriptDrawHandler(draw)
+    layer:addChild(glNode,-10)
+    glNode:setPosition( size.width / 2, size.height / 2)
 
 	Helper.subtitleLabel:setString("Follow action")
 	return layer
@@ -969,8 +998,8 @@ local function ActionTargeted()
 
 	centerSprites(2)
 
-	local jump1 = CCJumpBy:create(2, ccp(0, 0), 100, 3)
-    local jump2 = CCJumpBy:create(2, ccp(0, 0), 100, 3)
+	local jump1 = CCJumpBy:create(2, CCPoint(0, 0), 100, 3)
+    local jump2 = CCJumpBy:create(2, CCPoint(0, 0), 100, 3)
     local rot1  = CCRotateBy:create(1, 360)
     local rot2  = CCRotateBy:create(1, 360)
 
@@ -1003,10 +1032,10 @@ local PauseResumeActions_resumeEntry = nil
 local function ActionPause(dt)
 	cclog("Pausing")
 
-	local scheduler = CCDirector:sharedDirector():getScheduler()
+	local scheduler = CCDirector:getInstance():getScheduler()
 	scheduler:unscheduleScriptEntry(PauseResumeActions_pauseEntry)
 
-	local director = CCDirector:sharedDirector()
+	local director = CCDirector:getInstance()
     pausedTargets = director:getActionManager():pauseAllRunningActions()
     pausedTargets:retain()
 end
@@ -1014,10 +1043,10 @@ end
 local function ActionResume(dt)
 	cclog("Resuming")
 
-	local scheduler = CCDirector:sharedDirector():getScheduler()
+	local scheduler = CCDirector:getInstance():getScheduler()
 	scheduler:unscheduleScriptEntry(PauseResumeActions_resumeEntry)
 
-	local director = CCDirector:sharedDirector()
+	local director = CCDirector:getInstance()
 	if pausedTargets ~= nil then
 		-- problem: will crash here. Try fixing me!
 		director:getActionManager():resumeTargets(pausedTargets)
@@ -1026,7 +1055,7 @@ local function ActionResume(dt)
 end
 
 local function PauseResumeActions_onEnterOrExit(tag)
-	local scheduler = CCDirector:sharedDirector():getScheduler()
+	local scheduler = CCDirector:getInstance():getScheduler()
 	if tag == "enter" then
 		PauseResumeActions_pauseEntry = scheduler:scheduleScriptFunc(ActionPause, 3, false)
 		PauseResumeActions_resumeEntry = scheduler:scheduleScriptFunc(ActionResume, 5, false)
@@ -1064,15 +1093,15 @@ local function Issue1305_log(sender)
 end
 
 local function addSprite(dt)
-	local scheduler = CCDirector:sharedDirector():getScheduler()
+	local scheduler = CCDirector:getInstance():getScheduler()
 	scheduler:unscheduleScriptEntry(Issue1305_entry)
 
-	spriteTmp:setPosition(ccp(250, 250))
+	spriteTmp:setPosition(CCPoint(250, 250))
     Issue1305_layer:addChild(spriteTmp)
 end
 
 local function Issue1305_onEnterOrExit(tag)
-	local scheduler = CCDirector:sharedDirector():getScheduler()
+	local scheduler = CCDirector:getInstance():getScheduler()
 	if tag == "enter" then
 		Issue1305_entry = scheduler:scheduleScriptFunc(addSprite, 2, false)
 	elseif tag == "exit" then
@@ -1087,7 +1116,7 @@ local function ActionIssue1305()
 	centerSprites(0)
 
     spriteTmp = CCSprite:create("Images/grossini.png")
-    spriteTmp:runAction(CCCallFuncN:create(Issue1305_log))
+    spriteTmp:runAction(CCCallFunc:create(Issue1305_log))
 
     Issue1305_layer:registerScriptHandler(Issue1305_onEnterOrExit)
 
@@ -1122,16 +1151,16 @@ local function ActionIssue1305_2()
 	centerSprites(0)
 
     local spr = CCSprite:create("Images/grossini.png")
-    spr:setPosition(ccp(200,200))
+    spr:setPosition(CCPoint(200,200))
     layer:addChild(spr)
 
-    local act1 = CCMoveBy:create(2 ,ccp(0, 100))
+    local act1 = CCMoveBy:create(2 ,CCPoint(0, 100))
     local act2 = CCCallFunc:create(Issue1305_2_log1)
-    local act3 = CCMoveBy:create(2, ccp(0, -100))
+    local act3 = CCMoveBy:create(2, CCPoint(0, -100))
     local act4 = CCCallFunc:create(Issue1305_2_log2)
-    local act5 = CCMoveBy:create(2, ccp(100, -100))
+    local act5 = CCMoveBy:create(2, CCPoint(100, -100))
     local act6 = CCCallFunc:create(Issue1305_2_log3)
-    local act7 = CCMoveBy:create(2, ccp(-100, 0))
+    local act7 = CCMoveBy:create(2, CCPoint(-100, 0))
     local act8 = CCCallFunc:create(Issue1305_2_log4)
 
 	local array = CCArray:create()
@@ -1145,7 +1174,7 @@ local function ActionIssue1305_2()
 	array:addObject(act8)
     local actF = CCSequence:create(array)
 
-    CCDirector:sharedDirector():getActionManager():addAction(actF ,spr, false)
+    CCDirector:getInstance():getActionManager():addAction(actF ,spr, false)
 
 	Helper.titleLabel:setString("Issue 1305 #2")
 	Helper.subtitleLabel:setString("See console. You should only see one message for each block")
@@ -1162,10 +1191,10 @@ local function ActionIssue1288()
 	centerSprites(0)
 
     local spr = CCSprite:create("Images/grossini.png")
-    spr:setPosition(ccp(100, 100))
+    spr:setPosition(CCPoint(100, 100))
     layer:addChild(spr)
 
-    local act1 = CCMoveBy:create(0.5, ccp(100, 0))
+    local act1 = CCMoveBy:create(0.5, CCPoint(100, 0))
     local act2 = act1:reverse()
     local act3 = CCSequence:createWithTwoActions(act1, act2)
     local act4 = CCRepeat:create(act3, 2)
@@ -1187,10 +1216,10 @@ local function ActionIssue1288_2()
 	centerSprites(0)
 
     local spr = CCSprite:create("Images/grossini.png")
-    spr:setPosition(ccp(100, 100))
+    spr:setPosition(CCPoint(100, 100))
     layer:addChild(spr)
 
-    local act1 = CCMoveBy:create(0.5, ccp(100, 0))
+    local act1 = CCMoveBy:create(0.5, CCPoint(100, 0))
     spr:runAction(CCRepeat:create(act1, 1))
 
 	Helper.titleLabel:setString("Issue 1288 #2")
@@ -1212,18 +1241,18 @@ local function ActionIssue1327()
 	centerSprites(0)
 
     local spr = CCSprite:create("Images/grossini.png")
-    spr:setPosition(ccp(100, 100))
+    spr:setPosition(CCPoint(100, 100))
     layer:addChild(spr)
 
-    local act1 = CCCallFuncN:create(logSprRotation)
+    local act1 = CCCallFunc:create(logSprRotation)
     local act2 = CCRotateBy:create(0.25, 45)
-    local act3 = CCCallFuncN:create(logSprRotation)
+    local act3 = CCCallFunc:create(logSprRotation)
     local act4 = CCRotateBy:create(0.25, 45)
-    local act5 = CCCallFuncN:create(logSprRotation)
+    local act5 = CCCallFunc:create(logSprRotation)
     local act6 = CCRotateBy:create(0.25, 45)
-    local act7 = CCCallFuncN:create(logSprRotation)
+    local act7 = CCCallFunc:create(logSprRotation)
     local act8 = CCRotateBy:create(0.25, 45)
-    local act9 = CCCallFuncN:create(logSprRotation)
+    local act9 = CCCallFunc:create(logSprRotation)
 
 	local array = CCArray:create()
 	array:addObject(act1)

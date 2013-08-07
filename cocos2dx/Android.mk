@@ -8,9 +8,11 @@ LOCAL_MODULE_FILENAME := libcocos2d
 
 LOCAL_SRC_FILES := \
 CCConfiguration.cpp \
+CCDeprecated.cpp \
 CCScheduler.cpp \
 CCCamera.cpp \
 ccFPSImages.c \
+ccTypes.cpp \
 actions/CCAction.cpp \
 actions/CCActionCamera.cpp \
 actions/CCActionCatmullRom.cpp \
@@ -35,9 +37,9 @@ cocoa/CCNS.cpp \
 cocoa/CCObject.cpp \
 cocoa/CCSet.cpp \
 cocoa/CCString.cpp \
-cocoa/CCZone.cpp \
 cocoa/CCArray.cpp \
 cocoa/CCDataVisitor.cpp \
+cocoa/CCData.cpp \
 cocos2d.cpp \
 CCDirector.cpp \
 draw_nodes/CCDrawingPrimitives.cpp \
@@ -59,6 +61,7 @@ kazmath/src/GL/mat4stack.c \
 kazmath/src/GL/matrix.c \
 keypad_dispatcher/CCKeypadDelegate.cpp \
 keypad_dispatcher/CCKeypadDispatcher.cpp \
+keyboard_dispatcher/CCKeyboardDispatcher.cpp \
 label_nodes/CCLabelAtlas.cpp \
 label_nodes/CCLabelBMFont.cpp \
 label_nodes/CCLabelTTF.cpp \
@@ -81,7 +84,6 @@ platform/CCImageCommonWebp.cpp \
 platform/CCSAXParser.cpp \
 platform/CCThread.cpp \
 platform/CCFileUtils.cpp \
-platform/platform.cpp \
 platform/CCEGLViewProtocol.cpp \
 platform/android/CCDevice.cpp \
 platform/android/CCEGLView.cpp \
@@ -118,7 +120,6 @@ sprite_nodes/CCSpriteFrameCache.cpp \
 support/ccUTF8.cpp \
 support/CCNotificationCenter.cpp \
 support/CCProfiling.cpp \
-support/CCPointExtension.cpp \
 support/TransformUtils.cpp \
 support/user_default/CCUserDefaultAndroid.cpp \
 support/base64.cpp \
@@ -139,6 +140,7 @@ textures/CCTextureAtlas.cpp \
 textures/CCTextureCache.cpp \
 textures/CCTextureETC.cpp \
 textures/CCTexturePVR.cpp \
+textures/etc/etc1.cpp\
 tilemap_parallax_nodes/CCParallaxNode.cpp \
 tilemap_parallax_nodes/CCTMXLayer.cpp \
 tilemap_parallax_nodes/CCTMXObjectGroup.cpp \
@@ -161,11 +163,13 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH) \
 
 LOCAL_LDLIBS := -lGLESv2 \
                 -llog \
-                -lz
+                -lz \
+                -landroid
 
 LOCAL_EXPORT_LDLIBS := -lGLESv2 \
                        -llog \
-                       -lz
+                       -lz \
+                       -landroid
 
 LOCAL_WHOLE_STATIC_LIBRARIES := cocos_libpng_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_jpeg_static
@@ -174,8 +178,8 @@ LOCAL_WHOLE_STATIC_LIBRARIES += cocos_libtiff_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_libwebp_static
 
 # define the macro to compile through support/zip_support/ioapi.c
-LOCAL_CFLAGS := -Wno-psabi -DUSE_FILE32API
-LOCAL_EXPORT_CFLAGS := -Wno-psabi -DUSE_FILE32API
+LOCAL_CFLAGS   := -Wno-psabi -DUSE_FILE32API
+LOCAL_EXPORT_CFLAGS   := -Wno-psabi -DUSE_FILE32API
 
 include $(BUILD_STATIC_LIBRARY)
 

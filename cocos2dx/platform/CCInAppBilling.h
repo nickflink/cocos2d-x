@@ -10,44 +10,44 @@ Copyright (c) 2013 Nicholas Flink
 
 NS_CC_BEGIN
 
-class CC_DLL CCPurchaseDelegate
+class CC_DLL PurchaseDelegate
 {
 public:
 
-    CCPurchaseDelegate() {}
-    virtual ~CCPurchaseDelegate() {CCLog("CCPurchaseDelegate::~CCPurchaseDelegate");}
+    PurchaseDelegate() {}
+    virtual ~PurchaseDelegate() {log("PurchaseDelegate::~PurchaseDelegate");}
     virtual void ccOnPurchaseSucceeded() = 0;
     virtual void ccOnPurchaseFailed() = 0;
 };
 
 
 ///
-///\brief Class for CCInAppBilling
+///\brief Class for InAppBilling
 //
-///You can use this widget to display platform specific CCInAppBillings
+///You can use this widget to display platform specific InAppBillings
 ///
 ///
 
-class CCInAppBilling
+class InAppBilling
 {
 private:
     ///
     ///Constructor.
     ///
-    CCInAppBilling(void);
+    InAppBilling(void);
     virtual bool init();
 public:
     ///
     ///Destructor.
     ///
-    static CCInAppBilling* sharedInAppBilling(void);
-    virtual ~CCInAppBilling(void);
+    static InAppBilling* getInstance(void);
+    virtual ~InAppBilling(void);
     virtual void setup();
     virtual void addProduct(const char *name);
     virtual void refreshPurchases();
     virtual void inAppPurchase(const char *name, const char *receipt);
-    virtual void addPurchaseDelegate(CCPurchaseDelegate *pDelegate);
-    virtual void removePurchaseDelegate(CCPurchaseDelegate *pDelegate);
+    virtual void addPurchaseDelegate(PurchaseDelegate *pDelegate);
+    virtual void removePurchaseDelegate(PurchaseDelegate *pDelegate);
     //
     //Callbacks.
     //
@@ -57,7 +57,7 @@ public:
 
     CC_SYNTHESIZE_READONLY(bool, m_bIsSetup, IsSetup);
   private:
-    std::vector<CCPurchaseDelegate*>m_pPurchaseHandlers;
+    std::vector<PurchaseDelegate*>m_pPurchaseHandlers;
 
 };
 

@@ -424,23 +424,23 @@ rawset(CCFileUtils,"purgeFileUtils",CCFileUtilsDeprecated.purgeFileUtils)
 --functions of CCFileUtils will be deprecated end
 
 
---functions of CCApplication will be deprecated end
-local CCApplicationDeprecated = { }
-function CCApplicationDeprecated.sharedApplication()
-    deprecatedTip("CCApplication:sharedApplication","CCApplication:getInstance")
-    return CCApplication:getInstance()
+--functions of Application will be deprecated end
+local ApplicationDeprecated = { }
+function ApplicationDeprecated.getInstance()
+    deprecatedTip("Application:getInstance","Application:getInstance")
+    return Application:getInstance()
 end
-rawset(CCApplication,"sharedApplication",CCApplicationDeprecated.sharedApplication)
---functions of CCApplication will be deprecated end
+rawset(Application,"getInstance",ApplicationDeprecated.getInstance)
+--functions of Application will be deprecated end
 
 
 --functions of CCDirector will be deprecated end
 local CCDirectorDeprecated = { }
-function CCDirectorDeprecated.sharedDirector()
-    deprecatedTip("CCDirector:sharedDirector","CCDirector:getInstance")
+function CCDirectorDeprecated.getInstance()
+    deprecatedTip("CCDirector:getInstance","CCDirector:getInstance")
     return CCDirector:getInstance()
 end
-rawset(CCDirector,"sharedDirector",CCDirectorDeprecated.sharedDirector)
+rawset(CCDirector,"getInstance",CCDirectorDeprecated.getInstance)
 --functions of CCDirector will be deprecated end
 
 
@@ -775,7 +775,7 @@ rawset(CCTMXObjectGroup,"objectNamed", CCTMXObjectGroupDeprecated.objectNamed)
 
 
 --functions of WebSocket will be deprecated begin
-local targetPlatform = CCApplication:getInstance():getTargetPlatform()
+local targetPlatform = Application:getInstance():getTargetPlatform()
 if (kTargetIphone == targetPlatform) or (kTargetIpad == targetPlatform) or (kTargetAndroid == targetPlatform) or (kTargetWindows == targetPlatform) then
     local WebSocketDeprecated = { }
     function WebSocketDeprecated.sendTextMsg(self, string)

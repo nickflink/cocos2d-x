@@ -90,7 +90,7 @@
     }
     if(!found) {
         NSLog(@"Product not found");
-        cocos2d::CCInAppBilling::sharedInAppBilling()->onPurchaseFailed();
+        cocos2d::InAppBilling::getInstance()->onPurchaseFailed();
     }
     return;
 }

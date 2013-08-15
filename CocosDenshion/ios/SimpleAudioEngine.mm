@@ -24,6 +24,7 @@ THE SOFTWARE.
 
 #include "SimpleAudioEngine.h"
 #include "SimpleAudioEngine_objc.h"
+#include <UIKit/UIKit.h>
 #include "cocos2d.h"
 USING_NS_CC;
 

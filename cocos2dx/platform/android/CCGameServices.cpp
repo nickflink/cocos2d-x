@@ -8,79 +8,79 @@ Copyright (c) 2013 Nicholas Flink
 
 NS_CC_BEGIN
 // singleton stuff
-static CCGameServices *s_SharedGameServices = NULL;
-CCGameServices* CCGameServices::sharedGameServices(void) {
+static GameServices *s_SharedGameServices = NULL;
+GameServices* GameServices::getInstance(void) {
     if (!s_SharedGameServices) {
-        s_SharedGameServices = new CCGameServices();
+        s_SharedGameServices = new GameServices();
         s_SharedGameServices->init();
     }
     return s_SharedGameServices;
 }
 
-CCGameServices::CCGameServices(void) {
+GameServices::GameServices(void) {
 }
 
-CCGameServices::~CCGameServices(void) {
+GameServices::~GameServices(void) {
 }
 
-bool CCGameServices::init(void) {
+bool GameServices::init(void) {
     bool success = true;
     return success;
 }
 
-bool CCGameServices::isSignedIn() {
+bool GameServices::isSignedIn() {
     return isSignedInJNI();
 }
 
-void CCGameServices::signIn() {
-    CCLog("CCGameServices::signIn");
+void GameServices::signIn() {
+    CCLog("GameServices::signIn");
     return beginUserInitiatedSignInJNI();
 }
 
-void CCGameServices::setLocalizedMessages(const char *signingIn, const char *signingOut, const char *unknownError) {
-    CCLog("CCGameServices::setLocalizedMessages");
+void GameServices::setLocalizedMessages(const char *signingIn, const char *signingOut, const char *unknownError) {
+    CCLog("GameServices::setLocalizedMessages");
     setLocalizedMessagesJNI(signingIn, signingOut, unknownError);
 }
 
-void CCGameServices::setSecretKey(const char *key) {
-    CCLog("CCGameServices::setSecretKey - No key necessary for android");
+void GameServices::setSecretKey(const char *key) {
+    CCLog("GameServices::setSecretKey - No key necessary for android");
 }
 
-void CCGameServices::showLeaderboard() {
-    CCLog("CCGameServices::showLeaderboard");
+void GameServices::showLeaderboard() {
+    CCLog("GameServices::showLeaderboard");
     showLeaderboardJNI();
 }
 
-void CCGameServices::showAchievement() {
-    CCLog("CCGameServices::showAchievement");
+void GameServices::showAchievement() {
+    CCLog("GameServices::showAchievement");
     showAchievementJNI();
 }
 
-void CCGameServices::reportAchievement(const char *category) {
+void GameServices::reportAchievement(const char *category) {
     reportAchievement(category, 0);
 }
 
-void CCGameServices::reportAchievement(const char *category, int portion) {
-    CCLog("> CCGameServices::reportAchievement(category=%s portion=%d)", category, portion);
+void GameServices::reportAchievement(const char *category, int portion) {
+    CCLog("> GameServices::reportAchievement(category=%s portion=%d)", category, portion);
     reportAchievementJNI(category, portion);
-    CCLog("< CCGameServices::reportAchievement");
+    CCLog("< GameServices::reportAchievement");
 }
 
-void CCGameServices::submitScore(const char *category, long long score) {
-    CCLog("> CCGameServices::submitScore:%lld toCategory:%s", score, category);
+void GameServices::submitScore(const char *category, long long score) {
+    CCLog("> GameServices::submitScore:%lld toCategory:%s", score, category);
     submitScoreJNI(category, score);
-    CCLog("< CCGameServices::submitScore");
+    CCLog("< GameServices::submitScore");
 }
 
-void CCGameServices::addSignInDelegate(CCSignInDelegate *pDelegate) {
+void GameServices::addSignInDelegate(SignInDelegate *pDelegate) {
     m_pSignInHandlers.push_back(pDelegate);
 }
 
-void CCGameServices::removeSignInDelegate(CCSignInDelegate *pDelegate) {
+void GameServices::removeSignInDelegate(SignInDelegate *pDelegate) {
    // m_pSignInHandlers.erase(pDelegate);
     int indexToErase = -1;
     int index = 0;
-    for(std::vector<CCSignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
+    for(std::vector<SignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
         if(reinterpret_cast<size_t>(*it) == reinterpret_cast<size_t>(pDelegate)) {
             indexToErase = index;
             break;
@@ -92,16 +92,16 @@ void CCGameServices::removeSignInDelegate(CCSignInDelegate *pDelegate) {
     }
 }
 
-void CCGameServices::onSignInFailed() {
-    CCLog("CCGameServices::onSignInFailed");
-    for(std::vector<CCSignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
+void GameServices::onSignInFailed() {
+    CCLog("GameServices::onSignInFailed");
+    for(std::vector<SignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
         (*it)->ccOnSignInFailed();
     }
 }
 
-void CCGameServices::onSignInSucceeded() {
-    CCLog("CCGameServices::onSignInSucceeded");
-    for(std::vector<CCSignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
+void GameServices::onSignInSucceeded() {
+    CCLog("GameServices::onSignInSucceeded");
+    for(std::vector<SignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
         (*it)->ccOnSignInSucceeded();
     }
 }

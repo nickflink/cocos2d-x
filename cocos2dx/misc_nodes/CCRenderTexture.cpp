@@ -27,6 +27,7 @@ THE SOFTWARE.
 #include "misc_nodes/CCRenderTexture.h"
 #include "CCDirector.h"
 #include "platform/CCImage.h"
+#include "platform/CCThread.h"
 #include "shaders/CCGLProgram.h"
 #include "shaders/ccGLStateCache.h"
 #include "CCConfiguration.h"
@@ -53,13 +54,12 @@ using namespace std;
 
 NS_CC_BEGIN
 
-<<<<<<< HEAD
 typedef struct _AsyncStruct
 {
-    eImageFormat        imageFormat;
-    CCImage            *image;
+    Image::Format       imageFormat;
+    Image              *image;
     std::string         filename;
-    CCObject           *target;
+    Object             *target;
     SEL_CallFunc        selector;
 } AsyncStruct;
 
@@ -602,7 +602,7 @@ void RenderTexture::saveImageAsyncCallBack(float dt)
         AsyncStruct *pAsyncStruct = pSaveInfo->asyncStruct;
         //TODO: check pSaveInfo->success;
 
-        CCObject *target = pAsyncStruct->target;
+        Object *target = pAsyncStruct->target;
         SEL_CallFunc selector = pAsyncStruct->selector;
 
         if (target && selector)
@@ -622,7 +622,7 @@ void RenderTexture::saveImageAsyncCallBack(float dt)
     }
 }
 
-void RenderTexture::saveToFileAsync(const char *szFilePath, CCObject *target, SEL_CallFunc selector)
+void RenderTexture::saveToFileAsync(const char *szFilePath, Object *target, SEL_CallFunc selector)
 {
     CCAssert(szFilePath != NULL, "TextureCache: fileimage MUST not be NULL");    
 
@@ -630,7 +630,7 @@ void RenderTexture::saveToFileAsync(const char *szFilePath, CCObject *target, SE
 
     std::string pathKey = szFilePath;
 
-    pathKey = CCFileUtils::sharedFileUtils()->fullPathForFilename(pathKey.c_str());
+    pathKey = FileUtils::sharedFileUtils()->fullPathForFilename(pathKey.c_str());
     std::string fullpath = pathKey;
     // lazy init
     if (s_pAsyncStructQueue == NULL)
@@ -663,7 +663,7 @@ void RenderTexture::saveToFileAsync(const char *szFilePath, CCObject *target, SE
     AsyncStruct *data = new AsyncStruct();
     data->image = newCCImage(true);
     // TODO: compute image format from filename
-    data->imageFormat = kCCImageFormatJPEG;
+    data->imageFormat = Image::Format::JPG;
     data->filename = fullpath.c_str();
     data->target = target;
     data->selector = selector;
@@ -683,7 +683,7 @@ void* RenderTexture::saveImageThread(void* data)
     while (true)
     {
         // create autorelease pool for iOS
-        CCThread thread;
+        Thread thread;
         thread.createAutoreleasePool();
 
         std::queue<AsyncStruct*> *pQueue = s_pAsyncStructQueue;
@@ -707,12 +707,13 @@ void* RenderTexture::saveImageThread(void* data)
         }        
 
         const char *szFilename = pAsyncStruct->filename.c_str();
-        eImageFormat        imageFormat = pAsyncStruct->imageFormat;
-        CCImage            *pImage = pAsyncStruct->image;
+        //Image::Format imageFormat = pAsyncStruct->imageFormat;
+        Image *pImage = pAsyncStruct->image;
         // generate image info
         SaveInfo *pSaveInfo = new SaveInfo();
-        pSaveInfo->success = pImage->saveToFile(szFilename, imageFormat);
-        CCLog("RenderTexture::saveImageThread saving %s was a %s", szFilename, pSaveInfo->success ? "success" : "failure");
+        //pSaveInfo->success = pImage->saveToFile(szFilename, imageFormat);
+        pSaveInfo->success = pImage->saveToFile(szFilename);
+        log("RenderTexture::saveImageThread saving %s was a %s", szFilename, pSaveInfo->success ? "success" : "failure");
         pSaveInfo->asyncStruct = pAsyncStruct;
 
         // put the image info into the queue

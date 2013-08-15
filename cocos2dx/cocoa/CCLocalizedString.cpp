@@ -27,13 +27,13 @@ static map<std::string,std::string> localizedStrings;
 const char * CCLocalizedString(const char * mKey,const char * mComment)
 {
     
-    ccLanguageType curLanguage = CCApplication::sharedApplication()->getCurrentLanguage();
+    LanguageType curLanguage = Application::getInstance()->getCurrentLanguage();
     const char * fileName;
     switch (curLanguage) {
-        case kLanguageEnglish:
+        case LanguageType::ENGLISH:
             fileName = "Localized_en";
             break;
-        case kLanguageChinese:
+        case LanguageType::CHINESE:
             fileName = "Localized_zh";
             break;
         /**
@@ -54,10 +54,10 @@ const char * CCLocalizedString(const char * mKey,const char * mComment)
         string line, fullPath, contents;
         
         // Get absolute path of file
-        fullPath = CCFileUtils::sharedFileUtils()->fullPathForFilename( fileName );
+        fullPath = FileUtils::getInstance()->fullPathForFilename( fileName );
         
         // Get data of file
-        fileContents = CCFileUtils::sharedFileUtils()->getFileData( fullPath.c_str( ) , "r", &fileSize );
+        fileContents = FileUtils::getInstance()->getFileData( fullPath.c_str( ) , "r", &fileSize );
         contents.append( ( char * ) fileContents );
         
         // Create a string stream so that we can use getline( ) on it

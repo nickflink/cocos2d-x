@@ -44,6 +44,39 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		01BBEA5117B8E2180003B529 /* CCLocalizedString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A0716517B85D5800B6FD21 /* CCLocalizedString.cpp */; };
+		01BBEA6417B8E8210003B529 /* CCGameServices.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA6217B8E8210003B529 /* CCGameServices.h */; };
+		01BBEA6517B8E8210003B529 /* CCGameServices.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA6217B8E8210003B529 /* CCGameServices.h */; };
+		01BBEA6617B8E8210003B529 /* CCInAppBilling.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA6317B8E8210003B529 /* CCInAppBilling.h */; };
+		01BBEA6717B8E8210003B529 /* CCInAppBilling.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA6317B8E8210003B529 /* CCInAppBilling.h */; };
+		01BBEA6E17B8E8920003B529 /* CCGameKitHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA6817B8E8920003B529 /* CCGameKitHelper.h */; };
+		01BBEA6F17B8E8920003B529 /* CCGameKitHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA6817B8E8920003B529 /* CCGameKitHelper.h */; };
+		01BBEA7017B8E8920003B529 /* CCGameKitHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA6917B8E8920003B529 /* CCGameKitHelper.mm */; };
+		01BBEA7117B8E8920003B529 /* CCGameKitHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA6917B8E8920003B529 /* CCGameKitHelper.mm */; };
+		01BBEA7217B8E8920003B529 /* CCGameServices.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA6A17B8E8920003B529 /* CCGameServices.mm */; };
+		01BBEA7317B8E8920003B529 /* CCGameServices.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA6A17B8E8920003B529 /* CCGameServices.mm */; };
+		01BBEA7417B8E8920003B529 /* CCInAppBilling.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA6B17B8E8920003B529 /* CCInAppBilling.mm */; };
+		01BBEA7517B8E8920003B529 /* CCInAppBilling.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA6B17B8E8920003B529 /* CCInAppBilling.mm */; };
+		01BBEA7617B8E8920003B529 /* CCStoreKitHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA6C17B8E8920003B529 /* CCStoreKitHelper.h */; };
+		01BBEA7717B8E8920003B529 /* CCStoreKitHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA6C17B8E8920003B529 /* CCStoreKitHelper.h */; };
+		01BBEA7817B8E8920003B529 /* CCStoreKitHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA6D17B8E8920003B529 /* CCStoreKitHelper.mm */; };
+		01BBEA7917B8E8920003B529 /* CCStoreKitHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA6D17B8E8920003B529 /* CCStoreKitHelper.mm */; };
+		01BBEA8617B8EC4D0003B529 /* libb64.c in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA7C17B8EC4D0003B529 /* libb64.c */; };
+		01BBEA8717B8EC4D0003B529 /* libb64.c in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA7C17B8EC4D0003B529 /* libb64.c */; };
+		01BBEA8817B8EC4D0003B529 /* libb64.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA7D17B8EC4D0003B529 /* libb64.h */; };
+		01BBEA8917B8EC4D0003B529 /* libb64.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA7D17B8EC4D0003B529 /* libb64.h */; };
+		01BBEA8A17B8EC4D0003B529 /* CCCrypto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA7E17B8EC4D0003B529 /* CCCrypto.cpp */; };
+		01BBEA8B17B8EC4D0003B529 /* CCCrypto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA7E17B8EC4D0003B529 /* CCCrypto.cpp */; };
+		01BBEA8C17B8EC4D0003B529 /* CCCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA7F17B8EC4D0003B529 /* CCCrypto.h */; };
+		01BBEA8D17B8EC4D0003B529 /* CCCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA7F17B8EC4D0003B529 /* CCCrypto.h */; };
+		01BBEA8E17B8EC4D0003B529 /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA8117B8EC4D0003B529 /* md5.c */; };
+		01BBEA8F17B8EC4D0003B529 /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA8117B8EC4D0003B529 /* md5.c */; };
+		01BBEA9017B8EC4D0003B529 /* md5.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA8217B8EC4D0003B529 /* md5.h */; };
+		01BBEA9117B8EC4D0003B529 /* md5.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA8217B8EC4D0003B529 /* md5.h */; };
+		01BBEA9217B8EC4D0003B529 /* sha1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA8417B8EC4D0003B529 /* sha1.cpp */; };
+		01BBEA9317B8EC4D0003B529 /* sha1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BBEA8417B8EC4D0003B529 /* sha1.cpp */; };
+		01BBEA9417B8EC4D0003B529 /* sha1.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA8517B8EC4D0003B529 /* sha1.h */; };
+		01BBEA9517B8EC4D0003B529 /* sha1.h in Headers */ = {isa = PBXBuildFile; fileRef = 01BBEA8517B8EC4D0003B529 /* sha1.h */; };
 		15CBC6F3178A57DC00D8BBA7 /* LuaScriptHandlerMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15CBC6F1178A57DC00D8BBA7 /* LuaScriptHandlerMgr.cpp */; };
 		15CBC6F4178A57DC00D8BBA7 /* LuaScriptHandlerMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15CBC6F1178A57DC00D8BBA7 /* LuaScriptHandlerMgr.cpp */; };
 		15CBC6F5178A57DC00D8BBA7 /* LuaScriptHandlerMgr.h in Headers */ = {isa = PBXBuildFile; fileRef = 15CBC6F2178A57DC00D8BBA7 /* LuaScriptHandlerMgr.h */; };
@@ -1880,6 +1913,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01A0714B17B8377700B6FD21 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		01A0716517B85D5800B6FD21 /* CCLocalizedString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLocalizedString.cpp; sourceTree = "<group>"; };
+		01A0716617B85D5800B6FD21 /* CCLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLocalizedString.h; sourceTree = "<group>"; };
+		01BBEA6217B8E8210003B529 /* CCGameServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGameServices.h; sourceTree = "<group>"; };
+		01BBEA6317B8E8210003B529 /* CCInAppBilling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInAppBilling.h; sourceTree = "<group>"; };
+		01BBEA6817B8E8920003B529 /* CCGameKitHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGameKitHelper.h; sourceTree = "<group>"; };
+		01BBEA6917B8E8920003B529 /* CCGameKitHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCGameKitHelper.mm; sourceTree = "<group>"; };
+		01BBEA6A17B8E8920003B529 /* CCGameServices.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCGameServices.mm; sourceTree = "<group>"; };
+		01BBEA6B17B8E8920003B529 /* CCInAppBilling.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCInAppBilling.mm; sourceTree = "<group>"; };
+		01BBEA6C17B8E8920003B529 /* CCStoreKitHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCStoreKitHelper.h; sourceTree = "<group>"; };
+		01BBEA6D17B8E8920003B529 /* CCStoreKitHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCStoreKitHelper.mm; sourceTree = "<group>"; };
+		01BBEA7C17B8EC4D0003B529 /* libb64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = libb64.c; sourceTree = "<group>"; };
+		01BBEA7D17B8EC4D0003B529 /* libb64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libb64.h; sourceTree = "<group>"; };
+		01BBEA7E17B8EC4D0003B529 /* CCCrypto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCrypto.cpp; sourceTree = "<group>"; };
+		01BBEA7F17B8EC4D0003B529 /* CCCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCrypto.h; sourceTree = "<group>"; };
+		01BBEA8117B8EC4D0003B529 /* md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5.c; sourceTree = "<group>"; };
+		01BBEA8217B8EC4D0003B529 /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
+		01BBEA8417B8EC4D0003B529 /* sha1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sha1.cpp; sourceTree = "<group>"; };
+		01BBEA8517B8EC4D0003B529 /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
 		1551A33F158F2AB200E66CFE /* libcocos2dx Mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2dx Mac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1551A342158F2AB200E66CFE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		15A055B81797EBAC0040AC39 /* Deprecated.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Deprecated.lua; sourceTree = "<group>"; };
@@ -3030,6 +3082,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01BBEA7A17B8EC4D0003B529 /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+				01BBEA7B17B8EC4D0003B529 /* base64 */,
+				01BBEA7E17B8EC4D0003B529 /* CCCrypto.cpp */,
+				01BBEA7F17B8EC4D0003B529 /* CCCrypto.h */,
+				01BBEA8017B8EC4D0003B529 /* md5 */,
+				01BBEA8317B8EC4D0003B529 /* sha1 */,
+			);
+			path = crypto;
+			sourceTree = "<group>";
+		};
+		01BBEA7B17B8EC4D0003B529 /* base64 */ = {
+			isa = PBXGroup;
+			children = (
+				01BBEA7C17B8EC4D0003B529 /* libb64.c */,
+				01BBEA7D17B8EC4D0003B529 /* libb64.h */,
+			);
+			path = base64;
+			sourceTree = "<group>";
+		};
+		01BBEA8017B8EC4D0003B529 /* md5 */ = {
+			isa = PBXGroup;
+			children = (
+				01BBEA8117B8EC4D0003B529 /* md5.c */,
+				01BBEA8217B8EC4D0003B529 /* md5.h */,
+			);
+			path = md5;
+			sourceTree = "<group>";
+		};
+		01BBEA8317B8EC4D0003B529 /* sha1 */ = {
+			isa = PBXGroup;
+			children = (
+				01BBEA8417B8EC4D0003B529 /* sha1.cpp */,
+				01BBEA8517B8EC4D0003B529 /* sha1.h */,
+			);
+			path = sha1;
+			sourceTree = "<group>";
+		};
 		1551A334158F2AB200E66CFE = {
 			isa = PBXGroup;
 			children = (
@@ -3071,6 +3162,7 @@
 			children = (
 				A035A5421782286100987F6C /* libwebsockets.a */,
 				1A94D34C16C2014900D79D09 /* libwebp.a */,
+				01A0714B17B8377700B6FD21 /* UIKit.framework */,
 				1551A342158F2AB200E66CFE /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -3317,6 +3409,8 @@
 				A03F1E181780BAE4006731B9 /* CCGeometry.cpp */,
 				A03F1E191780BAE4006731B9 /* CCGeometry.h */,
 				A03F1E1A1780BAE4006731B9 /* CCInteger.h */,
+				01A0716517B85D5800B6FD21 /* CCLocalizedString.cpp */,
+				01A0716617B85D5800B6FD21 /* CCLocalizedString.h */,
 				A03F1E1B1780BAE4006731B9 /* CCNS.cpp */,
 				A03F1E1C1780BAE4006731B9 /* CCNS.h */,
 				A03F1E1D1780BAE4006731B9 /* CCObject.cpp */,
@@ -3537,6 +3631,8 @@
 		A03F1E8D1780BAE4006731B9 /* platform */ = {
 			isa = PBXGroup;
 			children = (
+				01BBEA6217B8E8210003B529 /* CCGameServices.h */,
+				01BBEA6317B8E8210003B529 /* CCInAppBilling.h */,
 				A07A4DDE1783815B0073F6A7 /* mac */,
 				A03F1F611780BAE5006731B9 /* third_party */,
 				A07A4D6517837B690073F6A7 /* ios */,
@@ -4114,6 +4210,7 @@
 		A03F2FD7178145F2006731B9 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				01BBEA7A17B8EC4D0003B529 /* crypto */,
 				A03F2FD9178145F2006731B9 /* AssetsManager */,
 				A03F2FDC178145F2006731B9 /* CCArmature */,
 				A03F3027178145F2006731B9 /* CCBReader */,
@@ -4733,6 +4830,12 @@
 		A07A4D6517837B690073F6A7 /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				01BBEA6817B8E8920003B529 /* CCGameKitHelper.h */,
+				01BBEA6917B8E8920003B529 /* CCGameKitHelper.mm */,
+				01BBEA6A17B8E8920003B529 /* CCGameServices.mm */,
+				01BBEA6B17B8E8920003B529 /* CCInAppBilling.mm */,
+				01BBEA6C17B8E8920003B529 /* CCStoreKitHelper.h */,
+				01BBEA6D17B8E8920003B529 /* CCStoreKitHelper.mm */,
 				A07A4D6617837B690073F6A7 /* CCAccelerometer.h */,
 				A07A4D6717837B690073F6A7 /* CCAccelerometer.mm */,
 				A07A4D6817837B690073F6A7 /* CCApplication.h */,
@@ -5161,6 +5264,10 @@
 				A07A4E091783815B0073F6A7 /* EAGLView.h in Headers */,
 				A07A52CD1784AC360073F6A7 /* etc1.h in Headers */,
 				466BE8ED1793DBE400424245 /* CCDeprecated.h in Headers */,
+				01BBEA6417B8E8210003B529 /* CCGameServices.h in Headers */,
+				01BBEA6617B8E8210003B529 /* CCInAppBilling.h in Headers */,
+				01BBEA6E17B8E8920003B529 /* CCGameKitHelper.h in Headers */,
+				01BBEA7617B8E8920003B529 /* CCStoreKitHelper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5444,6 +5551,10 @@
 				A03F31E1178145F3006731B9 /* spine.h in Headers */,
 				1AE019861790023400D574A8 /* SocketIO.h in Headers */,
 				1A50FEA517A0C89300A422C8 /* CCDeprecated-ext.h in Headers */,
+				01BBEA8817B8EC4D0003B529 /* libb64.h in Headers */,
+				01BBEA8C17B8EC4D0003B529 /* CCCrypto.h in Headers */,
+				01BBEA9017B8EC4D0003B529 /* md5.h in Headers */,
+				01BBEA9417B8EC4D0003B529 /* sha1.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5738,6 +5849,10 @@
 				A07A4DBC17837B910073F6A7 /* types.h in Headers */,
 				A07A52CE1784AC360073F6A7 /* etc1.h in Headers */,
 				466BE8EE1793DBE400424245 /* CCDeprecated.h in Headers */,
+				01BBEA6517B8E8210003B529 /* CCGameServices.h in Headers */,
+				01BBEA6717B8E8210003B529 /* CCInAppBilling.h in Headers */,
+				01BBEA6F17B8E8920003B529 /* CCGameKitHelper.h in Headers */,
+				01BBEA7717B8E8920003B529 /* CCStoreKitHelper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5870,6 +5985,10 @@
 				A07A4EF81783867C0073F6A7 /* spine.h in Headers */,
 				1AE019871790023400D574A8 /* SocketIO.h in Headers */,
 				1A50FEA617A0C89300A422C8 /* CCDeprecated-ext.h in Headers */,
+				01BBEA8917B8EC4D0003B529 /* libb64.h in Headers */,
+				01BBEA8D17B8EC4D0003B529 /* CCCrypto.h in Headers */,
+				01BBEA9117B8EC4D0003B529 /* md5.h in Headers */,
+				01BBEA9517B8EC4D0003B529 /* sha1.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6496,6 +6615,10 @@
 				A07A52CB1784AC360073F6A7 /* etc1.cpp in Sources */,
 				46B9C9631786763E00F808DD /* ccTypes.cpp in Sources */,
 				466AF6A017A12298002EE9BB /* CCDeprecated.cpp in Sources */,
+				01BBEA7017B8E8920003B529 /* CCGameKitHelper.mm in Sources */,
+				01BBEA7217B8E8920003B529 /* CCGameServices.mm in Sources */,
+				01BBEA7417B8E8920003B529 /* CCInAppBilling.mm in Sources */,
+				01BBEA7817B8E8920003B529 /* CCStoreKitHelper.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6763,6 +6886,10 @@
 				A03F31DF178145F3006731B9 /* spine-cocos2dx.cpp in Sources */,
 				1AE019841790023400D574A8 /* SocketIO.cpp in Sources */,
 				466AF6A717A23A07002EE9BB /* CCDeprecated-ext.cpp in Sources */,
+				01BBEA8617B8EC4D0003B529 /* libb64.c in Sources */,
+				01BBEA8A17B8EC4D0003B529 /* CCCrypto.cpp in Sources */,
+				01BBEA8E17B8EC4D0003B529 /* md5.c in Sources */,
+				01BBEA9217B8EC4D0003B529 /* sha1.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6799,6 +6926,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01BBEA5117B8E2180003B529 /* CCLocalizedString.cpp in Sources */,
 				A07A4C261783777C0073F6A7 /* CCAction.cpp in Sources */,
 				A07A4C271783777C0073F6A7 /* CCActionCamera.cpp in Sources */,
 				A07A4C281783777C0073F6A7 /* CCActionCatmullRom.cpp in Sources */,
@@ -6936,6 +7064,10 @@
 				A07A52CC1784AC360073F6A7 /* etc1.cpp in Sources */,
 				46B9C9641786763E00F808DD /* ccTypes.cpp in Sources */,
 				466AF6A117A12298002EE9BB /* CCDeprecated.cpp in Sources */,
+				01BBEA7117B8E8920003B529 /* CCGameKitHelper.mm in Sources */,
+				01BBEA7317B8E8920003B529 /* CCGameServices.mm in Sources */,
+				01BBEA7517B8E8920003B529 /* CCInAppBilling.mm in Sources */,
+				01BBEA7917B8E8920003B529 /* CCStoreKitHelper.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7049,6 +7181,10 @@
 				A07A4E7A1783867C0073F6A7 /* spine-cocos2dx.cpp in Sources */,
 				1AE019851790023400D574A8 /* SocketIO.cpp in Sources */,
 				466AF6A817A23A07002EE9BB /* CCDeprecated-ext.cpp in Sources */,
+				01BBEA8717B8EC4D0003B529 /* libb64.c in Sources */,
+				01BBEA8B17B8EC4D0003B529 /* CCCrypto.cpp in Sources */,
+				01BBEA8F17B8EC4D0003B529 /* md5.c in Sources */,
+				01BBEA9317B8EC4D0003B529 /* sha1.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7272,7 +7408,6 @@
 					"DEBUG=1",
 					"COCOS2D_DEBUG=1",
 					USE_FILE32API,
-					"CC_ENABLE_CHIPMUNK_INTEGRATION=1",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -7296,7 +7431,6 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"CC_ENABLE_CHIPMUNK_INTEGRATION=1",
 					NDEBUG,
 					USE_FILE32API,
 				);

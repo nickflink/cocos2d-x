@@ -9,56 +9,56 @@ Copyright (c) 2013 Nicholas Flink
 NS_CC_BEGIN
 
 // singleton stuff
-static CCInAppBilling *s_SharedInAppBilling = NULL;
-CCInAppBilling* CCInAppBilling::sharedInAppBilling(void) {
-    if (!s_SharedInAppBilling) {
-        s_SharedInAppBilling = new CCInAppBilling();
-        s_SharedInAppBilling->init();
+static InAppBilling *s_getInstance = NULL;
+InAppBilling* InAppBilling::getInstance(void) {
+    if (!s_getInstance) {
+        s_getInstance = new InAppBilling();
+        s_getInstance->init();
     }
-    return s_SharedInAppBilling;
+    return s_getInstance;
 }
 
-CCInAppBilling::CCInAppBilling(void) {
+InAppBilling::InAppBilling(void) {
 }
 
-CCInAppBilling::~CCInAppBilling(void) {
+InAppBilling::~InAppBilling(void) {
 }
 
-bool CCInAppBilling::init(void) {
+bool InAppBilling::init(void) {
     bool success = true;
     return success;
 }
 
-void CCInAppBilling::setup() {
-    CCLog("CCInAppBilling::setup");
+void InAppBilling::setup() {
+    CCLog("InAppBilling::setup");
     [[CCStoreKitHelper sharedHelper] requestProducts];
 
 }
 
-void CCInAppBilling::addProduct(const char *name) {
+void InAppBilling::addProduct(const char *name) {
     [[CCStoreKitHelper sharedHelper] addProductIdentifiers:[NSSet setWithObject:[NSString stringWithFormat:@"%s", name]]];
 }
 
-void CCInAppBilling::refreshPurchases() {
-    CCLog("CCInAppBilling::refreshPurchases");
+void InAppBilling::refreshPurchases() {
+    CCLog("InAppBilling::refreshPurchases");
     [[CCStoreKitHelper sharedHelper] restoreCompletedTransactions];
 }
 
-void CCInAppBilling::inAppPurchase(const char *name, const char *receipt) {
+void InAppBilling::inAppPurchase(const char *name, const char *receipt) {
     CC_UNUSED_PARAM(receipt);
-    CCLog("CCInAppBilling::inAppPurchase");
+    CCLog("InAppBilling::inAppPurchase");
     [[CCStoreKitHelper sharedHelper] inAppPurchase:[NSString stringWithFormat:@"%s", name]];
 }
 
-void CCInAppBilling::addPurchaseDelegate(CCPurchaseDelegate *pDelegate) {
+void InAppBilling::addPurchaseDelegate(PurchaseDelegate *pDelegate) {
     m_pPurchaseHandlers.push_back(pDelegate);
 }
 
-void CCInAppBilling::removePurchaseDelegate(CCPurchaseDelegate *pDelegate) {
+void InAppBilling::removePurchaseDelegate(PurchaseDelegate *pDelegate) {
     //m_pPurchaseHandlers.erase(std::remove(m_pPurchaseHandlers.begin(), m_pPurchaseHandlers.end(), pDelegate), m_pPurchaseHandlers.end());
     int indexToErase = -1;
     int index = 0;
-    for(std::vector<CCPurchaseDelegate*>::iterator it = m_pPurchaseHandlers.begin(); it != m_pPurchaseHandlers.end(); ++it) {
+    for(std::vector<PurchaseDelegate*>::iterator it = m_pPurchaseHandlers.begin(); it != m_pPurchaseHandlers.end(); ++it) {
         if(reinterpret_cast<size_t>(*it) == reinterpret_cast<size_t>(pDelegate)) {
             indexToErase = index;
             break;
@@ -70,20 +70,20 @@ void CCInAppBilling::removePurchaseDelegate(CCPurchaseDelegate *pDelegate) {
     }
 }
 
-void CCInAppBilling::onSetupComplete() {
-    CCAssert(false, "Implement CCInAppBilling::onSetupComplete");
+void InAppBilling::onSetupComplete() {
+    CCAssert(false, "Implement InAppBilling::onSetupComplete");
 }
 
-void CCInAppBilling::onPurchaseFailed() {
-    CCLog("CCInAppBilling::onPurchaseFailed");
-    for(std::vector<CCPurchaseDelegate*>::iterator it = m_pPurchaseHandlers.begin(); it != m_pPurchaseHandlers.end(); ++it) {
+void InAppBilling::onPurchaseFailed() {
+    CCLog("InAppBilling::onPurchaseFailed");
+    for(std::vector<PurchaseDelegate*>::iterator it = m_pPurchaseHandlers.begin(); it != m_pPurchaseHandlers.end(); ++it) {
         (*it)->ccOnPurchaseFailed();
     }
 }
 
-void CCInAppBilling::onPurchaseSucceeded() {
-    CCLog("CCInAppBilling::onPurchaseSucceeded");
-    for(std::vector<CCPurchaseDelegate*>::iterator it = m_pPurchaseHandlers.begin(); it != m_pPurchaseHandlers.end(); ++it) {
+void InAppBilling::onPurchaseSucceeded() {
+    CCLog("InAppBilling::onPurchaseSucceeded");
+    for(std::vector<PurchaseDelegate*>::iterator it = m_pPurchaseHandlers.begin(); it != m_pPurchaseHandlers.end(); ++it) {
         (*it)->ccOnPurchaseSucceeded();
     }
 }

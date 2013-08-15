@@ -107,7 +107,7 @@ public:
 
     /** saves the texture into a file using JPEG format. asyncronously, the targets selector will be called upon completion
      */
-    void saveToFileAsync(const char *szFilePath, CCObject *target, SEL_CallFunc selector);
+    void saveToFileAsync(const char *szFilePath, Object *target, SEL_CallFunc selector);
     /** this is where the save thread is run
      */
     static void *saveImageThread(void* data);

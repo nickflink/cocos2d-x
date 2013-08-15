@@ -681,12 +681,12 @@ double Director::getAvailableBytes() {
 
     if (kernReturn != KERN_SUCCESS)
     {
-        CCLog("FAILURE kernReturn = %d", kernReturn);
+        log("FAILURE kernReturn = %d", kernReturn);
         return 0.0f;
     }
     return (vm_page_size * vmStats.free_count);
 #else
-    CCLog("FAILURE getAvailableBytes not implemented for this platform");
+    log("FAILURE getAvailableBytes not implemented for this platform");
     return 0.0f;
 #endif
 }

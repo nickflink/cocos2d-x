@@ -7,10 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		014AD63317B82504007E0C2E /* ShareFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 014AD63217B82504007E0C2E /* ShareFacebook.m */; };
-		014AD63417B8251A007E0C2E /* ShareFacebook.h in Sources */ = {isa = PBXBuildFile; fileRef = 014AD63117B82504007E0C2E /* ShareFacebook.h */; };
+		014AD63317B82504007E0C2E /* IAPAppStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 014AD63217B82504007E0C2E /* IAPAppStore.m */; };
+		014AD63417B8251A007E0C2E /* IAPAppStore.h in Sources */ = {isa = PBXBuildFile; fileRef = 014AD63117B82504007E0C2E /* IAPAppStore.h */; };
 		017D4A6C17C63B9900CE0F84 /* libPluginProtocol.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 017D4A6B17C63B9900CE0F84 /* libPluginProtocol.a */; };
-		01C784691788D444000F8285 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01C784681788D444000F8285 /* FacebookSDK.framework */; };
 		FACAD88C1762C1B500D75ADE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACAD88B1762C1B500D75ADE /* Foundation.framework */; };
 		FACAD8C41762C64100D75ADE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACAD8C31762C64100D75ADE /* UIKit.framework */; };
 /* End PBXBuildFile section */
@@ -28,12 +27,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0137615217876EED00D7FCC9 /* PluginFacebook-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PluginFacebook-Prefix.pch"; sourceTree = "<group>"; };
-		014AD63117B82504007E0C2E /* ShareFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareFacebook.h; sourceTree = "<group>"; };
-		014AD63217B82504007E0C2E /* ShareFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareFacebook.m; sourceTree = "<group>"; };
+		0137615217876EED00D7FCC9 /* PluginAppStore-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PluginAppStore-Prefix.pch"; sourceTree = "<group>"; };
+		014AD63117B82504007E0C2E /* IAPAppStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPAppStore.h; sourceTree = "<group>"; };
+		014AD63217B82504007E0C2E /* IAPAppStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPAppStore.m; sourceTree = "<group>"; };
 		017D4A6B17C63B9900CE0F84 /* libPluginProtocol.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPluginProtocol.a; path = "../../../protocols/proj.ios/build/Release-iphoneos/libPluginProtocol.a"; sourceTree = "<group>"; };
-		01C784681788D444000F8285 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = "../../../../facebook-ios-sdk/build/FacebookSDK.framework"; sourceTree = "<group>"; };
-		FACAD8881762C1B500D75ADE /* libPluginFacebook.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPluginFacebook.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		FACAD8881762C1B500D75ADE /* libPluginAppStore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPluginAppStore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FACAD88B1762C1B500D75ADE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FACAD8C31762C64100D75ADE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -44,7 +42,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				017D4A6C17C63B9900CE0F84 /* libPluginProtocol.a in Frameworks */,
-				01C784691788D444000F8285 /* FacebookSDK.framework in Frameworks */,
 				FACAD8C41762C64100D75ADE /* UIKit.framework in Frameworks */,
 				FACAD88C1762C1B500D75ADE /* Foundation.framework in Frameworks */,
 			);
@@ -57,9 +54,9 @@
 			isa = PBXGroup;
 			children = (
 				017D4A6B17C63B9900CE0F84 /* libPluginProtocol.a */,
-				014AD63117B82504007E0C2E /* ShareFacebook.h */,
-				014AD63217B82504007E0C2E /* ShareFacebook.m */,
-				0137615217876EED00D7FCC9 /* PluginFacebook-Prefix.pch */,
+				014AD63117B82504007E0C2E /* IAPAppStore.h */,
+				014AD63217B82504007E0C2E /* IAPAppStore.m */,
+				0137615217876EED00D7FCC9 /* PluginAppStore-Prefix.pch */,
 				FACAD88A1762C1B500D75ADE /* Frameworks */,
 				FACAD8891762C1B500D75ADE /* Products */,
 			);
@@ -68,7 +65,7 @@
 		FACAD8891762C1B500D75ADE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FACAD8881762C1B500D75ADE /* libPluginFacebook.a */,
+				FACAD8881762C1B500D75ADE /* libPluginAppStore.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -76,7 +73,6 @@
 		FACAD88A1762C1B500D75ADE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				01C784681788D444000F8285 /* FacebookSDK.framework */,
 				FACAD8C31762C64100D75ADE /* UIKit.framework */,
 				FACAD88B1762C1B500D75ADE /* Foundation.framework */,
 			);
@@ -86,9 +82,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FACAD8871762C1B500D75ADE /* PluginFacebook */ = {
+		FACAD8871762C1B500D75ADE /* PluginAppStore */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FACAD8961762C1B500D75ADE /* Build configuration list for PBXNativeTarget "PluginFacebook" */;
+			buildConfigurationList = FACAD8961762C1B500D75ADE /* Build configuration list for PBXNativeTarget "PluginAppStore" */;
 			buildPhases = (
 				FACAD8841762C1B500D75ADE /* Sources */,
 				FACAD8851762C1B500D75ADE /* Frameworks */,
@@ -98,9 +94,9 @@
 			);
 			dependencies = (
 			);
-			name = PluginFacebook;
-			productName = PluginFacebook;
-			productReference = FACAD8881762C1B500D75ADE /* libPluginFacebook.a */;
+			name = PluginAppStore;
+			productName = PluginAppStore;
+			productReference = FACAD8881762C1B500D75ADE /* libPluginAppStore.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -112,7 +108,7 @@
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = zhangbin;
 			};
-			buildConfigurationList = FACAD8821762C1B500D75ADE /* Build configuration list for PBXProject "PluginFacebook" */;
+			buildConfigurationList = FACAD8821762C1B500D75ADE /* Build configuration list for PBXProject "PluginAppStore" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -124,7 +120,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FACAD8871762C1B500D75ADE /* PluginFacebook */,
+				FACAD8871762C1B500D75ADE /* PluginAppStore */,
 			);
 		};
 /* End PBXProject section */
@@ -134,8 +130,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				014AD63417B8251A007E0C2E /* ShareFacebook.h in Sources */,
-				014AD63317B82504007E0C2E /* ShareFacebook.m in Sources */,
+				014AD63417B8251A007E0C2E /* IAPAppStore.h in Sources */,
+				014AD63317B82504007E0C2E /* IAPAppStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,20 +192,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LIBRARY = "libc++";
-				DSTROOT = /tmp/PluginFacebook.dst;
+				DSTROOT = /tmp/PluginAppStore.dst;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../../facebook-ios-sdk/build\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PluginFacebook-Prefix.pch";
+				GCC_PREFIX_HEADER = "PluginAppStore-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../protocols/platform/ios";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../protocols/proj.ios/build/Release-iphoneos\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = PluginFacebook;
+				PRODUCT_NAME = PluginAppStore;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -218,20 +213,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LIBRARY = "libc++";
-				DSTROOT = /tmp/PluginFacebook.dst;
+				DSTROOT = /tmp/PluginAppStore.dst;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../../facebook-ios-sdk/build\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PluginFacebook-Prefix.pch";
+				GCC_PREFIX_HEADER = "PluginAppStore-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../protocols/platform/ios";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../protocols/proj.ios/build/Release-iphoneos\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = PluginFacebook;
+				PRODUCT_NAME = PluginAppStore;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -239,7 +233,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FACAD8821762C1B500D75ADE /* Build configuration list for PBXProject "PluginFacebook" */ = {
+		FACAD8821762C1B500D75ADE /* Build configuration list for PBXProject "PluginAppStore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FACAD8941762C1B500D75ADE /* Debug */,
@@ -248,7 +242,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FACAD8961762C1B500D75ADE /* Build configuration list for PBXNativeTarget "PluginFacebook" */ = {
+		FACAD8961762C1B500D75ADE /* Build configuration list for PBXNativeTarget "PluginAppStore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FACAD8971762C1B500D75ADE /* Debug */,

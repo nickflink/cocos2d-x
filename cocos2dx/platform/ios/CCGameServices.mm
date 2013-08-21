@@ -30,33 +30,33 @@ bool GameServices::init(void) {
 }
 
 void GameServices::setLocalizedMessages(const char *signingIn, const char *signingOut, const char *unknownError) {
-    CCLog("GameServices::setLocalizedMessages is only used for android");
+    log("GameServices::setLocalizedMessages is only used for android");
 }
 
 bool GameServices::isSignedIn() {
-    CCLog("GameServices::isSignedIn");
+    log("GameServices::isSignedIn");
     return [[CCGameKitHelper sharedHelper] isAuthenticated];
 }
 
 void GameServices::signIn() {
-    CCLog("GameServices::signIn");
+    log("GameServices::signIn");
     return [[CCGameKitHelper sharedHelper] authenticatePlayer];
 }
 
 void GameServices::setSecretKey(const char *key) {
-    CCLog("GameServices::setSecretKey");
+    log("GameServices::setSecretKey");
     [[CCGameKitHelper sharedHelper] setSecretKey:[NSString stringWithFormat:@"%s", key]];
 }
 
 
 void GameServices::showLeaderboard() {
-    CCLog("GameServices::showLeaderboard");
+    log("GameServices::showLeaderboard");
     [[CCGameKitHelper sharedHelper] showLeaderboard:nil];
     //CCAssert(false, "implement GameServices::showLeaderboard");
 }
 
 void GameServices::showAchievement() {
-    CCLog("GameServices::showAchievement");
+    log("GameServices::showAchievement");
     //[[CCGameKitHelper sharedHelper] resetAchievements];//For testing
     [[CCGameKitHelper sharedHelper] showAchievements];
     //CCAssert(false, "implement GameServices::showLeaderboard");
@@ -69,7 +69,7 @@ void GameServices::reportAchievement(const char *category) {
 
 void GameServices::reportAchievement(const char *category, int portion) {
     [[CCGameKitHelper sharedHelper] reportAchievement:[NSString stringWithFormat:@"%s", category] percentComplete:(double)portion];
-    [[CCGameKitHelper sharedHelper] showNotification:[NSString stringWithFormat:@"%s", category] identifier:[NSString stringWithFormat:@"%s", category]];
+    [[CCGameKitHelper sharedHelper] showNotification:[NSString stringWithFormat:@"%s", category] message:[NSString stringWithFormat:@"%s", category] identifier:[NSString stringWithFormat:@"%s", category]];
 }
 
 void GameServices::submitScore(const char *category, long long score) {
@@ -97,14 +97,14 @@ void GameServices::removeSignInDelegate(SignInDelegate *pDelegate) {
 }
 
 void GameServices::onSignInFailed() {
-    CCLog("GameServices::onSignInFailed");
+    log("GameServices::onSignInFailed");
     for(std::vector<SignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
         (*it)->ccOnSignInFailed();
     }
 }
 
 void GameServices::onSignInSucceeded() {
-    CCLog("GameServices::onSignInSucceeded");
+    log("GameServices::onSignInSucceeded");
     for(std::vector<SignInDelegate*>::iterator it = m_pSignInHandlers.begin(); it != m_pSignInHandlers.end(); ++it) {
         (*it)->ccOnSignInSucceeded();
     }

@@ -32,14 +32,14 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SocialFacebook implements InterfaceSocial {
+public class ShareFacebook implements InterfaceShare {
 
-	private static final String TAG = "SocialFacebook";
+	private static final String TAG = "ShareFacebook";
 	private static final int AUTH_ACTIVITY_CODE = 100;
 	private static final int REAUTH_ACTIVITY_CODE = 101;
 	private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
 	private static Activity mActivity = null;
-	private static InterfaceSocial mSocialAdapter = null;
+	private static InterfaceShare mShareAdapter = null;
 	protected static boolean bDebug = false;
 	protected static boolean bAsyncRunning = false;
 	private static String CONSUMER_KEY="";
@@ -104,8 +104,8 @@ public class SocialFacebook implements InterfaceSocial {
 		return stateString;
 	}
 
-	public SocialFacebook(Context context) {
-		mSocialAdapter = this;
+	public ShareFacebook(Context context) {
+		mShareAdapter = this;
 		mActivity = (Activity) context;
 		PluginWrapper.runOnMainThread(new Runnable() {
 			@Override
@@ -121,10 +121,10 @@ public class SocialFacebook implements InterfaceSocial {
 		LogD("configDeveloperInfo invoked " + cpInfo.toString());
 		try {
 			if(!mIsInitialized){
-				SocialFacebook.CONSUMER_KEY = cpInfo.get("FacebookAppKey");
-				SocialFacebook.CONSUMER_SECRET = cpInfo.get("FacebookAppSecret");
-				LogD("key : " + SocialFacebook.CONSUMER_KEY);
-				LogD("secret : " + SocialFacebook.CONSUMER_SECRET);
+				ShareFacebook.CONSUMER_KEY = cpInfo.get("FacebookAppKey");
+				ShareFacebook.CONSUMER_SECRET = cpInfo.get("FacebookAppSecret");
+				LogD("key : " + ShareFacebook.CONSUMER_KEY);
+				LogD("secret : " + ShareFacebook.CONSUMER_SECRET);
 				login();
 				mIsInitialized = true;	
 			}
@@ -139,7 +139,7 @@ public class SocialFacebook implements InterfaceSocial {
 		if (session == null) {
 			LogD("new Session");
 			session = new Session.Builder((Context)mActivity)
-				.setApplicationId(SocialFacebook.CONSUMER_KEY)
+				.setApplicationId(ShareFacebook.CONSUMER_KEY)
 				.build();
 			LogD("openForRead");
 			Session.OpenRequest openRequest = new Session.OpenRequest(mActivity)
@@ -159,7 +159,7 @@ public class SocialFacebook implements InterfaceSocial {
 	private class SessionStatusCallback implements Session.StatusCallback {
 		@Override
 		public void call(Session session, SessionState state, Exception exception) {
-			LogD(SocialFacebook.stateToString(state));
+			LogD(ShareFacebook.stateToString(state));
 			Session activeSession = Session.getActiveSession();
 			LogD("Session.getActiveSession "+java.lang.System.identityHashCode(activeSession));
 			if(session != activeSession) {
@@ -219,7 +219,7 @@ public class SocialFacebook implements InterfaceSocial {
 				if(session == null) {
 					LogD("can not upload photo session null");
 				} else {
-					LogD("can not upload photo session "+java.lang.System.identityHashCode(session)+" in wrong state:"+SocialFacebook.stateToString(session.getState()));
+					LogD("can not upload photo session "+java.lang.System.identityHashCode(session)+" in wrong state:"+ShareFacebook.stateToString(session.getState()));
 					Session activeSession = Session.getActiveSession();
 					LogD("Session.getActiveSession "+java.lang.System.identityHashCode(activeSession));
 					if(session != activeSession) {
@@ -231,15 +231,15 @@ public class SocialFacebook implements InterfaceSocial {
 			}
 		} else {
 			if (bAsyncRunning == false) {
-				shareResult(SocialWrapper.SHARERESULT_FAIL, "Async task already running!");
+				shareResult(ShareWrapper.SHARERESULT_FAIL, "Async task already running!");
 				return;
 			}
 			if (! networkReachable()) {
-				shareResult(SocialWrapper.SHARERESULT_FAIL, "Network error!");
+				shareResult(ShareWrapper.SHARERESULT_FAIL, "Network error!");
 				return;
 			}
 			if (! mIsInitialized) {
-				shareResult(SocialWrapper.SHARERESULT_FAIL, "Initialize failed!");
+				shareResult(ShareWrapper.SHARERESULT_FAIL, "Initialize failed!");
 				return;
 			}
 		}
@@ -248,9 +248,9 @@ public class SocialFacebook implements InterfaceSocial {
 	@Override
 	public void setDebugMode(boolean debug) {
 		if(debug) {
-			LogD("SocialFacebook setDebugMode true");
+			LogD("ShareFacebook setDebugMode true");
 		} else {
-			LogD("SocialFacebook setDebugMode false");
+			LogD("ShareFacebook setDebugMode false");
 		}
 		bDebug = debug;
 	}
@@ -261,7 +261,7 @@ public class SocialFacebook implements InterfaceSocial {
 	}
 
 	private boolean networkReachable() {
-		LogD("SocialFacebook networkReachable");
+		LogD("ShareFacebook networkReachable");
 		boolean bRet = false;
 		try {
 			ConnectivityManager conn = (ConnectivityManager)mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -275,12 +275,12 @@ public class SocialFacebook implements InterfaceSocial {
 	}
 
 	private static void shareResult(int ret, String msg) {
-		SocialWrapper.onShareResult(mSocialAdapter, ret, msg);
-		LogD("SocialFacebook result : " + ret + " msg : " + msg);
+		ShareWrapper.onShareResult(mShareAdapter, ret, msg);
+		LogD("ShareFacebook result : " + ret + " msg : " + msg);
 	}
 
 	private static void sendToFacebook() {
-		LogD("SocialFacebook sendToFacebook");
+		LogD("ShareFacebook sendToFacebook");
 	}
 
 	@Override

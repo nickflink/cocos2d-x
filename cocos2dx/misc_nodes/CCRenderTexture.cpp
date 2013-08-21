@@ -630,7 +630,7 @@ void RenderTexture::saveToFileAsync(const char *szFilePath, Object *target, SEL_
 
     std::string pathKey = szFilePath;
 
-    pathKey = FileUtils::sharedFileUtils()->fullPathForFilename(pathKey.c_str());
+    pathKey = FileUtils::getInstance()->fullPathForFilename(pathKey.c_str());
     std::string fullpath = pathKey;
     // lazy init
     if (s_pAsyncStructQueue == NULL)
@@ -661,7 +661,7 @@ void RenderTexture::saveToFileAsync(const char *szFilePath, Object *target, SEL_
 
     // generate async struct
     AsyncStruct *data = new AsyncStruct();
-    data->image = newCCImage(true);
+    data->image = newImage(true);
     // TODO: compute image format from filename
     data->imageFormat = Image::Format::JPG;
     data->filename = fullpath.c_str();

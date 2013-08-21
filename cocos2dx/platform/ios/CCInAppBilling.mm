@@ -30,7 +30,7 @@ bool InAppBilling::init(void) {
 }
 
 void InAppBilling::setup() {
-    CCLog("InAppBilling::setup");
+    log("InAppBilling::setup");
     [[CCStoreKitHelper sharedHelper] requestProducts];
 
 }
@@ -40,13 +40,13 @@ void InAppBilling::addProduct(const char *name) {
 }
 
 void InAppBilling::refreshPurchases() {
-    CCLog("InAppBilling::refreshPurchases");
+    log("InAppBilling::refreshPurchases");
     [[CCStoreKitHelper sharedHelper] restoreCompletedTransactions];
 }
 
 void InAppBilling::inAppPurchase(const char *name, const char *receipt) {
     CC_UNUSED_PARAM(receipt);
-    CCLog("InAppBilling::inAppPurchase");
+    log("InAppBilling::inAppPurchase");
     [[CCStoreKitHelper sharedHelper] inAppPurchase:[NSString stringWithFormat:@"%s", name]];
 }
 
@@ -75,14 +75,14 @@ void InAppBilling::onSetupComplete() {
 }
 
 void InAppBilling::onPurchaseFailed() {
-    CCLog("InAppBilling::onPurchaseFailed");
+    log("InAppBilling::onPurchaseFailed");
     for(std::vector<PurchaseDelegate*>::iterator it = m_pPurchaseHandlers.begin(); it != m_pPurchaseHandlers.end(); ++it) {
         (*it)->ccOnPurchaseFailed();
     }
 }
 
 void InAppBilling::onPurchaseSucceeded() {
-    CCLog("InAppBilling::onPurchaseSucceeded");
+    log("InAppBilling::onPurchaseSucceeded");
     for(std::vector<PurchaseDelegate*>::iterator it = m_pPurchaseHandlers.begin(); it != m_pPurchaseHandlers.end(); ++it) {
         (*it)->ccOnPurchaseSucceeded();
     }

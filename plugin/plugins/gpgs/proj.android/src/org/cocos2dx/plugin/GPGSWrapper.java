@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.cocos2dx.lib;
+package org.cocos2dx.plugin;
 
 import java.util.Vector;
 
@@ -40,13 +40,12 @@ import com.google.android.gms.games.OnSignOutCompleteListener;
 import com.google.android.gms.games.multiplayer.Invitation;
 import com.google.android.gms.plus.PlusClient;
 
-public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener, OnSignOutCompleteListener {
+public class GPGSWrapper implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, OnSignOutCompleteListener {
 
     // ===========================================================
     // Constants
     // ===========================================================
-    private static final String TAG = Cocos2dxGameServiceHelper.class.getSimpleName();
+    private static final String TAG = GPGSWrapper.class.getSimpleName();
     // Request code we use when invoking other Activities to complete the
     // sign-in flow.
     private final static int RC_RESOLVE = 9001;
@@ -62,7 +61,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     // Fields
     // ===========================================================
     private static Context sContext = null;
-    private static volatile Cocos2dxGameServiceHelper sInstance = null;
+    private static volatile GPGSWrapper sInstance = null;
     //
     // The Activity we are bound to. We need to keep a reference to the Activity
     // because some games methods require an Activity (a Context won't do). We
@@ -124,18 +123,18 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     String mInvitationId;
 
     /**
-     * Construct a Cocos2dxGameServiceHelper object, initially tied to the given Activity.
+     * Construct a GPGSWrapper object, initially tied to the given Activity.
      * After constructing this object, call @link{setup} from the onCreate()
      * method of your Activity.
      */
-    private Cocos2dxGameServiceHelper() {
+    private GPGSWrapper() {
     }
 
-    public static Cocos2dxGameServiceHelper getInstance() {
+    public static GPGSWrapper getInstance() {
         if (sInstance == null) {
-            synchronized ( Cocos2dxGameServiceHelper.class ){
+            synchronized ( GPGSWrapper.class ){
                 if (sInstance == null) {
-                    sInstance = new Cocos2dxGameServiceHelper();
+                    sInstance = new GPGSWrapper();
                 }
             }
         }
@@ -150,7 +149,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     }
 
     public void onCreated() {
-        Cocos2dxGameServiceHelper.nativeInit();
+        GPGSWrapper.nativeInit();
     }
 
     public void setLocalizedMessages(String signingIn, String signingOut, String unknownError) {
@@ -158,6 +157,13 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
         mSigningInMessage = signingIn;
         mSigningOutMessage = signingOut;
         mUnknownErrorMessage = unknownError;
+    }
+
+    public void showAchievement()
+    {
+      debugLog("showAchievement");
+      mActivity.startActivityForResult(getGamesClient().getAchievementsIntent(), /*RC_UNUSED*/9002);
+      return;
     }
 //
 // Static Jni Entrypoints
@@ -169,7 +175,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     }
 
     public static void beginUserInitiatedSignInJni() {
-      final Cocos2dxGameServiceHelper instance = getInstance();
+      final GPGSWrapper instance = getInstance();
       if(instance != null) {
         instance.debugLog("beginUserInitiatedSignInJni");
         instance.mActivity.runOnUiThread(new Runnable() {
@@ -265,7 +271,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
     }
 
     /**
-     * Performs setup on this Cocos2dxGameServiceHelper object. Call this from the onCreate()
+     * Performs setup on this GPGSWrapper object. Call this from the onCreate()
      * method of your Activity. This will create the clients and do a few other
      * initialization tasks. Next, call @link{#onStart} from the onStart()
      * method of your Activity.
@@ -792,7 +798,7 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
             onSignInFailed();
         } else {
             // this is a bug
-            Log.e("Cocos2dxGameServiceHelper", "giveUp() called with no mConnectionResult");
+            Log.e("GPGSWrapper", "giveUp() called with no mConnectionResult");
         }
     }
 
@@ -833,6 +839,14 @@ public class Cocos2dxGameServiceHelper implements GooglePlayServicesClient.Conne
         dismissDialog();
         if (mGamesClient.isConnected())
             mGamesClient.disconnect();
+    }
+
+    public static String getPluginVersion() {
+        return "0.0.1";
+    }
+
+    public static String getSDKVersion() {
+        return "20130821";
     }
 
     // ===========================================================

@@ -91,17 +91,11 @@ platform/android/CCAccelerometer.cpp \
 platform/android/CCApplication.cpp \
 platform/android/CCCommon.cpp \
 platform/android/CCFileUtilsAndroid.cpp \
-platform/android/CCGameServices.cpp \
-platform/android/CCGameServicesJni.cpp \
 platform/android/CCImage.cpp \
-platform/android/CCInAppBilling.cpp \
-platform/android/CCInAppBillingJni.cpp \
 platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxBitmap.cpp \
 platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxHelper.cpp \
 platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxRenderer.cpp \
 platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxAccelerometer.cpp \
-platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxGameServiceHelper.cpp \
-platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxInAppBilling.cpp \
 platform/android/jni/JniHelper.cpp \
 platform/android/jni/IMEJni.cpp \
 platform/android/jni/TouchesJni.cpp \

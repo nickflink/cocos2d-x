@@ -26,6 +26,7 @@ THE SOFTWARE.
 #include "ProtocolAnalytics.h"
 #include "ProtocolIAP.h"
 #include "ProtocolShare.h"
+#include "ProtocolSocial.h"
 #include "PluginUtilsIOS.h"
 
 #import <Foundation/Foundation.h>
@@ -33,6 +34,8 @@ THE SOFTWARE.
 #import "InterfaceAnalytics.h"
 #import "InterfaceIAP.h"
 #import "InterfaceShare.h"
+#import "InterfaceSocial.h"
+
 
 namespace cocos2d { namespace plugin {
 
@@ -77,6 +80,7 @@ PluginProtocol* PluginFactory::createPlugin(const char* name)
 
         NSString* className = [NSString stringWithUTF8String:name];
         id obj = [[NSClassFromString(className) alloc] init];
+        //TODO: FIGURE OUT WHY MY CLASSES CANT BE LOADED
         if (obj == nil) break;
 
         if ([obj conformsToProtocol:@protocol(InterfaceAds)]) {
@@ -90,6 +94,9 @@ PluginProtocol* PluginFactory::createPlugin(const char* name)
         } else
         if ([obj conformsToProtocol:@protocol(InterfaceShare)]) {
             pRet = new ProtocolShare();
+        } else
+        if ([obj conformsToProtocol:@protocol(InterfaceSocial)]) {
+            pRet = new ProtocolSocial();
         } else {
             PluginUtilsIOS::outputLog("Plugin %s not implements a right protocol", name);
         }

@@ -24,7 +24,6 @@
 
 #import <CommonCrypto/CommonCryptor.h>
 #import "CCGameKitHelper.h"
-#include "CCGameServices.h"
 
 #define IS_MIN_IOS6 ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0f)
 
@@ -75,14 +74,14 @@
             //Report possible cached scores / achievements
             [self reportCachedAchievements];
             [self reportCachedScores];
-            cocos2d::GameServices::getInstance()->onSignInSucceeded();
+            //cocos2d::GameServices::getInstance()->onSignInSucceeded();
         }
         
         if (error)
         {
             self.authenticated = NO;
             if (ABGAMEKITHELPER_LOGGING) NSLog(@"CCGameKitHelper: ERROR -> Player didn't authenticate");
-            cocos2d::GameServices::getInstance()->onSignInFailed();
+            //cocos2d::GameServices::getInstance()->onSignInFailed();
         }
     };
     

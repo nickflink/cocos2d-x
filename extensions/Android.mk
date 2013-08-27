@@ -58,9 +58,6 @@ Components/CCComAttribute.cpp \
 Components/CCComAudio.cpp \
 Components/CCComController.cpp \
 Components/CCInputDelegate.cpp \
-crypto//base64/libb64.c \
-crypto//CCCrypto.cpp \
-crypto//sha1/sha1.cpp \
 GUI/CCControlExtension/CCControl.cpp \
 GUI/CCControlExtension/CCControlButton.cpp \
 GUI/CCControlExtension/CCControlColourPicker.cpp \
@@ -122,7 +119,6 @@ LOCAL_EXPORT_CFLAGS += -DCC_ENABLE_CHIPMUNK_INTEGRATION=1
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH) \
                            $(LOCAL_PATH)/CCBReader \
-                           $(LOCAL_PATH)/crypto\
                            $(LOCAL_PATH)/GUI/CCControlExtension \
                            $(LOCAL_PATH)/GUI/CCScrollView \
                            $(LOCAL_PATH)/network \

@@ -24,14 +24,6 @@
 
 #import "InterfaceIAP.h"
 
-//typedef enum eFacebookEngineState {
-//    kFacebookEngineState_CLOSED,
-//    kFacebookEngineState_SIGNING_IN,
-//    kFacebookEngineState_OPEN,
-//    kFacebookEngineState_PERMISSION_REQ,
-//    kFacebookEngineState_UPLOADING_PHOTO,
-//} FacebookEngineState;
-
 @interface IAPAppStore : NSObject <InterfaceIAP>
 {
     

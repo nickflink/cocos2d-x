@@ -43,46 +43,64 @@ static PluginFactory* s_pFactory = NULL;
 
 PluginFactory::PluginFactory()
 {
-
+    NSLog(@"%d::%s", __LINE__, __FILE__);
 }
 
 PluginFactory::~PluginFactory()
 {
-
+    NSLog(@"%d::%s", __LINE__, __FILE__);
 }
 
 PluginFactory* PluginFactory::getInstance()
 {
+    NSLog(@"%d::%s", __LINE__, __FILE__);
 	if (NULL == s_pFactory)
 	{
+        NSLog(@"%d::%s", __LINE__, __FILE__);
 		s_pFactory = new PluginFactory();
 	}
-
+    NSLog(@"%d::%s", __LINE__, __FILE__);
 	return s_pFactory;
 }
 
 void PluginFactory::purgeFactory()
 {
+    NSLog(@"%d::%s", __LINE__, __FILE__);
 	if (NULL != s_pFactory)
 	{
+        NSLog(@"%d::%s", __LINE__, __FILE__);
 		delete s_pFactory;
 		s_pFactory = NULL;
 	}
+    NSLog(@"%d::%s", __LINE__, __FILE__);
 }
 
 /** create the plugin by name */
 PluginProtocol* PluginFactory::createPlugin(const char* name)
 {
+    PluginUtilsIOS::outputLog("obj = %d::%s", __LINE__, __FILE__);
 	PluginProtocol* pRet = NULL;
 	do
 	{
+        PluginUtilsIOS::outputLog("%d::%s", __LINE__, __FILE__);
 		if (name == NULL || strlen(name) == 0) break;
-
-        NSString* className = [NSString stringWithUTF8String:name];
-        id obj = [[NSClassFromString(className) alloc] init];
+        PluginUtilsIOS::outputLog("%d::%s", __LINE__, __FILE__);
+        //NSString* className = [NSString stringWithUTF8String:name];
+        NSString* className = @"NSString";
+        PluginUtilsIOS::outputLog("%d::%s", __LINE__, __FILE__);
+        id klass = NSClassFromString(className);
+        if (klass == nil) {
+            NSLog(@"%d::%s NSClassFromString fails on %@", __LINE__, __FILE__, className);
+            break;
+        }
+        id obj = [[klass alloc] init];
+        NSLog(@"%d::%s obj = %@", __LINE__, __FILE__, obj);
         //TODO: FIGURE OUT WHY MY CLASSES CANT BE LOADED
-        if (obj == nil) break;
-
+        if (obj == nil) {
+            NSLog(@"%d::%s [[%@ alloc] fails", __LINE__, __FILE__, className);
+            break;
+        }
+        PluginUtilsIOS::outputLog("%d::%s", __LINE__, __FILE__);
         if ([obj conformsToProtocol:@protocol(InterfaceAds)]) {
             pRet = new ProtocolAds();
         } else
@@ -103,6 +121,7 @@ PluginProtocol* PluginFactory::createPlugin(const char* name)
 
 		if (pRet != NULL)
 		{
+            PluginUtilsIOS::outputLog("%d::%s", __LINE__, __FILE__);
 			pRet->setPluginName(name);
 			PluginUtilsIOS::initOCPlugin(pRet, obj, name);
 		}

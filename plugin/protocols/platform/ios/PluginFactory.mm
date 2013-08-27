@@ -85,8 +85,7 @@ PluginProtocol* PluginFactory::createPlugin(const char* name)
         PluginUtilsIOS::outputLog("%d::%s", __LINE__, __FILE__);
 		if (name == NULL || strlen(name) == 0) break;
         PluginUtilsIOS::outputLog("%d::%s", __LINE__, __FILE__);
-        //NSString* className = [NSString stringWithUTF8String:name];
-        NSString* className = @"NSString";
+        NSString* className = [NSString stringWithUTF8String:name];
         PluginUtilsIOS::outputLog("%d::%s", __LINE__, __FILE__);
         id klass = NSClassFromString(className);
         if (klass == nil) {

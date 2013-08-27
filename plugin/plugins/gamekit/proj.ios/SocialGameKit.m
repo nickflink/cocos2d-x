@@ -35,6 +35,9 @@
 - (void) configDeveloperInfo : (NSMutableDictionary*) cpInfo
 {
     OUTPUT_LOG(@"SocialGameKit::configDeveloperInfo");
+    if(![[CCGameKitHelper sharedHelper] isAuthenticated]) {
+        [[CCGameKitHelper sharedHelper] authenticatePlayer];
+    }
 }
 - (void) submitScore: (NSString*) leaderboardID withScore: (long) score
 {

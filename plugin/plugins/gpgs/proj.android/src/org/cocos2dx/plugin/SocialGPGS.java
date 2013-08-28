@@ -25,12 +25,6 @@ package org.cocos2dx.plugin;
 
 import java.util.Hashtable;
 
-//import com.nd.commplatform.NdCallbackListener;
-//import com.nd.commplatform.NdCommplatform;
-//import com.nd.commplatform.NdErrorCode;
-//import com.nd.commplatform.NdMiscCallbackListener.OnLoginProcessListener;
-//import com.nd.commplatform.entry.NdAchieveUnlockInfo;
-
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
@@ -42,9 +36,7 @@ public class SocialGPGS implements InterfaceSocial {
     private static Activity mContext = null;
     private static SocialGPGS mGPGS = null;
     private static boolean bDebug = false;
-    //private static CallbackListener<Object> submitListener = null;
-    //private static CallbackListener<Object> unlockListener = null;
-    
+
     protected static void LogE(String msg, Exception e) {
         Log.e(LOG_TAG, msg, e);
         e.printStackTrace();

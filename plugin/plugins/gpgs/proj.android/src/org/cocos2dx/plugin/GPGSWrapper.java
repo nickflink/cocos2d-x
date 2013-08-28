@@ -48,9 +48,9 @@ public class GPGSWrapper implements GooglePlayServicesClient.ConnectionCallbacks
     private static final String TAG = GPGSWrapper.class.getSimpleName();
     // Request code we use when invoking other Activities to complete the
     // sign-in flow.
-    private final static int RC_RESOLVE = 9001;
+    public final static int RC_RESOLVE_GPGS = 9001;
     // Request code when invoking Activities whose result we don't care about.
-    private final static int RC_UNUSED = 9002;
+    public final static int RC_UNUSED_GPGS = 9002;
     // What clients we manage (OR-able values, can be combined as flags)
     public final static int CLIENT_NONE = 0x00;
     public final static int CLIENT_GAMES = 0x01;
@@ -148,9 +148,9 @@ public class GPGSWrapper implements GooglePlayServicesClient.ConnectionCallbacks
         setLocalizedMessages("NL: signing in", "NL: signing out", "NL: unknown error");
     }
 
-    public void onCreated() {
-        GPGSWrapper.nativeInit();
-    }
+    //public void onCreated() {
+    //    GPGSWrapper.nativeInit();
+    //}
 
     public void setLocalizedMessages(String signingIn, String signingOut, String unknownError) {
         getInstance().debugLog("setLocalizedMessages");
@@ -162,7 +162,7 @@ public class GPGSWrapper implements GooglePlayServicesClient.ConnectionCallbacks
     public void showAchievement()
     {
       debugLog("showAchievement");
-      mActivity.startActivityForResult(getGamesClient().getAchievementsIntent(), /*RC_UNUSED*/9002);
+      mActivity.startActivityForResult(getGamesClient().getAchievementsIntent(), /*RC_UNUSED_GPGS*/9002);
       return;
     }
 //
@@ -197,7 +197,7 @@ public class GPGSWrapper implements GooglePlayServicesClient.ConnectionCallbacks
       getInstance().mActivity.runOnUiThread(new Runnable() {
           public void run() {
             if(getInstance().isSignedIn()) {
-              getInstance().mActivity.startActivityForResult(getInstance().getGamesClient().getAchievementsIntent(), /*RC_UNUSED*/9002);
+              getInstance().mActivity.startActivityForResult(getInstance().getGamesClient().getAchievementsIntent(), /*RC_UNUSED_GPGS*/9002);
             } else {
               getInstance().debugLog("You must sign in to use achievements");
             }
@@ -212,7 +212,7 @@ public class GPGSWrapper implements GooglePlayServicesClient.ConnectionCallbacks
       getInstance().mActivity.runOnUiThread(new Runnable() {
           public void run() {
             if(getInstance().isSignedIn()) {
-              getInstance().mActivity.startActivityForResult(getInstance().getGamesClient().getAllLeaderboardsIntent(), /*RC_UNUSED*/9002);
+              getInstance().mActivity.startActivityForResult(getInstance().getGamesClient().getAllLeaderboardsIntent(), /*RC_UNUSED_GPGS*/9002);
             } else {
               getInstance().debugLog("You must sign in to use leaderboards");
             }
@@ -498,7 +498,7 @@ public class GPGSWrapper implements GooglePlayServicesClient.ConnectionCallbacks
      * process, processes it appropriately.
      */
     public void onActivityResult(int requestCode, int responseCode, Intent intent) {
-        if (requestCode == RC_RESOLVE) {
+        if (requestCode == RC_RESOLVE_GPGS) {
             // We're coming back from an activity that was launched to resolve a
             // connection
             // problem. For example, the sign-in UI.
@@ -540,7 +540,8 @@ public class GPGSWrapper implements GooglePlayServicesClient.ConnectionCallbacks
             debugLog("Google Play services not available. Show error dialog.");
             Dialog errorDialog = getErrorDialog(result);
             errorDialog.show();
-            onSignInFailed();
+            //onSignInFailed();
+            //SocialWrapper.onSocialResult(this, SocialWrapper.SOCIAL_SIGNIN_FAILED, "connection result != SUCCESS");
             return;
         }
 
@@ -711,7 +712,8 @@ public class GPGSWrapper implements GooglePlayServicesClient.ConnectionCallbacks
         mAutoSignIn = true;
         mUserInitiatedSignIn = false;
         dismissDialog();
-        onSignInSucceeded();
+        //onSignInSucceeded();
+        //SocialWrapper.onSocialResult(this, SocialWrapper.SOCIAL_SIGNIN_SUCCESS, "");
     }
 
     /** Handles a connection failure reported by a client. */
@@ -733,7 +735,8 @@ public class GPGSWrapper implements GooglePlayServicesClient.ConnectionCallbacks
             // sign in.
             debugLog("onConnectionFailed: since user didn't initiate sign-in, failing now.");
             mConnectionResult = result;
-            onSignInFailed();
+            //onSignInFailed();
+            //SocialWrapper.onSocialResult(this, SocialWrapper.SOCIAL_SIGNIN_FAILED, "User did not initiate sign in failing");
             return;
         }
 
@@ -760,7 +763,7 @@ public class GPGSWrapper implements GooglePlayServicesClient.ConnectionCallbacks
                 // launch appropriate UI flow (which might, for example, be the
                 // sign-in flow)
                 mExpectingActivityResult = true;
-                mConnectionResult.startResolutionForResult(mActivity, RC_RESOLVE);
+                mConnectionResult.startResolutionForResult(mActivity, RC_RESOLVE_GPGS);
             } catch (SendIntentException e) {
                 // Try connecting again
                 debugLog("SendIntentException.");
@@ -795,7 +798,8 @@ public class GPGSWrapper implements GooglePlayServicesClient.ConnectionCallbacks
             // get error dialog for that specific problem
             errorDialog = getErrorDialog(mConnectionResult.getErrorCode());
             errorDialog.show();
-            onSignInFailed();
+            //onSignInFailed();
+            //SocialWrapper.onSocialResult(this, SocialWrapper.SOCIAL_SIGNIN_FAILED, "no connection result");
         } else {
             // this is a bug
             Log.e("GPGSWrapper", "giveUp() called with no mConnectionResult");
@@ -812,14 +816,15 @@ public class GPGSWrapper implements GooglePlayServicesClient.ConnectionCallbacks
         mSignInError = false;
         mInvitationId = null;
         mConnectedClients = CLIENT_NONE;
-        onSignInFailed();
+        //onSignInFailed();
+        //SocialWrapper.onSocialResult(this, SocialWrapper.SOCIAL_SIGNIN_FAILED, "disconnected");
     }
 
     /** Returns an error dialog that's appropriate for the given error code. */
     Dialog getErrorDialog(int errorCode) {
         debugLog("Making error dialog for error: " + errorCode);
         Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(errorCode, mActivity,
-                RC_UNUSED, null);
+                RC_UNUSED_GPGS, null);
 
         if (errorDialog != null)
             return errorDialog;
@@ -848,11 +853,4 @@ public class GPGSWrapper implements GooglePlayServicesClient.ConnectionCallbacks
     public static String getSDKVersion() {
         return "20130821";
     }
-
-    // ===========================================================
-    // Native Methods
-    // ===========================================================
-    public static native void onSignInFailed();
-    public static native void onSignInSucceeded();
-    private static native void nativeInit();
 }

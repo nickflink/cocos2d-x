@@ -24,6 +24,7 @@
 
 #import <CommonCrypto/CommonCryptor.h>
 #import "CCGameKitHelper.h"
+#import "ShareWrapper.h"
 
 #define IS_MIN_IOS6 ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0f)
 
@@ -75,6 +76,7 @@
             [self reportCachedAchievements];
             [self reportCachedScores];
             //cocos2d::GameServices::getInstance()->onSignInSucceeded();
+            [ShareWrapper onShareResult:self withRet:kShareFail withMsg:@"Login Failed"];
         }
         
         if (error)
@@ -134,8 +136,9 @@
 
 
 #pragma mark - Achievements
--(void) reportAchievement:(NSString*)achievementId percentComplete:(double)percent
+-(void) reportAchievement:(NSString*)achievementId percentComplete:(NSNumber*)percentComplete
 {
+    float percent = [percentComplete floatValue];
     if (percent > 100.0f) percent = 100.0f;
     
     //Mark achievement as completed locally

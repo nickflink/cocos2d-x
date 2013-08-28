@@ -22,6 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+#import <GameKit/GameKit.h>
+//#import <Foundation/Foundation.h>
 #import "InterfaceSocial.h"
 
 
@@ -35,20 +37,44 @@
 /**
  * @brief interfaces of protocol : InterfaceSocial
  */
-//- (void) configDeveloperInfo : (NSMutableDictionary*) cpInfo;
-//- (void) Social: (NSMutableDictionary*) SocialInfo;
-//- (void) setDebugMode: (BOOL) debug;
-//- (NSString*) getSDKVersion;
-//- (NSString*) getPluginVersion;
-
 - (void) configDeveloperInfo : (NSMutableDictionary*) cpInfo;
 - (void) submitScore: (NSString*) leaderboardID withScore: (long) score;
-- (void) showLeaderboard: (NSString*) leaderboardID;
+//- (void) showLeaderboard: (NSString*) leaderboardID;
 - (void) unlockAchievement: (NSMutableDictionary*) achInfo;
-- (void) showAchievements;
+//- (void) showAchievements;
 - (void) setDebugMode: (BOOL) debug;
 - (NSString*) getSDKVersion;
 - (NSString*) getPluginVersion;
 
+/**
+ * Authentication
+ */
+-(void) setSecretKey:(NSString*)key;
+-(void) authenticatePlayer;
+
+
+/**
+ * Leaderboards
+ */
+-(void) reportScore:(long long)aScore forLeaderboard:(NSString*)leaderboardId;
+-(void) showLeaderboard:(NSString*)leaderboardId;
+
+
+/**
+ * Achievements
+ */
+-(void) reportAchievement:(NSString*)achievementId percentComplete:(NSNumber*)percent;
+-(void) showAchievements;
+-(void) resetAchievements;
+
+
+/**
+ * Notifications
+ */
+-(void) showNotification:(NSString*)title message:(NSString*)message identifier:(NSString*)achievementId;
+
+
+@property (nonatomic, assign, getter = isAuthenticated) BOOL authenticated;
+@property (nonatomic, assign) NSString *secretKey;
 
 @end

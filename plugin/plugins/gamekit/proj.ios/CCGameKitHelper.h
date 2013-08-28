@@ -54,7 +54,7 @@
 /**
  * Achievements
  */
--(void) reportAchievement:(NSString*)achievementId percentComplete:(double)percent;
+-(void) reportAchievement:(NSString*)achievementId percentComplete:(NSNumber*)percentComplete;
 -(void) showAchievements;
 -(void) resetAchievements;
 

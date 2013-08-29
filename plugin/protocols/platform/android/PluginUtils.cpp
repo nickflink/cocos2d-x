@@ -31,6 +31,32 @@ namespace cocos2d { namespace plugin {
 
 #define JAVAVM    cocos2d::PluginJniHelper::getJavaVM()
 
+std::map<PluginProtocol*, PluginJavaData*> s_PluginObjMap;
+std::map<std::string, PluginProtocol*> s_JObjPluginMap;
+
+typedef std::map<PluginProtocol*, PluginJavaData*>::iterator ObjMapIter;
+typedef std::map<std::string, PluginProtocol*>::iterator JObjPluginMapIter;
+
+extern "C" {
+    JNIEXPORT void JNICALL Java_org_cocos2dx_plugin_PluginWrapper_nativeBroadcastOnActivityResult(JNIEnv*  env, jobject thiz, int requestCode, int responseCode, jobject data)
+    {
+        
+        //Iterate through all javaData 
+        //check if plugins have an onActivityResult and if so call it
+        //std::map<PluginProtocol*, PluginJavaData*>::iterator it;
+        for (ObjMapIter it = s_PluginObjMap.begin(); it != s_PluginObjMap.end(); it++) {
+            PluginJavaData *pJavaData = it->second;
+            if(pJavaData) {// && pJavaData->jobj && pJavaData->jclassName) {
+                PluginJniMethodInfo tInfo;
+                if (PluginJniHelper::getMethodInfo(tInfo, pJavaData->jclassName.c_str(), "onActivityResult", "(IILandroid/content/Intent;)V")) {
+                    tInfo.env->CallObjectMethod(pJavaData->jobj, tInfo.methodID, requestCode, responseCode, data);
+                    tInfo.env->DeleteLocalRef(tInfo.classID);
+                }
+            }
+        }
+    }
+}
+
 jobject PluginUtils::createJavaMapObject(std::map<std::string, std::string>* paramMap)
 {
     JNIEnv* env = getEnv();
@@ -84,12 +110,6 @@ JNIEnv* PluginUtils::getEnv()
 
     return env;
 }
-
-std::map<PluginProtocol*, PluginJavaData*> s_PluginObjMap;
-std::map<std::string, PluginProtocol*> s_JObjPluginMap;
-
-typedef std::map<PluginProtocol*, PluginJavaData*>::iterator ObjMapIter;
-typedef std::map<std::string, PluginProtocol*>::iterator JObjPluginMapIter;
 
 PluginJavaData* PluginUtils::getPluginJavaData(PluginProtocol* pKeyObj)
 {

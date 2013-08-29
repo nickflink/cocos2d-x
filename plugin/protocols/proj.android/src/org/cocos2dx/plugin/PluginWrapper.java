@@ -26,6 +26,7 @@ package org.cocos2dx.plugin;
 import java.lang.reflect.Field;
 
 import android.content.Context;
+import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.util.Log;
@@ -44,6 +45,10 @@ public class PluginWrapper {
         if (null == sMainThreadHandler) {
             sMainThreadHandler = new Handler();
         }
+    }
+
+    public static void onActivityResult(int requestCode, int responseCode, Intent data) {
+        nativeBroadcastOnActivityResult(requestCode, responseCode, data);
     }
 
     public static void setGLSurfaceView(GLSurfaceView value) {
@@ -108,4 +113,5 @@ public class PluginWrapper {
         if (null == sMainThreadHandler) return;
         sMainThreadHandler.post(r);
     }
+    private static native void nativeBroadcastOnActivityResult(int requestCode, int responseCode, Intent data);
 }

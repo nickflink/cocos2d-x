@@ -39,17 +39,23 @@
 {
     mState = kFacebookEngineState_CLOSED;
     OUTPUT_LOG(@"ShareFacebook::configDeveloperInfo");
-    //[FBAppCall handleDidBecomeActiveWithSession:self.mSession];
-    //if(self.mSession == nil) {
-    //  self.mSession = [[FBSession alloc] init];
-    //  if (self.mSession.state == FBSessionStateCreatedTokenLoaded) {
-    //      // even though we had a cached token, we need to login to make the session usable
-    //      [self.mSession openWithCompletionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-    //          // we should have a state machine updated here
-    //          OUTPUT_LOG(@"openWithCompletionHandler finished");
-    //      }];
-    //  }
-    //}
+    [FBAppCall handleDidBecomeActiveWithSession:self.mSession];
+    if(self.mSession == nil) {
+      self.mSession = [[FBSession alloc] init];
+      if (self.mSession.state == FBSessionStateCreatedTokenLoaded) {
+          // even though we had a cached token, we need to login to make the session usable
+          [self.mSession openWithCompletionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+              switch(status){
+                  default:
+                      OUTPUT_LOG(@"openWithCompletionHandler finished with ERROR");
+                  break;
+                  case FBSessionStateOpen:
+                      OUTPUT_LOG(@"openWithCompletionHandler finished with SUCCESS");
+                  break;
+              }
+          }];
+      }
+    }
 }
 
 - (void) share: (NSMutableDictionary*) shareInfo
@@ -189,13 +195,17 @@
         [self performPublishAction:^{
             OUTPUT_LOG(@"ShareFacebook::doShare - performPublishAction");
             UIImage *img = [UIImage imageNamed:strImagePath];
-            [FBRequestConnection startForUploadPhoto:img completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-            //[FBRequestConnection startForPostStatusUpdate:(NSString *)@"Message test" completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                OUTPUT_LOG(@"ShareFacebook::doShare - FBRequestConnection startForUploadPhoto");
-                [self showAlert:@"Photo Post" result:result error:error];
-                [self.mSession close];
-                //self.buttonPostPhoto.enabled = YES; UNBLOCK BUTTON
-            }];
+            if(img != NULL) {
+                [FBRequestConnection startForUploadPhoto:img completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                //[FBRequestConnection startForPostStatusUpdate:(NSString *)@"Message test" completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                    OUTPUT_LOG(@"ShareFacebook::doShare - FBRequestConnection startForUploadPhoto");
+                    [self showAlert:@"Photo Post" result:result error:error];
+                    [self.mSession close];
+                    //self.buttonPostPhoto.enabled = YES; UNBLOCK BUTTON
+                }];
+            } else {
+                OUTPUT_LOG(@"ShareFacebook::doShare - error trying to upload null image");
+            }
           //self.buttonPostPhoto.enabled = NO; BLOCK BUTTON
         }];
     }

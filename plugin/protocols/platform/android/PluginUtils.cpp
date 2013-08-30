@@ -44,12 +44,15 @@ extern "C" {
         //Iterate through all javaData 
         //check if plugins have an onActivityResult and if so call it
         //std::map<PluginProtocol*, PluginJavaData*>::iterator it;
+        PluginUtils::outputLog("PluginUtils", "iterate through with ObjMapIter");
         for (ObjMapIter it = s_PluginObjMap.begin(); it != s_PluginObjMap.end(); it++) {
             PluginJavaData *pJavaData = it->second;
             if(pJavaData) {// && pJavaData->jobj && pJavaData->jclassName) {
+                PluginUtils::outputLog("PluginUtils", "we have PluginJavaData");
                 PluginJniMethodInfo tInfo;
                 if (PluginJniHelper::getMethodInfo(tInfo, pJavaData->jclassName.c_str(), "onActivityResult", "(IILandroid/content/Intent;)V")) {
-                    tInfo.env->CallObjectMethod(pJavaData->jobj, tInfo.methodID, requestCode, responseCode, data);
+                    PluginUtils::outputLog("PluginUtils", "we respond to onActivityResult");
+                    tInfo.env->CallVoidMethod(pJavaData->jobj, tInfo.methodID, requestCode, responseCode, data);
                     tInfo.env->DeleteLocalRef(tInfo.classID);
                 }
             }

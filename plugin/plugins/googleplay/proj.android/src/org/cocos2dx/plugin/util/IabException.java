@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package org.cocos2dx.lib.util;
+package org.cocos2dx.plugin.util;
 
 /**
  * Exception thrown when something went wrong with in-app billing.

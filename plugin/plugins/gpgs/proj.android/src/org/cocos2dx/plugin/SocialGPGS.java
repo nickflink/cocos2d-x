@@ -50,24 +50,24 @@ import com.google.android.gms.plus.PlusClient;
 
 public class SocialGPGS implements InterfaceSocial, GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, OnSignOutCompleteListener {
 
-    private static final String LOG_TAG = "SocialGPGS";
-    private static Activity mContext = null;
+    private static final String TAG = "SocialGPGS";
+    private static Activity mActivity = null;
     private static SocialGPGS mGPGS = null;
     private static boolean bDebug = false;
 
     protected static void LogE(String msg, Exception e) {
-        Log.e(LOG_TAG, msg, e);
+        Log.e(TAG, msg, e);
         e.printStackTrace();
     }
 
     protected static void LogD(String msg) {
         if (bDebug) {
-            Log.d(LOG_TAG, msg);
+            Log.d(TAG, msg);
         }
     }
 
     public SocialGPGS(Context context) {
-        mContext = (Activity) context;
+        mActivity = (Activity) context;
         mGPGS = this;
         //mActivity = activity;
         setup();
@@ -235,22 +235,11 @@ public class SocialGPGS implements InterfaceSocial, GooglePlayServicesClient.Con
         bDebug = debug;
     }
 
-    //@Override
-    //public String getSDKVersion() {
-    //    return GPGSWrapper.getSDKVersion();
-    //}
-
-    //@Override
-    //public String getPluginVersion() {
-    //    return GPGSWrapper.getPluginVersion();
-    //}
-
 //COPIED CODE
 
     // ===========================================================
     // Constants
     // ===========================================================
-    private static final String TAG = GPGSWrapper.class.getSimpleName();
     // Request code we use when invoking other Activities to complete the
     // sign-in flow.
     public final static int RC_RESOLVE_GPGS = 9001;
@@ -265,14 +254,13 @@ public class SocialGPGS implements InterfaceSocial, GooglePlayServicesClient.Con
     // ===========================================================
     // Fields
     // ===========================================================
-    private static Context sContext = null;
-    private static volatile GPGSWrapper sInstance = null;
+    //private static Context sContext = null;
     //
     // The Activity we are bound to. We need to keep a reference to the Activity
     // because some games methods require an Activity (a Context won't do). We
     // are careful not to leak these references: we release them on onStop().
     //
-    private Activity mActivity = null;
+    //private Activity mActivity = null;
     // OAuth scopes required for the clients. Initialized in setup().
     private String mScopes[];
     // Client objects we manage. If a given client is not enabled, it is null.
@@ -326,28 +314,6 @@ public class SocialGPGS implements InterfaceSocial, GooglePlayServicesClient.Con
     // here.
     // Otherwise, it's null.
     String mInvitationId;
-
-    //public static GPGSWrapper getInstance() {
-    //    if (sInstance == null) {
-    //        synchronized ( GPGSWrapper.class ){
-    //            if (sInstance == null) {
-    //                sInstance = new GPGSWrapper();
-    //            }
-    //        }
-    //    }
-    //    return sInstance;
-    //}
-
-    //public void initWithActivity(Activity activity) {
-    //    mActivity = activity;
-    //    setup();
-    //    //These should be localized
-    //    setLocalizedMessages("NL: signing in", "NL: signing out", "NL: unknown error");
-    //}
-
-    //public void onCreated() {
-    //    GPGSWrapper.nativeInit();
-    //}
 
     public void setLocalizedMessages(String signingIn, String signingOut, String unknownError) {
         debugLog("setLocalizedMessages");
@@ -496,11 +462,13 @@ public class SocialGPGS implements InterfaceSocial, GooglePlayServicesClient.Con
         scopesVector.copyInto(mScopes);
 
         if (0 != (clientsToUse & CLIENT_GAMES)) {
-            debugLog("onCreate: creating GamesClient");
+            if(getContext() == null) {
+                LogD("getContext = null");
+            }
             mGamesClient = new GamesClient.Builder(getContext(), this, this)
-                    .setGravityForPopups(Gravity.TOP | Gravity.CENTER_HORIZONTAL)
-                    .setScopes(mScopes)
-                    .create();
+            .setGravityForPopups(Gravity.TOP | Gravity.CENTER_HORIZONTAL)
+            .setScopes(mScopes)
+            .create();
         }
 
         if (0 != (clientsToUse & CLIENT_PLUS)) {
@@ -695,6 +663,7 @@ public class SocialGPGS implements InterfaceSocial, GooglePlayServicesClient.Con
      * process, processes it appropriately.
      */
     public void onActivityResult(int requestCode, int responseCode, Intent intent) {
+        LogD("onActivityResult("+requestCode+", "+responseCode+", data)");
         if (requestCode == RC_RESOLVE_GPGS) {
             // We're coming back from an activity that was launched to resolve a
             // connection

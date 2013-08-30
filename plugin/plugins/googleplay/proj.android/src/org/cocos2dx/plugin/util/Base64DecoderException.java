@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.cocos2dx.lib.util;
+package org.cocos2dx.plugin.util;
 
 /**
  * Exception thrown when encountering an invalid Base64 input character.

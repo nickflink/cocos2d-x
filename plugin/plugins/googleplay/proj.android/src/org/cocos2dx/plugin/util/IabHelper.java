@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package org.cocos2dx.lib.util;
+package org.cocos2dx.plugin.util;
 
 import java.util.ArrayList;
 import java.util.List;

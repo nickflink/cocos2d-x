@@ -175,6 +175,7 @@ public class SocialGPGS implements InterfaceSocial, GooglePlayServicesClient.Con
             public void run() {
                 if (isSignedIn()) {
                     LogD("implement showLeaderboard");
+                    mActivity.startActivityForResult(getGamesClient().getAllLeaderboardsIntent(), RC_UNUSED_GPGS);
                 } else {
                     //TODO: fix this, a thread => main thread => ui thread
                     beginUserInitiatedSignIn();
@@ -220,8 +221,7 @@ public class SocialGPGS implements InterfaceSocial, GooglePlayServicesClient.Con
             @Override
             public void run() {
                 if (isSignedIn()) {
-                    LogD("TODO show achievements");
-                    showAchievement();
+                    mActivity.startActivityForResult(getGamesClient().getAchievementsIntent(), RC_UNUSED_GPGS);
                 } else {
                     beginUserInitiatedSignIn();
                     //TODO: When it succeeds we should show the achievements
@@ -322,12 +322,6 @@ public class SocialGPGS implements InterfaceSocial, GooglePlayServicesClient.Con
         mUnknownErrorMessage = unknownError;
     }
 
-    public void showAchievement()
-    {
-      debugLog("showAchievement");
-      mActivity.startActivityForResult(getGamesClient().getAchievementsIntent(), /*RC_UNUSED_GPGS*/9002);
-      return;
-    }
 //
 // Static Jni Entrypoints
 //
@@ -707,7 +701,7 @@ public class SocialGPGS implements InterfaceSocial, GooglePlayServicesClient.Con
             Dialog errorDialog = getErrorDialog(result);
             errorDialog.show();
             //onSignInFailed();
-            //SocialWrapper.onSocialResult(this, SocialWrapper.SOCIAL_SIGNIN_FAILED, "connection result != SUCCESS");
+            SocialWrapper.onSocialResult(this, SocialWrapper.SOCIAL_SIGNIN_FAILED, "connection result != SUCCESS");
             return;
         }
 
@@ -879,7 +873,7 @@ public class SocialGPGS implements InterfaceSocial, GooglePlayServicesClient.Con
         mUserInitiatedSignIn = false;
         dismissDialog();
         //onSignInSucceeded();
-        //SocialWrapper.onSocialResult(this, SocialWrapper.SOCIAL_SIGNIN_SUCCESS, "");
+        SocialWrapper.onSocialResult(this, SocialWrapper.SOCIAL_SIGNIN_SUCCESS, "");
     }
 
     /** Handles a connection failure reported by a client. */
@@ -965,7 +959,7 @@ public class SocialGPGS implements InterfaceSocial, GooglePlayServicesClient.Con
             errorDialog = getErrorDialog(mConnectionResult.getErrorCode());
             errorDialog.show();
             //onSignInFailed();
-            //SocialWrapper.onSocialResult(this, SocialWrapper.SOCIAL_SIGNIN_FAILED, "no connection result");
+            SocialWrapper.onSocialResult(this, SocialWrapper.SOCIAL_SIGNIN_FAILED, "no connection result");
         } else {
             // this is a bug
             Log.e("GPGSWrapper", "giveUp() called with no mConnectionResult");
@@ -983,7 +977,7 @@ public class SocialGPGS implements InterfaceSocial, GooglePlayServicesClient.Con
         mInvitationId = null;
         mConnectedClients = CLIENT_NONE;
         //onSignInFailed();
-        //SocialWrapper.onSocialResult(this, SocialWrapper.SOCIAL_SIGNIN_FAILED, "disconnected");
+        SocialWrapper.onSocialResult(this, SocialWrapper.SOCIAL_SIGNIN_FAILED, "disconnected");
     }
 
     /** Returns an error dialog that's appropriate for the given error code. */

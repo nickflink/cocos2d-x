@@ -35,7 +35,14 @@ class Rect;
 class CC_DLL Application : public ApplicationProtocol
 {
 public:
+    /**
+     * @js ctor
+     */
     Application();
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual ~Application();
         
     /**
@@ -54,7 +61,7 @@ public:
     
     /**
      @brief    Callback by Director for limit FPS.
-     @interval       The time, expressed in seconds, between current frame and next. 
+     @param interval    The time, expressed in seconds, between current frame and next.
      */
     virtual void setAnimationInterval(double interval);
 

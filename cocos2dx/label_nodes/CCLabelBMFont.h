@@ -124,8 +124,19 @@ public://@public
     // Character Set defines the letters that actually exist in the font
     std::set<unsigned int> *_characterSet;
 public:
+    /**
+     * @js ctor
+     */
     CCBMFontConfiguration();
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual ~CCBMFontConfiguration();
+    /**
+     * @js NA
+     * @lua NA
+     */
     const char * description() const;
 
     /** allocates a CCBMFontConfiguration with a FNT file */
@@ -182,8 +193,14 @@ http://www.angelcode.com/products/bmfont/ (Free, Windows only)
 class CC_DLL LabelBMFont : public SpriteBatchNode, public LabelProtocol, public RGBAProtocol
 {
 public:
+    /**
+     * @js ctor
+     */
     LabelBMFont();
-
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual ~LabelBMFont();
     /** Purges the cached data.
     Removes from memory the cached configurations and the atlas name dictionary.
@@ -192,9 +209,9 @@ public:
     static void purgeCachedData();
 
     /** creates a bitmap font atlas with an initial string and the FNT file */
-    static LabelBMFont * create(const char *str, const char *fntFile, float width, Label::HAlignment alignment, Point imageOffset);
+    static LabelBMFont * create(const char *str, const char *fntFile, float width, TextHAlignment alignment, Point imageOffset);
     
-	static LabelBMFont * create(const char *str, const char *fntFile, float width, Label::HAlignment alignment);
+	static LabelBMFont * create(const char *str, const char *fntFile, float width, TextHAlignment alignment);
 
 	static LabelBMFont * create(const char *str, const char *fntFile, float width);
 
@@ -206,7 +223,7 @@ public:
 
     bool init();
     /** init a bitmap font atlas with an initial string and the FNT file */
-    bool initWithString(const char *str, const char *fntFile, float width = kLabelAutomaticWidth, Label::HAlignment alignment = Label::HAlignment::LEFT, Point imageOffset = Point::ZERO);
+    bool initWithString(const char *str, const char *fntFile, float width = kLabelAutomaticWidth, TextHAlignment alignment = TextHAlignment::LEFT, Point imageOffset = Point::ZERO);
 
     /** updates the font chars based on the string to render */
     void createFontChars();
@@ -218,7 +235,7 @@ public:
     virtual void setCString(const char *label);
     virtual void setAnchorPoint(const Point& var);
     virtual void updateLabel();
-    virtual void setAlignment(Label::HAlignment alignment);
+    virtual void setAlignment(TextHAlignment alignment);
     virtual void setWidth(float width);
     virtual void setLineBreakWithoutSpace(bool breakWithoutSpace);
     virtual void setScale(float scale);
@@ -265,7 +282,7 @@ protected:
     std::string _initialStringUTF8;
     
     // alignment of all lines
-    Label::HAlignment _alignment;
+    TextHAlignment _alignment;
     // max width until a line break is added
     float _width;
     

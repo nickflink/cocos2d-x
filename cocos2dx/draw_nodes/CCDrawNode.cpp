@@ -155,7 +155,7 @@ bool DrawNode::init()
 {
     _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
 
-    setShaderProgram(ShaderCache::getInstance()->programForKey(GLProgram::SHADER_NAME_POSITION_LENGTH_TEXTURE_COLOR));
+    setShaderProgram(ShaderCache::getInstance()->getProgram(GLProgram::SHADER_NAME_POSITION_LENGTH_TEXTURE_COLOR));
     
     ensureCapacity(512);
     
@@ -360,7 +360,7 @@ void DrawNode::drawPolygon(Point *verts, unsigned int count, const Color4F &fill
 	V2F_C4B_T2F_Triangle *triangles = (V2F_C4B_T2F_Triangle *)(_buffer + _bufferCount);
 	V2F_C4B_T2F_Triangle *cursor = triangles;
 	
-	float inset = (outline == 0.0 ? 0.5 : 0.0);
+	float inset = (outline == false ? 0.5 : 0.0);
 	for(unsigned int i = 0; i < count-2; i++)
     {
 		Vertex2F v0 = v2fsub(__v2f(verts[0  ]), v2fmult(extrude[0  ].offset, inset));

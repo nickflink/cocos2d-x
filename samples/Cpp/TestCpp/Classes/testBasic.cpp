@@ -1,10 +1,14 @@
 #include "testBasic.h"
 #include "controller.h"
+#include "cocos-ext.h"
 
 TestScene::TestScene(bool bPortrait)
 {
-    
-    Scene::init();
+}
+
+bool TestScene::initTest()
+{
+    return Scene::init();
 }
 
 void TestScene::onEnter()
@@ -13,11 +17,11 @@ void TestScene::onEnter()
 
     //add the menu item for back to main menu
 //#if (CC_TARGET_PLATFORM == CC_PLATFORM_MARMALADE)
-//    LabelBMFont* label = LabelBMFont::create("MainMenu",  "fonts/arial16.fnt");
+//    auto label = LabelBMFont::create("MainMenu",  "fonts/arial16.fnt");
 //#else
-    LabelTTF* label = LabelTTF::create("MainMenu", "Arial", 20);
+    auto label = LabelTTF::create("MainMenu", "Arial", 20);
 //#endif
-    MenuItemLabel* menuItem = MenuItemLabel::create(label, [](Object *sender) {
+    auto menuItem = MenuItemLabel::create(label, [](Object *sender) {
         /*
             ******    GCC Compiler issue on Android and Linux (CLANG compiler is ok)   ******
         We couldn't use 'Scene::create' directly since gcc will trigger
@@ -35,19 +39,21 @@ void TestScene::onEnter()
                       outside the scope. So I choose the (2) solution. Commented by James Chen.
         */
 
-//        Scene *scene = Scene::create();
-        Scene *scene = new Scene();
+//        auto scene = Scene::create();
+        auto scene = new Scene();
         if (scene && scene->init())
         {
-            Layer* layer = new TestController();
+            auto layer = new TestController();
             scene->addChild(layer);
             layer->release();
             Director::getInstance()->replaceScene(scene);
             scene->release();
         }
+        
+        cocos2d::extension::armature::ArmatureDataManager::destoryInstance();
 	});
 
-    Menu* menu =Menu::create(menuItem, NULL);
+    auto menu =Menu::create(menuItem, NULL);
 
     menu->setPosition( Point::ZERO );
     menuItem->setPosition( Point( VisibleRect::right().x - 50, VisibleRect::bottom().y + 25) );

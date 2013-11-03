@@ -40,9 +40,18 @@ SOURCES += ../actions/CCAction.cpp \
 ../draw_nodes/CCDrawNode.cpp \
 ../effects/CCGrabber.cpp \
 ../effects/CCGrid.cpp \
-../keypad_dispatcher/CCKeypadDelegate.cpp \
-../keypad_dispatcher/CCKeypadDispatcher.cpp \
-../keyboard_dispatcher/CCKeyboardDispatcher.cpp \
+../event_dispatcher/CCAccelerationEvent.cpp \
+../event_dispatcher/CCAccelerationEventListener.cpp \
+../event_dispatcher/CCEvent.cpp \
+../event_dispatcher/CCEventDispatcher.cpp \
+../event_dispatcher/CCEventListener.cpp \
+../event_dispatcher/CCKeyboardEvent.cpp \
+../event_dispatcher/CCKeyboardEventListener.cpp \
+../event_dispatcher/CCTouch.cpp \
+../event_dispatcher/CCTouchEvent.cpp \
+../event_dispatcher/CCTouchEventListener.cpp \
+../event_dispatcher/CCCustomEvent.cpp \
+../event_dispatcher/CCCustomEventListener.cpp \
 ../label_nodes/CCLabelAtlas.cpp \
 ../label_nodes/CCLabelBMFont.cpp \
 ../label_nodes/CCLabelTTF.cpp \
@@ -63,7 +72,6 @@ SOURCES += ../actions/CCAction.cpp \
 ../particle_nodes/CCParticleBatchNode.cpp \
 ../platform/CCSAXParser.cpp \
 ../platform/CCThread.cpp \
-../platform/CCImageCommonWebp.cpp \
 ../platform/CCEGLViewProtocol.cpp \
 ../platform/CCFileUtils.cpp \
 ../platform/qt5/CCCommon.cpp \
@@ -102,18 +110,13 @@ SOURCES += ../actions/CCAction.cpp \
 ../textures/CCTexture2D.cpp \
 ../textures/CCTextureAtlas.cpp \
 ../textures/CCTextureCache.cpp \
-../textures/CCTextureETC.cpp \
-../textures/CCTexturePVR.cpp \
-../textures/etc/etc1.cpp \
+../platform/third_party/common/etc/etc1.cpp \
 ../tilemap_parallax_nodes/CCParallaxNode.cpp \
 ../tilemap_parallax_nodes/CCTMXLayer.cpp \
 ../tilemap_parallax_nodes/CCTMXObjectGroup.cpp \
 ../tilemap_parallax_nodes/CCTMXTiledMap.cpp \
 ../tilemap_parallax_nodes/CCTMXXMLParser.cpp \
 ../tilemap_parallax_nodes/CCTileMapAtlas.cpp \
-../touch_dispatcher/CCTouchDispatcher.cpp \
-../touch_dispatcher/CCTouchHandler.cpp \
-../touch_dispatcher/CCTouch.cpp \
 ../shaders/CCGLProgram.cpp \
 ../shaders/ccGLStateCache.cpp \
 ../shaders/CCShaderCache.cpp \
@@ -158,6 +161,7 @@ INCLUDEPATH += ../../extensions/GUI/CCControlExtension
 INCLUDEPATH += ../../external/chipmunk/include/chipmunk
 INCLUDEPATH += ../../extensions/network
 INCLUDEPATH += ../../extensions/Components
+INCLUDEPATH += ../platform/third_party/common/etc
 
 TARGET = $${LIB_OUTPUT_DIR}/cocos2d
 

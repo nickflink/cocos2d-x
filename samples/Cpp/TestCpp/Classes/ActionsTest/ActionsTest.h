@@ -289,6 +289,14 @@ public:
     virtual std::string subtitle();
 };
 
+class ActionTargetedReverse : public ActionsDemo
+{
+public:
+    virtual void onEnter();
+    virtual std::string title();
+    virtual std::string subtitle();
+};
+
 class ActionStacked : public ActionsDemo
 {
 public:
@@ -297,7 +305,7 @@ public:
     virtual std::string subtitle();
     virtual void addNewSpriteWithCoords(Point p);
     virtual void runActionsInSprite(Sprite* sprite);
-    virtual void ccTouchesEnded(Set* touches, Event* event);
+    virtual void onTouchesEnded(const std::vector<Touch*>& touches, Event* event);
 };
 
 class ActionMoveStacked : public ActionStacked

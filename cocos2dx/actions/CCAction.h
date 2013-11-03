@@ -33,11 +33,6 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-enum {
-    //! Default tag
-    kActionTagInvalid = -1,
-};
-
 /**
  * @addtogroup actions
  * @{
@@ -49,10 +44,21 @@ enum {
 class CC_DLL Action : public Object, public Clonable
 {
 public:
+    /// Default tag used for all the actions
+    static const int INVALID_TAG = -1;
+    /**
+     * @js ctor
+     */
     Action(void);
-
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual ~Action(void);
-
+    /**
+     * @js NA
+     * @lua NA
+     */
     const char* description() const;
 
 	/** returns a clone of action */
@@ -125,9 +131,16 @@ protected:
 class CC_DLL FiniteTimeAction : public Action
 {
 public:
+    /**
+     * @js ctor
+     */
     FiniteTimeAction()
 	: _duration(0)
     {}
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual ~FiniteTimeAction(){}
     //! get duration in seconds of the action
     inline float getDuration(void) const { return _duration; }
@@ -159,8 +172,14 @@ class CC_DLL Speed : public Action
 public:
     /** create the action */
     static Speed* create(ActionInterval* pAction, float fSpeed);
-
+    /**
+     * @js ctor
+     */
     Speed();
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual ~Speed(void);
 
     inline float getSpeed(void) const { return _speed; }
@@ -193,7 +212,9 @@ protected:
 @brief Follow is an action that "follows" a node.
 
 Eg:
+@code
 layer->runAction(Follow::actionWithTarget(hero));
+@endcode
 
 Instead of using Camera as a "follower", use this action instead.
 @since v0.99.2
@@ -204,11 +225,14 @@ public:
     /**
      * Creates the action with a set boundary or with no boundary.
      *
+     * @param followedNode  The node to be followed.
      * @param rect  The boundary. If \p rect is equal to Rect::ZERO, it'll work
      *              with no boundary.
      */
-    static Follow* create(Node *pFollowedNode, const Rect& rect = Rect::ZERO);
-
+    static Follow* create(Node *followedNode, const Rect& rect = Rect::ZERO);
+    /**
+     * @js ctor
+     */
     Follow()
 		: _followedNode(NULL)
         , _boundarySet(false)
@@ -219,6 +243,10 @@ public:
         , _bottomBoundary(0.0)
 		, _worldRect(Rect::ZERO)
     {}
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual ~Follow(void);
     
     inline bool isBoundarySet(void) const { return _boundarySet; }
@@ -228,10 +256,11 @@ public:
     /**
      * Initializes the action with a set boundary or with no boundary.
      *
+     * @param followedNode  The node to be followed.
      * @param rect  The boundary. If \p rect is equal to Rect::ZERO, it'll work
      *              with no boundary.
      */
-    bool initWithTarget(Node *pFollowedNode, const Rect& rect = Rect::ZERO);
+    bool initWithTarget(Node *followedNode, const Rect& rect = Rect::ZERO);
 
     //
     // Override

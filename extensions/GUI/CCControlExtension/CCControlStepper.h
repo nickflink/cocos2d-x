@@ -50,8 +50,14 @@ public:
     };
     
     static ControlStepper* create(Sprite *minusSprite, Sprite *plusSprite);
-
+    /**
+     * @js ctor
+     */
     ControlStepper();
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual ~ControlStepper();
 
     bool initWithMinusSpriteAndPlusSprite(Sprite *minusSprite, Sprite *plusSprite);
@@ -63,20 +69,18 @@ public:
 
     virtual double getValue() const;
     virtual void setStepValue(double stepValue);
+    /** Set the numeric value of the stepper. If send is true, the Control::EventType::VALUE_CHANGED is sent. */
     virtual void setValueWithSendingEvent(double value, bool send);
     virtual bool isContinuous() const;
 
     // Overrides
-    virtual bool ccTouchBegan(Touch *pTouch, Event *pEvent) override;
-    virtual void ccTouchMoved(Touch *pTouch, Event *pEvent) override;
-    virtual void ccTouchEnded(Touch *pTouch, Event *pEvent) override;
+    virtual bool onTouchBegan(Touch *pTouch, Event *pEvent) override;
+    virtual void onTouchMoved(Touch *pTouch, Event *pEvent) override;
+    virtual void onTouchEnded(Touch *pTouch, Event *pEvent) override;
     void update(float dt);
 
     /** Update the layout of the stepper with the given touch location. */
     void updateLayoutUsingTouchLocation(Point location);
-
-    /** Set the numeric value of the stepper. If send is true, the Control::EventType::VALUE_CHANGED is sent. */
-    void setValue(double value, bool send);
 
     /** Start the autorepeat increment/decrement. */
     void startAutorepeat();

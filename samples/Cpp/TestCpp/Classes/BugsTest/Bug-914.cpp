@@ -12,9 +12,9 @@
 Scene* Bug914Layer::scene()
 {
     // 'scene' is an autorelease object.
-    Scene *scene = Scene::create();
+    auto scene = Scene::create();
     // 'layer' is an autorelease object.
-    Bug914Layer* layer = Bug914Layer::create();
+    auto layer = Bug914Layer::create();
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -32,7 +32,7 @@ bool Bug914Layer::init()
     {
         setTouchEnabled(true);
         // ask director the the window size
-        Size size = Director::getInstance()->getWinSize();
+        auto size = Director::getInstance()->getWinSize();
         LayerColor *layer;
         for( int i=0;i < 5;i++)
         {
@@ -45,10 +45,10 @@ bool Bug914Layer::init()
         }
 
         // create and initialize a Label
-        LabelTTF *label = LabelTTF::create("Hello World", "Marker Felt", 64);
-        MenuItem *item1 = MenuItemFont::create("restart", CC_CALLBACK_1(Bug914Layer::restart, this));
+        auto label = LabelTTF::create("Hello World", "Marker Felt", 64);
+        auto item1 = MenuItemFont::create("restart", CC_CALLBACK_1(Bug914Layer::restart, this));
 
-        Menu *menu = Menu::create(item1, NULL);
+        auto menu = Menu::create(item1, NULL);
         menu->alignItemsVertically();
         menu->setPosition(Point(size.width/2, 100));
         addChild(menu);
@@ -63,14 +63,14 @@ bool Bug914Layer::init()
     return false;
 }
 
-void Bug914Layer::ccTouchesMoved(Set *touches, Event * event)
+void Bug914Layer::onTouchesMoved(const std::vector<Touch*>& touches, Event * event)
 {
-    log("Number of touches: %d", touches->count());
+    log("Number of touches: %d", (int)touches.size());
 }
 
-void Bug914Layer::ccTouchesBegan(Set *touches, Event * event)
+void Bug914Layer::onTouchesBegan(const std::vector<Touch*>& touches, Event * event)
 {
-    ccTouchesMoved(touches, event);
+    onTouchesMoved(touches, event);
 }
 
 void Bug914Layer::restart(Object* sender)

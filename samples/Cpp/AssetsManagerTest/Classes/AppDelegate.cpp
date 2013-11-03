@@ -8,7 +8,7 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include "ScriptingCore.h"
-#include "generated/jsb_cocos2dx_auto.hpp"
+#include "jsb_cocos2dx_auto.hpp"
 #include "cocos2d_specifics.hpp"
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
@@ -32,7 +32,7 @@ AppDelegate::~AppDelegate()
 bool AppDelegate::applicationDidFinishLaunching()
 {
     // initialize director
-    Director *director = Director::getInstance();
+    auto director = Director::getInstance();
     director->setOpenGLView(EGLView::getInstance());
 
     // turn on display FPS
@@ -47,8 +47,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     
     sc->start();
     
-    Scene *scene = Scene::create();
-    UpdateLayer *updateLayer = new UpdateLayer();
+    auto scene = Scene::create();
+    auto updateLayer = new UpdateLayer();
     scene->addChild(updateLayer);
     updateLayer->release();
     
@@ -85,8 +85,6 @@ UpdateLayer::UpdateLayer()
 
 UpdateLayer::~UpdateLayer()
 {
-    AssetsManager *pAssetsManager = getAssetsManager();
-    CC_SAFE_DELETE(pAssetsManager);
 }
 
 void UpdateLayer::update(cocos2d::Object *pSender)
@@ -94,7 +92,7 @@ void UpdateLayer::update(cocos2d::Object *pSender)
     pProgressLabel->setString("");
     
     // update resources
-    getAssetsManager()->update();
+    pAssetsManager->update();
     
     isUpdateItemClicked = true;
 }
@@ -116,7 +114,7 @@ void UpdateLayer::reset(cocos2d::Object *pSender)
     system(command.c_str());
 #endif
     // Delete recorded version codes.
-    getAssetsManager()->deleteVersion();
+    pAssetsManager->deleteVersion();
     
     createDownloadedDir();
 }
@@ -132,7 +130,7 @@ void UpdateLayer::enter(cocos2d::Object *pSender)
         FileUtils::getInstance()->setSearchPaths(searchPaths);
     }
     
-    ScriptEngineProtocol *pEngine = ScriptingCore::getInstance();
+    auto pEngine = ScriptingCore::getInstance();
     ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
     ScriptingCore::getInstance()->runScript("main.js");
 }
@@ -141,9 +139,18 @@ bool UpdateLayer::init()
 {
     Layer::init();
     
+    /** Creates assets manager */
+    pAssetsManager = new AssetsManager("https://raw.github.com/minggo/AssetsManagerTest/master/package.zip",
+                                       "https://raw.github.com/minggo/AssetsManagerTest/master/version",
+                                       pathToSave.c_str());
+    pAssetsManager->setDelegate(this);
+    pAssetsManager->setConnectionTimeout(3);
+    addChild(pAssetsManager);
+    pAssetsManager->release();
+    
     createDownloadedDir();
     
-    Size size = Director::getInstance()->getWinSize();
+    auto size = Director::getInstance()->getWinSize();
 
     pItemReset = MenuItemFont::create("reset", CC_CALLBACK_1(UpdateLayer::reset,this));
     pItemEnter = MenuItemFont::create("enter", CC_CALLBACK_1(UpdateLayer::enter, this));
@@ -153,7 +160,7 @@ bool UpdateLayer::init()
     pItemReset->setPosition(Point(size.width/2, size.height/2));
     pItemUpdate->setPosition(Point(size.width/2, size.height/2 - 50));
     
-    Menu *menu = Menu::create(pItemUpdate, pItemEnter, pItemReset, NULL);
+    auto menu = Menu::create(pItemUpdate, pItemEnter, pItemReset, NULL);
     menu->setPosition(Point(0,0));
     addChild(menu);
     
@@ -162,22 +169,6 @@ bool UpdateLayer::init()
     addChild(pProgressLabel);
     
     return true;
-}
-
-AssetsManager* UpdateLayer::getAssetsManager()
-{
-    static AssetsManager *pAssetsManager = NULL;
-    
-    if (! pAssetsManager)
-    {
-        pAssetsManager = new AssetsManager("https://raw.github.com/minggo/AssetsManagerTest/master/package.zip",
-                                           "https://raw.github.com/minggo/AssetsManagerTest/master/version",
-                                           pathToSave.c_str());
-        pAssetsManager->setDelegate(this);
-        pAssetsManager->setConnectionTimeout(3);
-    }
-    
-    return pAssetsManager;
 }
 
 void UpdateLayer::createDownloadedDir()

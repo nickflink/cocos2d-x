@@ -27,7 +27,6 @@ THE SOFTWARE.
 
 #include "label_nodes/CCLabelTTF.h"
 #include "text_input_node/CCIMEDelegate.h"
-#include "touch_dispatcher/CCTouchDelegateProtocol.h"
 
 NS_CC_BEGIN
 
@@ -97,17 +96,24 @@ public:
 class CC_DLL TextFieldTTF : public LabelTTF, public IMEDelegate
 {
 public:
+    /**
+     * @js ctor
+     */
     TextFieldTTF();
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual ~TextFieldTTF();
 
     //char * description();
 
     /** creates a TextFieldTTF from a fontname, alignment, dimension and font size */
-    static TextFieldTTF * textFieldWithPlaceHolder(const char *placeholder, const Size& dimensions, Label::HAlignment alignment, const char *fontName, float fontSize);
+    static TextFieldTTF * textFieldWithPlaceHolder(const char *placeholder, const Size& dimensions, TextHAlignment alignment, const char *fontName, float fontSize);
     /** creates a LabelTTF from a fontname and font size */
     static TextFieldTTF * textFieldWithPlaceHolder(const char *placeholder, const char *fontName, float fontSize);
     /** initializes the TextFieldTTF with a font name, alignment, dimension and font size */
-    bool initWithPlaceHolder(const char *placeholder, const Size& dimensions, Label::HAlignment alignment, const char *fontName, float fontSize);
+    bool initWithPlaceHolder(const char *placeholder, const Size& dimensions, TextHAlignment alignment, const char *fontName, float fontSize);
     /** initializes the TextFieldTTF with a font name and font size */
     bool initWithPlaceHolder(const char *placeholder, const char *fontName, float fontSize);
 
@@ -124,8 +130,15 @@ public:
     //////////////////////////////////////////////////////////////////////////
     // properties
     //////////////////////////////////////////////////////////////////////////
-
+    /**
+     * @js NA
+     * @lua NA
+     */
     inline TextFieldDelegate* getDelegate() const { return _delegate; };
+    /**
+     * @js NA
+     * @lua NA
+     */
     inline void setDelegate(TextFieldDelegate* delegate) { _delegate = delegate; };
 
     inline int getCharCount() const { return _charCount; };

@@ -69,21 +69,21 @@ bool HelloWorld::init()
 		// 1. Add a menu item with "X" image, which is clicked to quit the program.
 
 		// Create a "close" menu item with close icon, it's an auto release object.
-		MenuItemImage *closeItem = MenuItemImage::create(
+		auto closeItem = MenuItemImage::create(
 			"CloseNormal.png",
 			"CloseSelected.png",
             CC_CALLBACK_1(HelloWorld::menuCloseCallback,this));
 		CC_BREAK_IF(! closeItem);
         
 		// Place the menu item bottom-right conner.
-        Size visibleSize = Director::getInstance()->getVisibleSize();
-        Point origin = Director::getInstance()->getVisibleOrigin();
+        auto visibleSize = Director::getInstance()->getVisibleSize();
+        auto origin = Director::getInstance()->getVisibleOrigin();
         
 		closeItem->setPosition(Point(origin.x + visibleSize.width - closeItem->getContentSize().width/2,
                                     origin.y + closeItem->getContentSize().height/2));
 
 		// Create a menu with the "close" menu item, it's an auto release object.
-		Menu* menu = Menu::create(closeItem, NULL);
+		auto menu = Menu::create(closeItem, NULL);
 		menu->setPosition(Point::ZERO);
 		CC_BREAK_IF(! menu);
 
@@ -92,7 +92,7 @@ bool HelloWorld::init()
 
 		/////////////////////////////
 		// 2. add your codes below...
-		Sprite *player = Sprite::create("Player.png", Rect(0, 0, 27, 40) );
+		auto player = Sprite::create("Player.png", Rect(0, 0, 27, 40) );
         
 		player->setPosition( Point(origin.x + player->getContentSize().width/2,
                                  origin.y + visibleSize.height/2) );
@@ -102,8 +102,11 @@ bool HelloWorld::init()
 
 		this->setTouchEnabled(true);
 
-		_targets = new Array;
-		_projectiles = new Array;
+		_targets = new Array();
+        _targets->init();
+        
+		_projectiles = new Array();
+        _projectiles->init();
 
 		// use updateGame instead of update, otherwise it will conflit with SelectorProtocol::update
 		// see http://www.cocos2d-x.org/boards/6/topics/1478
@@ -170,7 +173,7 @@ void HelloWorld::spriteMoveFinished(Node* sender)
 	{
 		_targets->removeObject(sprite);
         
-		GameOverScene *gameOverScene = GameOverScene::create();
+		auto gameOverScene = GameOverScene::create();
 		gameOverScene->getLayer()->getLabel()->setString("You Lose :[");
 		Director::getInstance()->replaceScene(gameOverScene);
 
@@ -187,17 +190,17 @@ void HelloWorld::gameLogic(float dt)
 }
 
 // cpp with cocos2d-x
-void HelloWorld::ccTouchesEnded(Set* touches, Event* event)
+void HelloWorld::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
 {
 	// Choose one of the touches to work with
-	Touch* touch = static_cast<Touch*>( touches->anyObject() );
+	Touch* touch = touches[0];
 	Point location = touch->getLocation();
     
 	log("++++++++after  x:%f, y:%f", location.x, location.y);
 
 	// Set up initial location of projectile
 	Size winSize = Director::getInstance()->getVisibleSize();
-    Point origin = Director::getInstance()->getVisibleOrigin();
+    auto origin = Director::getInstance()->getVisibleOrigin();
 	Sprite *projectile = Sprite::create("Projectile.png", Rect(0, 0, 20, 20));
 	projectile->setPosition( Point(origin.x+20, origin.y+winSize.height/2) );
 
@@ -239,27 +242,30 @@ void HelloWorld::ccTouchesEnded(Set* touches, Event* event)
 
 void HelloWorld::updateGame(float dt)
 {
-	Array *projectilesToDelete = new Array;
+	Array *projectilesToDelete = new Array();
+    projectilesToDelete->init();
+    
     Object* it = NULL;
     Object* jt = NULL;
 
 	// for (it = _projectiles->begin(); it != _projectiles->end(); it++)
     CCARRAY_FOREACH(_projectiles, it)
 	{
-		Sprite *projectile = dynamic_cast<Sprite*>(it);
-		Rect projectileRect = Rect(
+		auto projectile = dynamic_cast<Sprite*>(it);
+		auto projectileRect = Rect(
 			projectile->getPosition().x - (projectile->getContentSize().width/2),
 			projectile->getPosition().y - (projectile->getContentSize().height/2),
 			projectile->getContentSize().width,
 			projectile->getContentSize().height);
 
-		Array* targetsToDelete =new Array;
+		auto targetsToDelete = new Array();
+        targetsToDelete->init();
 
 		// for (jt = _targets->begin(); jt != _targets->end(); jt++)
         CCARRAY_FOREACH(_targets, jt)
 		{
-			Sprite *target = dynamic_cast<Sprite*>(jt);
-			Rect targetRect = Rect(
+			auto target = dynamic_cast<Sprite*>(jt);
+			auto targetRect = Rect(
 				target->getPosition().x - (target->getContentSize().width/2),
 				target->getPosition().y - (target->getContentSize().height/2),
 				target->getContentSize().width,
@@ -275,14 +281,14 @@ void HelloWorld::updateGame(float dt)
 		// for (jt = targetsToDelete->begin(); jt != targetsToDelete->end(); jt++)
         CCARRAY_FOREACH(targetsToDelete, jt)
 		{
-			Sprite *target = dynamic_cast<Sprite*>(jt);
+			auto target = dynamic_cast<Sprite*>(jt);
 			_targets->removeObject(target);
 			this->removeChild(target, true);
 
 			_projectilesDestroyed++;
 			if (_projectilesDestroyed >= 5)
 			{
-				GameOverScene *gameOverScene = GameOverScene::create();
+				auto gameOverScene = GameOverScene::create();
 				gameOverScene->getLayer()->getLabel()->setString("You Win!");
 				Director::getInstance()->replaceScene(gameOverScene);
 			}
@@ -298,15 +304,10 @@ void HelloWorld::updateGame(float dt)
 	// for (it = projectilesToDelete->begin(); it != projectilesToDelete->end(); it++)
     CCARRAY_FOREACH(projectilesToDelete, it)
 	{
-		Sprite* projectile = dynamic_cast<Sprite*>(it);
+		auto projectile = dynamic_cast<Sprite*>(it);
 		_projectiles->removeObject(projectile);
 		this->removeChild(projectile, true);
 	}
 	projectilesToDelete->release();
 }
 
-void HelloWorld::registerWithTouchDispatcher()
-{
-	// TouchDispatcher::sharedDispatcher()->addTargetedDelegate(this,0,true);
-    Director::getInstance()->getTouchDispatcher()->addStandardDelegate(this,0);
-}

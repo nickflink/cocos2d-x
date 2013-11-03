@@ -37,6 +37,10 @@ NS_CC_BEGIN
 class CC_DLL ActionTweenDelegate
 {
 public:
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual ~ActionTweenDelegate() {}
     virtual void updateTweenAction(float value, const char* key) = 0;
 };
@@ -46,16 +50,18 @@ public:
  ActionTween is an action that lets you update any property of an object.
  For example, if you want to modify the "width" property of a target from 200 to 300 in 2 seconds, then:
 
-    id modifyWidth = [ActionTween actionWithDuration:2 key:@"width" from:200 to:300];
-    [target runAction:modifyWidth];
-
+ @code
+     auto modifyWidth = ActionTween::create(2, "width", 200, 300);
+     target->runAction(modifyWidth);
+ @endcode
 
  Another example: ScaleTo action could be rewritten using PropertyAction:
 
-    // scaleA and scaleB are equivalents
-    id scaleA = [ScaleTo actionWithDuration:2 scale:3];
-    id scaleB = [ActionTween actionWithDuration:2 key:@"scale" from:1 to:3];
-
+ @code
+     // scaleA and scaleB are equivalents
+     auto scaleA = ScaleTo::create(2, 3);                 // (duration, to)
+     auto scaleB = ActionTween::create(2, "scale", 1, 3); // (duration, key, from, to)
+ @endcode
 
  @since v0.99.2
  */

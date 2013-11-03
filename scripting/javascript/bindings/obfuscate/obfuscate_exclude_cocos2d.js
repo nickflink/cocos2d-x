@@ -2354,7 +2354,7 @@ CSSProperties.prototype.setup;
 CSSProperties.prototype.bindingRendererClass;
 CSSProperties.prototype.setContextMenuEnable;
 CSSProperties.prototype.Application;
-CSSProperties.prototype.getInstance;
+CSSProperties.prototype.sharedApplication;
 CSSProperties.prototype.getCurrentLanguage;
 CSSProperties.prototype.statusBarFrame;
 CSSProperties.prototype.run;

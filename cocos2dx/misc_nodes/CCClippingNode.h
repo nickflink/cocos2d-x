@@ -49,7 +49,10 @@ public:
      The stencil node will be retained.
      */
     static ClippingNode* create(Node *pStencil);
-    
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual ~ClippingNode();
     
     /** Initializes a clipping node without a stencil.
@@ -76,17 +79,33 @@ public:
     GLfloat getAlphaThreshold() const;
     void setAlphaThreshold(GLfloat fAlphaThreshold);
     
-    /** Inverted. If this is set to YES,
+    /** Inverted. If this is set to true,
      the stencil is inverted, so the content is drawn where the stencil is NOT drawn.
-     This default to NO.
+     This default to false.
      */
     bool isInverted() const;
     void setInverted(bool bInverted);
 
     // Overrides
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual void onEnter() override;
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual void onEnterTransitionDidFinish() override;
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual void onExitTransitionDidStart() override;
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual void onExit() override;
     virtual void visit() override;
 
@@ -95,7 +114,7 @@ private:
     */
     void drawFullScreenQuadClearStencil();
 
-private:
+protected:
     ClippingNode();
 
 protected:

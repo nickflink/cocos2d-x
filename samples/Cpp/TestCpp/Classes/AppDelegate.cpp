@@ -4,7 +4,6 @@
 #include "controller.h"
 #include "SimpleAudioEngine.h"
 #include "cocos-ext.h"
-#include "CCArmature/utils/CCArmatureDataManager.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -16,7 +15,7 @@ AppDelegate::AppDelegate()
 AppDelegate::~AppDelegate()
 {
 //    SimpleAudioEngine::end();
-	cocos2d::extension::armature::ArmatureDataManager::purgeArmatureSystem();
+	cocos2d::extension::armature::ArmatureDataManager::destoryInstance();
 }
 
 bool AppDelegate::applicationDidFinishLaunching()
@@ -27,26 +26,31 @@ bool AppDelegate::applicationDidFinishLaunching()
 	Configuration::getInstance()->loadConfigFile("configs/config-example.plist");
 
     // initialize director
-    Director *director = Director::getInstance();
+    auto director = Director::getInstance();
     director->setOpenGLView(EGLView::getInstance());
 
     director->setDisplayStats(true);
     director->setAnimationInterval(1.0 / 60);
 
-    Size screenSize = EGLView::getInstance()->getFrameSize();
+    auto screenSize = EGLView::getInstance()->getFrameSize();
 
-    Size designSize = Size(480, 320);
+    auto designSize = Size(480, 320);
 
-    FileUtils* pFileUtils = FileUtils::getInstance();
+    auto pFileUtils = FileUtils::getInstance();
+	std::vector<std::string> searchPaths;
     
     if (screenSize.height > 320)
     {
-        Size resourceSize = Size(960, 640);
-        std::vector<std::string> searchPaths;
+        auto resourceSize = Size(960, 640);
         searchPaths.push_back("hd");
-        pFileUtils->setSearchPaths(searchPaths);
+		searchPaths.push_back("hd/scenetest");
         director->setContentScaleFactor(resourceSize.height/designSize.height);
     }
+	else
+	{
+		searchPaths.push_back("scenetest");
+	}
+	pFileUtils->setSearchPaths(searchPaths);
 
     EGLView::getInstance()->setDesignResolutionSize(designSize.width, designSize.height, ResolutionPolicy::NO_BORDER);
 

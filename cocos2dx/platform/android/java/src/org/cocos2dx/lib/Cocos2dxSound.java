@@ -33,8 +33,6 @@ import java.util.concurrent.Semaphore;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.os.Vibrator;
-import android.os.Build;
 import android.util.Log;
 
 public class Cocos2dxSound {
@@ -312,6 +310,7 @@ public class Cocos2dxSound {
 
 		return streamID;
 	}
+
 	// ===========================================================
 	// Vibrate Methods
 	// ===========================================================

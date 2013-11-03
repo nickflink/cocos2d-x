@@ -5,7 +5,7 @@
 
 CurlTest::CurlTest()
 {
-    LabelTTF* label = LabelTTF::create("Curl Test", "Arial", 28);
+    auto label = LabelTTF::create("Curl Test", "Arial", 28);
     addChild(label, 0);
     label->setPosition( Point(VisibleRect::center().x, VisibleRect::top().y-50) );
 
@@ -22,7 +22,7 @@ CurlTest::CurlTest()
 
 // the test code is
 // http://curl.haxx.se/mail/lib-2009-12/0071.html
-void CurlTest::ccTouchesEnded(Set  *touches, Event  *event)
+void CurlTest::onTouchesEnded(const std::vector<Touch*>& touches, Event  *event)
 {
     CURL *curl;
     CURLcode res;
@@ -58,7 +58,7 @@ CurlTest::~CurlTest()
 
 void CurlTestScene::runThisTest()
 {
-    Layer* layer = new CurlTest();
+    auto layer = new CurlTest();
     addChild(layer);
 
     Director::getInstance()->replaceScene(this);

@@ -55,7 +55,14 @@ class SpriteFrame;
 class CC_DLL AnimationFrame : public Object, public Clonable
 {
 public:
+    /**
+     * @js ctor
+     */
     AnimationFrame();
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual ~AnimationFrame();
 
     /** initializes the animation frame with a spriteframe, number of delay units and a notification user info */
@@ -111,7 +118,9 @@ protected:
 The Animation object contains AnimationFrame objects, and a possible delay between the frames.
 You can animate a Animation object by using the Animate action. Example:
 
-[sprite runAction:[Animate actionWithAnimation:animation]];
+@code
+    sprite->runAction(Animate::create(animation));
+@endcode
 
 */
 class CC_DLL Animation : public Object, public Clonable
@@ -130,10 +139,17 @@ public:
 
     /* Creates an animation with an array of AnimationFrame, the delay per units in seconds and and how many times it should be executed.
      @since v2.0
+     * @js NA
      */
     static Animation* create(Array *arrayOfAnimationFrameNames, float delayPerUnit, unsigned int loops = 1);
-
+    /**
+     * @js ctor
+     */
     Animation();
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual ~Animation(void);
 
     bool init();
@@ -157,7 +173,11 @@ public:
      The frame will be added with one "delay unit".
      Added to facilitate the migration from v0.8 to v0.9.
      */
-    void addSpriteFrameWithFileName(const char *filename);
+    void addSpriteFrameWithFile(const char *filename);
+    /**
+     @deprecated. Use addSpriteFrameWithFile() instead
+     */
+    CC_DEPRECATED_ATTRIBUTE void addSpriteFrameWithFileName(const char *filename){ addSpriteFrameWithFile(filename);}
 
     /** Adds a frame with a texture and a rect. Internally it will create a SpriteFrame and it will add it.
      The frame will be added with one "delay unit".

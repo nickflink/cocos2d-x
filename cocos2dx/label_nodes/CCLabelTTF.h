@@ -48,17 +48,28 @@ NS_CC_BEGIN
  * Custom ttf file can be put in assets/ or external storage that the Application can access.
  * @code
  * LabelTTF *label1 = LabelTTF::create("alignment left", "A Damn Mess", fontSize, blockSize, 
- *                                          Label::HAlignment::LEFT, Label::VAlignment::CENTER);
+ *                                          TextHAlignment::LEFT, TextVAlignment::CENTER);
  * LabelTTF *label2 = LabelTTF::create("alignment right", "/mnt/sdcard/Scissor Cuts.ttf", fontSize, blockSize,
- *                                          Label::HAlignment::LEFT, Label::VAlignment::CENTER);
+ *                                          TextHAlignment::LEFT, TextVAlignment::CENTER);
  * @endcode
  *
  */
 class CC_DLL LabelTTF : public Sprite, public LabelProtocol
 {
 public:
+    /**
+     * @js ctor
+     */
     LabelTTF();
+    /**
+     * @js NA
+     * @lua NA
+     */
     virtual ~LabelTTF();
+    /**
+     * @js NA
+     * @lua NA
+     */
     const char* description() const;
     
     /** creates a LabelTTF with a font name and font size in points
@@ -70,14 +81,14 @@ public:
      @since v2.0.1
      */
     static LabelTTF * create(const char *string, const char *fontName, float fontSize,
-                               const Size& dimensions, Label::HAlignment hAlignment);
+                               const Size& dimensions, TextHAlignment hAlignment);
   
     /** creates a Label from a fontname, alignment, dimension in points and font size in points
      @since v2.0.1
      */
     static LabelTTF * create(const char *string, const char *fontName, float fontSize,
-                               const Size& dimensions, Label::HAlignment hAlignment, 
-                               Label::VAlignment vAlignment);
+                               const Size& dimensions, TextHAlignment hAlignment, 
+                               TextVAlignment vAlignment);
     
     
     /** Create a lable with string and a font definition*/
@@ -88,12 +99,12 @@ public:
     
     /** initializes the LabelTTF with a font name, alignment, dimension and font size */
     bool initWithString(const char *string, const char *fontName, float fontSize,
-                        const Size& dimensions, Label::HAlignment hAlignment);
+                        const Size& dimensions, TextHAlignment hAlignment);
 
     /** initializes the LabelTTF with a font name, alignment, dimension and font size */
     bool initWithString(const char *string, const char *fontName, float fontSize,
-                        const Size& dimensions, Label::HAlignment hAlignment, 
-                        Label::VAlignment vAlignment);
+                        const Size& dimensions, TextHAlignment hAlignment, 
+                        TextVAlignment vAlignment);
     
     /** initializes the LabelTTF with a font name, alignment, dimension and font size */
     bool initWithStringAndTextDefinition(const char *string, FontDefinition &textDefinition);
@@ -136,11 +147,11 @@ public:
     virtual void setString(const char *label);
     virtual const char* getString(void) const;
     
-    Label::HAlignment getHorizontalAlignment() const;
-    void setHorizontalAlignment(Label::HAlignment alignment);
+    TextHAlignment getHorizontalAlignment() const;
+    void setHorizontalAlignment(TextHAlignment alignment);
     
-    Label::VAlignment getVerticalAlignment() const;
-    void setVerticalAlignment(Label::VAlignment verticalAlignment);
+    TextVAlignment getVerticalAlignment() const;
+    void setVerticalAlignment(TextVAlignment verticalAlignment);
     
     const Size& getDimensions() const;
     void setDimensions(const Size &dim);
@@ -162,9 +173,9 @@ protected:
     /** Dimensions of the label in Points */
     Size _dimensions;
     /** The alignment of the label */
-    Label::HAlignment         _alignment;
+    TextHAlignment         _alignment;
     /** The vertical alignment of the label */
-    Label::VAlignment _vAlignment;
+    TextVAlignment _vAlignment;
     /** Font name used in the label */
     std::string * _fontName;
     /** Font size of the label */

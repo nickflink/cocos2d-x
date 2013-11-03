@@ -7,8 +7,8 @@
 # define global variables
 PLATFORMS = {
     "cpp" : ["ios", "android", "win32", "mac", "linux"],
-    "lua" : ["ios", "android", "win32", "mac","linux"],
-    "javascript" : ["ios", "android", "win32"]
+    "lua" : ["ios", "android", "win32", "mac", "linux"],
+    "javascript" : ["ios", "android", "win32", "mac"]
 }
 
 
@@ -23,7 +23,7 @@ def checkParams():
     
     # set the parser to parse input params
     # the correspond variable name of "-x, --xxx" is parser.xxx
-    parser = OptionParser(usage="Usage: ./%prog -p <PROJECT_NAME> -k <PACKAGE_NAME> -l <cpp|lua|javascript>\nSample: ./%prog -p MyGame -k com.MyCompany.AwesomeGame -l javascript")
+    parser = OptionParser(usage="Usage: %prog -p <PROJECT_NAME> -k <PACKAGE_NAME> -l <cpp|lua|javascript>\nSample: %prog -p MyGame -k com.MyCompany.AwesomeGame -l javascript")
     parser.add_option("-p", "--project", metavar="PROJECT_NAME", help="Set a project name")
     parser.add_option("-k", "--package", metavar="PACKAGE_NAME", help="Set a package name for project")
     parser.add_option("-l", "--language",
@@ -71,6 +71,10 @@ def checkParams():
         context["src_project_name"] = "HelloJavascript"
         context["src_package_name"] = "org.cocos2dx.hellojavascript"
         context["src_project_path"] = os.path.join(template_dir, "multi-platform-js")
+    else:
+        print ("Your language parameter doesn\'t exist." \
+            "Check correct language option\'s parameter")
+        sys.exit()
     platforms_list = PLATFORMS.get(context["language"], [])
     return context, platforms_list
 # end of checkParams(context) function
@@ -105,19 +109,7 @@ def processPlatformProjects(context, platform):
         src_pkg = context["src_package_name"].split('.')
         dst_pkg = context["dst_package_name"].split('.')
 
-        src_dir = os.path.join(proj_path, "src", *src_pkg)
-        dst_dir = os.path.join(proj_path, "src", *dst_pkg)
-        os.renames(src_dir, dst_dir)
-
         java_package_path = os.path.join(*dst_pkg)
-
-    # rename files and folders
-    for item in data["rename"]:
-        tmp = item.replace("PACKAGE_PATH", java_package_path)
-        src = tmp.replace("PROJECT_NAME", context["src_project_name"])
-        dst = tmp.replace("PROJECT_NAME", context["dst_project_name"])
-        if os.path.exists(os.path.join(proj_path, src)):
-            os.rename(os.path.join(proj_path, src), os.path.join(proj_path, dst))
 
     # remove useless files and folders
     for item in data["remove"]:

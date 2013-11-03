@@ -50,7 +50,10 @@ public:
     static Timer* create(Object *target, SEL_SCHEDULE selector);
     /** Allocates a timer with a target, a selector and an interval in seconds. */
     static Timer* create(Object *target, SEL_SCHEDULE selector, float seconds);
-    /** Allocates a timer with a script callback function and an interval in seconds. */
+    /** Allocates a timer with a script callback function and an interval in seconds. 
+     * @js NA
+     * @lua NA
+     */
     static Timer* createWithScriptHandler(int nHandler, float seconds);
 
     CC_DEPRECATED_ATTRIBUTE static Timer* timerWithTarget(Object *target, SEL_SCHEDULE selector) { return Timer::create(target, selector); }
@@ -70,7 +73,10 @@ public:
     float getInterval() const;
     /** set interval in seconds */
     void setInterval(float interval);
-    
+    /**
+     * @js NA
+     * @lua NA
+     */
     SEL_SCHEDULE getSelector() const;
 
     /** triggers the timer */
@@ -120,8 +126,14 @@ public:
     
     // Minimum priority level for user scheduling.
     static const int PRIORITY_NON_SYSTEM_MIN;
-    
+    /**
+     * @js ctor
+     */
     Scheduler();
+    /**
+     * @js NA
+     * @lua NA
+     */
     ~Scheduler(void);
 
     inline float getTimeScale(void) { return _timeScale; }
@@ -136,11 +148,13 @@ public:
 
     /** 'update' the scheduler.
      You should NEVER call this method, unless you know what you are doing.
+     * @js NA
+     * @lua NA
      */
     void update(float dt);
 
     /** The scheduled method will be called every 'interval' seconds.
-     If paused is YES, then it won't be called until it is resumed.
+     If paused is true, then it won't be called until it is resumed.
      If 'interval' is 0, it will be called every frame, but if so, it's recommended to use 'scheduleUpdateForTarget:' instead.
      If the selector is already scheduled, then only the interval parameter will be updated without re-scheduling it again.
      repeat let the action be repeated repeat + 1 times, use kRepeatForever to let the action run continuously
@@ -195,7 +209,7 @@ public:
     void unscheduleAllWithMinPriority(int nMinPriority);
 
     /** The scheduled script callback will be called every 'interval' seconds.
-     If paused is YES, then it won't be called until it is resumed.
+     If paused is true, then it won't be called until it is resumed.
      If 'interval' is 0, it will be called every frame.
      return schedule script entry ID, used for unscheduleScriptFunc().
      */
@@ -220,6 +234,8 @@ public:
 
     /** Returns whether or not the target is paused
     @since v1.0.0
+    * In js: var isTargetPaused(var jsObject)
+    * @lua NA 
     */
     bool isTargetPaused(Object *target);
 

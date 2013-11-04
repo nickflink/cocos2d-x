@@ -44,6 +44,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		0178C57D1826D3AF00978D9A /* CCLocalizedString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0178C57B1826D3AF00978D9A /* CCLocalizedString.cpp */; };
+		0178C57E1826D3AF00978D9A /* CCLocalizedString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0178C57B1826D3AF00978D9A /* CCLocalizedString.cpp */; };
+		0178C57F1826D3AF00978D9A /* CCLocalizedString.h in Headers */ = {isa = PBXBuildFile; fileRef = 0178C57C1826D3AF00978D9A /* CCLocalizedString.h */; };
+		0178C5801826D3AF00978D9A /* CCLocalizedString.h in Headers */ = {isa = PBXBuildFile; fileRef = 0178C57C1826D3AF00978D9A /* CCLocalizedString.h */; };
 		0186A8F1179F2CD900D88A79 /* CCFontAtlasFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0186A8EF179F2C8A00D88A79 /* CCFontAtlasFactory.cpp */; };
 		0186A8F2179F2CD900D88A79 /* CCFontAtlasFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 0186A8F0179F2C8B00D88A79 /* CCFontAtlasFactory.h */; };
 		0186A8F3179F2CDB00D88A79 /* CCFontAtlasFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0186A8EF179F2C8A00D88A79 /* CCFontAtlasFactory.cpp */; };
@@ -2308,6 +2312,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0178C57B1826D3AF00978D9A /* CCLocalizedString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLocalizedString.cpp; sourceTree = "<group>"; };
+		0178C57C1826D3AF00978D9A /* CCLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLocalizedString.h; sourceTree = "<group>"; };
 		0186A8EF179F2C8A00D88A79 /* CCFontAtlasFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCFontAtlasFactory.cpp; sourceTree = "<group>"; };
 		0186A8F0179F2C8B00D88A79 /* CCFontAtlasFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFontAtlasFactory.h; sourceTree = "<group>"; };
 		0186A8F5179F328400D88A79 /* CCFontAtlasCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCFontAtlasCache.cpp; sourceTree = "<group>"; };
@@ -4400,6 +4406,8 @@
 		A03F1E081780BAE4006731B9 /* cocoa */ = {
 			isa = PBXGroup;
 			children = (
+				0178C57B1826D3AF00978D9A /* CCLocalizedString.cpp */,
+				0178C57C1826D3AF00978D9A /* CCLocalizedString.h */,
 				A03F1E091780BAE4006731B9 /* CCAffineTransform.cpp */,
 				A03F1E0A1780BAE4006731B9 /* CCAffineTransform.h */,
 				A03F1E0B1780BAE4006731B9 /* CCArray.cpp */,
@@ -6541,6 +6549,7 @@
 				4621FCCB17ED716100CD3B52 /* CCEventListenerKeyboard.h in Headers */,
 				4621FCCF17ED716100CD3B52 /* CCEventListenerTouch.h in Headers */,
 				4621FCD317ED716100CD3B52 /* CCEventTouch.h in Headers */,
+				0178C57F1826D3AF00978D9A /* CCLocalizedString.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7269,6 +7278,7 @@
 				4621FCCC17ED716100CD3B52 /* CCEventListenerKeyboard.h in Headers */,
 				4621FCD017ED716100CD3B52 /* CCEventListenerTouch.h in Headers */,
 				4621FCD417ED716100CD3B52 /* CCEventTouch.h in Headers */,
+				0178C5801826D3AF00978D9A /* CCLocalizedString.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8085,6 +8095,7 @@
 				4621FCC917ED716100CD3B52 /* CCEventListenerKeyboard.cpp in Sources */,
 				4621FCCD17ED716100CD3B52 /* CCEventListenerTouch.cpp in Sources */,
 				4621FCD117ED716100CD3B52 /* CCEventTouch.cpp in Sources */,
+				0178C57D1826D3AF00978D9A /* CCLocalizedString.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8588,6 +8599,7 @@
 				4621FCCA17ED716100CD3B52 /* CCEventListenerKeyboard.cpp in Sources */,
 				4621FCCE17ED716100CD3B52 /* CCEventListenerTouch.cpp in Sources */,
 				4621FCD217ED716100CD3B52 /* CCEventTouch.cpp in Sources */,
+				0178C57E1826D3AF00978D9A /* CCLocalizedString.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

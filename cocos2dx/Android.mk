@@ -27,6 +27,7 @@ actions/CCActionManager.cpp \
 actions/CCActionPageTurn3D.cpp \
 actions/CCActionProgressTimer.cpp \
 actions/CCActionTiledGrid.cpp \
+actions/CCActionShake.cpp \
 actions/CCActionTween.cpp \
 base_nodes/CCAtlasNode.cpp \
 base_nodes/CCNode.cpp \

@@ -44,6 +44,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		016F19FB182D522B00712970 /* CCActionShake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016F19F9182D522B00712970 /* CCActionShake.cpp */; };
+		016F19FC182D522B00712970 /* CCActionShake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016F19F9182D522B00712970 /* CCActionShake.cpp */; };
+		016F19FD182D522B00712970 /* CCActionShake.h in Headers */ = {isa = PBXBuildFile; fileRef = 016F19FA182D522B00712970 /* CCActionShake.h */; };
+		016F19FE182D522B00712970 /* CCActionShake.h in Headers */ = {isa = PBXBuildFile; fileRef = 016F19FA182D522B00712970 /* CCActionShake.h */; };
 		0178C57D1826D3AF00978D9A /* CCLocalizedString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0178C57B1826D3AF00978D9A /* CCLocalizedString.cpp */; };
 		0178C57E1826D3AF00978D9A /* CCLocalizedString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0178C57B1826D3AF00978D9A /* CCLocalizedString.cpp */; };
 		0178C57F1826D3AF00978D9A /* CCLocalizedString.h in Headers */ = {isa = PBXBuildFile; fileRef = 0178C57C1826D3AF00978D9A /* CCLocalizedString.h */; };
@@ -2312,6 +2316,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		016F19F9182D522B00712970 /* CCActionShake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCActionShake.cpp; sourceTree = "<group>"; };
+		016F19FA182D522B00712970 /* CCActionShake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCActionShake.h; sourceTree = "<group>"; };
 		0178C57B1826D3AF00978D9A /* CCLocalizedString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLocalizedString.cpp; sourceTree = "<group>"; };
 		0178C57C1826D3AF00978D9A /* CCLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLocalizedString.h; sourceTree = "<group>"; };
 		0186A8EF179F2C8A00D88A79 /* CCFontAtlasFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCFontAtlasFactory.cpp; sourceTree = "<group>"; };
@@ -4360,6 +4366,8 @@
 		A03F1DDB1780BAE4006731B9 /* actions */ = {
 			isa = PBXGroup;
 			children = (
+				016F19F9182D522B00712970 /* CCActionShake.cpp */,
+				016F19FA182D522B00712970 /* CCActionShake.h */,
 				A03F1DDC1780BAE4006731B9 /* CCAction.cpp */,
 				A03F1DDD1780BAE4006731B9 /* CCAction.h */,
 				A03F1DDE1780BAE4006731B9 /* CCActionCamera.cpp */,
@@ -6550,6 +6558,7 @@
 				4621FCCF17ED716100CD3B52 /* CCEventListenerTouch.h in Headers */,
 				4621FCD317ED716100CD3B52 /* CCEventTouch.h in Headers */,
 				0178C57F1826D3AF00978D9A /* CCLocalizedString.h in Headers */,
+				016F19FD182D522B00712970 /* CCActionShake.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7279,6 +7288,7 @@
 				4621FCD017ED716100CD3B52 /* CCEventListenerTouch.h in Headers */,
 				4621FCD417ED716100CD3B52 /* CCEventTouch.h in Headers */,
 				0178C5801826D3AF00978D9A /* CCLocalizedString.h in Headers */,
+				016F19FE182D522B00712970 /* CCActionShake.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8096,6 +8106,7 @@
 				4621FCCD17ED716100CD3B52 /* CCEventListenerTouch.cpp in Sources */,
 				4621FCD117ED716100CD3B52 /* CCEventTouch.cpp in Sources */,
 				0178C57D1826D3AF00978D9A /* CCLocalizedString.cpp in Sources */,
+				016F19FB182D522B00712970 /* CCActionShake.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8600,6 +8611,7 @@
 				4621FCCE17ED716100CD3B52 /* CCEventListenerTouch.cpp in Sources */,
 				4621FCD217ED716100CD3B52 /* CCEventTouch.cpp in Sources */,
 				0178C57E1826D3AF00978D9A /* CCLocalizedString.cpp in Sources */,
+				016F19FC182D522B00712970 /* CCActionShake.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

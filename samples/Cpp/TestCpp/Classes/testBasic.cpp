@@ -1,14 +1,22 @@
 #include "testBasic.h"
 #include "controller.h"
-#include "cocos-ext.h"
+#include "extensions/cocos-ext.h"
+#include "cocostudio/CocoStudio.h"
 
-TestScene::TestScene(bool bPortrait)
+TestScene::TestScene(bool bPortrait, bool physics/* = false*/)
 {
-}
-
-bool TestScene::initTest()
-{
-    return Scene::init();
+    if (physics)
+    {
+#ifdef CC_USE_PHYSICS
+        TestScene::initWithPhysics();
+#else
+        Scene::init();
+#endif
+    }
+    else
+    {
+        Scene::init();
+    }
 }
 
 void TestScene::onEnter()
@@ -50,7 +58,7 @@ void TestScene::onEnter()
             scene->release();
         }
         
-        cocos2d::extension::armature::ArmatureDataManager::destoryInstance();
+        cocostudio::ArmatureDataManager::destoryInstance();
 	});
 
     auto menu =Menu::create(menuItem, NULL);

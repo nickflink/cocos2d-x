@@ -11,7 +11,6 @@
 #include "platform/CCCommon.h"
 #include "platform/CCFileUtils.h"
 #include "CCDirector.h"
-#include "cocoa/CCString.h"
 USING_NS_CC;
 
 #include <iostream>
@@ -24,7 +23,7 @@ using namespace std;
 
 static map<std::string,std::string> localizedStrings;
 
-const char * CCLocalizedString(const char * mKey,const char * mComment)
+std::string LocalizedString(std::string mKey, std::string mComment)
 {
     
     LanguageType curLanguage = Application::getInstance()->getCurrentLanguage();
@@ -49,7 +48,7 @@ const char * CCLocalizedString(const char * mKey,const char * mComment)
     if (localizedStrings.empty()) 
     {
         // Initialize variables needed
-        unsigned long fileSize = 0;
+        long fileSize = 0;
         unsigned char * fileContents = NULL;
         string line, fullPath, contents;
         
@@ -119,7 +118,7 @@ const char * CCLocalizedString(const char * mKey,const char * mComment)
                     
                     const char * keyChars = keyStr.c_str();
                     
-                    if (strcmp(keyChars,mKey) == 0) {
+                    if (strcmp(keyChars,mKey.c_str()) == 0) {
                         resultStr = subStr;
                     }
                 }
@@ -133,7 +132,7 @@ const char * CCLocalizedString(const char * mKey,const char * mComment)
         
         //return valid value
         if (resultStr.length() > 0){
-            return (string(resultStr)).c_str();
+            return resultStr;
         }
         return mKey;
     }
@@ -141,7 +140,7 @@ const char * CCLocalizedString(const char * mKey,const char * mComment)
     {
         std::map<std::string,std::string>::iterator itr = localizedStrings.find(std::string(mKey));
         if (itr != localizedStrings.end()) {
-            return (itr->second).c_str();
+            return itr->second;
         }
     }
     return mKey;

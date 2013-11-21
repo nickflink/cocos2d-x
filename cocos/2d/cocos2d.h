@@ -1,3 +1,4 @@
+
 /****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
@@ -50,6 +51,7 @@ THE SOFTWARE.
 #include "CCActionInstant.h"
 #include "CCActionTween.h"
 #include "CCActionCatmullRom.h"
+#include "CCActionShake.h"
 
 // base_nodes
 #include "CCNode.h"
@@ -121,6 +123,9 @@ THE SOFTWARE.
 #include "CCPhysicsShape.h"
 #include "CCPhysicsJoint.h"
 #include "CCPhysicsWorld.h"
+
+// i18n
+#include "i18n/CCLocalizedString.h"
 
 // kazmath
 #include "kazmath/kazmath.h"

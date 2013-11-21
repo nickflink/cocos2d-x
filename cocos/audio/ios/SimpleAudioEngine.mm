@@ -156,14 +156,6 @@ static void static_vibrate(long long time)
     return;
 }
 
-static void static_vibrateWithPattern(long long pattern[], int repeat)
-{
-    //This does nothing for now but it should be possible
-    //http://stackoverflow.com/questions/12966467/are-there-apis-for-custom-vibrations-in-ios
-    //AudioServicesPlaySystemSoundWithVibration
-    return;
-}
-
 static void static_cancelVibrate()
 {
     //This does nothing for now but it should be possible
@@ -331,11 +323,6 @@ bool SimpleAudioEngine::hasVibrator()
 void SimpleAudioEngine::vibrate(long long time)
 {
     static_vibrate(time);
-}
-
-void SimpleAudioEngine::vibrateWithPattern(long long pattern[], int repeat)
-{
-    static_vibrateWithPattern(pattern, repeat);
 }
 
 void SimpleAudioEngine::cancelVibrate()

@@ -48,10 +48,10 @@
 		018D7072183DECAE0008A795 /* CCActionShake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 018D706F183DECAE0008A795 /* CCActionShake.cpp */; };
 		018D7073183DECAE0008A795 /* CCActionShake.h in Headers */ = {isa = PBXBuildFile; fileRef = 018D7070183DECAE0008A795 /* CCActionShake.h */; };
 		018D7074183DECAE0008A795 /* CCActionShake.h in Headers */ = {isa = PBXBuildFile; fileRef = 018D7070183DECAE0008A795 /* CCActionShake.h */; };
-		018D707B183DED180008A795 /* CCLocalizedString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 018D7079183DED180008A795 /* CCLocalizedString.cpp */; };
-		018D707C183DED180008A795 /* CCLocalizedString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 018D7079183DED180008A795 /* CCLocalizedString.cpp */; };
-		018D707D183DED180008A795 /* CCLocalizedString.h in Headers */ = {isa = PBXBuildFile; fileRef = 018D707A183DED180008A795 /* CCLocalizedString.h */; };
-		018D707E183DED180008A795 /* CCLocalizedString.h in Headers */ = {isa = PBXBuildFile; fileRef = 018D707A183DED180008A795 /* CCLocalizedString.h */; };
+		01FB7730183F7E5C00879037 /* CCLocalizedString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01FB772E183F7E5C00879037 /* CCLocalizedString.cpp */; };
+		01FB7731183F7E5C00879037 /* CCLocalizedString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01FB772E183F7E5C00879037 /* CCLocalizedString.cpp */; };
+		01FB7732183F7E5C00879037 /* CCLocalizedString.h in Headers */ = {isa = PBXBuildFile; fileRef = 01FB772F183F7E5C00879037 /* CCLocalizedString.h */; };
+		01FB7733183F7E5C00879037 /* CCLocalizedString.h in Headers */ = {isa = PBXBuildFile; fileRef = 01FB772F183F7E5C00879037 /* CCLocalizedString.h */; };
 		1585AB5B1828D74F00000FB5 /* lua_cocos2dx_studio_auto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1585AB591828D74F00000FB5 /* lua_cocos2dx_studio_auto.cpp */; };
 		1585AB5C1828D74F00000FB5 /* lua_cocos2dx_studio_auto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1585AB591828D74F00000FB5 /* lua_cocos2dx_studio_auto.cpp */; };
 		1585AB5D1828D74F00000FB5 /* lua_cocos2dx_studio_auto.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 1585AB5A1828D74F00000FB5 /* lua_cocos2dx_studio_auto.hpp */; };
@@ -2026,10 +2026,8 @@
 /* Begin PBXFileReference section */
 		018D706F183DECAE0008A795 /* CCActionShake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCActionShake.cpp; sourceTree = "<group>"; };
 		018D7070183DECAE0008A795 /* CCActionShake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCActionShake.h; sourceTree = "<group>"; };
-		018D7077183DED180008A795 /* .CCLocalizedString.cpp.swp */ = {isa = PBXFileReference; lastKnownFileType = file; path = .CCLocalizedString.cpp.swp; sourceTree = "<group>"; };
-		018D7078183DED180008A795 /* .CCLocalizedString.h.swp */ = {isa = PBXFileReference; lastKnownFileType = file; path = .CCLocalizedString.h.swp; sourceTree = "<group>"; };
-		018D7079183DED180008A795 /* CCLocalizedString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLocalizedString.cpp; sourceTree = "<group>"; };
-		018D707A183DED180008A795 /* CCLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLocalizedString.h; sourceTree = "<group>"; };
+		01FB772E183F7E5C00879037 /* CCLocalizedString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCLocalizedString.cpp; path = ../base/CCLocalizedString.cpp; sourceTree = "<group>"; };
+		01FB772F183F7E5C00879037 /* CCLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCLocalizedString.h; path = ../base/CCLocalizedString.h; sourceTree = "<group>"; };
 		1551A33F158F2AB200E66CFE /* libcocos2dx Mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2dx Mac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1551A342158F2AB200E66CFE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1585AB591828D74F00000FB5 /* lua_cocos2dx_studio_auto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_studio_auto.cpp; sourceTree = "<group>"; };
@@ -3164,18 +3162,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		018D7076183DED170008A795 /* i18n */ = {
-			isa = PBXGroup;
-			children = (
-				018D7077183DED180008A795 /* .CCLocalizedString.cpp.swp */,
-				018D7078183DED180008A795 /* .CCLocalizedString.h.swp */,
-				018D7079183DED180008A795 /* CCLocalizedString.cpp */,
-				018D707A183DED180008A795 /* CCLocalizedString.h */,
-			);
-			name = i18n;
-			path = ../cocos/i18n;
-			sourceTree = "<group>";
-		};
 		1551A334158F2AB200E66CFE = {
 			isa = PBXGroup;
 			children = (
@@ -3190,7 +3176,6 @@
 				1A57033E180BD0490088DEC7 /* external */,
 				1551A341158F2AB200E66CFE /* Frameworks */,
 				1A8C58BD180E92CC00EF57C3 /* gui */,
-				018D7076183DED170008A795 /* i18n */,
 				46A170851807CE87005B8026 /* math */,
 				1AAF5360180E3374000584C8 /* network */,
 				46A170611807CE7A005B8026 /* physics */,
@@ -3487,6 +3472,8 @@
 		1A5700A2180BC5E60088DEC7 /* base */ = {
 			isa = PBXGroup;
 			children = (
+				01FB772E183F7E5C00879037 /* CCLocalizedString.cpp */,
+				01FB772F183F7E5C00879037 /* CCLocalizedString.h */,
 				1A5700A3180BC6060088DEC7 /* atitc.cpp */,
 				1A5700A4180BC6060088DEC7 /* atitc.h */,
 				1A5700A5180BC6060088DEC7 /* CCAffineTransform.cpp */,
@@ -5640,7 +5627,7 @@
 				59A79D571821E26E00F19697 /* CCEventMouse.h in Headers */,
 				1A8C5A0F180E930E00EF57C3 /* DictionaryHelper.h in Headers */,
 				018D7073183DECAE0008A795 /* CCActionShake.h in Headers */,
-				018D707D183DED180008A795 /* CCLocalizedString.h in Headers */,
+				01FB7732183F7E5C00879037 /* CCLocalizedString.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6208,7 +6195,7 @@
 				1A8C5A0C180E930E00EF57C3 /* CSContentJsonDictionary.h in Headers */,
 				1A8C5A10180E930E00EF57C3 /* DictionaryHelper.h in Headers */,
 				018D7074183DECAE0008A795 /* CCActionShake.h in Headers */,
-				018D707E183DED180008A795 /* CCLocalizedString.h in Headers */,
+				01FB7733183F7E5C00879037 /* CCLocalizedString.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6949,7 +6936,7 @@
 				1A8C5A09180E930E00EF57C3 /* CSContentJsonDictionary.cpp in Sources */,
 				1A8C5A0D180E930E00EF57C3 /* DictionaryHelper.cpp in Sources */,
 				018D7071183DECAE0008A795 /* CCActionShake.cpp in Sources */,
-				018D707B183DED180008A795 /* CCLocalizedString.cpp in Sources */,
+				01FB7730183F7E5C00879037 /* CCLocalizedString.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7462,7 +7449,7 @@
 				1A8C5A0A180E930E00EF57C3 /* CSContentJsonDictionary.cpp in Sources */,
 				1A8C5A0E180E930E00EF57C3 /* DictionaryHelper.cpp in Sources */,
 				018D7072183DECAE0008A795 /* CCActionShake.cpp in Sources */,
-				018D707C183DED180008A795 /* CCLocalizedString.cpp in Sources */,
+				01FB7731183F7E5C00879037 /* CCLocalizedString.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

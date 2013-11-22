@@ -87,6 +87,5 @@ namespace CocosDenshion {
 
     bool SimpleAudioEngine::hasVibrator() { return false; }
     void SimpleAudioEngine::vibrate(long long time) { }
-    void SimpleAudioEngine::vibrateWithPattern(long long pattern[], int repeat) { }
     void SimpleAudioEngine::cancelVibrate() { }
 }

@@ -125,7 +125,7 @@ THE SOFTWARE.
 #include "CCPhysicsWorld.h"
 
 // i18n
-#include "i18n/CCLocalizedString.h"
+#include "CCLocalizedString.h"
 
 // kazmath
 #include "kazmath/kazmath.h"

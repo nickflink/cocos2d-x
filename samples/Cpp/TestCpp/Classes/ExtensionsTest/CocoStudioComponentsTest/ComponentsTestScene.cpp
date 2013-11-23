@@ -7,6 +7,10 @@
 
 using namespace cocos2d;
 using namespace cocos2d::extension;
+<<<<<<< HEAD
+=======
+using namespace cocostudio;
+>>>>>>> merging
 
 ComponentsTestLayer::~ComponentsTestLayer()
 {
@@ -18,7 +22,11 @@ ComponentsTestLayer::ComponentsTestLayer()
 
 Scene* ComponentsTestLayer::scene()
 {
+<<<<<<< HEAD
 	Scene * scene = NULL;
+=======
+	Scene * scene = nullptr;
+>>>>>>> merging
 	do 
 	{
 		// 'scene' is an autorelease object
@@ -64,7 +72,11 @@ bool ComponentsTestLayer::init()
 
 cocos2d::Node* ComponentsTestLayer::createGameScene()
 {
+<<<<<<< HEAD
     Node *root = NULL;
+=======
+    Node *root = nullptr;
+>>>>>>> merging
     do 
 	{
         auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -88,7 +100,11 @@ cocos2d::Node* ComponentsTestLayer::createGameScene()
         
         itemBack->setColor(Color3B(0, 0, 0));
         itemBack->setPosition(Point(VisibleRect::rightBottom().x - 50, VisibleRect::rightBottom().y + 25));
+<<<<<<< HEAD
         auto menuBack = Menu::create(itemBack, NULL);
+=======
+        auto menuBack = Menu::create(itemBack, nullptr);
+>>>>>>> merging
         menuBack->setPosition(Point::ZERO);
         addChild(menuBack);
         

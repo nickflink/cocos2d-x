@@ -369,7 +369,10 @@ public:
      *  get Frame Rate
      */
     float getFrameRate() const { return _frameRate; }
-
+public:
+    static double getAvailableBytes();
+    static double getAvailableKiloBytes();
+    static double getAvailableMegaBytes();
 protected:
     void purgeDirector();
     bool _purgeDirecotorInNextLoop; // this flag will be set to true in end()

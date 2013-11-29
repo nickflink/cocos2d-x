@@ -296,6 +296,7 @@ namespace CocosDenshion {
 
         bool AndroidJavaEngine::hasVibrator()
         {
+LOGD("AndroidJavaEngine::hasVibrator");
             cocos2d::JniMethodInfo methodInfo;
             jboolean ret = false;
         
@@ -309,8 +310,9 @@ namespace CocosDenshion {
             return ret;
         }
 
-        void AndroidJavaEngine::vibrate(long long time)
+        void AndroidJavaEngine::vibrate(long time)
         {
+LOGD("AndroidJavaEngine::vibrate");
             cocos2d::JniMethodInfo methodInfo;
 
             if (! getJNIStaticMethodInfo(methodInfo, "vibrate", "(J)V"))
@@ -319,21 +321,6 @@ namespace CocosDenshion {
             }
 
             methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, time);
-            methodInfo.env->DeleteLocalRef(methodInfo.classID);
-        }
-
-        void AndroidJavaEngine::vibrateWithPattern(long long pattern[], int repeat)
-        {
-            cocos2d::JniMethodInfo methodInfo;
-
-            if (! getJNIStaticMethodInfo(methodInfo, "vibrateWithPattern", "(J)V"))
-            {
-                return ;
-            }
-            int elements = sizeof(pattern);
-            jlongArray jLongArray = methodInfo.env->NewLongArray(elements);
-
-            methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jLongArray, repeat);
             methodInfo.env->DeleteLocalRef(methodInfo.classID);
         }
 

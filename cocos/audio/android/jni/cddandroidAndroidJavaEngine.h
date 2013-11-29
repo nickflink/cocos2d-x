@@ -33,8 +33,7 @@ namespace CocosDenshion {
             void unloadEffect(const char* pszFilePath);
 
             bool hasVibrator();
-            void vibrate(long long time);
-            void vibrateWithPattern(long long pattern[], int repeat);
+            void vibrate(long time);
             void cancelVibrate();
 
         private :

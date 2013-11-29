@@ -32,6 +32,9 @@ namespace CocosDenshion {
             void stopAllEffects();
             void preloadEffect(const char* pszFilePath);
             void unloadEffect(const char* pszFilePath);
+            bool hasVibrator();
+            void vibrate(long time);
+            void cancelVibrate();
         };
     }
 }

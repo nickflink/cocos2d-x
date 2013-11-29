@@ -331,12 +331,6 @@ public class Cocos2dxSound {
 		v.vibrate(time);
 	}
 
-	public void vibrateWithPattern(long[] pattern, int repeat)
-	{
-		Vibrator v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
-		v.vibrate(pattern, repeat);
-	}
-
 	public void cancelVibrate()
 	{
 		Vibrator v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);

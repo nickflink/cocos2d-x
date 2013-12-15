@@ -310,7 +310,7 @@ LOGD("AndroidJavaEngine::hasVibrator");
             return ret;
         }
 
-        void AndroidJavaEngine::vibrate(long time)
+        void AndroidJavaEngine::vibrate(long long time)
         {
 LOGD("AndroidJavaEngine::vibrate");
             cocos2d::JniMethodInfo methodInfo;

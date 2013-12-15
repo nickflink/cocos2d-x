@@ -38,7 +38,7 @@ public:
 	void unloadEffect(const char* pszFilePath);
 
 	bool hasVibrator();
-	void vibrate(long time);
+	void vibrate(long long time);
 	void cancelVibrate();
 };
 

@@ -156,7 +156,7 @@ bool SimpleAudioEngineOpenSL::hasVibrator()
 LOGD("SimpleAudioEngineOpenSL::hasVibrator");
 	return s_pOpenSL->hasVibrator();
 }
-void SimpleAudioEngineOpenSL::vibrate(long time)
+void SimpleAudioEngineOpenSL::vibrate(long long time)
 {
 LOGD("SimpleAudioEngineOpenSL::vibrate");
 	s_pOpenSL->vibrate(time);

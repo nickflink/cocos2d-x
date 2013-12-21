@@ -6,11 +6,7 @@
 /* Forward declaration. */
 class CCBReader;
 
-<<<<<<< HEAD
-class SpriteTestLayerLoader : public cocos2d::extension::LayerLoader {
-=======
 class SpriteTestLayerLoader : public cocosbuilder::LayerLoader {
->>>>>>> merging
     public:
         CCB_STATIC_NEW_AUTORELEASE_OBJECT_METHOD(SpriteTestLayerLoader, loader);
 

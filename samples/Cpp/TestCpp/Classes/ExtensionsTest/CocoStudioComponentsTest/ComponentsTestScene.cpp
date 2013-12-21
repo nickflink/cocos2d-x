@@ -7,10 +7,7 @@
 
 using namespace cocos2d;
 using namespace cocos2d::extension;
-<<<<<<< HEAD
-=======
 using namespace cocostudio;
->>>>>>> merging
 
 ComponentsTestLayer::~ComponentsTestLayer()
 {
@@ -22,35 +19,31 @@ ComponentsTestLayer::ComponentsTestLayer()
 
 Scene* ComponentsTestLayer::scene()
 {
-<<<<<<< HEAD
-	Scene * scene = NULL;
-=======
-	Scene * scene = nullptr;
->>>>>>> merging
-	do 
-	{
-		// 'scene' is an autorelease object
-		scene = Scene::create();
-		CC_BREAK_IF(! scene);
+        Scene * scene = nullptr;
+        do 
+        {
+                // 'scene' is an autorelease object
+                scene = Scene::create();
+                CC_BREAK_IF(! scene);
 
-		// 'layer' is an autorelease object
-		auto layer = ComponentsTestLayer::create();
-		CC_BREAK_IF(! layer);
+                // 'layer' is an autorelease object
+                auto layer = ComponentsTestLayer::create();
+                CC_BREAK_IF(! layer);
 
-		// add layer as a child to scene
-		scene->addChild(layer);
-	} while (0);
+                // add layer as a child to scene
+                scene->addChild(layer);
+        } while (0);
 
-	// return the scene
-	return scene;
+        // return the scene
+        return scene;
 }
 
 // on "init" you need to initialize your instance
 bool ComponentsTestLayer::init()
 {
-	bool bRet = false;
-	do 
-	{
+        bool bRet = false;
+        do 
+        {
         CC_BREAK_IF(! LayerColor::initWithColor( Color4B(255,255,255,255) ) );
         
         auto root = createGameScene();
@@ -64,21 +57,17 @@ bool ComponentsTestLayer::init()
         root->addComponent(ComAttribute::create());
         root->addComponent(SceneController::create());
 
-		bRet = true;
-	} while (0);
+                bRet = true;
+        } while (0);
 
-	return bRet;
+        return bRet;
 }
 
 cocos2d::Node* ComponentsTestLayer::createGameScene()
 {
-<<<<<<< HEAD
-    Node *root = NULL;
-=======
     Node *root = nullptr;
->>>>>>> merging
     do 
-	{
+        {
         auto visibleSize = Director::getInstance()->getVisibleSize();
         auto origin = Director::getInstance()->getVisibleOrigin();
 
@@ -93,18 +82,14 @@ cocos2d::Node* ComponentsTestLayer::createGameScene()
         
 
         auto itemBack = MenuItemFont::create("Back", [](Object* sender){
-        	auto scene = new ExtensionsTestScene();
+                auto scene = new ExtensionsTestScene();
             scene->runThisTest();
             scene->release();
         });
         
         itemBack->setColor(Color3B(0, 0, 0));
         itemBack->setPosition(Point(VisibleRect::rightBottom().x - 50, VisibleRect::rightBottom().y + 25));
-<<<<<<< HEAD
-        auto menuBack = Menu::create(itemBack, NULL);
-=======
         auto menuBack = Menu::create(itemBack, nullptr);
->>>>>>> merging
         menuBack->setPosition(Point::ZERO);
         addChild(menuBack);
         

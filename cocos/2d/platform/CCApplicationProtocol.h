@@ -56,6 +56,13 @@ public:
     * @lua NA
     */
     virtual void applicationWillEnterForeground() = 0;
+  
+    /**
+    @brief  This function will be called when the application receives a memory warning.
+    * @js NA
+    * @lua NA
+    */
+    virtual void applicationDidReceiveMemoryWarning() = 0;
 
     /**
     @brief    Callback by Director for limit FPS.

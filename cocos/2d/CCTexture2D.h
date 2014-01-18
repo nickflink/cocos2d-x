@@ -1,6 +1,7 @@
 /****************************************************************************
+Copyright (c) 2008      Apple Inc. All Rights Reserved.
 Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (C) 2008      Apple Inc. All Rights Reserved.
+Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -27,6 +28,7 @@ THE SOFTWARE.
 #define __CCTEXTURE2D_H__
 
 #include <string>
+#include <map>
 #include <map>
 
 #include "CCObject.h"
@@ -199,7 +201,7 @@ public:
      * @js NA
      * @lua NA
      */
-    const char* description(void) const;
+    virtual std::string getDescription() const;
 
     /** These functions are needed to create mutable textures
      * @js NA

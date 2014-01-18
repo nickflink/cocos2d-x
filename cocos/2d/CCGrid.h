@@ -1,6 +1,7 @@
 /****************************************************************************
-Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2009      On-Core
+Copyright (c) 2010-2012 cocos2d-x.org
+Copyright (C) 2013-2014 Chukong Technologies Inc.
  
 http://www.cocos2d-x.org
 
@@ -62,7 +63,7 @@ public:
      */
     virtual ~GridBase(void);
 
-    bool initWithSize(const Size& gridSize, Texture2D *texture, bool bFlipped);
+    bool initWithSize(const Size& gridSize, Texture2D *texture, bool flipped);
     bool initWithSize(const Size& gridSize);
 
     /** whether or not the grid is active */
@@ -115,7 +116,7 @@ class CC_DLL Grid3D : public GridBase
 {
 public:
     /** create one Grid */
-    static Grid3D* create(const Size& gridSize, Texture2D *texture, bool bFlipped);
+    static Grid3D* create(const Size& gridSize, Texture2D *texture, bool flipped);
     /** create one Grid */
     static Grid3D* create(const Size& gridSize);
     /**
@@ -178,7 +179,7 @@ class CC_DLL TiledGrid3D : public GridBase
 {
 public:
     /** create one Grid */
-    static TiledGrid3D* create(const Size& gridSize, Texture2D *texture, bool bFlipped);
+    static TiledGrid3D* create(const Size& gridSize, Texture2D *texture, bool flipped);
     /** create one Grid */
     static TiledGrid3D* create(const Size& gridSize);
     /**

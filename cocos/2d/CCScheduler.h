@@ -1,7 +1,8 @@
 /****************************************************************************
-Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
+Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -37,7 +38,6 @@ NS_CC_BEGIN
  * @{
  */
 
-class Set;
 //
 // Timer
 //
@@ -104,8 +104,7 @@ protected:
 struct _listEntry;
 struct _hashSelectorEntry;
 struct _hashUpdateEntry;
-
-class Array;
+class SchedulerScriptHandlerEntry;
 
 /** @brief Scheduler is responsible for triggering the scheduled callbacks.
 You should not use NSTimer. Instead use this class.
@@ -243,7 +242,7 @@ public:
       You should NEVER call this method, unless you know what you are doing.
      @since v2.0.0
       */
-    Set* pauseAllTargets();
+    Vector<Object*> pauseAllTargets();
 
     /** Pause all selectors from all targets with a minimum priority.
       You should only call this with kPriorityNonSystemMin or higher.
@@ -255,7 +254,13 @@ public:
      This can be useful for undoing a call to pauseAllSelectors.
      @since v2.0.0
       */
-    void resumeTargets(Set* targetsToResume);
+    void resumeTargets(const Vector<Object*>& targetsToResume);
+
+    /** calls a function on the cocos2d thread. Useful when you need to call a cocos2d function from another thread.
+     This function is thread safe.
+     @since v3.0
+     */
+    void performFunctionInCocosThread( const std::function<void()> &function);
 
 private:
     void removeHashElement(struct _hashSelectorEntry *element);
@@ -266,7 +271,6 @@ private:
     void priorityIn(struct _listEntry **list, Object *target, int priority, bool paused);
     void appendIn(struct _listEntry **list, Object *target, bool paused);
 
-protected:
     float _timeScale;
 
     //
@@ -283,7 +287,11 @@ protected:
     bool _currentTargetSalvaged;
     // If true unschedule will not remove anything from a hash. Elements will only be marked for deletion.
     bool _updateHashLocked;
-    Array* _scriptHandlerEntries;
+    Vector<SchedulerScriptHandlerEntry*> _scriptHandlerEntries;
+
+    // Used for "perform Function"
+    std::vector<std::function<void()>> _functionsToPerform;
+    std::mutex _performMutex;
 };
 
 // end of global group

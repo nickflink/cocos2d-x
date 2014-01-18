@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2010 cocos2d-x.org
+Copyright (c) 2010-2012 cocos2d-x.org
+Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -29,11 +30,11 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-static int _calcCharCount(const char * pszText)
+static int _calcCharCount(const char * text)
 {
     int n = 0;
     char ch = 0;
-    while ((ch = *pszText))
+    while ((ch = *text))
     {
         CC_BREAK_IF(! ch);
 
@@ -41,7 +42,7 @@ static int _calcCharCount(const char * pszText)
         {
             ++n;
         }
-        ++pszText;
+        ++text;
     }
     return n;
 }
@@ -121,8 +122,8 @@ bool TextFieldTTF::initWithPlaceHolder(const std::string& placeholder, const std
 
 bool TextFieldTTF::attachWithIME()
 {
-    bool bRet = IMEDelegate::attachWithIME();
-    if (bRet)
+    bool ret = IMEDelegate::attachWithIME();
+    if (ret)
     {
         // open keyboard
         EGLView * pGlView = Director::getInstance()->getOpenGLView();
@@ -131,22 +132,22 @@ bool TextFieldTTF::attachWithIME()
             pGlView->setIMEKeyboardState(true);
         }
     }
-    return bRet;
+    return ret;
 }
 
 bool TextFieldTTF::detachWithIME()
 {
-    bool bRet = IMEDelegate::detachWithIME();
-    if (bRet)
+    bool ret = IMEDelegate::detachWithIME();
+    if (ret)
     {
         // close keyboard
-        EGLView * pGlView = Director::getInstance()->getOpenGLView();
-        if (pGlView)
+        EGLView * glView = Director::getInstance()->getOpenGLView();
+        if (glView)
         {
-            pGlView->setIMEKeyboardState(false);
+            glView->setIMEKeyboardState(false);
         }
     }
-    return bRet;
+    return ret;
 }
 
 bool TextFieldTTF::canAttachWithIME()
@@ -161,19 +162,19 @@ bool TextFieldTTF::canDetachWithIME()
 
 void TextFieldTTF::insertText(const char * text, int len)
 {
-    std::string sInsert(text, len);
+    std::string insert(text, len);
 
     // insert \n means input end
-    int nPos = sInsert.find('\n');
-    if ((int)sInsert.npos != nPos)
+    int pos = static_cast<int>(insert.find('\n'));
+    if ((int)insert.npos != pos)
     {
-        len = nPos;
-        sInsert.erase(nPos);
+        len = pos;
+        insert.erase(pos);
     }
 
     if (len > 0)
     {
-        if (_delegate && _delegate->onTextFieldInsertText(this, sInsert.c_str(), len))
+        if (_delegate && _delegate->onTextFieldInsertText(this, insert.c_str(), len))
         {
             // delegate doesn't want to insert text
             return;
@@ -185,7 +186,7 @@ void TextFieldTTF::insertText(const char * text, int len)
         setString(sText);
     }
 
-    if ((int)sInsert.npos == nPos) {
+    if ((int)insert.npos == pos) {
         return;
     }
 
@@ -209,11 +210,11 @@ void TextFieldTTF::deleteBackward()
     }
 
     // get the delete byte number
-    int nDeleteLen = 1;    // default, erase 1 byte
+    size_t deleteLen = 1;    // default, erase 1 byte
 
     while(0x80 == (0xC0 & _inputText.at(nStrLen - nDeleteLen)))
     {
-        ++nDeleteLen;
+        ++deleteLen;
     }
 
     if (_delegate && _delegate->onTextFieldDeleteBackward(this, _inputText.c_str() + nStrLen - nDeleteLen, nDeleteLen))
@@ -223,7 +224,7 @@ void TextFieldTTF::deleteBackward()
     }
 
     // if all text deleted, show placeholder string
-    if (nStrLen <= nDeleteLen)
+    if (len <= deleteLen)
     {
         _inputText = "";
         _charCount = 0;
@@ -236,7 +237,7 @@ void TextFieldTTF::deleteBackward()
     setString(sText);
 }
 
-const char * TextFieldTTF::getContentText()
+const std::string& TextFieldTTF::getContentText()
 {
     return _inputText.c_str();
 }

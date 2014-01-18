@@ -19,8 +19,6 @@ SceneController::SceneController(void)
 
 SceneController::~SceneController(void)
 {
-    CC_SAFE_RELEASE(_targets);
-    CC_SAFE_RELEASE(_projectiles);
 }
 
 bool SceneController::init()
@@ -31,12 +29,6 @@ bool SceneController::init()
 void SceneController::onEnter()
 {
     _fAddTargetTime = 1.0f;
-    
-    _targets = Array::createWithCapacity(10);
-    _projectiles = Array::createWithCapacity(10);
-
-    _targets->retain();
-    _projectiles->retain();
    
     ((ComAudio*)(_owner->getComponent("Audio")))->playBackgroundMusic("background-music-aac.wav", true);
     ((ComAttribute*)(_owner->getComponent("ComAttribute")))->setInt("KillCount", 0);
@@ -49,7 +41,6 @@ void SceneController::onExit()
 
 void SceneController::update(float delta)
 {
-//    return;
     _fElapsedTime += delta;
     if (_fElapsedTime > _fAddTargetTime)
     {
@@ -79,39 +70,39 @@ void SceneController::addTarget()
     
     target->addComponent(EnemyController::create());
 	target->setTag(2);
-    _targets->addObject(target);
+    _targets.pushBack(target);
 }
 
 void SceneController::spriteMoveFinished(Node* sender)
 {
-	Sprite *sprite = (Sprite *)sender;
+	Sprite *sprite = static_cast<Sprite*>(sender);
 	_owner->removeChild(sprite, true);
     
 	if (sprite->getTag() == 2)  // target
 	{
-        _targets->removeObject(sprite);
+        _targets.eraseObject(sprite);
 		auto gameOverScene = GameOverScene::create();
 		gameOverScene->getLayer()->getLabel()->setString("You Lose :[");
 		Director::getInstance()->replaceScene(gameOverScene);
 	}
 	else if (sprite->getTag() == 3) 
 	{
-        _projectiles->removeObject(sprite);
+        _projectiles.eraseObject(sprite);
 	}
     
 }
 
 void SceneController::increaseKillCount()
 {
-    int nProjectilesDestroyed = ((ComAttribute*)(_owner->getComponent("ComAttribute")))->getInt("KillCount");
+    int nProjectilesDestroyed = ((ComAttribute*)(_owner->getComponent("CCComAttribute")))->getInt("KillCount");
     
-    ComAttribute *p = (ComAttribute*)(_owner->getComponent("ComAttribute"));
+    ComAttribute *p = (ComAttribute*)(_owner->getComponent("CCComAttribute"));
     p->setInt("KillCount", ++nProjectilesDestroyed);
 
     if (nProjectilesDestroyed >= 5)
     {
-            auto gameOverScene = GameOverScene::create();
-            gameOverScene->getLayer()->getLabel()->setString("You Win!");
-            Director::getInstance()->replaceScene(gameOverScene);
+        auto gameOverScene = GameOverScene::create();
+        gameOverScene->getLayer()->getLabel()->setString("You Win!");
+        Director::getInstance()->replaceScene(gameOverScene);
     }
 }

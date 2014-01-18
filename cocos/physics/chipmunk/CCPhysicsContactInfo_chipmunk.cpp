@@ -36,4 +36,4 @@ PhysicsContactInfo::~PhysicsContactInfo()
 }
 
 NS_CC_END
-#endif // CC_PHYSICS_ENGINE == CC_PHYSICS_CHIPMUNK
+#endif // CC_USE_PHYSICS

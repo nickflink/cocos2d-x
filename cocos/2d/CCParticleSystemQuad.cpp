@@ -1,8 +1,9 @@
 /****************************************************************************
-Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2009      Leonardo Kasperavičius
+Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
  
@@ -41,12 +42,14 @@ THE SOFTWARE.
 
 // extern
 #include "kazmath/GL/matrix.h"
+#include "CCEventListenerCustom.h"
+#include "CCEventDispatcher.h"
 
 NS_CC_BEGIN
 
 //implementation ParticleSystemQuad
 // overriding the init method
-bool ParticleSystemQuad::initWithTotalParticles(unsigned int numberOfParticles)
+bool ParticleSystemQuad::initWithTotalParticles(int numberOfParticles)
 {
     // base initialization
     if( ParticleSystem::initWithTotalParticles(numberOfParticles) ) 
@@ -71,10 +74,8 @@ bool ParticleSystemQuad::initWithTotalParticles(unsigned int numberOfParticles)
         
 #if CC_ENABLE_CACHE_TEXTURE_DATA
         // Need to listen the event only when not use batchnode, because it will use VBO
-        NotificationCenter::getInstance()->addObserver(this,
-                                                                      callfuncO_selector(ParticleSystemQuad::listenBackToForeground),
-                                                                      EVNET_COME_TO_FOREGROUND,
-                                                                      NULL);
+        auto listener = EventListenerCustom::create(EVENT_COME_TO_FOREGROUND, CC_CALLBACK_1(ParticleSystemQuad::listenBackToForeground, this));
+        _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 #endif
 
         return true;
@@ -92,7 +93,7 @@ ParticleSystemQuad::ParticleSystemQuad()
 
 ParticleSystemQuad::~ParticleSystemQuad()
 {
-    if (NULL == _batchNode)
+    if (nullptr == _batchNode)
     {
         CC_SAFE_FREE(_quads);
         CC_SAFE_FREE(_indices);
@@ -103,35 +104,31 @@ ParticleSystemQuad::~ParticleSystemQuad()
             GL::bindVAO(0);
         }
     }
-    
-#if CC_ENABLE_CACHE_TEXTURE_DATA
-    NotificationCenter::getInstance()->removeObserver(this, EVNET_COME_TO_FOREGROUND);
-#endif
 }
 
 // implementation ParticleSystemQuad
 
-ParticleSystemQuad * ParticleSystemQuad::create(const char *plistFile)
+ParticleSystemQuad * ParticleSystemQuad::create(const std::string& filename)
 {
-    ParticleSystemQuad *pRet = new ParticleSystemQuad();
-    if (pRet && pRet->initWithFile(plistFile))
+    ParticleSystemQuad *ret = new ParticleSystemQuad();
+    if (ret && ret->initWithFile(filename))
     {
-        pRet->autorelease();
-        return pRet;
+        ret->autorelease();
+        return ret;
     }
-    CC_SAFE_DELETE(pRet);
-    return pRet;
+    CC_SAFE_DELETE(ret);
+    return ret;
 }
 
-ParticleSystemQuad * ParticleSystemQuad::createWithTotalParticles(unsigned int numberOfParticles) {
-    ParticleSystemQuad *pRet = new ParticleSystemQuad();
-    if (pRet && pRet->initWithTotalParticles(numberOfParticles))
+ParticleSystemQuad * ParticleSystemQuad::createWithTotalParticles(int numberOfParticles) {
+    ParticleSystemQuad *ret = new ParticleSystemQuad();
+    if (ret && ret->initWithTotalParticles(numberOfParticles))
     {
-        pRet->autorelease();
-        return pRet;
+        ret->autorelease();
+        return ret;
     }
-    CC_SAFE_DELETE(pRet);
-    return pRet;
+    CC_SAFE_DELETE(ret);
+    return ret;
 }
 
 
@@ -170,7 +167,7 @@ void ParticleSystemQuad::initTexCoordsWithRect(const Rect& pointRect)
     // Important. Texture in cocos2d are inverted, so the Y component should be inverted
     CC_SWAP( top, bottom, float);
 
-    V3F_C4B_T2F_Quad *quads = NULL;
+    V3F_C4B_T2F_Quad *quads = nullptr;
     unsigned int start = 0, end = 0;
     if (_batchNode)
     {
@@ -347,16 +344,102 @@ void ParticleSystemQuad::postStep()
 }
 
 // overriding draw method
+//void ParticleSystemQuad::draw()
+//{
+//    CCASSERT(!_batchNode,"draw should not be called when added to a particleBatchNode");
+//
+//    CC_NODE_DRAW_SETUP();
+//
+//    GL::bindTexture2D( _texture->getName() );
+//    GL::blendFunc( _blendFunc.src, _blendFunc.dst );
+//
+//    CCASSERT( _particleIdx == _particleCount, "Abnormal error in particle quad");
+//
+//    if (Configuration::getInstance()->supportsShareableVAO())
+//    {
+//        //
+//        // Using VBO and VAO
+//        //
+//        GL::bindVAO(_VAOname);
+//
+//#if CC_REBIND_INDICES_BUFFER
+//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
+//#endif
+//
+//        glDrawElements(GL_TRIANGLES, (GLsizei) _particleIdx*6, GL_UNSIGNED_SHORT, 0);
+//
+//#if CC_REBIND_INDICES_BUFFER
+//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//#endif
+//    }
+//    else
+//    {
+//        //
+//        // Using VBO without VAO
+//        //
+//
+//        #define kQuadSize sizeof(_quads[0].bl)
+//
+//        GL::enableVertexAttribs( GL::VERTEX_ATTRIB_FLAG_POS_COLOR_TEX );
+//
+//        glBindBuffer(GL_ARRAY_BUFFER, _buffersVBO[0]);
+//        // vertices
+//        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, vertices));
+//        // colors
+//        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, colors));
+//        // tex coords
+//        glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORDS, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, texCoords));
+//
+//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
+//
+//        glDrawElements(GL_TRIANGLES, (GLsizei) _particleIdx*6, GL_UNSIGNED_SHORT, 0);
+//
+//        glBindBuffer(GL_ARRAY_BUFFER, 0);
+//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//    }
+//
+//    CC_INCREMENT_GL_DRAWS(1);
+//    CHECK_GL_ERROR_DEBUG();
+//}
+
 void ParticleSystemQuad::draw()
-{    
-    CCASSERT(!_batchNode,"draw should not be called when added to a particleBatchNode");
-
-    CC_NODE_DRAW_SETUP();
-
-    GL::bindTexture2D( _texture->getName() );
-    GL::blendFunc( _blendFunc.src, _blendFunc.dst );
-
+{
     CCASSERT( _particleIdx == _particleCount, "Abnormal error in particle quad");
+    //quad command
+    if(_particleIdx > 0)
+    {
+//        //transform vertices
+//        std::vector<V3F_C4B_T2F_Quad> drawQuads(_particleIdx);
+//        memcpy(&drawQuads[0], _quads, sizeof(V3F_C4B_T2F_Quad) * _particleIdx);
+//        AffineTransform worldTM = getNodeToWorldTransform();
+//        for(int index = 0; index <_particleIdx; ++index)
+//        {
+//            V3F_C4B_T2F_Quad* quad = _quads + index;
+//            
+//            Point pt(0,0);
+//            pt = PointApplyAffineTransform( Point(quad->bl.vertices.x, quad->bl.vertices.y), worldTM);
+//            drawQuads[index].bl.vertices.x = pt.x;
+//            drawQuads[index].bl.vertices.y = pt.y;
+//            
+//            pt = PointApplyAffineTransform( Point(quad->br.vertices.x, quad->br.vertices.y), worldTM);
+//            drawQuads[index].br.vertices.x = pt.x;
+//            drawQuads[index].br.vertices.y = pt.y;
+//            
+//            pt = PointApplyAffineTransform( Point(quad->tl.vertices.x, quad->tl.vertices.y), worldTM);
+//            drawQuads[index].tl.vertices.x = pt.x;
+//            drawQuads[index].tl.vertices.y = pt.y;
+//            
+//            pt = PointApplyAffineTransform( Point(quad->tr.vertices.x, quad->tr.vertices.y), worldTM);
+//            drawQuads[index].tr.vertices.x = pt.x;
+//            drawQuads[index].tr.vertices.y = pt.y;
+//            
+//        }
+
+        auto shader = ShaderCache::getInstance()->getProgram(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP);
+
+        _quadCommand.init(0, _vertexZ, _texture->getName(), shader, _blendFunc, _quads, _particleIdx, _modelViewTransform);
+        Director::getInstance()->getRenderer()->addCommand(&_quadCommand);
+    }
 
     if (Configuration::getInstance()->supportsShareableVAO())
     {
@@ -617,14 +700,19 @@ void ParticleSystemQuad::setBatchNode(ParticleBatchNode * batchNode)
 }
 
 ParticleSystemQuad * ParticleSystemQuad::create() {
-    ParticleSystemQuad *pParticleSystemQuad = new ParticleSystemQuad();
-    if (pParticleSystemQuad && pParticleSystemQuad->init())
+    ParticleSystemQuad *particleSystemQuad = new ParticleSystemQuad();
+    if (particleSystemQuad && particleSystemQuad->init())
     {
-        pParticleSystemQuad->autorelease();
-        return pParticleSystemQuad;
+        particleSystemQuad->autorelease();
+        return particleSystemQuad;
     }
-    CC_SAFE_DELETE(pParticleSystemQuad);
-    return NULL;
+    CC_SAFE_DELETE(particleSystemQuad);
+    return nullptr;
+}
+
+std::string ParticleSystemQuad::getDescription() const
+{
+    return StringUtils::format("<ParticleSystemQuad | Tag = %d, Total Particles = %d>", _tag, _totalParticles);
 }
 
 NS_CC_END

@@ -1,7 +1,8 @@
 /****************************************************************************
-Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2011 Ricardo Quesada
+Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -37,7 +38,7 @@ SpriteFrame* SpriteFrame::create(const std::string& filename, const Rect& rect)
     pSpriteFrame->initWithTextureFilename(filename, rect);
     pSpriteFrame->autorelease();
 
-    return pSpriteFrame;
+    return spriteFrame;
 }
 
 SpriteFrame* SpriteFrame::createWithTexture(Texture2D *texture, const Rect& rect)
@@ -46,7 +47,7 @@ SpriteFrame* SpriteFrame::createWithTexture(Texture2D *texture, const Rect& rect
     pSpriteFrame->initWithTexture(texture, rect);
     pSpriteFrame->autorelease();
     
-    return pSpriteFrame;
+    return spriteFrame;
 }
 
 SpriteFrame* SpriteFrame::createWithTexture(Texture2D* texture, const Rect& rect, bool rotated, const Point& offset, const Size& originalSize)
@@ -55,7 +56,7 @@ SpriteFrame* SpriteFrame::createWithTexture(Texture2D* texture, const Rect& rect
     pSpriteFrame->initWithTexture(texture, rect, rotated, offset, originalSize);
     pSpriteFrame->autorelease();
 
-    return pSpriteFrame;
+    return spriteFrame;
 }
 
 SpriteFrame* SpriteFrame::create(const std::string& filename, const Rect& rect, bool rotated, const Point& offset, const Size& originalSize)
@@ -64,7 +65,7 @@ SpriteFrame* SpriteFrame::create(const std::string& filename, const Rect& rect, 
     pSpriteFrame->initWithTextureFilename(filename, rect, rotated, offset, originalSize);
     pSpriteFrame->autorelease();
 
-    return pSpriteFrame;
+    return spriteFrame;
 }
 
 bool SpriteFrame::initWithTexture(Texture2D* texture, const Rect& rect)
@@ -101,7 +102,7 @@ bool SpriteFrame::initWithTexture(Texture2D* texture, const Rect& rect, bool rot
 
 bool SpriteFrame::initWithTextureFilename(const std::string& filename, const Rect& rect, bool rotated, const Point& offset, const Size& originalSize)
 {
-    _texture = NULL;
+    _texture = nullptr;
     _textureFilename = filename;
     _rectInPixels = rect;
     _rect = CC_RECT_PIXELS_TO_POINTS( rect );
@@ -183,7 +184,7 @@ Texture2D* SpriteFrame::getTexture(void)
         return Director::getInstance()->getTextureCache()->addImage(_textureFilename.c_str());
     }
     // no texture or texture filename
-    return NULL;
+    return nullptr;
 }
 
 NS_CC_END

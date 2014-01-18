@@ -1,7 +1,8 @@
 /****************************************************************************
-Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
-
+Copyright (c) 2010-2012 cocos2d-x.org
+Copyright (c) 2013-2014 Chukong Technologies Inc.
+ 
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -66,12 +67,7 @@ public:
      * @lua NA
      */
     virtual ~LabelTTF();
-    /**
-     * @js NA
-     * @lua NA
-     */
-    const char* description() const;
-    
+
     /** creates a LabelTTF with a font name and font size in points
      @since v2.0.1
      */
@@ -165,7 +161,8 @@ public:
 private:
     bool updateTexture();
 protected:
-    
+    bool updateTexture();
+
     /** set the text definition for this label */
     void _updateWithTextDefinition(const FontDefinition& textDefinition, bool mustUpdateTexture = true);
     FontDefinition    _prepareTextDefinition(bool adjustForResolution = false);
@@ -197,8 +194,6 @@ protected:
         
     /** font tint */
     Color3B   _textFillColor;
-
-    
 };
 
 

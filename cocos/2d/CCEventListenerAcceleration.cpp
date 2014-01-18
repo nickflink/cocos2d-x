@@ -1,5 +1,5 @@
 /****************************************************************************
- Copyright (c) 2013 cocos2d-x.org
+ Copyright (c) 2013-2014 Chukong Technologies Inc.
  
  http://www.cocos2d-x.org
  
@@ -26,6 +26,8 @@
 #include "CCEventAcceleration.h"
 
 NS_CC_BEGIN
+
+const std::string EventListenerAcceleration::LISTENER_ID = "__cc_acceleration";
 
 EventListenerAcceleration::EventListenerAcceleration()
 {

@@ -12,38 +12,37 @@ const char* font_UIListViewTest =
 // UIListViewTest_Vertical
 
 UIListViewTest_Vertical::UIListViewTest_Vertical()
-: m_pDisplayValueLabel(NULL)
-, m_nCount(0)
-, m_array(NULL)
+: _displayValueLabel(nullptr)
 {
+    
 }
 
 UIListViewTest_Vertical::~UIListViewTest_Vertical()
-{   
+{
 }
 
 bool UIListViewTest_Vertical::init()
 {
     if (UIScene::init())
     {
-        Size widgetSize = m_pWidget->getSize();
+        Size widgetSize = _widget->getSize();
         
-        // Add a label in which the button events will be displayed
-        m_pDisplayValueLabel = UILabel::create();
-        m_pDisplayValueLabel->setText("Move by vertical direction");
-        m_pDisplayValueLabel->setFontName(font_UIListViewTest);
-        m_pDisplayValueLabel->setFontSize(32);
-        m_pDisplayValueLabel->setAnchorPoint(Point(0.5f, -1));
-        m_pDisplayValueLabel->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f + m_pDisplayValueLabel->getContentSize().height * 1.5));
-        m_pUiLayer->addWidget(m_pDisplayValueLabel);
+        _displayValueLabel = gui::Text::create();
+        _displayValueLabel->setText("Move by vertical direction");
+        _displayValueLabel->setFontName("Marker Felt");
+        _displayValueLabel->setFontSize(32);
+        _displayValueLabel->setAnchorPoint(Point(0.5f, -1.0f));
+        _displayValueLabel->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f + _displayValueLabel->getContentSize().height * 1.5f));
+        _uiLayer->addChild(_displayValueLabel);
         
-        UILabel *alert = UILabel::create();
-        alert->setText("ListView");
-        alert->setFontName(font_UIListViewTest);
+        
+        gui::Text* alert = gui::Text::create();
+        alert->setText("ListView vertical");
+        alert->setFontName("Marker Felt");
         alert->setFontSize(30);
         alert->setColor(Color3B(159, 168, 176));
-        alert->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f - alert->getSize().height * 2.925));
-        m_pUiLayer->addWidget(alert);
+        alert->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f - alert->getSize().height * 3.075f));
+        _uiLayer->addChild(alert);
         
         
         UIListView* lv = UIListView::create();
@@ -72,9 +71,7 @@ bool UIListViewTest_Vertical::init()
 // UIListViewTest_Horizontal
 
 UIListViewTest_Horizontal::UIListViewTest_Horizontal()
-: m_pDisplayValueLabel(NULL)
-, m_nCount(0)
-, m_array(NULL)
+: _displayValueLabel(nullptr)
 {
 }
 
@@ -86,24 +83,24 @@ bool UIListViewTest_Horizontal::init()
 {
     if (UIScene::init())
     {
-        Size widgetSize = m_pWidget->getSize();
+        Size widgetSize = _widget->getSize();
         
-        // Add a label in which the button events will be displayed
-        m_pDisplayValueLabel = UILabel::create();
-        m_pDisplayValueLabel->setText("Move by vertical direction");
-        m_pDisplayValueLabel->setFontName(font_UIListViewTest);
-        m_pDisplayValueLabel->setFontSize(32);
-        m_pDisplayValueLabel->setAnchorPoint(Point(0.5f, -1));
-        m_pDisplayValueLabel->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f + m_pDisplayValueLabel->getContentSize().height * 1.5));
-        m_pUiLayer->addWidget(m_pDisplayValueLabel);
+        _displayValueLabel = gui::Text::create();
+        _displayValueLabel->setText("Move by horizontal direction");
+        _displayValueLabel->setFontName("Marker Felt");
+        _displayValueLabel->setFontSize(32);
+        _displayValueLabel->setAnchorPoint(Point(0.5f, -1.0f));
+        _displayValueLabel->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f + _displayValueLabel->getContentSize().height * 1.5f));
+        _uiLayer->addChild(_displayValueLabel);
         
-        UILabel *alert = UILabel::create();
-        alert->setText("ListView");
-        alert->setFontName(font_UIListViewTest);
+        
+        gui::Text* alert = gui::Text::create();
+        alert->setText("ListView horizontal");
+        alert->setFontName("Marker Felt");
         alert->setFontSize(30);
         alert->setColor(Color3B(159, 168, 176));
-        alert->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f - alert->getSize().height * 2.925));
-        m_pUiLayer->addWidget(alert);
+        alert->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f - alert->getSize().height * 3.075f));
+        _uiLayer->addChild(alert);
         
 
         UIListView* lv = UIListView::create();

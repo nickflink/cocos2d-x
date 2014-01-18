@@ -1,7 +1,8 @@
 /****************************************************************************
+Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2008-2011 Ricardo Quesada
 Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -163,6 +164,10 @@ void MenuItem::setCallback(const ccMenuCallback& callback)
 	_callback = callback;
 }
 
+std::string MenuItem::getDescription() const
+{
+    return StringUtils::format("<MenuItem | tag = %d>", _tag);
+}
 
 //
 //CCMenuItemLabel
@@ -295,12 +300,12 @@ void MenuItemLabel::setEnabled(bool enabled)
     {
         if(enabled == false)
         {
-            _colorBackup = dynamic_cast<RGBAProtocol*>(_label)->getColor();
-            dynamic_cast<RGBAProtocol*>(_label)->setColor(_disabledColor);
+            _colorBackup = _label->getColor();
+            _label->setColor(_disabledColor);
         }
         else
         {
-            dynamic_cast<RGBAProtocol*>(_label)->setColor(_colorBackup);
+            _label->setColor(_colorBackup);
         }
     }
     MenuItem::setEnabled(enabled);
@@ -383,7 +388,7 @@ const std::string& MenuItemFont::getFontName()
 }
 
 // XXX: deprecated
-MenuItemFont * MenuItemFont::create(const char *value, Object* target, SEL_MenuHandler selector)
+MenuItemFont * MenuItemFont::create(const std::string& value, Object* target, SEL_MenuHandler selector)
 {
     MenuItemFont *ret = new MenuItemFont();
     ret->initWithString(value, target, selector);
@@ -418,9 +423,9 @@ MenuItemFont::~MenuItemFont()
 }
 
 // XXX: deprecated
-bool MenuItemFont::initWithString(const char *value, Object* target, SEL_MenuHandler selector)
+bool MenuItemFont::initWithString(const std::string& value, Object* target, SEL_MenuHandler selector)
 {
-    CCASSERT( value != NULL && strlen(value) != 0, "Value length must be greater than 0");
+    CCASSERT( !value.empty(), "Value length must be greater than 0");
 
 	_target = target;
     CC_SAFE_RETAIN(target);
@@ -475,14 +480,14 @@ const std::string& MenuItemFont::getFontNameObj() const
 //CCMenuItemSprite
 //
 
-void MenuItemSprite::setNormalImage(Node* pImage)
+void MenuItemSprite::setNormalImage(Node* image)
 {
-    if (pImage != _normalImage)
+    if (image != _normalImage)
     {
-        if (pImage)
+        if (image)
         {
-            addChild(pImage, 0, kNormalTag);
-            pImage->setAnchorPoint(Point(0, 0));
+            addChild(image, 0, kNormalTag);
+            image->setAnchorPoint(Point(0, 0));
         }
 
         if (_normalImage)
@@ -490,20 +495,20 @@ void MenuItemSprite::setNormalImage(Node* pImage)
             removeChild(_normalImage, true);
         }
 
-        _normalImage = pImage;
+        _normalImage = image;
         this->setContentSize(_normalImage->getContentSize());
         this->updateImagesVisibility();
     }
 }
 
-void MenuItemSprite::setSelectedImage(Node* pImage)
+void MenuItemSprite::setSelectedImage(Node* image)
 {
-    if (pImage != _normalImage)
+    if (image != _normalImage)
     {
-        if (pImage)
+        if (image)
         {
-            addChild(pImage, 0, kSelectedTag);
-            pImage->setAnchorPoint(Point(0, 0));
+            addChild(image, 0, kSelectedTag);
+            image->setAnchorPoint(Point(0, 0));
         }
 
         if (_selectedImage)
@@ -511,19 +516,19 @@ void MenuItemSprite::setSelectedImage(Node* pImage)
             removeChild(_selectedImage, true);
         }
 
-        _selectedImage = pImage;
+        _selectedImage = image;
         this->updateImagesVisibility();
     }
 }
 
-void MenuItemSprite::setDisabledImage(Node* pImage)
+void MenuItemSprite::setDisabledImage(Node* image)
 {
-    if (pImage != _normalImage)
+    if (image != _normalImage)
     {
-        if (pImage)
+        if (image)
         {
-            addChild(pImage, 0, kDisableTag);
-            pImage->setAnchorPoint(Point(0, 0));
+            addChild(image, 0, kDisableTag);
+            image->setAnchorPoint(Point(0, 0));
         }
 
         if (_disabledImage)
@@ -531,7 +536,7 @@ void MenuItemSprite::setDisabledImage(Node* pImage)
             removeChild(_disabledImage, true);
         }
 
-        _disabledImage = pImage;
+        _disabledImage = image;
         this->updateImagesVisibility();
     }
 }
@@ -548,12 +553,12 @@ MenuItemSprite * MenuItemSprite::create(Node* normalSprite, Node* selectedSprite
 // XXX deprecated
 MenuItemSprite * MenuItemSprite::create(Node* normalSprite, Node* selectedSprite, Object* target, SEL_MenuHandler selector)
 {
-    return MenuItemSprite::create(normalSprite, selectedSprite, NULL, target, selector);
+    return MenuItemSprite::create(normalSprite, selectedSprite, nullptr, target, selector);
 }
 
 MenuItemSprite * MenuItemSprite::create(Node* normalSprite, Node* selectedSprite, const ccMenuCallback& callback)
 {
-    return MenuItemSprite::create(normalSprite, selectedSprite, NULL, callback);
+    return MenuItemSprite::create(normalSprite, selectedSprite, nullptr, callback);
 }
 
 // XXX deprecated
@@ -706,7 +711,7 @@ MenuItemImage * MenuItemImage::create(const std::string& normalImage, const std:
 }
 
 // XXX deprecated
-MenuItemImage * MenuItemImage::create(const char *normalImage, const char *selectedImage, Object* target, SEL_MenuHandler selector)
+MenuItemImage * MenuItemImage::create(const std::string& normalImage, const std::string& selectedImage, Object* target, SEL_MenuHandler selector)
 {
     return MenuItemImage::create(normalImage, selectedImage, "", target, selector);
 }
@@ -717,7 +722,7 @@ MenuItemImage * MenuItemImage::create(const std::string& normalImage, const std:
 }
 
 // XXX deprecated
-MenuItemImage * MenuItemImage::create(const char *normalImage, const char *selectedImage, const char *disabledImage, Object* target, SEL_MenuHandler selector)
+MenuItemImage * MenuItemImage::create(const std::string& normalImage, const std::string& selectedImage, const std::string& disabledImage, Object* target, SEL_MenuHandler selector)
 {
     MenuItemImage *ret = new MenuItemImage();
     if (ret && ret->initWithNormalImage(normalImage, selectedImage, disabledImage, target, selector))
@@ -754,7 +759,7 @@ MenuItemImage * MenuItemImage::create(const std::string& normalImage, const std:
 }
 
 // XXX: deprecated
-bool MenuItemImage::initWithNormalImage(const char *normalImage, const char *selectedImage, const char *disabledImage, Object* target, SEL_MenuHandler selector)
+bool MenuItemImage::initWithNormalImage(const std::string& normalImage, const std::string& selectedImage, const std::string& disabledImage, Object* target, SEL_MenuHandler selector)
 {
 	_target = target;
 	CC_SAFE_RETAIN(_target);
@@ -762,9 +767,9 @@ bool MenuItemImage::initWithNormalImage(const char *normalImage, const char *sel
 }
 bool MenuItemImage::initWithNormalImage(const std::string& normalImage, const std::string& selectedImage, const std::string& disabledImage, const ccMenuCallback& callback)
 {
-    Node *normalSprite = NULL;
-    Node *selectedSprite = NULL;
-    Node *disabledSprite = NULL;
+    Node *normalSprite = nullptr;
+    Node *selectedSprite = nullptr;
+    Node *disabledSprite = nullptr;
 
     if (normalImage.size() >0)
     {
@@ -806,7 +811,7 @@ void MenuItemImage::setDisabledSpriteFrame(SpriteFrame * frame)
 //
 
 // XXX: deprecated
-MenuItemToggle * MenuItemToggle::createWithTarget(Object* target, SEL_MenuHandler selector, Array* menuItems)
+MenuItemToggle * MenuItemToggle::createWithTarget(Object* target, SEL_MenuHandler selector, const Vector<MenuItem*>& menuItems)
 {
     MenuItemToggle *ret = new MenuItemToggle();
     ret->MenuItem::initWithTarget(target, selector);
@@ -824,7 +829,7 @@ MenuItemToggle * MenuItemToggle::createWithTarget(Object* target, SEL_MenuHandle
     return ret;
 }
 
-MenuItemToggle * MenuItemToggle::createWithCallback(const ccMenuCallback &callback, Array* menuItems)
+MenuItemToggle * MenuItemToggle::createWithCallback(const ccMenuCallback &callback, const Vector<MenuItem*>& menuItems)
 {
     MenuItemToggle *ret = new MenuItemToggle();
     ret->MenuItem::initWithCallback(callback);
@@ -884,14 +889,13 @@ bool MenuItemToggle::initWithTarget(Object* target, SEL_MenuHandler selector, Me
 bool MenuItemToggle::initWithCallback(const ccMenuCallback &callback, MenuItem *item, va_list args)
 {
     MenuItem::initWithCallback(callback);
-    this->_subItems = Array::create();
-    this->_subItems->retain();
+
     int z = 0;
     MenuItem *i = item;
     while(i)
     {
         z++;
-        _subItems->addObject(i);
+        _subItems.pushBack(i);
         i = va_arg(args, MenuItem*);
     }
     _selectedIndex = UINT_MAX;
@@ -910,11 +914,10 @@ MenuItemToggle* MenuItemToggle::create(MenuItem *item)
 bool MenuItemToggle::initWithItem(MenuItem *item)
 {
     MenuItem::initWithCallback((const ccMenuCallback&)nullptr);
-    setSubItems(Array::create());
 
     if (item)
     {
-        _subItems->addObject(item);
+        _subItems.pushBack(item);
     }
     _selectedIndex = UINT_MAX;
     this->setSelectedIndex(0);
@@ -927,7 +930,7 @@ bool MenuItemToggle::initWithItem(MenuItem *item)
 
 void MenuItemToggle::addSubItem(MenuItem *item)
 {
-    _subItems->addObject(item);
+    _subItems.pushBack(item);
 }
 
 MenuItemToggle::~MenuItemToggle()
@@ -944,7 +947,7 @@ MenuItemToggle::~MenuItemToggle()
 
 void MenuItemToggle::setSelectedIndex(unsigned int index)
 {
-    if( index != _selectedIndex && _subItems->count() > 0 )
+    if( index != _selectedIndex && _subItems.size() > 0 )
     {
         _selectedIndex = index;
         MenuItem *currentItem = (MenuItem*)getChildByTag(kCurrentItem);
@@ -953,7 +956,7 @@ void MenuItemToggle::setSelectedIndex(unsigned int index)
             currentItem->removeFromParentAndCleanup(false);
         }
 
-        MenuItem* item = (MenuItem*)_subItems->getObjectAtIndex(_selectedIndex);
+        MenuItem* item = _subItems.at(_selectedIndex);
         this->addChild(item, 0, kCurrentItem);
         Size s = item->getContentSize();
         this->setContentSize(s);
@@ -964,13 +967,13 @@ void MenuItemToggle::setSelectedIndex(unsigned int index)
 void MenuItemToggle::selected()
 {
     MenuItem::selected();
-    static_cast<MenuItem*>(_subItems->getObjectAtIndex(_selectedIndex))->selected();
+    _subItems.at(_selectedIndex)->selected();
 }
 
 void MenuItemToggle::unselected()
 {
     MenuItem::unselected();
-    static_cast<MenuItem*>(_subItems->getObjectAtIndex(_selectedIndex))->unselected();
+    _subItems.at(_selectedIndex)->unselected();
 }
 
 void MenuItemToggle::activate()
@@ -978,7 +981,7 @@ void MenuItemToggle::activate()
     // update index
     if( _enabled ) 
     {
-        unsigned int newIndex = (_selectedIndex + 1) % _subItems->count();
+        unsigned int newIndex = (_selectedIndex + 1) % _subItems.size();
         this->setSelectedIndex(newIndex);
     }
     MenuItem::activate();
@@ -989,21 +992,15 @@ void MenuItemToggle::setEnabled(bool enabled)
     {
         MenuItem::setEnabled(enabled);
 
-        if(_subItems && _subItems->count() > 0)
-        {
-            Object* pObj = NULL;
-            CCARRAY_FOREACH(_subItems, pObj)
-            {
-                MenuItem* pItem = static_cast<MenuItem*>(pObj);
-                pItem->setEnabled(enabled);
-            }
+        for(const auto &item : _subItems) {
+            item->setEnabled(enabled);
         }
     }
 }
 
 MenuItem* MenuItemToggle::getSelectedItem()
 {
-    return static_cast<MenuItem*>(_subItems->getObjectAtIndex(_selectedIndex));
+    return _subItems.at(_selectedIndex);
 }
 
 NS_CC_END

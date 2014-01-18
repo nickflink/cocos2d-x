@@ -1,8 +1,9 @@
 /****************************************************************************
-Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
+Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
-
+Copyright (c) 2013-2014 Chukong Technologies Inc.
+ 
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -43,6 +44,8 @@ THE SOFTWARE.
 #include "CCEventListenerAcceleration.h"
 #include "platform/CCDevice.h"
 #include "CCScene.h"
+#include "CCCustomCommand.h"
+#include "CCRenderer.h"
 
 NS_CC_BEGIN
 
@@ -51,11 +54,11 @@ Layer::Layer()
 : _touchEnabled(false)
 , _accelerometerEnabled(false)
 , _keyboardEnabled(false)
-, _touchMode(Touch::DispatchMode::ALL_AT_ONCE)
-, _swallowsTouches(true)
 , _touchListener(nullptr)
 , _keyboardListener(nullptr)
 , _accelerationListener(nullptr)
+, _touchMode(Touch::DispatchMode::ALL_AT_ONCE)
+, _swallowsTouches(true)
 {
     _ignoreAnchorPointForPosition = true;
     setAnchorPoint(Point(0.5f, 0.5f));
@@ -68,16 +71,16 @@ Layer::~Layer()
 
 bool Layer::init()
 {
-    bool bRet = false;
+    bool ret = false;
     do 
     {        
         Director * pDirector;
         CC_BREAK_IF(!(pDirector = Director::getInstance()));
         this->setContentSize(pDirector->getWinSize());
         // success
-        bRet = true;
+        ret = true;
     } while(0);
-    return bRet;
+    return ret;
 }
 
 Layer *Layer::create()
@@ -536,21 +539,22 @@ bool LayerRGBA::isCascadeOpacityEnabled() const
     return _cascadeOpacityEnabled;
 }
 
-void LayerRGBA::setCascadeOpacityEnabled(bool cascadeOpacityEnabled)
+std::string Layer::getDescription() const
 {
-    _cascadeOpacityEnabled = cascadeOpacityEnabled;
+    return StringUtils::format("<Layer | Tag = %d>", _tag);
 }
 
-bool LayerRGBA::isCascadeColorEnabled() const
+__LayerRGBA::__LayerRGBA()
 {
-    return _cascadeColorEnabled;
+    CCLOG("LayerRGBA deprecated.");
 }
 
-void LayerRGBA::setCascadeColorEnabled(bool cascadeColorEnabled)
-{
-    _cascadeColorEnabled = cascadeColorEnabled;
-}
 
+#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
+#pragma GCC diagnostic warning "-Wdeprecated-declarations"
+#elif _MSC_VER >= 1400 //vs 2005 or higher
+#pragma warning (pop)
+#endif
 /// LayerColor
 
 LayerColor::LayerColor()
@@ -576,40 +580,40 @@ void LayerColor::setBlendFunc(const BlendFunc &var)
 
 LayerColor* LayerColor::create()
 {
-    LayerColor* pRet = new LayerColor();
-    if (pRet && pRet->init())
+    LayerColor* ret = new LayerColor();
+    if (ret && ret->init())
     {
-        pRet->autorelease();
+        ret->autorelease();
     }
     else
     {
-        CC_SAFE_DELETE(pRet);
+        CC_SAFE_DELETE(ret);
     }
-    return pRet;
+    return ret;
 }
 
 LayerColor * LayerColor::create(const Color4B& color, GLfloat width, GLfloat height)
 {
-    LayerColor * pLayer = new LayerColor();
-    if( pLayer && pLayer->initWithColor(color,width,height))
+    LayerColor * layer = new LayerColor();
+    if( layer && layer->initWithColor(color,width,height))
     {
-        pLayer->autorelease();
-        return pLayer;
+        layer->autorelease();
+        return layer;
     }
-    CC_SAFE_DELETE(pLayer);
-    return NULL;
+    CC_SAFE_DELETE(layer);
+    return nullptr;
 }
 
 LayerColor * LayerColor::create(const Color4B& color)
 {
-    LayerColor * pLayer = new LayerColor();
-    if(pLayer && pLayer->initWithColor(color))
+    LayerColor * layer = new LayerColor();
+    if(layer && layer->initWithColor(color))
     {
-        pLayer->autorelease();
-        return pLayer;
+        layer->autorelease();
+        return layer;
     }
-    CC_SAFE_DELETE(pLayer);
-    return NULL;
+    CC_SAFE_DELETE(layer);
+    return nullptr;
 }
 
 bool LayerColor::init()
@@ -640,7 +644,7 @@ bool LayerColor::initWithColor(const Color4B& color, GLfloat w, GLfloat h)
         updateColor();
         setContentSize(Size(w, h));
 
-        setShaderProgram(ShaderCache::getInstance()->getProgram(GLProgram::SHADER_NAME_POSITION_COLOR));
+        setShaderProgram(ShaderCache::getInstance()->getProgram(GLProgram::SHADER_NAME_POSITION_COLOR_NO_MVP));
         return true;
     }
     return false;
@@ -692,21 +696,41 @@ void LayerColor::updateColor()
 
 void LayerColor::draw()
 {
+    _customCommand.init(0, _vertexZ);
+    _customCommand.func = CC_CALLBACK_0(LayerColor::onDraw, this);
+    Director::getInstance()->getRenderer()->addCommand(&_customCommand);
+    
+    kmMat4 p, mvp;
+    kmGLGetMatrix(KM_GL_PROJECTION, &p);
+    kmGLGetMatrix(KM_GL_MODELVIEW, &mvp);
+    kmMat4Multiply(&mvp, &p, &mvp);
+    
+    for(int i = 0; i < 4; ++i)
+    {
+        kmVec3 pos;
+        pos.x = _squareVertices[i].x; pos.y = _squareVertices[i].y; pos.z = _vertexZ;
+        kmVec3TransformCoord(&pos, &pos, &mvp);
+        _noMVPVertices[i] = Vertex3F(pos.x,pos.y,pos.z);
+    }
+    
+}
+
+void LayerColor::onDraw()
+{
     CC_NODE_DRAW_SETUP();
 
     GL::enableVertexAttribs( GL::VERTEX_ATTRIB_FLAG_POSITION | GL::VERTEX_ATTRIB_FLAG_COLOR );
-
     //
     // Attributes
     //
 #ifdef EMSCRIPTEN
-    setGLBufferData(_squareVertices, 4 * sizeof(Vertex2F), 0);
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    setGLBufferData(_noMVPVertices, 4 * sizeof(Vertex3F), 0);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     setGLBufferData(_squareColors, 4 * sizeof(Color4F), 1);
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, 0);
 #else
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, _squareVertices);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, 0, _noMVPVertices);
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, _squareColors);
 #endif // EMSCRIPTEN
 
@@ -717,57 +741,49 @@ void LayerColor::draw()
     CC_INCREMENT_GL_DRAWS(1);
 }
 
-void LayerColor::setColor(const Color3B &color)
+std::string LayerColor::getDescription() const
 {
-    LayerRGBA::setColor(color);
-    updateColor();
+    return StringUtils::format("<LayerColor | Tag = %d>", _tag);
 }
-
-void LayerColor::setOpacity(GLubyte opacity)
-{
-    LayerRGBA::setOpacity(opacity);
-    updateColor();
-}
-
 //
 // LayerGradient
 // 
 LayerGradient* LayerGradient::create(const Color4B& start, const Color4B& end)
 {
-    LayerGradient * pLayer = new LayerGradient();
-    if( pLayer && pLayer->initWithColor(start, end))
+    LayerGradient * layer = new LayerGradient();
+    if( layer && layer->initWithColor(start, end))
     {
-        pLayer->autorelease();
-        return pLayer;
+        layer->autorelease();
+        return layer;
     }
-    CC_SAFE_DELETE(pLayer);
-    return NULL;
+    CC_SAFE_DELETE(layer);
+    return nullptr;
 }
 
 LayerGradient* LayerGradient::create(const Color4B& start, const Color4B& end, const Point& v)
 {
-    LayerGradient * pLayer = new LayerGradient();
-    if( pLayer && pLayer->initWithColor(start, end, v))
+    LayerGradient * layer = new LayerGradient();
+    if( layer && layer->initWithColor(start, end, v))
     {
-        pLayer->autorelease();
-        return pLayer;
+        layer->autorelease();
+        return layer;
     }
-    CC_SAFE_DELETE(pLayer);
-    return NULL;
+    CC_SAFE_DELETE(layer);
+    return nullptr;
 }
 
 LayerGradient* LayerGradient::create()
 {
-    LayerGradient* pRet = new LayerGradient();
-    if (pRet && pRet->init())
+    LayerGradient* ret = new LayerGradient();
+    if (ret && ret->init())
     {
-        pRet->autorelease();
+        ret->autorelease();
     }
     else
     {
-        CC_SAFE_DELETE(pRet);
+        CC_SAFE_DELETE(ret);
     }
-    return pRet;
+    return ret;
 }
 
 bool LayerGradient::init()
@@ -916,13 +932,18 @@ void LayerGradient::setCompressedInterpolation(bool compress)
     updateColor();
 }
 
+std::string LayerGradient::getDescription() const
+{
+    return StringUtils::format("<LayerGradient | Tag = %d>", _tag);
+}
+
 /// MultiplexLayer
 
 LayerMultiplex::LayerMultiplex()
 : _enabledLayer(0)
-, _layers(NULL)
 {
 }
+
 LayerMultiplex::~LayerMultiplex()
 {
     if (_layers)
@@ -940,64 +961,60 @@ LayerMultiplex * LayerMultiplex::create(Layer * layer, ...)
     va_list args;
     va_start(args,layer);
 
-    LayerMultiplex * pMultiplexLayer = new LayerMultiplex();
-    if(pMultiplexLayer && pMultiplexLayer->initWithLayers(layer, args))
+    LayerMultiplex * multiplexLayer = new LayerMultiplex();
+    if(multiplexLayer && multiplexLayer->initWithLayers(layer, args))
     {
-        pMultiplexLayer->autorelease();
+        multiplexLayer->autorelease();
         va_end(args);
-        return pMultiplexLayer;
+        return multiplexLayer;
     }
     va_end(args);
-    CC_SAFE_DELETE(pMultiplexLayer);
-    return NULL;
+    CC_SAFE_DELETE(multiplexLayer);
+    return nullptr;
 }
 
 LayerMultiplex * LayerMultiplex::createWithLayer(Layer* layer)
 {
-    return LayerMultiplex::create(layer, NULL);
+    return LayerMultiplex::create(layer, nullptr);
 }
 
 LayerMultiplex* LayerMultiplex::create()
 {
-    LayerMultiplex* pRet = new LayerMultiplex();
-    if (pRet && pRet->init())
+    LayerMultiplex* ret = new LayerMultiplex();
+    if (ret && ret->init())
     {
-        pRet->autorelease();
+        ret->autorelease();
     }
     else
     {
-        CC_SAFE_DELETE(pRet);
+        CC_SAFE_DELETE(ret);
     }
-    return pRet;
+    return ret;
 }
 
-LayerMultiplex* LayerMultiplex::createWithArray(Array* arrayOfLayers)
+LayerMultiplex* LayerMultiplex::createWithArray(const Vector<Layer*>& arrayOfLayers)
 {
-    LayerMultiplex* pRet = new LayerMultiplex();
-    if (pRet && pRet->initWithArray(arrayOfLayers))
+    LayerMultiplex* ret = new LayerMultiplex();
+    if (ret && ret->initWithArray(arrayOfLayers))
     {
-        pRet->autorelease();
+        ret->autorelease();
     }
     else
     {
-        CC_SAFE_DELETE(pRet);
+        CC_SAFE_DELETE(ret);
     }
-    return pRet;
+    return ret;
 }
 
 void LayerMultiplex::addLayer(Layer* layer)
 {
-    CCASSERT(_layers, "");
-    _layers->addObject(layer);
+    _layers.pushBack(layer);
 }
 
 bool LayerMultiplex::init()
 {
     if (Layer::init())
     {
-        _layers = Array::create();
-        _layers->retain();
-
         _enabledLayer = 0;
         return true;
     }
@@ -1008,34 +1025,32 @@ bool LayerMultiplex::initWithLayers(Layer *layer, va_list params)
 {
     if (Layer::init())
     {
-        _layers = Array::createWithCapacity(5);
-        _layers->retain();
-        _layers->addObject(layer);
+        _layers.reserve(5);
+        _layers.pushBack(layer);
 
         Layer *l = va_arg(params,Layer*);
         while( l ) {
-            _layers->addObject(l);
+            _layers.pushBack(l);
             l = va_arg(params,Layer*);
         }
 
         _enabledLayer = 0;
-        this->addChild((Node*)_layers->getObjectAtIndex(_enabledLayer));
+        this->addChild(_layers.at(_enabledLayer));
         return true;
     }
 
     return false;
 }
 
-bool LayerMultiplex::initWithArray(Array* arrayOfLayers)
+bool LayerMultiplex::initWithArray(const Vector<Layer*>& arrayOfLayers)
 {
     if (Layer::init())
     {
-        _layers = Array::createWithCapacity(arrayOfLayers->count());
-        _layers->addObjectsFromArray(arrayOfLayers);
-        _layers->retain();
+        _layers.reserve(arrayOfLayers.size());
+        _layers.pushBack(arrayOfLayers);
 
         _enabledLayer = 0;
-        this->addChild((Node*)_layers->getObjectAtIndex(_enabledLayer));
+        this->addChild(_layers.at(_enabledLayer));
         return true;
     }
     return false;
@@ -1043,27 +1058,31 @@ bool LayerMultiplex::initWithArray(Array* arrayOfLayers)
 
 void LayerMultiplex::switchTo(int n)
 {
-    CCASSERT( n < _layers->count(), "Invalid index in MultiplexLayer switchTo message" );
+    CCASSERT( n < _layers.size(), "Invalid index in MultiplexLayer switchTo message" );
 
-    this->removeChild((Node*)_layers->getObjectAtIndex(_enabledLayer), true);
+    this->removeChild(_layers.at(_enabledLayer), true);
 
     _enabledLayer = n;
 
-    this->addChild((Node*)_layers->getObjectAtIndex(n));
+    this->addChild(_layers.at(n));
 }
 
 void LayerMultiplex::switchToAndReleaseMe(int n)
 {
-    CCASSERT( n < _layers->count(), "Invalid index in MultiplexLayer switchTo message" );
+    CCASSERT( n < _layers.size(), "Invalid index in MultiplexLayer switchTo message" );
 
-    this->removeChild((Node*)_layers->getObjectAtIndex(_enabledLayer), true);
+    this->removeChild(_layers.at(_enabledLayer), true);
 
-    //[layers replaceObjectAtIndex:enabledLayer withObject:[NSNull null]];
-    _layers->replaceObjectAtIndex(_enabledLayer, NULL);
+    _layers.replace(_enabledLayer, nullptr);
 
     _enabledLayer = n;
 
-    this->addChild((Node*)_layers->getObjectAtIndex(n));
+    this->addChild(_layers.at(n));
+}
+
+std::string LayerMultiplex::getDescription() const
+{
+    return StringUtils::format("<LayerMultiplex | Tag = %d, Layers = %d", _tag, static_cast<int>(_children.size()));
 }
 
 NS_CC_END

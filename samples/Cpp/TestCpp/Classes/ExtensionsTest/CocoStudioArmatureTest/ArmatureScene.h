@@ -37,7 +37,7 @@ enum {
     TEST_FRAME_EVENT,
 	TEST_PARTICLE_DISPLAY,
 	TEST_USE_DIFFERENT_PICTURE,
-	TEST_BCOLLIDER_DETECTOR,
+	TEST_COLLIDER_DETECTOR,
 	TEST_BOUDINGBOX,
 	TEST_ANCHORPOINT,
 	TEST_ARMATURE_NESTING,
@@ -49,17 +49,16 @@ enum {
 class ArmatureTestLayer : public Layer
 {
 public:
-	virtual void onEnter();
-	virtual void onExit();
+	virtual std::string title() const;
+	virtual std::string subtitle() const;
 
-	virtual std::string title();
-	virtual std::string subtitle();
-
-	virtual void restartCallback(Object* pSender);
+    virtual void restartCallback(Object* pSender);
 	virtual void nextCallback(Object* pSender);
 	virtual void backCallback(Object* pSender);
 
-	virtual void draw();
+    // overrides
+    virtual void onEnter() override;
+	virtual void onExit() override;
 
 protected:
 	MenuItemImage *restartItem;
@@ -89,7 +88,7 @@ public:
 class TestCSWithSkeleton : public ArmatureTestLayer
 {
 	virtual void onEnter();
-	virtual std::string title();
+	virtual std::string title() const override;
 };
 
 
@@ -97,7 +96,7 @@ class TestDragonBones20 : public ArmatureTestLayer
 {
 public:
 	virtual void onEnter();
-	virtual std::string title();
+	virtual std::string title() const override;
 };
 
 
@@ -137,7 +136,7 @@ class TestPerformanceBatchNode : public TestPerformance
 class TestChangeZorder : public ArmatureTestLayer
 {
 	virtual void onEnter();
-	virtual std::string title();
+	virtual std::string title() const override;
 	void changeZorder(float dt);
 
 	int currentTag;
@@ -206,7 +205,7 @@ public:
 
 	virtual void onEnter();
 	virtual void onExit();
-	virtual std::string title();
+	virtual std::string title() const override;
 	virtual void draw();
 	virtual void update(float delta);
 
@@ -236,7 +235,7 @@ public:
 
 	virtual void onEnter();
 	virtual void onExit();
-	virtual std::string title();
+	virtual std::string title() const override;
 	virtual void update(float delta);
 
 	void onFrameEvent(cocostudio::Bone *bone, const char *evt, int originFrameIndex, int currentFrameIndex);
@@ -257,6 +256,25 @@ public:
 
 	void destroyCPBody(cpBody *body);
 };
+#elif ENABLE_PHYSICS_SAVE_CALCULATED_VERTEX
+class TestColliderDetector : public ArmatureTestLayer
+{
+public:
+    ~TestColliderDetector();
+    
+    virtual void onEnter();
+    virtual std::string title() const override;
+    virtual void update(float delta);
+    virtual void draw();
+    
+    void onFrameEvent(cocostudio::Bone *bone, const std::string& evt, int originFrameIndex, int currentFrameIndex);
+    
+    void initWorld() {};
+    cocostudio::Armature *armature;
+    cocostudio::Armature *armature2;
+    
+    cocos2d::Sprite *bullet;
+};
 #endif
 
 
@@ -267,18 +285,22 @@ class TestBoundingBox : public ArmatureTestLayer
 {
 public:
 	virtual void onEnter();
-	virtual std::string title();
+	virtual std::string title() const override;
 	virtual void draw();
 
 	cocostudio::Armature *armature;
 	Rect rect;
+protected:
+    void onDraw();
+protected:
+    CustomCommand _customCommand;
 };
 
 class TestAnchorPoint : public ArmatureTestLayer
 {
 public:
 	virtual void onEnter();
-	virtual std::string title();
+	virtual std::string title() const override;
 };
 
 class TestArmatureNesting : public ArmatureTestLayer

@@ -1,6 +1,7 @@
 /****************************************************************************
-Copyright (c) 2010 ForzeField Studios S.L. http://forzefield.com
-Copyright (c) 2010 cocos2d-x.org
+Copyright (c) 2010      ForzeField Studios S.L. http://forzefield.com
+Copyright (c) 2010-2012 cocos2d-x.org
+Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -230,7 +231,7 @@ while(false)
 
 NS_CC_BEGIN
 
-class CC_DLL Array : public Object, public Clonable
+class CC_DLL __Array : public Object, public Clonable
 {
 public:
 
@@ -238,15 +239,15 @@ public:
      * @js NA
      * @lua NA
      */
-    static Array* create();
+    static __Array* create();
     /** Create an array with objects 
      * @js NA
      */
-    static Array* create(Object* object, ...) CC_REQUIRES_NULL_TERMINATION;
+    static __Array* create(Object* object, ...) CC_REQUIRES_NULL_TERMINATION;
     /** Create an array with one object 
      * @js NA
      */
-    static Array* createWithObject(Object* object);
+    static __Array* createWithObject(Object* object);
     /** Create an array with a default capacity 
      * @js NA
      */
@@ -254,14 +255,14 @@ public:
     /** Create an array with from an existing array 
      * @js NA
      */
-    static Array* createWithArray(Array* otherArray);
+    static __Array* createWithArray(__Array* otherArray);
     /**
      @brief   Generate a Array pointer by file
      @param   pFileName  The file name of *.plist file
      @return  The Array pointer generated from the file
      * @js NA
      */
-    static Array* createWithContentsOfFile(const char* pFileName);
+    static __Array* createWithContentsOfFile(const std::string& pFileName);
     
     /*
      @brief The same meaning as arrayWithContentsOfFile(), but it doesn't call autorelease, so the
@@ -269,12 +270,12 @@ public:
      * @js NA
      * @lua NA
      */
-    static Array* createWithContentsOfFileThreadSafe(const char* pFileName);
+    static __Array* createWithContentsOfFileThreadSafe(const std::string& pFileName);
     /**
      * @js NA
      * @lua NA
      */
-    ~Array();
+    ~__Array();
 
     /** Initializes an array 
      * @js NA
@@ -300,7 +301,7 @@ public:
      * @js NA
      * @lua NA
      */
-    bool initWithArray(Array* otherArray);
+    bool initWithArray(__Array* otherArray);
 
     // Querying an Array
 
@@ -384,7 +385,7 @@ public:
     /** @since 1.1 
      * @js NA
      */
-    bool isEqualToArray(Array* otherArray);
+    bool isEqualToArray(__Array* otherArray);
     // Adding Objects
 
     /** Add a certain object 
@@ -397,7 +398,7 @@ public:
     /** Add all elements of an existing array 
      * @js NA
      */
-    void addObjectsFromArray(Array* otherArray);
+    void addObjectsFromArray(__Array* otherArray);
     /** Insert a certain object at a certain index 
      * @js NA
      */
@@ -451,7 +452,7 @@ public:
     /** Remove all elements 
      * @js NA
      */
-    void removeObjectsInArray(Array* otherArray);
+    void removeObjectsInArray(__Array* otherArray);
     /** Remove all objects 
      * @js NA
      */
@@ -498,7 +499,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual Array* clone() const;
+    virtual __Array* clone() const;
 
     // ------------------------------------------
     // Iterators
@@ -546,7 +547,7 @@ public:
      * @js NA
      * @lua NA
      */
-    Array();
+    __Array();
 };
 
 // end of data_structure group

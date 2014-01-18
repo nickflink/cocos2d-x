@@ -16,6 +16,12 @@ public:
     , _debugDraw(false)
     {}
     
+    virtual void onEnter() override;
+};
+#else
+
+class PhysicsDemo : public BaseTest
+{
 public:
     virtual void runThisTest();
     
@@ -157,4 +163,53 @@ private:
     int _sliceTag;
 };
 
+class PhysicsDemoPump : public PhysicsDemo
+{
+public:
+    CREATE_FUNC(PhysicsDemoPump);
+
+    void onEnter() override;
+    void update(float delta) override;
+    virtual std::string title() const override;
+    virtual std::string subtitle() const override;
+    
+    bool onTouchBegan(Touch* touch, Event* event);
+    void onTouchMoved(Touch* touch, Event* event);
+    void onTouchEnded(Touch* touch, Event* event);
+    
+private:
+    float _distance;
+    float _rotationV;
+};
+
+class PhysicsDemoOneWayPlatform : public PhysicsDemo
+{
+public:
+    CREATE_FUNC(PhysicsDemoOneWayPlatform);
+
+    void onEnter() override;
+    virtual std::string title() const override;
+    
+    bool onContactBegin(EventCustom* event, const PhysicsContact& contact);
+};
+
+class PhysicsDemoSlice : public PhysicsDemo
+{
+public:
+    CREATE_FUNC(PhysicsDemoSlice);
+
+    void onEnter() override;
+    virtual std::string title() const override;
+    virtual std::string subtitle() const override;
+    
+    bool slice(PhysicsWorld& world, const PhysicsRayCastInfo& info, void* data);
+    void clipPoly(PhysicsShapePolygon* shape, Point normal, float distance);
+    
+    void onTouchEnded(Touch *touch, Event *event);
+    
+private:
+    int _sliceTag;
+};
+
+#endif
 #endif

@@ -35,7 +35,6 @@
 NS_CC_EXT_BEGIN
 
 class TableView;
-class ArrayForObjectSorting;
 
 /**
  * Sole purpose of this delegate is to single touch event in this version.
@@ -149,6 +148,10 @@ public:
         TOP_DOWN,
         BOTTOM_UP
     };
+    
+    /** Empty contructor of TableView */
+    static TableView* create();
+    
     /**
      * An intialized table view object
      *
@@ -270,6 +273,17 @@ public:
     virtual void onTouchCancelled(Touch *pTouch, Event *pEvent) override;
 
 protected:
+    long __indexFromOffset(Point offset);
+    long _indexFromOffset(Point offset);
+    Point __offsetFromIndex(ssize_t index);
+    Point _offsetFromIndex(ssize_t index);
+
+    void _moveCellOutOfSight(TableViewCell *cell);
+    void _setIndexForCell(ssize_t index, TableViewCell *cell);
+    void _addCellIfNecessary(TableViewCell * cell);
+
+    void _updateCellPositions();
+
 
     TableViewCell *_touchedCell;
     /**
@@ -290,11 +304,11 @@ protected:
     /**
      * cells that are currently in the table
      */
-    ArrayForObjectSorting* _cellsUsed;
+    Vector<TableViewCell*> _cellsUsed;
     /**
      * free list of cells
      */
-    ArrayForObjectSorting* _cellsFreed;
+    Vector<TableViewCell*> _cellsFreed;
     /**
      * weak link to the data source object
      */
@@ -315,7 +329,6 @@ protected:
     void _setIndexForCell(long index, TableViewCell *cell);
     void _addCellIfNecessary(TableViewCell * cell);
 
-    void _updateCellPositions();
 public:
     void _updateContentSize();
 

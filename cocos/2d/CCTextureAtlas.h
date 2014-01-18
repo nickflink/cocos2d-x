@@ -1,7 +1,8 @@
 /****************************************************************************
-Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
+Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -35,6 +36,8 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 class Texture2D;
+class EventCustom;
+class EventListenerCustom;
 
 /**
  * @addtogroup textures
@@ -184,7 +187,7 @@ public:
     void drawQuads();
     /** listen the event that coming to foreground on Android
      */
-    void listenBackToForeground(Object *obj);
+    void listenBackToForeground(EventCustom* event);
 
     /** whether or not the array buffer of the VBO needs to be updated*/
     inline bool isDirty(void) { return _dirty; }
@@ -194,7 +197,7 @@ public:
      * @js NA
      * @lua NA
      */
-    const char* description() const;
+    virtual std::string getDescription() const;
 
     /** Gets the quantity of quads that are going to be drawn */
     long getTotalQuads() const;
@@ -215,6 +218,8 @@ public:
     void setQuads(V3F_C4B_T2F_Quad* quads);
     
 private:
+    void renderCommand();
+
     void setupIndices();
     void mapBuffers();
     void setupVBOandVAO();
@@ -233,6 +238,10 @@ protected:
     Texture2D* _texture;
     /** Quads that are going to be rendered */
     V3F_C4B_T2F_Quad* _quads;
+    
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+    EventListenerCustom* _backToForegroundlistener;
+#endif
 };
 
 // end of textures group

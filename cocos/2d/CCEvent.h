@@ -1,5 +1,5 @@
 /****************************************************************************
- Copyright (c) 2013 cocos2d-x.org
+ Copyright (c) 2013-2014 Chukong Technologies Inc.
  
  http://www.cocos2d-x.org
  
@@ -38,7 +38,7 @@ class Node;
 /**
  *   Base class of all kinds of events.
  */
-class Event
+class Event : public Object
 {
 public:
     enum class Type

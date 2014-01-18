@@ -1,7 +1,8 @@
 /****************************************************************************
-Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
+Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -393,10 +394,42 @@ public:
     * @lua NA
     */
     virtual const BlendFunc &getBlendFunc() const override;
-protected:
-    virtual void updateBlendFunc();
 
 protected:
+    /**
+     * @js ctor
+     */
+    ParticleSystem();
+    /**
+     * @js NA
+     * @lua NA
+     */
+    virtual ~ParticleSystem();
+
+    /** initializes a ParticleSystem*/
+    bool init();
+    /** initializes a ParticleSystem from a plist file.
+     This plist files can be created manually or with Particle Designer:
+     http://particledesigner.71squared.com/
+     @since v0.99.3
+     */
+    bool initWithFile(const std::string& plistFile);
+
+    /** initializes a QuadParticleSystem from a Dictionary.
+     @since v0.99.3
+     */
+    bool initWithDictionary(ValueMap& dictionary);
+
+    /** initializes a particle system from a NSDictionary and the path from where to load the png
+     @since v2.1
+     */
+    bool initWithDictionary(ValueMap& dictionary, const std::string& dirname);
+
+    //! Initializes a system with a fixed number of particles
+    virtual bool initWithTotalParticles(int numberOfParticles);
+
+    virtual void updateBlendFunc();
+
     /** whether or not the particles are using blend additive.
      If enabled, the following blending function will be used.
      @code
@@ -551,6 +584,9 @@ protected:
      @since v0.8
      */
     PositionType _positionType;
+
+private:
+    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSystem);
 };
 
 // end of particle_nodes group

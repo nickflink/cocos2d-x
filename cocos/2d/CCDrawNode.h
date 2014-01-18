@@ -1,5 +1,6 @@
 /* Copyright (c) 2012 Scott Lembcke and Howling Moon Software
  * Copyright (c) 2012 cocos2d-x.org
+ * Copyright (c) 2013-2014 Chukong Technologies Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +33,7 @@
 
 #include "CCNode.h"
 #include "ccTypes.h"
+#include "renderer/CCCustomCommand.h"
 
 NS_CC_BEGIN
 
@@ -46,17 +48,6 @@ class CC_DLL DrawNode : public Node
 public:
     /** creates and initialize a DrawNode node */
     static DrawNode* create();
-    /**
-     * @js ctor
-     */
-    DrawNode();
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~DrawNode();
-    
-    virtual bool init();
 
     /** draw a dot at a position, with a given radius and color */
     void drawDot(const Point &pos, float radius, const Color4F &color);
@@ -88,13 +79,9 @@ public:
     * @lua NA
     */
     void setBlendFunc(const BlendFunc &blendFunc);
-    
-    /** listen the event that coming to foreground on Android
-    * @js NA
-    * @lua NA
-    */
-    void listenBackToForeground(Object *obj);
 
+    void onDraw();
+    
     // Overrides
     virtual void draw() override;
 
@@ -110,8 +97,12 @@ protected:
     V2F_C4B_T2F *_buffer;
 
     BlendFunc   _blendFunc;
+    CustomCommand _customCommand;
 
     bool        _dirty;
+
+private:
+    CC_DISALLOW_COPY_AND_ASSIGN(DrawNode);
 };
 
 NS_CC_END

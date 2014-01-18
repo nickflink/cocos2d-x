@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2010 cocos2d-x.org
+Copyright (c) 2010-2012 cocos2d-x.org
+Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -34,13 +35,13 @@ THE SOFTWARE.
 
 using namespace std;
 
-AAssetManager* cocos2d::FileUtilsAndroid::assetmanager = NULL;
-
 NS_CC_BEGIN
 
+AAssetManager* FileUtilsAndroid::assetmanager = nullptr;
+
 void FileUtilsAndroid::setassetmanager(AAssetManager* a) {
-    if (NULL == a) {
-        LOGD("setassetmanager : received unexpected NULL parameter");
+    if (nullptr == a) {
+        LOGD("setassetmanager : received unexpected nullptr parameter");
         return;
     }
 
@@ -49,13 +50,13 @@ void FileUtilsAndroid::setassetmanager(AAssetManager* a) {
 
 FileUtils* FileUtils::getInstance()
 {
-    if (s_sharedFileUtils == NULL)
+    if (s_sharedFileUtils == nullptr)
     {
         s_sharedFileUtils = new FileUtilsAndroid();
         if(!s_sharedFileUtils->init())
         {
           delete s_sharedFileUtils;
-          s_sharedFileUtils = NULL;
+          s_sharedFileUtils = nullptr;
           CCLOG("ERROR: Could not init CCFileUtilsAndroid");
         }
     }
@@ -129,6 +130,20 @@ bool FileUtilsAndroid::isAbsolutePath(const std::string& strPath) const
     return false;
 }
 
+Data FileUtilsAndroid::getData(const std::string& filename, bool forString)
+{
+    if (filename.empty())
+    {
+        return Data::Null;
+    }
+    
+    unsigned char* data = nullptr;
+    ssize_t size = 0;
+    string fullPath = fullPathForFilename(filename);
+    
+    if (fullPath[0] != '/')
+    {
+        string relativePath = string();
 
 unsigned char* FileUtilsAndroid::getFileData(const char* filename, const char* mode, long * size)
 {    
@@ -137,7 +152,9 @@ unsigned char* FileUtilsAndroid::getFileData(const char* filename, const char* m
 
 unsigned char* FileUtilsAndroid::getFileDataForAsync(const char* filename, const char* pszMode, long * pSize)
 {
-    return doGetFileData(filename, pszMode, pSize, true);
+    Data data = getData(filename, true);
+    std::string ret((const char*)data.getBytes());
+    return ret;
 }
 
 unsigned char* FileUtilsAndroid::doGetFileData(const char* filename, const char* mode, long * size, bool forAsync)
@@ -164,9 +181,9 @@ unsigned char* FileUtilsAndroid::doGetFileData(const char* filename, const char*
         }
         LOGD("relative path = %s", relativePath.c_str());
 
-        if (NULL == FileUtilsAndroid::assetmanager) {
-            LOGD("... FileUtilsAndroid::assetmanager is NULL");
-            return NULL;
+        if (nullptr == FileUtilsAndroid::assetmanager) {
+            LOGD("... FileUtilsAndroid::assetmanager is nullptr");
+            return nullptr;
         }
 
         // read asset data
@@ -174,9 +191,9 @@ unsigned char* FileUtilsAndroid::doGetFileData(const char* filename, const char*
             AAssetManager_open(FileUtilsAndroid::assetmanager,
                                relativePath.c_str(),
                                AASSET_MODE_UNKNOWN);
-        if (NULL == asset) {
-            LOGD("asset is NULL");
-            return NULL;
+        if (nullptr == asset) {
+            LOGD("asset is nullptr");
+            return nullptr;
         }
 
         off_t fileSize = AAsset_getLength(asset);

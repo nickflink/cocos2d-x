@@ -50,7 +50,7 @@ long TableViewCell::getIdx()
 
 void TableViewCell::setIdx(long uIdx)
 {
-    _idx = uIdx;
+    _idx = idx;
 }
 
 NS_CC_EXT_END

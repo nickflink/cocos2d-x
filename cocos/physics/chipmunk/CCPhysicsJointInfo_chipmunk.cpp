@@ -25,6 +25,8 @@
 #include "CCPhysicsJointInfo_chipmunk.h"
 #if (CC_PHYSICS_ENGINE == CC_PHYSICS_CHIPMUNK)
 #include <algorithm>
+#include <unordered_map>
+
 NS_CC_BEGIN
 
 std::map<cpConstraint*, PhysicsJointInfo*> PhysicsJointInfo::_map;
@@ -78,5 +80,17 @@ void PhysicsJointInfo::removeAll()
     _joints.clear();
 }
 
+void PhysicsJointInfo::removeAll()
+{
+    for (cpConstraint* joint : _joints)
+    {
+        auto mit = _map.find(joint);
+        if (mit != _map.end()) _map.erase(mit);
+        cpConstraintFree(joint);
+    }
+    
+    _joints.clear();
+}
+
 NS_CC_END
-#endif // CC_PHYSICS_ENGINE == CC_PHYSICS_CHIPMUNK
+#endif // CC_USE_PHYSICS

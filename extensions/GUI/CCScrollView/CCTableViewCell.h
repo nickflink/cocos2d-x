@@ -34,9 +34,11 @@ NS_CC_EXT_BEGIN
 /**
  * Abstract class for SWTableView cell node
  */
-class TableViewCell: public Node, public SortableObject
+class TableViewCell: public Node
 {
 public:
+    CREATE_FUNC(TableViewCell);
+    
     TableViewCell() {}
     /**
      * The index used internally by SWTableView and its subclasses

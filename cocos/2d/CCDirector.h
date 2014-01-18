@@ -1,7 +1,8 @@
 /****************************************************************************
-Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2008-2010 Ricardo Quesada
-Copyright (c) 2011      Zynga Inc.
+ Copyright (c) 2008-2010 Ricardo Quesada
+ Copyright (c) 2010-2013 cocos2d-x.org
+ Copyright (c) 2011      Zynga Inc.
+ Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -79,6 +80,12 @@ and when to execute the Scenes.
 class CC_DLL Director : public Object
 {
 public:
+    static const char *EVENT_PROJECTION_CHANGED;
+    static const char* EVENT_AFTER_UPDATE;
+    static const char* EVENT_AFTER_VISIT;
+    static const char* EVENT_AFTER_DRAW;
+
+
     /** @typedef ccDirectorProjection
      Possible OpenGL projections used by director
      */
@@ -330,8 +337,13 @@ public:
     */
     void setContentScaleFactor(float scaleFactor);
     float getContentScaleFactor() const;
+    
+    /**
+     Get the Culling Frustum
+     */
+    
+    Frustum* getFrustum() const { return _cullingFrustum; }
 
-public:
     /** Gets the Scheduler associated with this director
      @since v2.0
      */
@@ -375,7 +387,7 @@ public:
     static double getAvailableMegaBytes();
 protected:
     void purgeDirector();
-    bool _purgeDirecotorInNextLoop; // this flag will be set to true in end()
+    bool _purgeDirectorInNextLoop; // this flag will be set to true in end()
     
     void setNextScene();
     
@@ -395,7 +407,7 @@ protected:
     /** Scheduler associated with this director
      @since v2.0
      */
-    Scheduler* _scheduler;
+    Scheduler *_scheduler;
     
     /** ActionManager associated with this director
      @since v2.0
@@ -411,7 +423,10 @@ protected:
 	float _deltaTime;
     
     /* The EGLView, where everything is rendered */
-    EGLView    *_openGLView;
+    EGLView *_openGLView;
+
+    //texture cache belongs to this director
+    TextureCache *_textureCache;
 
     //texture cache belongs to this director
     TextureCache *_textureCache;
@@ -437,6 +452,8 @@ protected:
     unsigned int _totalFrames;
     unsigned int _frames;
     float _secondsPerFrame;
+    
+    Frustum *_cullingFrustum;
      
     /* The running scene */
     Scene *_runningScene;
@@ -446,10 +463,10 @@ protected:
     Scene *_nextScene;
     
     /* If true, then "old" scene will receive the cleanup message */
-    bool    _sendCleanupToScene;
+    bool _sendCleanupToScene;
 
     /* scheduled scenes */
-    Array* _scenesStack;
+    Vector<Scene*> _scenesStack;
     
     /* last time the main loop was updated */
     struct timeval *_lastUpdate;
@@ -461,10 +478,10 @@ protected:
     Projection _projection;
 
     /* window size in points */
-    Size    _winSizeInPoints;
+    Size _winSizeInPoints;
     
     /* content scale factor */
-    float    _contentScaleFactor;
+    float _contentScaleFactor;
 
     /* store the fps string */
     char *_FPS;
@@ -474,6 +491,8 @@ protected:
 
     /* Projection protocol delegate */
     DirectorDelegate *_projectionDelegate;
+
+    Renderer *_renderer;
     
     // EGLViewProtocol will recreate stats labels to fit visible rect
     friend class EGLViewProtocol;

@@ -43,7 +43,7 @@ TextureCacheTest::TextureCacheTest()
     Director::getInstance()->getTextureCache()->addImageAsync("Images/blocks.png", this, callfuncO_selector(TextureCacheTest::loadingCallBack));
 }
 
-void TextureCacheTest::loadingCallBack(Object *obj)
+void TextureCacheTest::loadingCallBack(cocos2d::Texture2D *texture)
 {
     ++_numberOfLoadedSprites;
     char tmp[10];

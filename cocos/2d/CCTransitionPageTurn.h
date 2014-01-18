@@ -1,6 +1,7 @@
 /****************************************************************************
-Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2009      Sindesso Pty Ltd http://www.sindesso.com/
+Copyright (c) 2010-2012 cocos2d-x.org
+Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -27,8 +28,11 @@ THE SOFTWARE.
 #define __CCPAGE_TURN_TRANSITION_H__
 
 #include "CCTransition.h"
+#include "renderer/CCCustomCommand.h"
 
 NS_CC_BEGIN
+
+class NodeGrid;
 
 /**
  * @addtogroup transition
@@ -83,6 +87,7 @@ public:
     // Overrides
     //
     virtual void onEnter() override;
+    virtual void onExit() override;
 
 protected:
     virtual void sceneOrder() override;

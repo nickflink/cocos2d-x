@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2010 cocos2d-x.org
+Copyright (c) 2010-2012 cocos2d-x.org
+Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -124,7 +125,6 @@ bool FileUtilsWin32::isAbsolutePath(const std::string& strPath) const
 unsigned char* FileUtilsWin32::getFileData(const char* filename, const char* mode, long* size)
 {
     unsigned char * pBuffer = NULL;
-    CCASSERT(filename != NULL && size != NULL && mode != NULL, "Invalid parameters.");
     *size = 0;
     do
     {

@@ -1,5 +1,6 @@
 /* Copyright (c) 2012 Scott Lembcke and Howling Moon Software
  * Copyright (c) 2012 cocos2d-x.org
+ * Copyright (c) 2013-2014 Chukong Technologies Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -101,7 +102,7 @@ DrawNode::DrawNode()
 , _vbo(0)
 , _bufferCapacity(0)
 , _bufferCount(0)
-, _buffer(NULL)
+, _buffer(nullptr)
 , _dirty(false)
 {
     _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
@@ -110,7 +111,7 @@ DrawNode::DrawNode()
 DrawNode::~DrawNode()
 {
     free(_buffer);
-    _buffer = NULL;
+    _buffer = nullptr;
     
     glDeleteBuffers(1, &_vbo);
     _vbo = 0;
@@ -129,17 +130,17 @@ DrawNode::~DrawNode()
 
 DrawNode* DrawNode::create()
 {
-    DrawNode* pRet = new DrawNode();
-    if (pRet && pRet->init())
+    DrawNode* ret = new DrawNode();
+    if (ret && ret->init())
     {
-        pRet->autorelease();
+        ret->autorelease();
     }
     else
     {
-        CC_SAFE_DELETE(pRet);
+        CC_SAFE_DELETE(ret);
     }
     
-    return pRet;
+    return ret;
 }
 
 void DrawNode::ensureCapacity(long count)
@@ -193,10 +194,12 @@ bool DrawNode::init()
     
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     // Need to listen the event only when not use batchnode, because it will use VBO
-    NotificationCenter::getInstance()->addObserver(this,
-                                                   callfuncO_selector(DrawNode::listenBackToForeground),
-                                                   EVNET_COME_TO_FOREGROUND,
-                                                   NULL);
+    auto listener = EventListenerCustom::create(EVENT_COME_TO_FOREGROUND, [this](EventCustom* event){
+    /** listen the event that coming to foreground on Android */
+        this->init();
+    });
+
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 #endif
     
     return true;
@@ -238,9 +241,16 @@ void DrawNode::render()
 
 void DrawNode::draw()
 {
+    _customCommand.init(0, _vertexZ);
+    _customCommand.func = CC_CALLBACK_0(DrawNode::onDraw, this);
+    Director::getInstance()->getRenderer()->addCommand(&_customCommand);
+}
+
+void DrawNode::onDraw()
+{
     CC_NODE_DRAW_SETUP();
     GL::blendFunc(_blendFunc.src, _blendFunc.dst);
-
+    
     render();
 }
 
@@ -362,8 +372,8 @@ void DrawNode::drawPolygon(Point *verts, long count, const Color4F &fillColor, f
 	
 	bool outline = (borderColor.a > 0.0 && borderWidth > 0.0);
 	
-	unsigned int triangle_count = 3*count - 2;
-	unsigned int vertex_count = 3*triangle_count;
+	auto triangle_count = 3*count - 2;
+	auto vertex_count = 3*triangle_count;
     ensureCapacity(vertex_count);
 	
 	V2F_C4B_T2F_Triangle *triangles = (V2F_C4B_T2F_Triangle *)(_buffer + _bufferCount);
@@ -460,13 +470,6 @@ const BlendFunc& DrawNode::getBlendFunc() const
 void DrawNode::setBlendFunc(const BlendFunc &blendFunc)
 {
     _blendFunc = blendFunc;
-}
-
-/** listen the event that coming to foreground on Android
- */
-void DrawNode::listenBackToForeground(Object *obj)
-{
-    init();
 }
 
 NS_CC_END

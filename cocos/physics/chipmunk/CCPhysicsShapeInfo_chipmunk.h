@@ -29,7 +29,7 @@
 #if (CC_PHYSICS_ENGINE == CC_PHYSICS_CHIPMUNK)
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include "chipmunk.h"
 #include "CCPlatformMacros.h"
 
@@ -54,7 +54,7 @@ public:
     static std::map<cpShape*, PhysicsShapeInfo*>& getMap() { return _map; }
     static cpBody* getSharedBody() { return _sharedBody; }
     
-private:
+protected:
     PhysicsShapeInfo(PhysicsShape* shape);
     ~PhysicsShapeInfo();
     

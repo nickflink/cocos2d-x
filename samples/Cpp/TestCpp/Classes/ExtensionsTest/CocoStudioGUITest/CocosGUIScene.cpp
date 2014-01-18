@@ -3,16 +3,16 @@
 #include "../ExtensionsTest.h"
 #include "cocostudio/CocoStudio.h"
 
-const char* gui_scene_names[2] =
+enum
 {
-    "CocosGUIWidgetTest",
-    "CocosGUIExampleTest",
+    LINE_SPACE = 40,
+    kItemTagBasic = 1000,
 };
 
-CocosGUITestScene::CocosGUITestScene(bool bPortrait)
-: _label(NULL)
+static struct
 {
-	TestScene::init();
+	const char *name;
+	std::function<void(Object* sender)> callback;
 }
 
 CocosGUITestScene::~CocosGUITestScene()
@@ -28,19 +28,23 @@ void CocosGUITestScene::runThisTest()
 
     Size s = CCDirector::getInstance()->getWinSize();
     
-    _itemMenu = CCMenu::create();
-    _itemMenu->setPosition(Point::ZERO);
+    _itemMenu = Menu::create();
+    _itemMenu->setPosition( s_tCurPos );
     MenuItemFont::setFontName("Arial");
     MenuItemFont::setFontSize(24);
-    for (int i = 0; i < 1; ++i)
+    for (int i = 0; i < g_maxTests; ++i)
     {
-        auto item = MenuItemFont::create(
-                                         gui_scene_names[i],
-                                         CC_CALLBACK_1( CocosGUITestScene::menuCallback, this));
-        item->setPosition(Point(s.width / 2, s.height - s.height / 4 - (i + 1) * 40));
-        item->setTag(i);
-        _itemMenu->addChild(item);
+        auto pItem = MenuItemFont::create(g_guisTests[i].name, g_guisTests[i].callback);
+        pItem->setPosition(Point(s.width / 2, s.height - (i + 1) * LINE_SPACE));
+        _itemMenu->addChild(pItem, kItemTagBasic + i);
     }
+    
+    auto listener = EventListenerTouchAllAtOnce::create();
+    listener->onTouchesBegan = CC_CALLBACK_2(CocosGUITestMainLayer::onTouchesBegan, this);
+    listener->onTouchesMoved = CC_CALLBACK_2(CocosGUITestMainLayer::onTouchesMoved, this);
+    
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    
     addChild(_itemMenu);
 //     */
 }
@@ -51,49 +55,51 @@ void CocosGUITestScene::MainMenuCallback(Object* pSender)
 	pScene->release();    
 }
 
-void CocosGUITestScene::toCocosGUIExampleScene(Object* sender)
+void CocosGUITestMainLayer::onTouchesBegan(const std::vector<Touch*>& touches, Event  *event)
 {
-    auto scrollView = static_cast<UIScrollView*>(sender);
-    scrollView->setDirection(SCROLLVIEW_DIR_HORIZONTAL);
-    scrollView->getChildByName("backtotopbutton")->setBright(false);
-    scrollView->getChildByName("backtotopbutton")->setTouchEnabled(false);
-    CCLOG("p2 click");
-    ul->removeFromParent();
+    auto touch = static_cast<Touch*>(touches[0]);
     
+    _beginPos = touch->getLocation();
 }
 
-void CocosGUITestScene::load(Object *pSender, int count)
+void CocosGUITestMainLayer::onTouchesMoved(const std::vector<Touch*>& touches, Event  *event)
 {
-    char tmp[10];
-    sprintf(tmp,"%d", count);
-    _label->setString(CCString::createWithFormat("%i", count)->getCString());
-}
-
-void CocosGUITestScene::menuCallback(Object *pSender)
-{
-    MenuItemFont* pItem = dynamic_cast<MenuItemFont*>(pSender);
+    auto touch = static_cast<Touch*>(touches[0]);
     
-    switch (pItem->getTag())
+    auto touchLocation = touch->getLocation();
+    float nMoveY = touchLocation.y - _beginPos.y;
+    
+    auto curPos  = _itemMenu->getPosition();
+    auto nextPos = Point(curPos.x, curPos.y + nMoveY);
+    
+    if (nextPos.y < 0.0f)
     {
-        case 0:
-        {
-            UISceneManager* pManager = UISceneManager::sharedUISceneManager();
-            Scene* pScene = pManager->currentUIScene();
-            CCDirector::getInstance()->replaceScene(pScene);
-        }
-            break;
-            
-            /*
-        case 1:
-        {
-            CocosGUIExamplesRegisterScene* pScene = new CocosGUIExamplesRegisterScene();
-            pScene->runThisTest();
-            pScene->release();
-        }
-             */
-            break;
-            
-        default:
-            break;
+        _itemMenu->setPosition(Point::ZERO);
+        return;
     }
+    
+    if (nextPos.y > ((g_maxTests + 1)* LINE_SPACE - VisibleRect::getVisibleRect().size.height))
+    {
+        _itemMenu->setPosition(Point(0, ((g_maxTests + 1)* LINE_SPACE - VisibleRect::getVisibleRect().size.height)));
+        return;
+    }
+    
+    _itemMenu->setPosition(nextPos);
+    _beginPos = touchLocation;
+    s_tCurPos   = nextPos;
+}
+
+////////////////////////////////////////////////////////
+//
+// CocosGUITestScene
+//
+////////////////////////////////////////////////////////
+
+void CocosGUITestScene::runThisTest()
+{
+    auto layer = new CocosGUITestMainLayer();
+    addChild(layer);
+    layer->release();
+    
+    Director::getInstance()->replaceScene(this);
 }

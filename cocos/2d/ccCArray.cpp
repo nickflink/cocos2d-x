@@ -1,6 +1,7 @@
 /****************************************************************************
-Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2007      Scott Lembcke
+Copyright (c) 2010-2012 cocos2d-x.org
+CopyRight (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -44,10 +45,10 @@ ccArray* ccArrayNew(long capacity)
 	return arr;
 }
 
-/** Frees array after removing all remaining objects. Silently ignores NULL arr. */
+/** Frees array after removing all remaining objects. Silently ignores nullptr arr. */
 void ccArrayFree(ccArray*& arr)
 {
-    if( arr == NULL ) 
+    if( arr == nullptr ) 
     {
         return;
     }
@@ -56,7 +57,7 @@ void ccArrayFree(ccArray*& arr)
 	free(arr->arr);
 	free(arr);
 
-    arr = NULL;
+    arr = nullptr;
 }
 
 void ccArrayDoubleCapacity(ccArray *arr)
@@ -72,9 +73,9 @@ void ccArrayEnsureExtraCapacity(ccArray *arr, long extra)
 {
 	while (arr->max < arr->num + extra)
     {
-        CCLOG("cocos2d: ccCArray: resizing ccArray capacity from [%lu] to [%lu].",
-              (long) arr->max,
-              (long) arr->max*2);
+        CCLOG("cocos2d: ccCArray: resizing ccArray capacity from [%d] to [%d].",
+              static_cast<int>(arr->max),
+              static_cast<int>(arr->max*2));
 
 		ccArrayDoubleCapacity(arr);
     }
@@ -99,7 +100,7 @@ void ccArrayShrink(ccArray *arr)
 		}
 		
 		arr->arr = (Object**)realloc(arr->arr,newSize * sizeof(Object*) );
-		CCASSERT(arr->arr!=NULL,"could not reallocate the memory");
+		CCASSERT(arr->arr!=nullptr,"could not reallocate the memory");
 	}
 }
 
@@ -110,7 +111,7 @@ long ccArrayGetIndexOfObject(ccArray *arr, Object* object)
     Object** ptr = arr->arr;
 	for(long i = 0; i < arrNum; ++i, ++ptr)
     {
-		if( *ptr == object )
+		if (*ptr == object)
             return i;
     }
     
@@ -126,7 +127,7 @@ bool ccArrayContainsObject(ccArray *arr, Object* object)
 /** Appends an object. Behavior undefined if array doesn't have enough capacity. */
 void ccArrayAppendObject(ccArray *arr, Object* object)
 {
-    CCASSERT(object != NULL, "Invalid parameter!");
+    CCASSERT(object != nullptr, "Invalid parameter!");
     object->retain();
 	arr->arr[arr->num] = object;
 	arr->num++;
@@ -160,7 +161,7 @@ void ccArrayAppendArrayWithResize(ccArray *arr, ccArray *plusArr)
 void ccArrayInsertObjectAtIndex(ccArray *arr, Object* object, long index)
 {
 	CCASSERT(index<=arr->num, "Invalid index. Out of bounds");
-	CCASSERT(object != NULL, "Invalid parameter!");
+	CCASSERT(object != nullptr, "Invalid parameter!");
 
 	ccArrayEnsureExtraCapacity(arr, 1);
 	
@@ -190,7 +191,7 @@ void ccArraySwapObjectsAtIndexes(ccArray *arr, long index1, long index2)
 /** Removes all objects from arr */
 void ccArrayRemoveAllObjects(ccArray *arr)
 {
-	while( arr->num > 0 )
+	while (arr->num > 0)
     {
 		(arr->arr[--arr->num])->release();
     }
@@ -201,7 +202,7 @@ void ccArrayRemoveAllObjects(ccArray *arr)
 void ccArrayRemoveObjectAtIndex(ccArray *arr, long index, bool bReleaseObj/* = true*/)
 {
     CCASSERT(arr && arr->num > 0 && index>=0 && index < arr->num, "Invalid index. Out of bounds");
-    if (bReleaseObj)
+    if (releaseObj)
     {
         CC_SAFE_RELEASE(arr->arr[index]);
     }
@@ -236,12 +237,12 @@ void ccArrayFastRemoveObject(ccArray *arr, Object* object)
 
 /** Searches for the first occurrence of object and removes it. If object is not
  found the function has no effect. */
-void ccArrayRemoveObject(ccArray *arr, Object* object, bool bReleaseObj/* = true*/)
+void ccArrayRemoveObject(ccArray *arr, Object* object, bool releaseObj/* = true*/)
 {
 	long index = ccArrayGetIndexOfObject(arr, object);
 	if (index != CC_INVALID_INDEX)
     {
-		ccArrayRemoveObjectAtIndex(arr, index, bReleaseObj);
+		ccArrayRemoveObjectAtIndex(arr, index, releaseObj);
     }
 }
 
@@ -262,9 +263,9 @@ void ccArrayFullRemoveArray(ccArray *arr, ccArray *minusArr)
 	long back = 0;
 	long i = 0;
 	
-	for( i = 0; i < arr->num; i++) 
+	for (ssize_t i = 0; i < arr->num; i++)
     {
-		if( ccArrayContainsObject(minusArr, arr->arr[i]) ) 
+		if (ccArrayContainsObject(minusArr, arr->arr[i]))
         {
 			CC_SAFE_RELEASE(arr->arr[i]);
 			back++;
@@ -289,18 +290,18 @@ ccCArray* ccCArrayNew(long capacity)
 		capacity = 7;
     }
 
-	ccCArray *arr = (ccCArray*)malloc( sizeof(ccCArray) );
+	ccCArray *arr = (ccCArray*)malloc(sizeof(ccCArray));
 	arr->num = 0;
-	arr->arr = (void**)malloc( capacity * sizeof(void*) );
+	arr->arr = (void**)malloc(capacity * sizeof(void*));
 	arr->max = capacity;
 	
 	return arr;
 }
 
-/** Frees C array after removing all remaining values. Silently ignores NULL arr. */
+/** Frees C array after removing all remaining values. Silently ignores nullptr arr. */
 void ccCArrayFree(ccCArray *arr)
 {
-    if( arr == NULL ) 
+    if (arr == nullptr)
     {
         return;
     }

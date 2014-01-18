@@ -1,7 +1,8 @@
 /****************************************************************************
-Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
+Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -77,10 +78,7 @@ struct transformValues_;
  *
  * The default anchorPoint in Sprite is (0.5, 0.5).
  */
-class CC_DLL Sprite : public NodeRGBA, public TextureProtocol
-#ifdef EMSCRIPTEN
-, public GLBufferedNode
-#endif // EMSCRIPTEN
+class CC_DLL Sprite : public Node, public TextureProtocol
 {
 public:
 
@@ -133,6 +131,7 @@ public:
      * @param   texture    A pointer to an existing Texture2D object.
      *                      You can use a Texture2D object for many sprites.
      * @param   rect        Only the contents inside the rect of this texture will be applied for this sprite.
+     * @param   rotated     Whether or not the rect is rotated
      * @return  A valid sprite object that is marked as autoreleased.
      */
     static Sprite* createWithTexture(Texture2D *texture, const Rect& rect);
@@ -278,7 +277,7 @@ public:
      * Returns the batch node object if this sprite is rendered by SpriteBatchNode
      *
      * @return The SpriteBatchNode object if this sprite is rendered by SpriteBatchNode,
-     *         NULL if the sprite isn't used batch node.
+     *         nullptr if the sprite isn't used batch node.
      */
     virtual SpriteBatchNode* getBatchNode(void);
     /**
@@ -328,7 +327,7 @@ public:
     /// @name Frames methods
 
     /**
-     * Sets a new display frame to the Sprite.
+     * Sets a new SpriteFrame to the Sprite.
      */
     virtual void setDisplayFrame(SpriteFrame *pNewFrame);
 
@@ -394,7 +393,7 @@ public:
      * Sets the index used on the TextureAtlas.
      * @warning Don't modify this value unless you know what you are doing
      */
-    inline void setAtlasIndex(int atlasIndex) { _atlasIndex = atlasIndex; }
+    inline void setAtlasIndex(ssize_t atlasIndex) { _atlasIndex = atlasIndex; }
 
     /**
      * Returns the rect of the Sprite in points
@@ -473,8 +472,6 @@ public:
     //
     /// @{
     /// @name Functions inherited from TextureProtocol
-    virtual void setTexture(Texture2D *texture) override;
-    virtual Texture2D* getTexture() const override;
     /**
     *@code
     *When this function bound into js or lua,the parameter will be changed
@@ -490,6 +487,8 @@ public:
     inline const BlendFunc& getBlendFunc() const override { return _blendFunc; }
     /// @}
 
+    virtual std::string getDescription() const override;
+
     /// @{
     /// @name Functions inherited from Node
     virtual void setScaleX(float scaleX) override;
@@ -500,6 +499,7 @@ public:
     * @lua NA
     */
     virtual void setPosition(const Point& pos) override;
+    virtual void setPosition(float x, float y) override;
     virtual void setRotation(float rotation) override;
     virtual void setRotationX(float rotationX) override;
     virtual void setRotationY(float rotationY) override;
@@ -508,8 +508,7 @@ public:
     virtual void removeChild(Node* child, bool cleanup) override;
     virtual void removeAllChildrenWithCleanup(bool cleanup) override;
     virtual void reorderChild(Node *child, int zOrder) override;
-    virtual void addChild(Node *child) override;
-    virtual void addChild(Node *child, int zOrder) override;
+    using Node::addChild;
     virtual void addChild(Node *child, int zOrder, int tag) override;
     virtual void sortAllChildren() override;
     virtual void setScale(float scale) override;
@@ -517,31 +516,117 @@ public:
     virtual void setAnchorPoint(const Point& anchor) override;
     virtual void ignoreAnchorPointForPosition(bool value) override;
     virtual void setVisible(bool bVisible) override;
+    virtual void updateQuadVertices();
     virtual void draw(void) override;
-    /// @}
-
-    /// @{
-    /// @name Functions inherited from NodeRGBA
-    virtual void setColor(const Color3B& color3) override;
-    virtual void updateDisplayedColor(const Color3B& parentColor) override;
-    virtual void setOpacity(GLubyte opacity) override;
     virtual void setOpacityModifyRGB(bool modify) override;
     virtual bool isOpacityModifyRGB(void) const override;
-    virtual void updateDisplayedOpacity(GLubyte parentOpacity) override;
     /// @}
 
 protected:
+
+    Sprite(void);
+    virtual ~Sprite(void);
+
+    /* Initializes an empty sprite with nothing init. */
+    virtual bool init(void);
+
+    /**
+     * Initializes a sprite with a texture.
+     *
+     * After initialization, the rect used will be the size of the texture, and the offset will be (0,0).
+     *
+     * @param   texture    A pointer to an existing Texture2D object.
+     *                      You can use a Texture2D object for many sprites.
+     * @return  true if the sprite is initialized properly, false otherwise.
+     */
+    virtual bool initWithTexture(Texture2D *texture);
+
+    /**
+     * Initializes a sprite with a texture and a rect.
+     *
+     * After initialization, the offset will be (0,0).
+     *
+     * @param   texture    A pointer to an exisiting Texture2D object.
+     *                      You can use a Texture2D object for many sprites.
+     * @param   rect        Only the contents inside rect of this texture will be applied for this sprite.
+     * @return  true if the sprite is initialized properly, false otherwise.
+     */
+    virtual bool initWithTexture(Texture2D *texture, const Rect& rect);
+
+    /**
+     * Initializes a sprite with a texture and a rect in points, optionally rotated.
+     *
+     * After initialization, the offset will be (0,0).
+     * @note    This is the designated initializer.
+     *
+     * @param   texture    A Texture2D object whose texture will be applied to this sprite.
+     * @param   rect        A rectangle assigned the contents of texture.
+     * @param   rotated     Whether or not the texture rectangle is rotated.
+     * @return  true if the sprite is initialized properly, false otherwise.
+     */
+    virtual bool initWithTexture(Texture2D *texture, const Rect& rect, bool rotated);
+
+    /**
+     * Initializes a sprite with an SpriteFrame. The texture and rect in SpriteFrame will be applied on this sprite
+     *
+     * @param   pSpriteFrame  A SpriteFrame object. It should includes a valid texture and a rect
+     * @return  true if the sprite is initialized properly, false otherwise.
+     */
+    virtual bool initWithSpriteFrame(SpriteFrame *pSpriteFrame);
+
+    /**
+     * Initializes a sprite with an sprite frame name.
+     *
+     * A SpriteFrame will be fetched from the SpriteFrameCache by name.
+     * If the SpriteFrame doesn't exist it will raise an exception.
+     *
+     * @param   spriteFrameName  A key string that can fected a volid SpriteFrame from SpriteFrameCache
+     * @return  true if the sprite is initialized properly, false otherwise.
+     */
+    virtual bool initWithSpriteFrameName(const std::string& spriteFrameName);
+
+    /**
+     * Initializes a sprite with an image filename.
+     *
+     * This method will find filename from local file system, load its content to Texture2D,
+     * then use Texture2D to create a sprite.
+     * After initialization, the rect used will be the size of the image. The offset will be (0,0).
+     *
+     * @param   filename The path to an image file in local file system
+     * @return  true if the sprite is initialized properly, false otherwise.
+     * @js      init
+     * @lua     init
+     */
+    virtual bool initWithFile(const std::string& filename);
+
+    /**
+     * Initializes a sprite with an image filename, and a rect.
+     *
+     * This method will find filename from local file system, load its content to Texture2D,
+     * then use Texture2D to create a sprite.
+     * After initialization, the offset will be (0,0).
+     *
+     * @param   filename The path to an image file in local file system.
+     * @param   rect        The rectangle assigned the content area from texture.
+     * @return  true if the sprite is initialized properly, false otherwise.
+     * @js      init
+     * @lua     init
+     */
+    virtual bool initWithFile(const std::string& filename, const Rect& rect);
+
     void updateColor(void);
     virtual void setTextureCoords(Rect rect);
     virtual void updateBlendFunc(void);
     virtual void setReorderChildDirtyRecursively(void);
     virtual void setDirtyRecursively(bool bValue);
 
+    bool culling() const;
+
     //
     // Data used when the sprite is rendered using a SpriteSheet
     //
     TextureAtlas*       _textureAtlas;      /// SpriteBatchNode texture atlas (weak reference)
-    int                 _atlasIndex;        /// Absolute (real) Index on the SpriteSheet
+    ssize_t             _atlasIndex;        /// Absolute (real) Index on the SpriteSheet
     SpriteBatchNode*    _batchNode;         /// Used batch node (weak reference)
 
     bool                _dirty;             /// Whether the sprite needs to be updated
@@ -555,6 +640,7 @@ protected:
     //
     BlendFunc        _blendFunc;            /// It's required for TextureProtocol inheritance
     Texture2D*       _texture;              /// Texture2D object that is used to render the sprite
+    QuadCommand      _quadCommand;          /// quad command
 
     //
     // Shared data

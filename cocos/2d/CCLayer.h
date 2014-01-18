@@ -1,7 +1,8 @@
 /****************************************************************************
-Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
+Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -63,18 +64,8 @@ class CC_DLL Layer : public Node
 {
 public:    
     /** creates a fullscreen black layer */
-    static Layer *create(void);
-    /**
-     * @js ctor
-     */
-    Layer();
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~Layer();
-    virtual bool init();
-    
+    static Layer *create();
+
     // Deprecated touch callbacks.
     CC_DEPRECATED_ATTRIBUTE virtual bool ccTouchBegan(Touch *pTouch, Event *pEvent) final {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent); return false;};
     CC_DEPRECATED_ATTRIBUTE virtual void ccTouchMoved(Touch *pTouch, Event *pEvent) final {CC_UNUSED_PARAM(pTouch); CC_UNUSED_PARAM(pEvent);}
@@ -183,10 +174,6 @@ private:
     CC_DEPRECATED_ATTRIBUTE int executeScriptTouchesHandler(EventTouch::EventCode eventType, const std::vector<Touch*>& touches);
 };
 
-#ifdef __apple__
-#pragma mark -
-#pragma mark LayerRGBA
-#endif
 
 /** LayerRGBA is a subclass of Layer that implements the RGBAProtocol protocol using a solid color as the background.
  
@@ -195,45 +182,38 @@ private:
  - RGB colors
  @since 2.1
  */
-class CC_DLL LayerRGBA : public Layer, public RGBAProtocol
+class CC_DLL __LayerRGBA : public Layer, public __RGBAProtocol
 {
 public:
-    CREATE_FUNC(LayerRGBA);
-    /**
-     * @js ctor
-     */
-    LayerRGBA();
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~LayerRGBA();
+    CREATE_FUNC(__LayerRGBA);
     
-    virtual bool init();
-
+    
     //
     // Overrides
     //
-    virtual GLubyte getOpacity() const override;
-    virtual GLubyte getDisplayedOpacity() const override;
-    virtual void setOpacity(GLubyte opacity) override;
-    virtual void updateDisplayedOpacity(GLubyte parentOpacity) override;
-    virtual bool isCascadeOpacityEnabled() const override;
-    virtual void setCascadeOpacityEnabled(bool cascadeOpacityEnabled) override;
-    
-    virtual const Color3B& getColor() const override;
-    virtual const Color3B& getDisplayedColor() const override;
-    virtual void setColor(const Color3B& color) override;
-    virtual void updateDisplayedColor(const Color3B& parentColor) override;
-    virtual bool isCascadeColorEnabled() const override;
-    virtual void setCascadeColorEnabled(bool cascadeColorEnabled) override;
-    
-    virtual void setOpacityModifyRGB(bool bValue) override {CC_UNUSED_PARAM(bValue);}
-    virtual bool isOpacityModifyRGB() const override { return false; }
+    virtual GLubyte getOpacity() const override { return Layer::getOpacity(); }
+    virtual GLubyte getDisplayedOpacity() const override { return Layer::getDisplayedOpacity(); }
+    virtual void setOpacity(GLubyte opacity) override { return Layer::setOpacity(opacity); }
+    virtual void updateDisplayedOpacity(GLubyte parentOpacity) override { return Layer::updateDisplayedOpacity(parentOpacity); }
+    virtual bool isCascadeOpacityEnabled() const override { return Layer::isCascadeOpacityEnabled(); }
+    virtual void setCascadeOpacityEnabled(bool cascadeOpacityEnabled) override { return Layer::setCascadeOpacityEnabled(cascadeOpacityEnabled); }
+
+    virtual const Color3B& getColor() const override { return Layer::getColor(); }
+    virtual const Color3B& getDisplayedColor() const override { return Layer::getDisplayedColor(); }
+    virtual void setColor(const Color3B& color) override { return Layer::setColor(color); }
+    virtual void updateDisplayedColor(const Color3B& parentColor) override { return Layer::updateDisplayedColor(parentColor); }
+    virtual bool isCascadeColorEnabled() const override { return Layer::isCascadeOpacityEnabled(); }
+    virtual void setCascadeColorEnabled(bool cascadeColorEnabled) override { return Layer::setCascadeColorEnabled(cascadeColorEnabled); }
+
+    virtual void setOpacityModifyRGB(bool bValue) override { return Layer::setOpacityModifyRGB(bValue); }
+    virtual bool isOpacityModifyRGB() const override { return Layer::isOpacityModifyRGB(); }
+
 protected:
-	GLubyte		_displayedOpacity, _realOpacity;
-	Color3B	    _displayedColor, _realColor;
-	bool		_cascadeOpacityEnabled, _cascadeColorEnabled;
+    __LayerRGBA();
+    virtual ~__LayerRGBA() {}
+
+private:
+    CC_DISALLOW_COPY_AND_ASSIGN(__LayerRGBA);
 };
 
 //
@@ -245,7 +225,7 @@ All features from Layer are valid, plus the following new features:
 - opacity
 - RGB colors
 */
-class CC_DLL LayerColor : public LayerRGBA, public BlendProtocol
+class CC_DLL LayerColor : public Layer, public BlendProtocol
 #ifdef EMSCRIPTEN
 , public GLBufferedNode
 #endif // EMSCRIPTEN
@@ -257,27 +237,6 @@ public:
     static LayerColor * create(const Color4B& color, GLfloat width, GLfloat height);
     /** creates a Layer with color. Width and height are the window size. */
     static LayerColor * create(const Color4B& color);
-    /**
-     * @js ctor
-     */
-    LayerColor();
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~LayerColor();
-
-    virtual bool init();
-    /** initializes a Layer with color, width and height in Points 
-     * @js init
-     * @lua init
-     */
-    bool initWithColor(const Color4B& color, GLfloat width, GLfloat height);
-    /** initializes a Layer with color. Width and height are the window size. 
-     * @js init
-     * @lua init
-     */
-    bool initWithColor(const Color4B& color);
 
     /** change width in Points*/
     void changeWidth(GLfloat w);
@@ -292,8 +251,8 @@ public:
     // Overrides
     //
     virtual void draw() override;
-    virtual void setColor(const Color3B &color) override;
-    virtual void setOpacity(GLubyte opacity) override;
+    virtual void onDraw();
+    
     virtual void setContentSize(const Size & var) override;
     /** BlendFunction. Conforms to BlendProtocol protocol */
     /**
@@ -310,12 +269,25 @@ public:
     */
     virtual void setBlendFunc(const BlendFunc& blendFunc) override;
 
+    virtual std::string getDescription() const override;
+
 protected:
-    virtual void updateColor();
+    LayerColor();
+    virtual ~LayerColor();
+    virtual bool init();
+    bool initWithColor(const Color4B& color, GLfloat width, GLfloat height);
+    bool initWithColor(const Color4B& color);
+
+    virtual void updateColor() override;
 
     BlendFunc _blendFunc;
     Vertex2F _squareVertices[4];
     Color4F  _squareColors[4];
+    CustomCommand _customCommand;
+    Vertex3F _noMVPVertices[4];
+private:
+    CC_DISALLOW_COPY_AND_ASSIGN(LayerColor);
+
 };
 
 //
@@ -368,7 +340,7 @@ public:
     /** Whether or not the interpolation will be compressed in order to display all the colors of the gradient both in canonical and non canonical vectors
      Default: true
      */
-    void setCompressedInterpolation(bool bCompressedInterpolation);
+    void setCompressedInterpolation(bool compressedInterpolation);
     bool isCompressedInterpolation() const;
 
     /** Sets the start color of the gradient */
@@ -397,6 +369,8 @@ public:
     void setVector(const Point& alongVector);
     /** Returns the directional vector used for the gradient */
     const Point& getVector() const;
+
+    virtual std::string getDescription() const override;
 
 protected:
     virtual void updateColor() override;
@@ -428,7 +402,7 @@ public:
      @since v2.1
      * @js NA
      */
-    static LayerMultiplex* createWithArray(Array* arrayOfLayers);
+    static LayerMultiplex* createWithArray(const Vector<Layer*>& arrayOfLayers);
 
     /** creates a LayerMultiplex with one or more layers using a variable argument list. 
      * @code
@@ -446,27 +420,7 @@ public:
      * @lua NA
      */
     static LayerMultiplex * createWithLayer(Layer* layer);
-    /**
-     * @js ctor
-     */
-    LayerMultiplex();
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~LayerMultiplex();
 
-    virtual bool init();
-    /** initializes a MultiplexLayer with one or more layers using a variable argument list. 
-     * @js NA
-     * @lua NA
-     */
-    bool initWithLayers(Layer* layer, va_list params);
-
-    /** initializes a MultiplexLayer with an array of layers
-     @since v2.1
-     */
-    bool initWithArray(Array* arrayOfLayers);
 
     void addLayer(Layer* layer);
 
@@ -479,9 +433,37 @@ public:
     */
     void switchToAndReleaseMe(int n);
 
+    virtual std::string getDescription() const override;
+
 protected:
+    
+    /**
+     * @js ctor
+     */
+    LayerMultiplex();
+    /**
+     * @js NA
+     * @lua NA
+     */
+    virtual ~LayerMultiplex();
+    
+    virtual bool init();
+    /** initializes a MultiplexLayer with one or more layers using a variable argument list.
+     * @js NA
+     * @lua NA
+     */
+    bool initWithLayers(Layer* layer, va_list params);
+    
+    /** initializes a MultiplexLayer with an array of layers
+     @since v2.1
+     */
+    bool initWithArray(const Vector<Layer*>& arrayOfLayers);
+    
     unsigned int _enabledLayer;
-    Array*     _layers;
+    Vector<Layer*>    _layers;
+
+private:
+    CC_DISALLOW_COPY_AND_ASSIGN(LayerMultiplex);
 };
 
 

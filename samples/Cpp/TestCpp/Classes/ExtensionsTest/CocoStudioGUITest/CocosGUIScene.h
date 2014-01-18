@@ -37,25 +37,31 @@ using namespace gui;
 class CocosGUITestScene : public TestScene
 {
 public:
+    virtual void runThisTest();
+};
+
+/*
+class CocosGUITestScene : public TestScene
+{
+public:
 	CocosGUITestScene(bool portrait = false);
     virtual ~CocosGUITestScene();
 	virtual void runThisTest();
     
 	// The CallBack for back to the main menu scene
-	virtual void MainMenuCallback(Object* sender);
-    
-    void toCocosGUIExampleScene(Object* sender);
+	virtual void MainMenuCallback(Object* sender);    
     
     void load(Object* pSender, int count);
     void loadTextureCallBack(Object *obj);
     
     void menuCallback(Object* pSender);
     
-    UILayer* ul;
+    UILayer* _ul;
     
     LabelTTF* _label;
     
     Menu* _itemMenu;
 };
+ */
 
 #endif /* defined(__TestCpp__CocosGUIScene__) */

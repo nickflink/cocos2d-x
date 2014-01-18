@@ -82,15 +82,6 @@ bool Control::init()
         
         dispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
         
-        auto dispatcher = Director::getInstance()->getEventDispatcher();
-        auto touchListener = EventListenerTouchOneByOne::create();
-        touchListener->onTouchBegan = CC_CALLBACK_2(Control::onTouchBegan, this);
-        touchListener->onTouchMoved = CC_CALLBACK_2(Control::onTouchMoved, this);
-        touchListener->onTouchEnded = CC_CALLBACK_2(Control::onTouchEnded, this);
-        touchListener->onTouchCancelled = CC_CALLBACK_2(Control::onTouchCancelled, this);
-        
-        dispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
-        
         return true;
     }
     else
@@ -101,7 +92,12 @@ bool Control::init()
 
 Control::~Control()
 {
-    CC_SAFE_RELEASE(_dispatchTable);
+    for (auto iter = _dispatchTable.begin(); iter != _dispatchTable.end(); ++iter)
+    {
+        delete iter->second;
+    }
+    
+    _dispatchTable.clear();
 }
 
 void Control::sendActionsForControlEvents(EventType controlEvents)

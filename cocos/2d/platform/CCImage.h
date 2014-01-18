@@ -122,10 +122,10 @@ public:
     * @js NA
     * @lua NA
     */
-    bool initWithImageData(const unsigned char * data, long dataLen);
+    bool initWithImageData(const unsigned char * data, ssize_t dataLen);
 
     // @warning kFmtRawData only support RGBA8888
-    bool initWithRawData(const unsigned char * data, long dataLen, long width, long height, long bitsPerComponent, bool preMulti = false);
+    bool initWithRawData(const unsigned char * data, ssize_t dataLen, int width, int height, int bitsPerComponent, bool preMulti = false);
 
     /**
     @brief Create image with specified string.

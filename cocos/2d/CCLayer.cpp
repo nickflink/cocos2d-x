@@ -74,9 +74,9 @@ bool Layer::init()
     bool ret = false;
     do 
     {        
-        Director * pDirector;
-        CC_BREAK_IF(!(pDirector = Director::getInstance()));
-        this->setContentSize(pDirector->getWinSize());
+        Director * director;
+        CC_BREAK_IF(!(director = Director::getInstance()));
+        this->setContentSize(director->getWinSize());
         // success
         ret = true;
     } while(0);
@@ -85,16 +85,16 @@ bool Layer::init()
 
 Layer *Layer::create()
 {
-    Layer *pRet = new Layer();
-    if (pRet && pRet->init())
+    Layer *ret = new Layer();
+    if (ret && ret->init())
     {
-        pRet->autorelease();
-        return pRet;
+        ret->autorelease();
+        return ret;
     }
     else
     {
-        CC_SAFE_DELETE(pRet);
-        return NULL;
+        CC_SAFE_DELETE(ret);
+        return nullptr;
     }
 }
 
@@ -406,137 +406,6 @@ void Layer::onTouchesCancelled(const std::vector<Touch*>& touches, Event *unused
     }
 
     CC_UNUSED_PARAM(unused_event);
-}
-
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (pop)
-#endif
-// LayerRGBA
-LayerRGBA::LayerRGBA()
-: _displayedOpacity(255)
-, _realOpacity (255)
-, _displayedColor(Color3B::WHITE)
-, _realColor(Color3B::WHITE)
-, _cascadeOpacityEnabled(false)
-, _cascadeColorEnabled(false)
-{}
-
-LayerRGBA::~LayerRGBA() {}
-
-bool LayerRGBA::init()
-{
-	if (Layer::init())
-    {
-        _displayedOpacity = _realOpacity = 255;
-        _displayedColor = _realColor = Color3B::WHITE;
-        setCascadeOpacityEnabled(false);
-        setCascadeColorEnabled(false);
-        
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-GLubyte LayerRGBA::getOpacity() const
-{
-	return _realOpacity;
-}
-
-GLubyte LayerRGBA::getDisplayedOpacity() const
-{
-	return _displayedOpacity;
-}
-
-/** Override synthesized setOpacity to recurse items */
-void LayerRGBA::setOpacity(GLubyte opacity)
-{
-	_displayedOpacity = _realOpacity = opacity;
-    
-	if( _cascadeOpacityEnabled )
-    {
-		GLubyte parentOpacity = 255;
-        RGBAProtocol *parent = dynamic_cast<RGBAProtocol*>(_parent);
-        if (parent && parent->isCascadeOpacityEnabled())
-        {
-            parentOpacity = parent->getDisplayedOpacity();
-        }
-        updateDisplayedOpacity(parentOpacity);
-	}
-}
-
-const Color3B& LayerRGBA::getColor() const
-{
-	return _realColor;
-}
-
-const Color3B& LayerRGBA::getDisplayedColor() const
-{
-	return _displayedColor;
-}
-
-void LayerRGBA::setColor(const Color3B& color)
-{
-	_displayedColor = _realColor = color;
-	
-	if (_cascadeColorEnabled)
-    {
-		Color3B parentColor = Color3B::WHITE;
-        RGBAProtocol* parent = dynamic_cast<RGBAProtocol*>(_parent);
-		if (parent && parent->isCascadeColorEnabled())
-        {
-            parentColor = parent->getDisplayedColor();
-        }
-
-        updateDisplayedColor(parentColor);
-	}
-}
-
-void LayerRGBA::updateDisplayedOpacity(GLubyte parentOpacity)
-{
-	_displayedOpacity = _realOpacity * parentOpacity/255.0;
-    
-    if (_cascadeOpacityEnabled)
-    {
-        Object *obj = NULL;
-        CCARRAY_FOREACH(_children, obj)
-        {
-            RGBAProtocol *item = dynamic_cast<RGBAProtocol*>(obj);
-            if (item)
-            {
-                item->updateDisplayedOpacity(_displayedOpacity);
-            }
-        }
-    }
-}
-
-void LayerRGBA::updateDisplayedColor(const Color3B& parentColor)
-{
-	_displayedColor.r = _realColor.r * parentColor.r/255.0;
-	_displayedColor.g = _realColor.g * parentColor.g/255.0;
-	_displayedColor.b = _realColor.b * parentColor.b/255.0;
-    
-    if (_cascadeColorEnabled)
-    {
-        Object *obj = NULL;
-        CCARRAY_FOREACH(_children, obj)
-        {
-            RGBAProtocol *item = dynamic_cast<RGBAProtocol*>(obj);
-            if (item)
-            {
-                item->updateDisplayedColor(_displayedColor);
-            }
-        }
-    }
-}
-
-bool LayerRGBA::isCascadeOpacityEnabled() const
-{
-    return _cascadeOpacityEnabled;
 }
 
 std::string Layer::getDescription() const
@@ -946,13 +815,8 @@ LayerMultiplex::LayerMultiplex()
 
 LayerMultiplex::~LayerMultiplex()
 {
-    if (_layers)
-    {
-        for (auto& item : *_layers)
-        {
-            static_cast<Layer*>(item)->cleanup();
-        }
-        _layers->release();
+    for(const auto &layer : _layers) {
+        layer->cleanup();
     }
 }
 

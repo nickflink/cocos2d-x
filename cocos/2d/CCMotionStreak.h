@@ -30,6 +30,7 @@ THE SOFTWARE.
 #include "CCTexture2D.h"
 #include "ccTypes.h"
 #include "CCNode.h"
+#include "renderer/CCCustomCommand.h"
 #ifdef EMSCRIPTEN
 #include "CCGLBufferedNode.h"
 #endif // EMSCRIPTEN

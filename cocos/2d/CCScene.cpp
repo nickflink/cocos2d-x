@@ -35,7 +35,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 Scene::Scene()
-#ifdef CC_USE_PHYSICS
+#if CC_USE_PHYSICS
 : _physicsWorld(nullptr)
 #endif
 {
@@ -45,7 +45,7 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-#ifdef CC_USE_PHYSICS
+#if CC_USE_PHYSICS
     CC_SAFE_DELETE(_physicsWorld);
 #endif
 }
@@ -125,9 +125,9 @@ bool Scene::initWithPhysics()
     bool ret = false;
     do
     {
-        Director * pDirector;
-        CC_BREAK_IF( ! (pDirector = Director::getInstance()) );
-        this->setContentSize(pDirector->getWinSize());
+        Director * director;
+        CC_BREAK_IF( ! (director = Director::getInstance()) );
+        this->setContentSize(director->getWinSize());
         CC_BREAK_IF(! (_physicsWorld = PhysicsWorld::construct(*this)));
         
         this->scheduleUpdate();
@@ -141,40 +141,22 @@ void Scene::addChildToPhysicsWorld(Node* child)
 {
     if (_physicsWorld)
     {
-        std::function<void(Object*)> addToPhysicsWorldFunc = nullptr;
-        addToPhysicsWorldFunc = [this, &addToPhysicsWorldFunc](Object* obj) -> void
+        std::function<void(Node*)> addToPhysicsWorldFunc = nullptr;
+        addToPhysicsWorldFunc = [this, &addToPhysicsWorldFunc](Node* node) -> void
         {
-            
-            if (dynamic_cast<Node*>(obj) != nullptr)
+            if (node->getPhysicsBody())
             {
-                Node* node = dynamic_cast<Node*>(obj);
-                
-                if (node->getPhysicsBody())
-                {
-                    _physicsWorld->addBody(node->getPhysicsBody());
-                }
-                
-                Object* subChild = nullptr;
-                CCARRAY_FOREACH(node->getChildren(), subChild)
-                {
-                    addToPhysicsWorldFunc(subChild);
-                }
+                _physicsWorld->addBody(node->getPhysicsBody());
+            }
+            
+            auto& children = node->getChildren();
+            for( const auto &n : children) {
+                addToPhysicsWorldFunc(n);
             }
         };
         
         addToPhysicsWorldFunc(child);
     }
-}
-
-void Scene::update(float delta)
-{
-    Node::update(delta);
-    
-    if (nullptr != _physicsWorld)
-    {
-        _physicsWorld->update(delta);
-    }
-    
 }
 #endif
 

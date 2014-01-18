@@ -40,7 +40,6 @@ THE SOFTWARE.
 #include "CCDirector.h"
 #include "CCApplication.h"
 #include "CCEventType.h"
-#include "CCNotificationCenter.h"
 #include "CCFileUtilsAndroid.h"
 #include "jni/JniHelper.h"
 
@@ -51,6 +50,7 @@ THE SOFTWARE.
 #include "CCEventDispatcher.h"
 #include "CCEventAcceleration.h"
 #include "CCEventKeyboard.h"
+#include "CCEventCustom.h"
 
 #include "jni/Java_org_cocos2dx_lib_Cocos2dxHelper.h"
 
@@ -163,7 +163,8 @@ static void cocos_init(cocos_dimensions d, struct android_app* app) {
         cocos2d::ShaderCache::getInstance()->reloadDefaultShaders();
         cocos2d::DrawPrimitives::init();
         cocos2d::VolatileTextureMgr::reloadAllTextures();
-        cocos2d::NotificationCenter::getInstance()->postNotification(EVNET_COME_TO_FOREGROUND, NULL);
+        cocos2d::EventCustom foregroundEvent(EVENT_COME_TO_FOREGROUND);
+        cocos2d::Director::getInstance()->getEventDispatcher()->dispatchEvent(&foregroundEvent);
         cocos2d::Director::getInstance()->setGLDefaultValues(); 
     }
 }
@@ -327,7 +328,7 @@ static void engine_term_display(struct engine* engine) {
 /*
  * Get X, Y positions and ID's for all pointers
  */
-static void getTouchPos(AInputEvent *event, long ids[], float xs[], float ys[]) {
+static void getTouchPos(AInputEvent *event, int ids[], float xs[], float ys[]) {
     int pointerCount = AMotionEvent_getPointerCount(event);
     for(int i = 0; i < pointerCount; ++i) {
         ids[i] = AMotionEvent_getPointerId(event, i);
@@ -356,7 +357,6 @@ static int32_t handle_touch_input(AInputEvent *event) {
 
             LOG_EVENTS_DEBUG("Event: Action DOWN x=%f y=%f pointerID=%d\n",
                  xP, yP, pointerId);
-            long pId = pointerId;
             float x = xP;
             float y = yP;
 
@@ -375,7 +375,6 @@ static int32_t handle_touch_input(AInputEvent *event) {
 
             LOG_EVENTS_DEBUG("Event: Action POINTER DOWN x=%f y=%f pointerID=%d\n",
                  xP, yP, pointerId);
-            long pId = pointerId;
             float x = xP;
             float y = yP;
 
@@ -388,7 +387,7 @@ static int32_t handle_touch_input(AInputEvent *event) {
         {
             LOG_EVENTS_DEBUG("AMOTION_EVENT_ACTION_MOVE");
             int pointerCount = AMotionEvent_getPointerCount(event);
-            long ids[pointerCount];
+            int ids[pointerCount];
             float xs[pointerCount], ys[pointerCount];
             getTouchPos(event, ids, xs, ys);
 			cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesMove(pointerCount, ids, xs, ys);
@@ -404,7 +403,6 @@ static int32_t handle_touch_input(AInputEvent *event) {
             float yP = AMotionEvent_getY(event,0);
             LOG_EVENTS_DEBUG("Event: Action UP x=%f y=%f pointerID=%d\n",
                  xP, yP, pointerId);
-            long pId = pointerId;
             float x = xP;
             float y = yP;
 
@@ -422,7 +420,6 @@ static int32_t handle_touch_input(AInputEvent *event) {
             float yP = AMotionEvent_getY(event,pointerIndex);
             LOG_EVENTS_DEBUG("Event: Action POINTER UP x=%f y=%f pointerID=%d\n",
                  xP, yP, pointerIndex);
-            long pId = pointerId;
             float x = xP;
             float y = yP;
 
@@ -435,7 +432,7 @@ static int32_t handle_touch_input(AInputEvent *event) {
         {
             LOG_EVENTS_DEBUG("AMOTION_EVENT_ACTION_CANCEL");
             int pointerCount = AMotionEvent_getPointerCount(event);
-            long ids[pointerCount];
+            int ids[pointerCount];
             float xs[pointerCount], ys[pointerCount];
             getTouchPos(event, ids, xs, ys);
 			cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesCancel(pointerCount, ids, xs, ys);
@@ -601,6 +598,23 @@ static void onContentRectChanged(ANativeActivity* activity, const ARect* rect) {
 	isContentRectChanged = true;
 }
 
+static void process_input(struct android_app* app, struct android_poll_source* source) {
+    AInputEvent* event = NULL;
+    int processed = 0;
+    while (AInputQueue_hasEvents( app->inputQueue ) && AInputQueue_getEvent(app->inputQueue, &event) >= 0) {
+        LOGV("New input event: type=%d\n", AInputEvent_getType(event));
+        if (AInputQueue_preDispatchEvent(app->inputQueue, event)) {
+            continue;
+        }
+        int32_t handled = 0;
+        if (app->onInputEvent != NULL) handled = app->onInputEvent(app, event);
+        AInputQueue_finishEvent(app->inputQueue, event, handled);
+        processed = 1;
+    }
+    if (processed == 0) {
+        LOGE("Failure reading next input event: %s\n", strerror(errno));
+    }
+}
 /**
  * This is the main entry point of a native application that is using
  * android_native_app_glue.  It runs in its own thread, with its own

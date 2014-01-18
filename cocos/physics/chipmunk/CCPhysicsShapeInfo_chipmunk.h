@@ -25,8 +25,8 @@
 #ifndef __CCPHYSICS_SHAPE_INFO_CHIPMUNK_H__
 #define __CCPHYSICS_SHAPE_INFO_CHIPMUNK_H__
 
-#include "../CCPhysicsSetting.h"
-#if (CC_PHYSICS_ENGINE == CC_PHYSICS_CHIPMUNK)
+#include "ccConfig.h"
+#if CC_USE_PHYSICS
 
 #include <vector>
 #include <unordered_map>
@@ -45,25 +45,23 @@ public:
     void removeAll();
     void setGroup(cpGroup group);
     void setBody(cpBody* body);
-    
-public:
+
     PhysicsShape* getShape() const { return _shape; }
     std::vector<cpShape*>& getShapes() { return _shapes; }
     cpBody* getBody() const { return _body; }
     cpGroup getGourp() const { return _group; }
-    static std::map<cpShape*, PhysicsShapeInfo*>& getMap() { return _map; }
+    static std::unordered_map<cpShape*, PhysicsShapeInfo*>& getMap() { return _map; }
     static cpBody* getSharedBody() { return _sharedBody; }
     
 protected:
     PhysicsShapeInfo(PhysicsShape* shape);
     ~PhysicsShapeInfo();
     
-private:
     std::vector<cpShape*> _shapes;
     PhysicsShape* _shape;
     cpBody* _body;
     cpGroup _group;
-    static std::map<cpShape*, PhysicsShapeInfo*> _map;
+    static std::unordered_map<cpShape*, PhysicsShapeInfo*> _map;
     static cpBody* _sharedBody;
     
     friend class PhysicsShape;
@@ -71,5 +69,5 @@ private:
 
 NS_CC_END
 
-#endif // CC_PHYSICS_ENGINE == CC_PHYSICS_CHIPMUNK
+#endif // CC_USE_PHYSICS
 #endif // __CCPHYSICS_SHAPE_INFO_CHIPMUNK_H__

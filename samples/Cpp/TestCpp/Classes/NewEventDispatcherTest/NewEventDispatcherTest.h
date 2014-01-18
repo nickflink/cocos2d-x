@@ -135,25 +135,4 @@ protected:
     EventListenerCustom *_event1, *_event2, *_event3, *_event4;
 };
 
-class RemoveAndRetainNodeTest : public EventDispatcherTestDemo
-{
-public:
-    virtual void onEnter() override;
-    virtual void onExit() override;
-    virtual std::string title() override;
-    virtual std::string subtitle() override;
-private:
-    Sprite* _sprite;
-    bool _spriteSaved;
-};
-
-class RemoveListenerAfterAddingTest : public EventDispatcherTestDemo
-{
-public:
-    virtual void onEnter() override;
-    virtual void onExit() override;
-    virtual std::string title() override;
-    virtual std::string subtitle() override;
-};
-
 #endif /* defined(__samples__NewEventDispatcherTest__) */

@@ -26,6 +26,7 @@ THE SOFTWARE.
 #ifndef __CC_IME_DELEGATE_H__
 #define __CC_IME_DELEGATE_H__
 
+#include <string>
 #include "CCGeometry.h"
 
 NS_CC_BEGIN

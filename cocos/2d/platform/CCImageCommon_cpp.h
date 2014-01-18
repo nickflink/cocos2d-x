@@ -44,6 +44,7 @@ extern "C"
 }
 #include "s3tc.h"
 #include "atitc.h"
+#include "TGAlib.h"
 
 #include "decode.h"
 
@@ -409,7 +410,7 @@ bool Image::initWithImageFile(const std::string& path)
     SDL_Surface *iSurf = IMG_Load(fullPath.c_str());
 
     int size = 4 * (iSurf->w * iSurf->h);
-    bRet = initWithRawData((const unsigned char*)iSurf->pixels, size, iSurf->w, iSurf->h, 8, true);
+    ret = initWithRawData((const unsigned char*)iSurf->pixels, size, iSurf->w, iSurf->h, 8, true);
 
     unsigned int *tmp = (unsigned int *)_data;
     int nrPixels = iSurf->w * iSurf->h;
@@ -421,15 +422,12 @@ bool Image::initWithImageFile(const std::string& path)
 
     SDL_FreeSurface(iSurf);
 #else
-    long bufferLen = 0;
-    unsigned char* buffer = FileUtils::getInstance()->getFileData(fullPath.c_str(), "rb", &bufferLen);
+    Data data = FileUtils::getInstance()->getDataFromFile(_filePath);
 
     if (!data.isNull())
     {
         ret = initWithImageData(data.getBytes(), data.getSize());
     }
-
-    free(buffer);
 #endif // EMSCRIPTEN
 
     return ret;
@@ -438,22 +436,19 @@ bool Image::initWithImageFile(const std::string& path)
 bool Image::initWithImageFileThreadSafe(const std::string& fullpath)
 {
     bool ret = false;
-    long dataLen = 0;
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    FileUtilsAndroid *fileUitls = (FileUtilsAndroid*)FileUtils::getInstance();
-    unsigned char *buffer = fileUitls->getFileDataForAsync(fullpath, "rb", &dataLen);
-#else
-    unsigned char *buffer = FileUtils::getInstance()->getFileData(fullpath, "rb", &dataLen);
-#endif
-    if (buffer != NULL && dataLen > 0)
+    _filePath = fullpath;
+
+    Data data = FileUtils::getInstance()->getDataFromFile(fullpath);
+
+    if (!data.isNull())
     {
-        ret = initWithImageData(buffer, dataLen);
+        ret = initWithImageData(data.getBytes(), data.getSize());
     }
-    free(buffer);
+
     return ret;
 }
 
-bool Image::initWithImageData(const unsigned char * data, long dataLen)
+bool Image::initWithImageData(const unsigned char * data, ssize_t dataLen)
 {
     bool ret = false;
     
@@ -1848,7 +1843,7 @@ bool Image::initWithWebpData(const unsigned char * data, ssize_t dataLen)
         _height   = config.input.height;
         
         _dataLen = _width * _height * 4;
-        _data = new unsigned char[_dataLen];
+        _data = static_cast<unsigned char*>(malloc(_dataLen * sizeof(unsigned char)));
         
         config.output.u.RGBA.rgba = static_cast<uint8_t*>(_data);
         config.output.u.RGBA.stride = _width * 4;
@@ -1867,7 +1862,7 @@ bool Image::initWithWebpData(const unsigned char * data, ssize_t dataLen)
 	return bRet;
 }
 
-bool Image::initWithRawData(const unsigned char * data, long dataLen, long width, long height, long bitsPerComponent, bool preMulti)
+bool Image::initWithRawData(const unsigned char * data, ssize_t dataLen, int width, int height, int bitsPerComponent, bool preMulti)
 {
     bool bRet = false;
     do 

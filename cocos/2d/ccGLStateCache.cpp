@@ -48,13 +48,13 @@ namespace
 #if CC_ENABLE_GL_STATE_CACHE
     
 #define kMaxActiveTexture 16
-
-static GLuint    s_uCurrentShaderProgram = -1;
-static GLuint    s_uCurrentBoundTexture[kMaxActiveTexture] =  {(GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, };
-static GLenum    s_eBlendingSource = -1;
-static GLenum    s_eBlendingDest = -1;
-static int       s_eGLServerState = 0;
-static GLuint    s_uVAO = 0;
+    
+    static GLuint    s_currentShaderProgram = -1;
+    static GLuint    s_currentBoundTexture[kMaxActiveTexture] =  {(GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, (GLuint)-1,(GLuint)-1,(GLuint)-1,(GLuint)-1, };
+    static GLenum    s_blendingSource = -1;
+    static GLenum    s_blendingDest = -1;
+    static int       s_GLServerState = 0;
+    static GLuint    s_VAO = 0;
 #endif // CC_ENABLE_GL_STATE_CACHE
 }
 
@@ -78,10 +78,10 @@ void invalidateStateCache( void )
         s_currentBoundTexture[i] = -1;
     }
 
-    s_eBlendingSource = -1;
-    s_eBlendingDest = -1;
-    s_eGLServerState = 0;
-    s_uVAO = 0;
+    s_blendingSource = -1;
+    s_blendingDest = -1;
+    s_GLServerState = 0;
+    s_VAO = 0;
     
 #endif // CC_ENABLE_GL_STATE_CACHE
 }
@@ -192,9 +192,9 @@ void bindVAO(GLuint vaoId)
     {
     
 #if CC_ENABLE_GL_STATE_CACHE
-        if (s_uVAO != vaoId)
+        if (s_VAO != vaoId)
         {
-            s_uVAO = vaoId;
+            s_VAO = vaoId;
             glBindVertexArray(vaoId);
         }
 #else

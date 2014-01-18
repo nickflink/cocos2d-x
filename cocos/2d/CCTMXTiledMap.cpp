@@ -43,7 +43,7 @@ TMXTiledMap * TMXTiledMap::create(const std::string& tmxFile)
         return ret;
     }
     CC_SAFE_DELETE(ret);
-    return NULL;
+    return nullptr;
 }
 
 TMXTiledMap* TMXTiledMap::createWithXML(const std::string& tmxString, const std::string& resourcePath)
@@ -55,7 +55,7 @@ TMXTiledMap* TMXTiledMap::createWithXML(const std::string& tmxString, const std:
         return ret;
     }
     CC_SAFE_DELETE(ret);
-    return NULL;
+    return nullptr;
 }
 
 bool TMXTiledMap::initWithTMXFile(const std::string& tmxFile)
@@ -173,21 +173,17 @@ void TMXTiledMap::buildWithMapInfo(TMXMapInfo* mapInfo)
     for(const auto &layerInfo : layers) {
         if (layerInfo->_visible)
         {
-            layerInfo = static_cast<TMXLayerInfo*>(pObj);
-            if (layerInfo && layerInfo->_visible)
-            {
-                TMXLayer *child = parseLayer(layerInfo, mapInfo);
-                addChild((Node*)child, idx, idx);
-
-                // update content size with the max size
-                const Size& childSize = child->getContentSize();
-                Size currentSize = this->getContentSize();
-                currentSize.width = std::max( currentSize.width, childSize.width );
-                currentSize.height = std::max( currentSize.height, childSize.height );
-                this->setContentSize(currentSize);
-
-                idx++;
-            }
+            TMXLayer *child = parseLayer(layerInfo, mapInfo);
+            addChild((Node*)child, idx, idx);
+            
+            // update content size with the max size
+            const Size& childSize = child->getContentSize();
+            Size currentSize = this->getContentSize();
+            currentSize.width = std::max( currentSize.width, childSize.width );
+            currentSize.height = std::max( currentSize.height, childSize.height );
+            this->setContentSize(currentSize);
+            
+            idx++;
         }
     }
 }
@@ -196,8 +192,8 @@ void TMXTiledMap::buildWithMapInfo(TMXMapInfo* mapInfo)
 TMXLayer * TMXTiledMap::getLayer(const std::string& layerName) const
 {
     CCASSERT(layerName.size() > 0, "Invalid layer name!");
-    Object* pObj = NULL;
-    CCARRAY_FOREACH(_children, pObj) 
+    
+    for (auto& child : _children)
     {
         TMXLayer* layer = dynamic_cast<TMXLayer*>(child);
         if(layer)
@@ -217,12 +213,12 @@ TMXObjectGroup * TMXTiledMap::getObjectGroup(const std::string& groupName) const
 {
     CCASSERT(groupName.size() > 0, "Invalid group name!");
 
-    if (_objectGroups && _objectGroups->count()>0)
+    if (_objectGroups.size()>0)
     {
         TMXObjectGroup* objectGroup = nullptr;
         for (auto iter = _objectGroups.cbegin(); iter != _objectGroups.cend(); ++iter)
         {
-            objectGroup = static_cast<TMXObjectGroup*>(pObj);
+            objectGroup = *iter;
             if (objectGroup && objectGroup->getGroupName() == groupName)
             {
                 return objectGroup;
@@ -234,7 +230,7 @@ TMXObjectGroup * TMXTiledMap::getObjectGroup(const std::string& groupName) const
     return nullptr;
 }
 
-String* TMXTiledMap::getProperty(const std::string& propertyName) const
+Value TMXTiledMap::getProperty(const std::string& propertyName) const
 {
     if (_properties.find(propertyName) != _properties.end())
         return _properties.at(propertyName);

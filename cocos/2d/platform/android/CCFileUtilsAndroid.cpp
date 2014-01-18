@@ -145,23 +145,114 @@ Data FileUtilsAndroid::getData(const std::string& filename, bool forString)
     {
         string relativePath = string();
 
-unsigned char* FileUtilsAndroid::getFileData(const char* filename, const char* mode, long * size)
-{    
-    return doGetFileData(filename, mode, size, false);
+        size_t position = fullPath.find("assets/");
+        if (0 == position) {
+            // "assets/" is at the beginning of the path and we don't want it
+            relativePath += fullPath.substr(strlen("assets/"));
+        } else {
+            relativePath += fullPath;
+        }
+        LOGD("relative path = %s", relativePath.c_str());
+
+        if (nullptr == FileUtilsAndroid::assetmanager) {
+            LOGD("... FileUtilsAndroid::assetmanager is nullptr");
+            return Data::Null;
+        }
+
+        // read asset data
+        AAsset* asset =
+            AAssetManager_open(FileUtilsAndroid::assetmanager,
+                               relativePath.c_str(),
+                               AASSET_MODE_UNKNOWN);
+        if (nullptr == asset) {
+            LOGD("asset is nullptr");
+            return Data::Null;
+        }
+
+        off_t fileSize = AAsset_getLength(asset);
+
+        if (forString)
+        {
+            data = (unsigned char*) malloc(fileSize + 1);
+            data[fileSize] = '\0';
+        }
+        else
+        {
+            data = (unsigned char*) malloc(fileSize);
+        }
+
+        int bytesread = AAsset_read(asset, (void*)data, fileSize);
+        size = bytesread;
+
+        AAsset_close(asset);
+    }
+    else
+    {
+        do
+        {
+            // read rrom other path than user set it
+            //CCLOG("GETTING FILE ABSOLUTE DATA: %s", filename);
+            const char* mode = nullptr;
+            if (forString)
+                mode = "rt";
+            else
+                mode = "rb";
+
+            FILE *fp = fopen(fullPath.c_str(), mode);
+            CC_BREAK_IF(!fp);
+            
+            long fileSize;
+            fseek(fp,0,SEEK_END);
+            fileSize = ftell(fp);
+            fseek(fp,0,SEEK_SET);
+            if (forString)
+            {
+                data = (unsigned char*) malloc(fileSize + 1);
+                data[fileSize] = '\0';
+            }
+            else
+            {
+                data = (unsigned char*) malloc(fileSize);
+            }
+            fileSize = fread(data,sizeof(unsigned char), fileSize,fp);
+            fclose(fp);
+            
+            size = fileSize;
+        } while (0);
+    }
+    
+    Data ret;
+    if (data == nullptr || size == 0)
+    {
+        std::string msg = "Get data from file(";
+        msg.append(filename).append(") failed!");
+        CCLOG("%s", msg.c_str());
+    }
+    else
+    {
+        ret.fastSet(data, size);
+    }
+
+    return ret;
 }
 
-unsigned char* FileUtilsAndroid::getFileDataForAsync(const char* filename, const char* pszMode, long * pSize)
+std::string FileUtilsAndroid::getStringFromFile(const std::string& filename)
 {
     Data data = getData(filename, true);
     std::string ret((const char*)data.getBytes());
     return ret;
 }
-
-unsigned char* FileUtilsAndroid::doGetFileData(const char* filename, const char* mode, long * size, bool forAsync)
+    
+Data FileUtilsAndroid::getDataFromFile(const std::string& filename)
 {
+    return getData(filename, false);
+}
+
+unsigned char* FileUtilsAndroid::getFileData(const std::string& filename, const char* mode, ssize_t * size)
+{    
     unsigned char * data = 0;
     
-    if ((! filename) || (! mode) || 0 == strlen(filename))
+    if ( filename.empty() || (! mode) )
     {
         return 0;
     }
@@ -213,7 +304,7 @@ unsigned char* FileUtilsAndroid::doGetFileData(const char* filename, const char*
         do
         {
             // read rrom other path than user set it
-	        //CCLOG("GETTING FILE ABSOLUTE DATA: %s", filename);
+            //CCLOG("GETTING FILE ABSOLUTE DATA: %s", filename);
             FILE *fp = fopen(fullPath.c_str(), mode);
             CC_BREAK_IF(!fp);
             

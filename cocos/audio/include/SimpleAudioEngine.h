@@ -218,23 +218,6 @@ public:
     @brief Stop all playing sound effects
     */
     virtual void stopAllEffects();
-  
-    /**
-    @brief check if device has haptic capabilities
-    */
-    virtual bool hasVibrator();
-
-    /**
-    @brief solid vibrate for time miliseconds
-    @param time how long to vibrate for
-    */
-    virtual void vibrate(long long time);
-
-    /**
-    @brief stop vibration if in progress
-    */
-    virtual void cancelVibrate();
-
 
     /**
     @brief          preload a compressed audio file

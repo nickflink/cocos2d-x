@@ -11,7 +11,6 @@
 
 USING_NS_CC;
 USING_NS_CC_EXT;
-using namespace network;
 
 WebSocketTestLayer::WebSocketTestLayer()
 : _wsiSendText(NULL)

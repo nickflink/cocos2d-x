@@ -26,9 +26,6 @@
 #include "cocos2d.h"
 #include "CCTableView.h"
 #include "CCTableViewCell.h"
-#include "CCMenu.h"
-#include "CCSorting.h"
-#include "CCLayer.h"
 
 NS_CC_EXT_BEGIN
 
@@ -58,11 +55,8 @@ bool TableView::initWithViewSize(Size size, Node* container/* = NULL*/)
 {
     if (ScrollView::initWithViewSize(size,container))
     {
-        _cellsUsed      = new ArrayForObjectSorting();
-        _cellsUsed->init();
-        _cellsFreed     = new ArrayForObjectSorting();
-        _cellsFreed->init();
-        _indices        = new std::set<long>();
+        CC_SAFE_DELETE(_indices);
+        _indices        = new std::set<ssize_t>();
         _vordering      = VerticalFillOrder::BOTTOM_UP;
         this->setDirection(Direction::VERTICAL);
 
@@ -134,7 +128,7 @@ void TableView::reloadData()
     }
 }
 
-TableViewCell *TableView::cellAtIndex(long idx)
+TableViewCell *TableView::cellAtIndex(ssize_t idx)
 {
     if (_indices->find(idx) != _indices->end())
     {
@@ -150,7 +144,7 @@ TableViewCell *TableView::cellAtIndex(long idx)
     return nullptr;
 }
 
-void TableView::updateCellAtIndex(long idx)
+void TableView::updateCellAtIndex(ssize_t idx)
 {
     if (idx == CC_INVALID_INDEX)
     {
@@ -172,7 +166,7 @@ void TableView::updateCellAtIndex(long idx)
     this->_addCellIfNecessary(cell);
 }
 
-void TableView::insertCellAtIndex(long idx)
+void TableView::insertCellAtIndex(ssize_t idx)
 {
     if (idx == CC_INVALID_INDEX)
     {
@@ -185,14 +179,14 @@ void TableView::insertCellAtIndex(long idx)
         return;
     }
 
-    TableViewCell* cell = NULL;
     long newIdx = 0;
 
     auto cell = cellAtIndex(idx);
     if (cell)
     {
-        newIdx = _cellsUsed->indexOfSortedObject(cell);
-        for (long i = newIdx; i<_cellsUsed->count(); i++)
+        newIdx = _cellsUsed.getIndex(cell);
+        // Move all cells behind the inserted position
+        for (long i = newIdx; i < _cellsUsed.size(); i++)
         {
             cell = _cellsUsed.at(i);
             this->_setIndexForCell(cell->getIdx()+1, cell);
@@ -208,7 +202,7 @@ void TableView::insertCellAtIndex(long idx)
     this->_updateContentSize();
 }
 
-void TableView::removeCellAtIndex(long idx)
+void TableView::removeCellAtIndex(ssize_t idx)
 {
     if (idx == CC_INVALID_INDEX)
     {
@@ -307,7 +301,7 @@ void TableView::_updateContentSize()
 
 }
 
-Point TableView::_offsetFromIndex(long index)
+Point TableView::_offsetFromIndex(ssize_t index)
 {
     Point offset = this->__offsetFromIndex(index);
 
@@ -319,7 +313,7 @@ Point TableView::_offsetFromIndex(long index)
     return offset;
 }
 
-Point TableView::__offsetFromIndex(long index)
+Point TableView::__offsetFromIndex(ssize_t index)
 {
     Point offset;
     Size  cellSize;
@@ -420,7 +414,7 @@ void TableView::_moveCellOutOfSight(TableViewCell *cell)
     }
 }
 
-void TableView::_setIndexForCell(long index, TableViewCell *cell)
+void TableView::_setIndexForCell(ssize_t index, TableViewCell *cell)
 {
     cell->setAnchorPoint(Point(0.0f, 0.0f));
     cell->setPosition(this->_offsetFromIndex(index));
@@ -475,7 +469,7 @@ void TableView::scrollViewDidScroll(ScrollView* view)
         _tableViewDelegate->scrollViewDidScroll(this);
     }
 
-    long startIdx = 0, endIdx = 0, idx = 0, maxIdx = 0;
+    ssize_t startIdx = 0, endIdx = 0, idx = 0, maxIdx = 0;
     Point offset = this->getContentOffset() * -1;
     maxIdx = MAX(countOfItems-1, 0);
 

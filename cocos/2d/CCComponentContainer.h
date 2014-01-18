@@ -25,7 +25,8 @@ THE SOFTWARE.
 #ifndef __CC_FRAMEWORK_COMCONTAINER_H__
 #define __CC_FRAMEWORK_COMCONTAINER_H__
 
-#include "CCDictionary.h"
+#include "CCMap.h"
+#include <string>
 
 NS_CC_BEGIN
 

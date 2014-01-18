@@ -28,8 +28,8 @@ THE SOFTWARE.
 #define __CC_ANIMATION_CACHE_H__
 
 #include "CCObject.h"
-#include "CCDictionary.h"
-
+#include "CCMap.h"
+#include "CCValue.h"
 #include <string>
 
 NS_CC_BEGIN

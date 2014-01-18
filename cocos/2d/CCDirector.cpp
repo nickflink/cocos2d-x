@@ -30,10 +30,6 @@ THE SOFTWARE.
 
 // standard includes
 #include <string>
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-#include <mach/mach.h>
-#include <mach/mach_host.h>
-#endif
 
 #include "ccFPSImages.h"
 #include "CCDrawingPrimitives.h"
@@ -42,7 +38,6 @@ THE SOFTWARE.
 #include "CCArray.h"
 #include "CCScheduler.h"
 #include "ccMacros.h"
-#include "CCNotificationCenter.h"
 #include "CCTransition.h"
 #include "CCTextureCache.h"
 #include "CCSpriteFrameCache.h"
@@ -50,11 +45,9 @@ THE SOFTWARE.
 #include "platform/CCFileUtils.h"
 #include "CCApplication.h"
 #include "CCLabelBMFont.h"
-#include "CCLabelAtlas.h"
 #include "CCActionManager.h"
 #include "CCAnimationCache.h"
 #include "CCTouch.h"
-#include "CCEventDispatcher.h"
 #include "CCUserDefault.h"
 #include "ccGLStateCache.h"
 #include "CCShaderCache.h"
@@ -65,8 +58,10 @@ THE SOFTWARE.
 #include "CCEGLView.h"
 #include "CCConfiguration.h"
 #include "CCEventDispatcher.h"
+#include "CCEventCustom.h"
 #include "CCFontFreeType.h"
-
+#include "CCRenderer.h"
+#include "renderer/CCFrustum.h"
 /**
  Position of the FPS
  
@@ -155,9 +150,22 @@ bool Director::init(void)
     _scheduler->scheduleUpdateForTarget(_actionManager, Scheduler::PRIORITY_SYSTEM, false);
 
     _eventDispatcher = new EventDispatcher();
+    _eventAfterDraw = new EventCustom(EVENT_AFTER_DRAW);
+    _eventAfterDraw->setUserData(this);
+    _eventAfterVisit = new EventCustom(EVENT_AFTER_VISIT);
+    _eventAfterVisit->setUserData(this);
+    _eventAfterUpdate = new EventCustom(EVENT_AFTER_UPDATE);
+    _eventAfterUpdate->setUserData(this);
+    _eventProjectionChanged = new EventCustom(EVENT_PROJECTION_CHANGED);
+    _eventProjectionChanged->setUserData(this);
+
+
     //init TextureCache
     initTextureCache();
-    
+
+    // Renderer
+    _renderer = new Renderer;
+
     // create autorelease pool
     PoolManager::sharedPoolManager()->push();
 
@@ -177,7 +185,14 @@ Director::~Director(void)
     CC_SAFE_RELEASE(_scheduler);
     CC_SAFE_RELEASE(_actionManager);
     CC_SAFE_RELEASE(_eventDispatcher);
-    
+
+    delete _eventAfterUpdate;
+    delete _eventAfterDraw;
+    delete _eventAfterVisit;
+    delete _eventProjectionChanged;
+
+    delete _renderer;
+
     // pop the autorelease pool
     PoolManager::sharedPoolManager()->pop();
     PoolManager::purgePoolManager();
@@ -707,34 +722,6 @@ void Director::end()
     _purgeDirectorInNextLoop = true;
 }
 
-double CCDirector::getAvailableBytes() {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    vm_statistics_data_t vmStats;
-    mach_msg_type_number_t infoCount = HOST_VM_INFO_COUNT;
-    kern_return_t kernReturn = host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&vmStats, &infoCount);
-
-    if (kernReturn != KERN_SUCCESS)
-    {
-        CCLog("FAILURE kernReturn = %d", kernReturn);
-        return 0.0f;
-    }
-    return (vm_page_size * vmStats.free_count);
-#else
-    CCLog("FAILURE getAvailableBytes not implemented for this platform");
-    return 0.0f;
-#endif
-}
-
-double CCDirector::getAvailableKiloBytes()
-{
-    return CCDirector::getAvailableBytes() / 1024.0;
-}
-
-double CCDirector::getAvailableMegaBytes()
-{
-    return CCDirector::getAvailableKiloBytes() / 1024.0;
-}
-
 void Director::purgeDirector()
 {
     // cleanup scheduler
@@ -781,7 +768,6 @@ void Director::purgeDirector()
 
     // cocos2d-x specific data structures
     UserDefault::destroyInstance();
-    NotificationCenter::destroyInstance();
     
     GL::invalidateStateCache();
     
@@ -911,7 +897,7 @@ void Director::calculateMPF()
 }
 
 // returns the FPS image data pointer and len
-void Director::getFPSImageData(unsigned char** datapointer, long* length)
+void Director::getFPSImageData(unsigned char** datapointer, ssize_t* length)
 {
     // XXX fixed me if it should be used 
     *datapointer = cc_fps_images_png;
@@ -934,7 +920,7 @@ void Director::createStatsLabel()
     Texture2D::PixelFormat currentFormat = Texture2D::getDefaultAlphaPixelFormat();
     Texture2D::setDefaultAlphaPixelFormat(Texture2D::PixelFormat::RGBA4444);
     unsigned char *data = nullptr;
-    long dataLength = 0;
+    ssize_t dataLength = 0;
     getFPSImageData(&data, &dataLength);
 
     Image* image = new Image();
@@ -1064,6 +1050,12 @@ void Director::setEventDispatcher(EventDispatcher* dispatcher)
         _eventDispatcher = dispatcher;
     }
 }
+
+Renderer* Director::getRenderer() const
+{
+    return _renderer;
+}
+
 
 /***************************************************
 * implementation of DisplayLinkDirector

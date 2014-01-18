@@ -112,8 +112,8 @@ public:
     CREATE_FUNC(LayerGradientTest);
     LayerGradientTest();
     void onTouchesMoved(const std::vector<Touch*>& touches, Event *event);
-    virtual std::string title();
-    virtual std::string subtitle();
+    virtual std::string title() const override;
+    virtual std::string subtitle() const override;
     void toggleItem(cocos2d::Object *sender);
 };
 

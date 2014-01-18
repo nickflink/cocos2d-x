@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "CCActionGrid.h"
 #include "CCLayer.h"
 #include "CCRenderTexture.h"
-
+#include "CCNodeGrid.h"
 
 NS_CC_BEGIN
 

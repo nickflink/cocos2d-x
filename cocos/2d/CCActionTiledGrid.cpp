@@ -27,6 +27,7 @@ THE SOFTWARE.
 #include "CCDirector.h"
 #include "ccMacros.h"
 #include "CCGrid.h"
+#include "CCNodeGrid.h"
 #include <stdlib.h>
 
 NS_CC_BEGIN

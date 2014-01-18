@@ -101,12 +101,11 @@ void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Textu
     // check the format
     CCASSERT(format >=0 && format <= 3, "format is not supported for SpriteFrameCache addSpriteFramesWithDictionary:textureFilename:");
 
-    DictElement* element = NULL;
-    CCDICT_FOREACH(framesDict, element)
+    for (auto iter = framesDict.begin(); iter != framesDict.end(); ++iter)
     {
-        Dictionary* frameDict = static_cast<Dictionary*>(element->getObject());
-        std::string spriteFrameName = element->getStrKey();
-        SpriteFrame* spriteFrame = static_cast<SpriteFrame*>(_spriteFrames->objectForKey(spriteFrameName));
+        ValueMap& frameDict = iter->second.asValueMap();
+        std::string spriteFrameName = iter->first;
+        SpriteFrame* spriteFrame = _spriteFrames.at(spriteFrameName);
         if (spriteFrame)
         {
             continue;
@@ -205,7 +204,6 @@ void SpriteFrameCache::addSpriteFramesWithFile(const std::string& pszPlist, Text
     ValueMap dict = FileUtils::getInstance()->getValueMapFromFile(fullPath);
 
     addSpriteFramesWithDictionary(dict, pobTexture);
-    dict->release();
 }
 
 void SpriteFrameCache::addSpriteFramesWithFile(const std::string& plist, const std::string& textureFileName)
@@ -225,7 +223,7 @@ void SpriteFrameCache::addSpriteFramesWithFile(const std::string& plist, const s
 
 void SpriteFrameCache::addSpriteFramesWithFile(const std::string& pszPlist)
 {
-    CCASSERT(pszPlist.size()>0, "plist filename should not be NULL");
+    CCASSERT(pszPlist.size()>0, "plist filename should not be nullptr");
 
     if (_loadedFileNames->find(pszPlist) == _loadedFileNames->end())
     {
@@ -272,11 +270,10 @@ void SpriteFrameCache::addSpriteFramesWithFile(const std::string& pszPlist)
         {
             CCLOG("cocos2d: SpriteFrameCache: Couldn't load texture");
         }
-        dict->release();
     }
 }
 
-void SpriteFrameCache::addSpriteFrame(SpriteFrame *pobFrame, const std::string& pszFrameName)
+void SpriteFrameCache::addSpriteFrame(SpriteFrame* frame, const std::string& frameName)
 {
     _spriteFrames.insert(frameName, frame);
 }
@@ -290,16 +287,17 @@ void SpriteFrameCache::removeSpriteFrames()
 
 void SpriteFrameCache::removeUnusedSpriteFrames()
 {
-    bool bRemoved = false;
-    DictElement* element = NULL;
-    CCDICT_FOREACH(_spriteFrames, element)
+    bool removed = false;
+    std::vector<std::string> toRemoveFrames;
+    
+    for (auto iter = _spriteFrames.begin(); iter != _spriteFrames.end(); ++iter)
     {
-        SpriteFrame* spriteFrame = static_cast<SpriteFrame*>(element->getObject());
+        SpriteFrame* spriteFrame = iter->second;
         if( spriteFrame->retainCount() == 1 ) 
         {
-            CCLOG("cocos2d: SpriteFrameCache: removing unused frame: %s", element->getStrKey());
-            _spriteFrames->removeObjectForElememt(element);
-            bRemoved = true;
+            toRemoveFrames.push_back(iter->first);
+            CCLOG("cocos2d: SpriteFrameCache: removing unused frame: %s", iter->first.c_str());
+            removed = true;
         }
     }
 
@@ -320,7 +318,7 @@ void SpriteFrameCache::removeSpriteFrameByName(const std::string& name)
         return;
 
     // Is this an alias ?
-    String* key = (String*)_spriteFramesAliases->objectForKey(name);
+    std::string key = _spriteFramesAliases[name].asString();
 
     if (!key.empty())
     {
@@ -329,7 +327,7 @@ void SpriteFrameCache::removeSpriteFrameByName(const std::string& name)
     }
     else
     {
-        _spriteFrames->removeObjectForKey(name);
+        _spriteFrames.erase(name);
     }
 
     // XXX. Since we don't know the .plist file that originated the frame, we must remove all .plist from the cache
@@ -339,13 +337,13 @@ void SpriteFrameCache::removeSpriteFrameByName(const std::string& name)
 void SpriteFrameCache::removeSpriteFramesFromFile(const std::string& plist)
 {
     std::string fullPath = FileUtils::getInstance()->fullPathForFilename(plist);
-    Dictionary* dict = Dictionary::createWithContentsOfFileThreadSafe(fullPath.c_str());
-    if (dict == nullptr)
+    ValueMap dict = FileUtils::getInstance()->getValueMapFromFile(fullPath);
+    if (dict.empty())
     {
         CCLOG("cocos2d:SpriteFrameCache:removeSpriteFramesFromFile: create dict by %s fail.",plist.c_str());
         return;
     }
-    removeSpriteFramesFromDictionary((Dictionary*)dict);
+    removeSpriteFramesFromDictionary(dict);
 
     // remove it from the cache
     set<string>::iterator ret = _loadedFileNames->find(plist);
@@ -353,7 +351,6 @@ void SpriteFrameCache::removeSpriteFramesFromFile(const std::string& plist)
     {
         _loadedFileNames->erase(ret);
     }
-    dict->release();
 }
 
 void SpriteFrameCache::removeSpriteFramesFromDictionary(ValueMap& dictionary)
@@ -361,12 +358,11 @@ void SpriteFrameCache::removeSpriteFramesFromDictionary(ValueMap& dictionary)
     ValueMap framesDict = dictionary["frames"].asValueMap();
     std::vector<std::string> keysToRemove;
 
-    DictElement* element = NULL;
-    CCDICT_FOREACH(framesDict, element)
+    for (auto iter = framesDict.cbegin(); iter != framesDict.cend(); ++iter)
     {
-        if (_spriteFrames->objectForKey(element->getStrKey()))
+        if (_spriteFrames.at(iter->first))
         {
-            keysToRemove->addObject(String::create(element->getStrKey()));
+            keysToRemove.push_back(iter->first);
         }
     }
 
@@ -377,14 +373,13 @@ void SpriteFrameCache::removeSpriteFramesFromTexture(Texture2D* texture)
 {
     std::vector<std::string> keysToRemove;
 
-    DictElement* element = NULL;
-    CCDICT_FOREACH(_spriteFrames, element)
+    for (auto iter = _spriteFrames.cbegin(); iter != _spriteFrames.cend(); ++iter)
     {
-        string key = element->getStrKey();
-        SpriteFrame* frame = static_cast<SpriteFrame*>(_spriteFrames->objectForKey(key.c_str()));
+        std::string key = iter->first;
+        SpriteFrame* frame = _spriteFrames.at(key);
         if (frame && (frame->getTexture() == texture))
         {
-            keysToRemove->addObject(String::create(element->getStrKey()));
+            keysToRemove.push_back(key);
         }
     }
 
@@ -393,12 +388,12 @@ void SpriteFrameCache::removeSpriteFramesFromTexture(Texture2D* texture)
 
 SpriteFrame* SpriteFrameCache::getSpriteFrameByName(const std::string& name)
 {
-    SpriteFrame* frame = (SpriteFrame*)_spriteFrames->objectForKey(name);
+    SpriteFrame* frame = _spriteFrames.at(name);
     if (!frame)
     {
         // try alias dictionary
-        String *key = (String*)_spriteFramesAliases->objectForKey(name);  
-        if (key)
+        std::string key = _spriteFramesAliases[name].asString();
+        if (!key.empty())
         {
             frame = _spriteFrames.at(key);
             if (!frame)

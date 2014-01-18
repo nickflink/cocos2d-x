@@ -43,6 +43,8 @@
 #include "platform/CCFileUtils.h"
 #include "kazmath/GL/matrix.h"
 #include "CCProfiling.h"
+#include "renderer/CCQuadCommand.h"
+#include "CCRenderer.h"
 
 NS_CC_BEGIN
 
@@ -137,11 +139,6 @@ void ParticleBatchNode::visit()
     transform();
 
     draw();
-    
-    if ( _grid && _grid->isActive())
-    {
-        _grid->afterDraw(this);
-    }
 
     kmGLPopMatrix();
 }

@@ -158,9 +158,6 @@ public:
 
 protected:
     ConvertToNode();
-    void onTouchesEnded(const std::vector<Touch*>& touches, Event *event);
-    virtual std::string title();
-    virtual std::string subtitle();
 };
 
 class NodeOpaqueTest : public TestCocosNodeDemo

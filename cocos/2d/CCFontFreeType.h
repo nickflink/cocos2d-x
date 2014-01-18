@@ -75,7 +75,7 @@ private:
     FT_Face           _fontRef;
     int               _letterPadding;
     std::string       _fontName;
-    unsigned char*    _ttfData;
+    Data              _ttfData;
     bool              _dynamicGlyphCollection;
 };
 

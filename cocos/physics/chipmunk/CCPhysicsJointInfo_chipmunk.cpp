@@ -23,13 +23,13 @@
  ****************************************************************************/
 
 #include "CCPhysicsJointInfo_chipmunk.h"
-#if (CC_PHYSICS_ENGINE == CC_PHYSICS_CHIPMUNK)
+#if CC_USE_PHYSICS
 #include <algorithm>
 #include <unordered_map>
 
 NS_CC_BEGIN
 
-std::map<cpConstraint*, PhysicsJointInfo*> PhysicsJointInfo::_map;
+std::unordered_map<cpConstraint*, PhysicsJointInfo*> PhysicsJointInfo::_map;
 
 PhysicsJointInfo::PhysicsJointInfo(PhysicsJoint* joint)
 : _joint(joint)
@@ -66,18 +66,6 @@ void PhysicsJointInfo::remove(cpConstraint* joint)
         
         cpConstraintFree(joint);
     }
-}
-
-void PhysicsJointInfo::removeAll()
-{
-    for (cpConstraint* joint : _joints)
-    {
-        auto mit = _map.find(joint);
-        if (mit != _map.end()) _map.erase(mit);
-        cpConstraintFree(joint);
-    }
-    
-    _joints.clear();
 }
 
 void PhysicsJointInfo::removeAll()

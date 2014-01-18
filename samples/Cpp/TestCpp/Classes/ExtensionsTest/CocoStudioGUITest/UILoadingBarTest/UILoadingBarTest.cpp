@@ -308,9 +308,8 @@ void UILoadingBarTest_Right_Scale9::update(float delta)
     {
         _count = 0;
     }
-    CCLOG("wocao");
-    UILoadingBar* loadingBar = dynamic_cast<UILoadingBar*>(m_pUiLayer->getWidgetByName("LoadingBar"));
-    loadingBar->setPercent(m_nCount);
+    LoadingBar* loadingBar = static_cast<LoadingBar*>(_uiLayer->getChildByTag(0));
+    loadingBar->setPercent(_count);
 }
 
 void UILoadingBarTest_Right_Scale9::previousCallback(Object* sender, TouchEventType type)

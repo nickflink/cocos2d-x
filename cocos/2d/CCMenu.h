@@ -28,8 +28,9 @@ THE SOFTWARE.
 
 #include "CCMenuItem.h"
 #include "CCLayer.h"
-
+#include "CCVector.h"
 #include "CCEventTouch.h"
+#include "CCValue.h"
 
 NS_CC_BEGIN
 

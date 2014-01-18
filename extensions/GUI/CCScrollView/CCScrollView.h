@@ -227,8 +227,6 @@ public:
     
     using Node::addChild;
     virtual void addChild(Node * child, int zOrder, int tag) override;
-    virtual void addChild(Node * child, int zOrder) override;
-    virtual void addChild(Node * child) override;
 
 protected:
     /**
@@ -355,6 +353,9 @@ protected:
     
     /** Touch listener */
     EventListenerTouchOneByOne* _touchListener;
+    
+    CustomCommand _beforeDrawCommand;
+    CustomCommand _afterDrawCommand;
 };
 
 // end of GUI group

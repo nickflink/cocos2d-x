@@ -3,6 +3,7 @@ require "Cocos2dConstants"
 require "Opengl"
 require "OpenglConstants"
 require "StudioConstants"
+require "GuiConstants"
 require "luaScript/helper"
 require "luaScript/testResource"
 require "luaScript/VisibleRect"
@@ -49,6 +50,7 @@ require "luaScript/UserDefaultTest/UserDefaultTest"
 require "luaScript/ZwoptexTest/ZwoptexTest"
 require "luaScript/LuaBridgeTest/LuaBridgeTest"
 require "luaScript/XMLHttpRequestTest/XMLHttpRequestTest"
+require "luaScript/PhysicsTest/PhysicsTest"
 
 
 local LINE_SPACE = 40

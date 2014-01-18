@@ -152,6 +152,7 @@ public:
     std::set<unsigned int>* getCharacterSet() const;
 private:
     std::set<unsigned int>* parseConfigFile(const std::string& controlFile);
+	std::set<unsigned int>* parseBinaryConfigFile(unsigned char* pData, unsigned long size, const std::string& controlFile);
     void parseCharacterDefinition(std::string line, ccBMFontDef *characterDefinition);
     void parseInfoArguments(std::string line);
     void parseCommonArguments(std::string line);
@@ -255,7 +256,7 @@ public:
 #if CC_LABELBMFONT_DEBUG_DRAW
     virtual void draw();
 #endif // CC_LABELBMFONT_DEBUG_DRAW
-private:
+protected:
     char * atlasNameFromFntFile(const std::string& fntFile);
     int kerningAmountForFirst(unsigned short first, unsigned short second);
     float getLetterPosXLeft( Sprite* characterSprite );
@@ -287,13 +288,6 @@ private:
     Sprite *_reusedChar;
     
     // texture RGBA
-    GLubyte _displayedOpacity;
-    GLubyte _realOpacity;
-    Color3B _displayedColor;
-    Color3B _realColor;
-    bool _cascadeColorEnabled;
-    bool _cascadeOpacityEnabled;
-    /** conforms to RGBAProtocol protocol */
     bool _isOpacityModifyRGB;
 
 };

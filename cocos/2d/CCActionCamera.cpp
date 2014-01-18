@@ -27,7 +27,6 @@ THE SOFTWARE.
 
 #include "CCActionCamera.h"
 #include "CCNode.h"
-#include "CCCamera.h"
 #include "CCStdC.h"
 
 NS_CC_BEGIN
@@ -147,7 +146,7 @@ OrbitCamera * OrbitCamera::create(float t, float radius, float deltaRadius, floa
         return obitCamera;
     }
     CC_SAFE_DELETE(obitCamera);
-    return NULL;
+    return nullptr;
 }
 
 OrbitCamera* OrbitCamera::clone() const
@@ -212,13 +211,9 @@ void OrbitCamera::sphericalRadius(float *newRadius, float *zenith, float *azimut
     float r; // radius
     float s;
 
-    Camera* camera = _target->getCamera();
-    camera->getEye(&ex, &ey, &ez);
-    camera->getCenter(&cx, &cy, &cz);
-
-    x = ex-cx;
-    y = ey-cy;
-    z = ez-cz;
+    float x = _eyeX - _centerX;
+    float y = _eyeY - _centerY;
+    float z = _eyeZ - _centerZ;
 
     r = sqrtf( powf(x,2) + powf(y,2) + powf(z,2));
     s = sqrtf( powf(x,2) + powf(y,2));

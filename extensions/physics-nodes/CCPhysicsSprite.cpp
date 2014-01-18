@@ -291,10 +291,12 @@ const Point& PhysicsSprite::getPosFromPhysics() const
 void PhysicsSprite::setPosition(const Point &pos)
 {
 #if CC_ENABLE_CHIPMUNK_INTEGRATION
+
     cpVect cpPos = cpv(pos.x, pos.y);
     cpBodySetPos(_CPBody, cpPos);
 
 #elif CC_ENABLE_BOX2D_INTEGRATION
+
     float angle = _pB2Body->GetAngle();
     _pB2Body->SetTransform(b2Vec2(pos.x / _PTMRatio, pos.y / _PTMRatio), angle);
 #endif

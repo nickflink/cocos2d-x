@@ -59,7 +59,7 @@ bool LabelTextFormatter::multilineText(LabelTextFormatProtocol *theLabel)
         std::vector<LetterInfo>  *leterInfo = theLabel->getLettersInfo();
         int tIndex = 0;
 
-        for (int j = 0; j < strLen; j++)
+        for (int j = 0; j+skip < strLen; j++)
         {            
             LetterInfo* info = &leterInfo->at(j+skip);
 
@@ -201,7 +201,7 @@ bool LabelTextFormatter::multilineText(LabelTextFormatProtocol *theLabel)
         size_t size = multiline_string.size();
         unsigned short* strNew = new unsigned short[size + 1];
         
-        for (int j = 0; j < size; ++j)
+        for (size_t j = 0; j < size; ++j)
         {
             strNew[j] = multiline_string[j];
         }
@@ -245,8 +245,6 @@ bool LabelTextFormatter::alignText(LabelTextFormatProtocol *theLabel)
                 index -= 1;
             if (index < 0) continue;
             
-            if(currentChar == 0)
-                continue;
             LetterInfo* info = &leterInfo->at( index );
             if(info->def.validDefinition == false)
                 continue;

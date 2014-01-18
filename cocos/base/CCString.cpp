@@ -219,14 +219,14 @@ bool __String::isEqual(const Object* pObject)
 
 __String* __String::create(const std::string& str)
 {
-    String* ret = new String(str);
+    __String* ret = new __String(str);
     ret->autorelease();
     return ret;
 }
 
-String* String::createWithData(const unsigned char* data, unsigned long nLen)
+__String* __String::createWithData(const unsigned char* data, int nLen)
 {
-    String* ret = NULL;
+    __String* ret = NULL;
     if (data != NULL)
     {
         char* pStr = (char*)malloc(nLen+1);
@@ -238,7 +238,7 @@ String* String::createWithData(const unsigned char* data, unsigned long nLen)
                 memcpy(pStr, data, nLen);
             }
             
-            ret = String::create(pStr);
+            ret = __String::create(pStr);
             free(pStr);
         }
     }
@@ -247,7 +247,7 @@ String* String::createWithData(const unsigned char* data, unsigned long nLen)
 
 __String* __String::createWithFormat(const char* format, ...)
 {
-    String* ret = String::create("");
+    __String* ret = __String::create("");
     va_list ap;
     va_start(ap, format);
     ret->initWithFormatAndValist(format, ap);
@@ -258,13 +258,8 @@ __String* __String::createWithFormat(const char* format, ...)
 
 __String* __String::createWithContentsOfFile(const char* filename)
 {
-    long size = 0;
-    unsigned char* data = 0;
-    String* ret = NULL;
-    data = FileUtils::getInstance()->getFileData(filename, "rb", &size);
-    ret = String::createWithData(data, size);
-    free(data);
-    return ret;
+    std::string str = FileUtils::getInstance()->getStringFromFile(filename);
+    return __String::create(std::move(str));
 }
 
 void __String::acceptVisitor(DataVisitor &visitor)

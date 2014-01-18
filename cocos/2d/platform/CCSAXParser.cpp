@@ -23,7 +23,6 @@
  ****************************************************************************/
 
 #include "CCSAXParser.h"
-#include "CCDictionary.h"
 #include "CCFileUtils.h"
 #include "tinyxml2.h"
 
@@ -115,13 +114,12 @@ bool SAXParser::parse(const char* xmlData, size_t dataLength)
 bool SAXParser::parse(const std::string& filename)
 {
     bool ret = false;
-    long size = 0;
-    char* pBuffer = (char*)FileUtils::getInstance()->getFileData(pszFile, "rt", &size);
-    if (pBuffer != NULL && size > 0)
+    Data data = FileUtils::getInstance()->getDataFromFile(filename);
+    if (!data.isNull())
     {
-        ret = parse(pBuffer, size);
+        ret = parse((const char*)data.getBytes(), data.getSize());
     }
-    free(pBuffer);
+
     return ret;
 }
 

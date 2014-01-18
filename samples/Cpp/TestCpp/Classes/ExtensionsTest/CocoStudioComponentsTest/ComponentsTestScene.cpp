@@ -19,31 +19,31 @@ ComponentsTestLayer::ComponentsTestLayer()
 
 Scene* ComponentsTestLayer::scene()
 {
-        Scene * scene = nullptr;
-        do 
-        {
-                // 'scene' is an autorelease object
-                scene = Scene::create();
-                CC_BREAK_IF(! scene);
+	Scene * scene = nullptr;
+	do 
+	{
+		// 'scene' is an autorelease object
+		scene = Scene::create();
+		CC_BREAK_IF(! scene);
 
-                // 'layer' is an autorelease object
-                auto layer = ComponentsTestLayer::create();
-                CC_BREAK_IF(! layer);
+		// 'layer' is an autorelease object
+		auto layer = ComponentsTestLayer::create();
+		CC_BREAK_IF(! layer);
 
-                // add layer as a child to scene
-                scene->addChild(layer);
-        } while (0);
+		// add layer as a child to scene
+		scene->addChild(layer);
+	} while (0);
 
-        // return the scene
-        return scene;
+	// return the scene
+	return scene;
 }
 
 // on "init" you need to initialize your instance
 bool ComponentsTestLayer::init()
 {
-        bool bRet = false;
-        do 
-        {
+	bool bRet = false;
+	do 
+	{
         CC_BREAK_IF(! LayerColor::initWithColor( Color4B(255,255,255,255) ) );
         
         auto root = createGameScene();
@@ -57,17 +57,17 @@ bool ComponentsTestLayer::init()
         root->addComponent(ComAttribute::create());
         root->addComponent(SceneController::create());
 
-                bRet = true;
-        } while (0);
+		bRet = true;
+	} while (0);
 
-        return bRet;
+	return bRet;
 }
 
 cocos2d::Node* ComponentsTestLayer::createGameScene()
 {
     Node *root = nullptr;
     do 
-        {
+	{
         auto visibleSize = Director::getInstance()->getVisibleSize();
         auto origin = Director::getInstance()->getVisibleOrigin();
 
@@ -82,7 +82,7 @@ cocos2d::Node* ComponentsTestLayer::createGameScene()
         
 
         auto itemBack = MenuItemFont::create("Back", [](Object* sender){
-                auto scene = new ExtensionsTestScene();
+        	auto scene = new ExtensionsTestScene();
             scene->runThisTest();
             scene->release();
         });

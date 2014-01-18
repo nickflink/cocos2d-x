@@ -174,6 +174,18 @@ public:
     virtual bool isOpacityModifyRGB() const override;
     virtual void setOpacityModifyRGB(bool bOpacityModifyRGB) override;
 
+protected:
+    /**
+     * @js ctor
+     */
+    Control();
+    virtual bool init(void);
+    /**
+     * @js NA
+     * @lua NA
+     */
+    virtual ~Control();
+
     /**
      * Returns an Invocation object able to construct messages using a given 
      * target-action pair. (The invocation may optionnaly include the sender and

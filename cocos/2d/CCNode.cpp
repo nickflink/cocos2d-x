@@ -33,7 +33,6 @@ THE SOFTWARE.
 #include "CCString.h"
 #include "ccCArray.h"
 #include "TransformUtils.h"
-#include "CCCamera.h"
 #include "CCGrid.h"
 #include "CCDirector.h"
 #include "CCScheduler.h"
@@ -46,7 +45,7 @@ THE SOFTWARE.
 #include "CCEventTouch.h"
 #include "CCScene.h"
 
-#ifdef CC_USE_PHYSICS
+#if CC_USE_PHYSICS
 #include "CCPhysicsBody.h"
 #endif
 
@@ -124,10 +123,16 @@ Node::Node(void)
 , _reorderChildDirty(false)
 , _isTransitionFinished(false)
 , _updateScriptHandler(0)
-, _componentContainer(NULL)
-#ifdef CC_USE_PHYSICS
+, _componentContainer(nullptr)
+#if CC_USE_PHYSICS
 , _physicsBody(nullptr)
 #endif
+, _displayedOpacity(255)
+, _realOpacity(255)
+, _displayedColor(Color3B::WHITE)
+, _realColor(Color3B::WHITE)
+, _cascadeColorEnabled(false)
+, _cascadeOpacityEnabled(false)
 {
     // set default scheduler and actionManager
     Director *director = Director::getInstance();
@@ -138,8 +143,12 @@ Node::Node(void)
     _eventDispatcher = director->getEventDispatcher();
     _eventDispatcher->retain();
     
-    ScriptEngineProtocol* pEngine = ScriptEngineManager::getInstance()->getScriptEngine();
-    _scriptType = pEngine != NULL ? pEngine->getScriptType() : kScriptTypeNone;
+    ScriptEngineProtocol* engine = ScriptEngineManager::getInstance()->getScriptEngine();
+    _scriptType = engine != nullptr ? engine->getScriptType() : kScriptTypeNone;
+
+    kmMat4Identity(&_transform);
+    kmMat4Identity(&_inverse);
+    kmMat4Identity(&_additionalTransform);
 }
 
 Node::~Node()
@@ -170,7 +179,7 @@ Node::~Node()
     
     CC_SAFE_DELETE(_componentContainer);
     
-#ifdef CC_USE_PHYSICS
+#if CC_USE_PHYSICS
     CC_SAFE_RELEASE(_physicsBody);
 #endif
 }
@@ -256,7 +265,7 @@ void Node::setRotation(float newRotation)
     _rotationX = _rotationY = newRotation;
     _transformDirty = _inverseDirty = true;
     
-#ifdef CC_USE_PHYSICS
+#if CC_USE_PHYSICS
     if (_physicsBody)
     {
         _physicsBody->setRotation(newRotation);
@@ -346,7 +355,7 @@ void Node::setPosition(const Point& newPosition)
     _position = newPosition;
     _transformDirty = _inverseDirty = true;
     
-#ifdef CC_USE_PHYSICS
+#if CC_USE_PHYSICS
     if (_physicsBody)
     {
         _physicsBody->setPosition(newPosition);
@@ -385,7 +394,7 @@ void Node::setPositionY(float y)
     setPosition(Point(_position.x, y));
 }
 
-long Node::getChildrenCount() const
+ssize_t Node::getChildrenCount() const
 {
     return _children.size();
 }
@@ -596,7 +605,7 @@ void Node::addChild(Node *child, int zOrder, int tag)
 
     this->insertChild(child, zOrder);
     
-#ifdef CC_USE_PHYSICS
+#if CC_USE_PHYSICS
     for (Node* node = this->getParent(); node != nullptr; node = node->getParent())
     {
         if (dynamic_cast<Scene*>(node) != nullptr)
@@ -669,7 +678,7 @@ void Node::removeChild(Node* child, bool cleanup /* = true */)
         return;
     }
 
-    long index = _children->getIndexOfObject(child);
+    ssize_t index = _children.getIndex(child);
     if( index != CC_INVALID_INDEX )
         this->detachChild( child, index, cleanup );
 }
@@ -720,7 +729,7 @@ void Node::removeAllChildrenWithCleanup(bool cleanup)
     _children.clear();
 }
 
-void Node::detachChild(Node *child, long childIndex, bool doCleanup)
+void Node::detachChild(Node *child, ssize_t childIndex, bool doCleanup)
 {
     // IMPORTANT:
     //  -1st do onExit
@@ -731,7 +740,7 @@ void Node::detachChild(Node *child, long childIndex, bool doCleanup)
         child->onExit();
     }
     
-#ifdef CC_USE_PHYSICS
+#if CC_USE_PHYSICS
     if (child->_physicsBody != nullptr)
     {
         child->_physicsBody->removeFromWorld();
@@ -840,14 +849,9 @@ void Node::transformAncestors()
 
 void Node::transform()
 {
-#ifdef CC_USE_PHYSICS
+#if CC_USE_PHYSICS
     updatePhysicsTransform();
 #endif
-
-    kmMat4 transfrom4x4;
-
-    // Convert 3x3 into 4x4 matrix
-    CGAffineToGL(this->getNodeToParentTransform(), transfrom4x4.mat);
 
     kmMat4 transfrom4x4 = this->getNodeToParentTransform();
 
@@ -860,12 +864,6 @@ void Node::transform()
 void Node::onEnter()
 {
     _isTransitionFinished = false;
-
-    arrayMakeObjectsPerformSelector(_children, onEnter, Node*);
-
-    this->resume();
-    
-    _running = true;
 
     if (_scriptType != kScriptTypeNone)
     {
@@ -929,9 +927,6 @@ void Node::onExit()
         ScriptEvent scriptEvent(kNodeEvent,(void*)&data);
         ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&scriptEvent);
     }
-}
-
-    arrayMakeObjectsPerformSelector(_children, onExit, Node*);
 }
 
 void Node::setEventDispatcher(EventDispatcher* dispatcher)
@@ -1331,15 +1326,18 @@ Point Node::convertTouchToNodeSpaceAR(Touch *touch) const
     return this->convertToNodeSpaceAR(point);
 }
 
-#ifdef CC_USE_PHYSICS
-void Node::updatePhysicsTransform()
+#if CC_USE_PHYSICS
+bool Node::updatePhysicsTransform()
 {
-    if (_physicsBody)
+    if (_physicsBody != nullptr && _physicsBody->getWorld() != nullptr && !_physicsBody->isResting())
     {
         _position = _physicsBody->getPosition();
         _rotationX = _rotationY = _physicsBody->getRotation();
         _transformDirty = _inverseDirty = true;
+        return true;
     }
+    
+    return false;
 }
 #endif
 
@@ -1378,7 +1376,7 @@ void Node::removeAllComponents()
         _componentContainer->removeAll();
 }
 
-#ifdef CC_USE_PHYSICS
+#if CC_USE_PHYSICS
 void Node::setPhysicsBody(PhysicsBody* body)
 {
     if (_physicsBody != nullptr)
@@ -1393,12 +1391,6 @@ void Node::setPhysicsBody(PhysicsBody* body)
     _physicsBody->setPosition(getPosition());
     _physicsBody->setRotation(getRotation());
 }
-
-PhysicsBody* Node::getPhysicsBody() const
-{
-    return _physicsBody;
-}
-#endif //CC_USE_PHYSICS
 
 PhysicsBody* Node::getPhysicsBody() const
 {

@@ -39,9 +39,8 @@ Copyright (c) 2013-2014 Chukong Technologies Inc.
 #include "CCScriptSupport.h"
 #include "CCProtocols.h"
 #include "CCEventDispatcher.h"
-#include "CCPhysicsSetting.h"
-
-#include <vector>
+#include "CCVector.h"
+#include "kazmath/kazmath.h"
 
 NS_CC_BEGIN
 
@@ -55,7 +54,8 @@ class ActionManager;
 class Component;
 class ComponentContainer;
 class EventDispatcher;
-#ifdef CC_USE_PHYSICS
+class Scene;
+#if CC_USE_PHYSICS
 class PhysicsBody;
 #endif
 
@@ -265,7 +265,7 @@ public:
      * @return The scale factor of the node.
      */
     virtual float getScale() const;
-    
+
      /**
      * Changes both X and Y scale factor of the node.
      *
@@ -275,7 +275,7 @@ public:
      * @param scaleY     The scale factor on Y axis.
      */
     virtual void setScale(float scaleX,float scaleY);
-    
+
     /**
      * Changes the position (x,y) of the node in OpenGL coordinates
      *
@@ -598,7 +598,7 @@ public:
      * Composing a "tree" structure is a very important feature of Node
      * Here's a sample code of traversing children array:
      @code
-     Node* node = NULL;
+     Node* node = nullptr;
      CCARRAY_FOREACH(parent->getChildren(), node)
      {
         node->setPosition(0,0);
@@ -616,8 +616,8 @@ public:
      *
      * @return The amount of children.
      */
-    long getChildrenCount() const;
-    
+    virtual ssize_t getChildrenCount() const;
+
     /**
      * Sets the parent node
      *
@@ -626,8 +626,6 @@ public:
     virtual void setParent(Node* parent);
     /**
      * Returns a pointer to the parent node
-     * 
-     * @see `setParent(Node*)`
      *
      * @see `setParent(Node*)`
      *
@@ -720,7 +718,7 @@ public:
      parent->addChild(node2);
      parent->addChild(node3);
      // identify by tags
-     Node* node = NULL;
+     Node* node = nullptr;
      CCARRAY_FOREACH(parent->getChildren(), node)
      {
          switch(node->getTag())
@@ -767,7 +765,7 @@ public:
      * Sets a custom user data pointer
      *
      * You can set everything in UserData pointer, a data block, a structure or an object, etc.
-     * @warning Don't forget to release the memory manually, 
+     * @warning Don't forget to release the memory manually,
      *          especially before you change this data pointer, and before this node is autoreleased.
      *
      * @param userData  A custom user data pointer
@@ -825,7 +823,7 @@ public:
      @code
      node->setShaderProgram(ShaderCache::getInstance()->getProgram(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR));
      @endcode
-     * 
+     *
      * @param shaderProgram The shader program which fetchs from ShaderCache.
      */
     virtual void setShaderProgram(GLProgram *shaderProgram);
@@ -833,19 +831,6 @@ public:
 
 
     /**
-     * Returns a camera object that lets you move the node using a gluLookAt
-     *
-     @code
-     Camera* camera = node->getCamera();
-     camera->setEye(0, 0, 415/2);
-     camera->setCenter(0, 0, 0);
-     @endcode
-     *
-     * @return A Camera object that lets you move the node using a gluLookAt
-     */
-    virtual Camera* getCamera();
-    
-    /** 
      * Returns whether or not the node accepts event callbacks.
      *
      * Running means the node accept event callbacks like onEnter(), onExit(), update()
@@ -901,7 +886,7 @@ public:
      * @lua NA
      */
     virtual void onExitTransitionDidStart();
-    
+
     /// @} end of event callbacks.
 
 
@@ -939,7 +924,7 @@ public:
      *
      * @note This method returns a temporaty variable, so it can't returns const Rect&
      * @todo Rename to `getBoundingBox()` in the future versions.
-     * 
+     *
      * @return A "local" axis aligned boudning box of the node.
      */
     virtual Rect getBoundingBox() const;
@@ -949,7 +934,7 @@ public:
 
     virtual void setEventDispatcher(EventDispatcher* dispatcher);
     virtual EventDispatcher* getEventDispatcher() const { return _eventDispatcher; };
-    
+
     /// @{
     /// @name Actions
 
@@ -1157,19 +1142,19 @@ public:
      * This method is called internally by onExit
      */
     void pause(void);
-    
+
     /**
      * Resumes all scheduled selectors, actions and event listeners.
      * This method is called internally by onEnter
      */
     CC_DEPRECATED_ATTRIBUTE void resumeSchedulerAndActions(void);
-    /** 
+    /**
      * Pauses all scheduled selectors, actions and event listeners..
      * This method is called internally by onExit
      */
     CC_DEPRECATED_ATTRIBUTE void pauseSchedulerAndActions(void);
-    
-    /* 
+
+    /*
      * Update method will be called automatically every frame if "scheduleUpdate" is called, and the node is "live"
      */
     virtual void update(float delta);
@@ -1355,28 +1340,50 @@ public:
      */
     virtual void removeAllComponents();
     /// @} end of component functions
-    
-    
-#ifdef CC_USE_PHYSICS
+
+
+#if CC_USE_PHYSICS
     /**
      *   set the PhysicsBody that let the sprite effect with physics
      */
     void setPhysicsBody(PhysicsBody* body);
-    
+
     /**
      *   get the PhysicsBody the sprite have
      */
     PhysicsBody* getPhysicsBody() const;
-    
+
     /**
      *   update rotation and position from physics body
      */
-    virtual void updatePhysicsTransform();
+    virtual bool updatePhysicsTransform();
 
 #endif
     
-protected:
+    // overrides
+    virtual GLubyte getOpacity() const;
+    virtual GLubyte getDisplayedOpacity() const;
+    virtual void setOpacity(GLubyte opacity);
+    virtual void updateDisplayedOpacity(GLubyte parentOpacity);
+    virtual bool isCascadeOpacityEnabled() const;
+    virtual void setCascadeOpacityEnabled(bool cascadeOpacityEnabled);
     
+    virtual const Color3B& getColor(void) const;
+    virtual const Color3B& getDisplayedColor() const;
+    virtual void setColor(const Color3B& color);
+    virtual void updateDisplayedColor(const Color3B& parentColor);
+    virtual bool isCascadeColorEnabled() const;
+    virtual void setCascadeColorEnabled(bool cascadeColorEnabled);
+    
+    virtual void setOpacityModifyRGB(bool bValue) {CC_UNUSED_PARAM(bValue);}
+    virtual bool isOpacityModifyRGB() const { return false; };
+
+protected:
+    // Nodes should be created using create();
+    Node();
+    virtual ~Node();
+    virtual bool init();
+
     /// lazy allocs
     void childrenAlloc(void);
     
@@ -1384,8 +1391,8 @@ protected:
     void insertChild(Node* child, int z);
 
     /// Removes a child, call child->onExit(), do cleanup, remove it from children array.
-    void detachChild(Node *child, long index, bool doCleanup);
-    
+    void detachChild(Node *child, ssize_t index, bool doCleanup);
+
     /// Convert cocos2d coordinates to UI windows coordinate.
     Point convertToWindowSpace(const Point& nodePoint) const;
     
@@ -1440,9 +1447,9 @@ protected:
     Scheduler *_scheduler;          ///< scheduler used to schedule timers and updates
 
     ActionManager *_actionManager;  ///< a pointer to ActionManager singleton, which is used to handle all the actions
-    
+
     EventDispatcher* _eventDispatcher;  ///< event dispatcher used to dispatch all kinds of events
-    
+
     bool _running;                    ///< is running
 
     bool _visible;                    ///< is this node visible
@@ -1458,10 +1465,21 @@ protected:
     ccScriptType _scriptType;         ///< type of script binding, lua or javascript
 
     ComponentContainer *_componentContainer;        ///< Dictionary of components
-    
-#ifdef CC_USE_PHYSICS
+
+#if CC_USE_PHYSICS
     PhysicsBody* _physicsBody;        ///< the physicsBody the node have
 #endif
+    
+    // opacity controls
+    GLubyte		_displayedOpacity;
+    GLubyte     _realOpacity;
+    Color3B	    _displayedColor;
+    Color3B     _realColor;
+    bool		_cascadeColorEnabled;
+    bool        _cascadeOpacityEnabled;
+
+private:
+    CC_DISALLOW_COPY_AND_ASSIGN(Node);
 };
 
 //#pragma mark - NodeRGBA

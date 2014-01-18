@@ -75,16 +75,17 @@ static tinyxml2::XMLElement* getXMLNodeForKey(const char* pKey, tinyxml2::XMLDoc
     {
         tinyxml2::XMLDocument* xmlDoc = new tinyxml2::XMLDocument();
         *doc = xmlDoc;
-        long size;
-        char* pXmlBuffer = (char*)FileUtils::getInstance()->getFileData(UserDefault::getInstance()->getXMLFilePath().c_str(), "rb", &size);
-        //const char* pXmlBuffer = (const char*)data.getBuffer();
-        if(NULL == pXmlBuffer)
+        ssize_t size;
+        
+        std::string xmlBuffer = FileUtils::getInstance()->getStringFromFile(UserDefault::getInstance()->getXMLFilePath().c_str());
+
+        if (xmlBuffer.empty())
         {
             CCLOG("can not read xml file");
             break;
         }
-        xmlDoc->Parse(pXmlBuffer);
-		free(pXmlBuffer);
+        xmlDoc->Parse(xmlBuffer.c_str());
+
         // get root node
         rootNode = xmlDoc->RootElement();
         if (nullptr == rootNode)
@@ -362,7 +363,6 @@ Data UserDefault::getDataForKey(const char* pKey, const Data& defaultValue)
                 // set value in NSUserDefaults
                 setDataForKey(pKey, ret);
                 
-                free(decodedData);
                 flush();
                 
                 // delete xmle node
@@ -395,8 +395,9 @@ Data UserDefault::getDataForKey(const char* pKey, const Data& defaultValue)
     CCLOG("DECODED DATA: %s %d", decodedData, decodedDataLen);
     
     if (decodedData && decodedDataLen) {
-        ret = Data::create(decodedData, decodedDataLen);
-        free(decodedData);
+        Data ret;
+        ret.fastSet(decodedData, decodedDataLen);
+        return ret;
     }
 
     return defaultValue;

@@ -35,9 +35,13 @@ THE SOFTWARE.
 #include "CCTextureCache.h"
 #include "platform/CCFileUtils.h"
 #include "CCGL.h"
-#include "CCNotificationCenter.h"
 #include "CCEventType.h"
 #include "CCGrid.h"
+
+#include "CCRenderer.h"
+#include "CCGroupCommand.h"
+#include "CCCustomCommand.h"
+
 // extern
 #include "kazmath/GL/matrix.h"
 #include "CCEventListenerCustom.h"
@@ -192,8 +196,8 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_oldFBO);
 
         // textures must be power of two squared
-        long powW = 0;
-        long powH = 0;
+        int powW = 0;
+        int powH = 0;
 
         if (Configuration::getInstance()->supportsNPOT())
         {
@@ -206,7 +210,7 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
             powH = ccNextPOT(h);
         }
 
-        long dataLen = (long)(powW * powH * 4);
+        auto dataLen = powW * powH * 4;
         data = malloc(dataLen);
         CC_BREAK_IF(! data);
 

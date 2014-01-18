@@ -29,7 +29,6 @@ THE SOFTWARE.
 #include "CCTextureAtlas.h"
 #include "TGAlib.h"
 #include "ccConfig.h"
-#include "CCDictionary.h"
 #include "CCInteger.h"
 #include "CCDirector.h"
 #include "CCString.h"

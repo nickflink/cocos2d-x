@@ -79,12 +79,6 @@ bool ControlButton::initWithLabelAndBackgroundSprite(Node* node, Scale9Sprite* b
         
         _parentInited = true;
 
-        // Initialize the button state tables
-        this->setTitleDispatchTable(Dictionary::create());
-        this->setTitleColorDispatchTable(Dictionary::create());
-        this->setTitleLabelDispatchTable(Dictionary::create());
-        this->setBackgroundSpriteDispatchTable(Dictionary::create());
-
         _isPushed = false;
         _zoomOnTouchDown = true;
 
@@ -378,7 +372,7 @@ const std::string& ControlButton::getTitleTTFForState(State state)
     LabelTTF* labelTTF = dynamic_cast<LabelTTF*>(label);
     if(labelTTF != 0)
     {
-        return labelTTF->getFontName().c_str();
+        return labelTTF->getFontName();
     }
 
     static std::string ret("");

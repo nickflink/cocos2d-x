@@ -4,6 +4,8 @@
 #include "SceneEditorTest.h"
 #include "cocostudio/CocoStudio.h"
 #include "gui/CocosGUI.h"
+#include "TriggerCode/EventDef.h"
+#include "../../testResource.h"
 
 using namespace cocos2d;
 using namespace cocostudio;
@@ -153,19 +155,69 @@ void SceneEditorTestLayer::onEnter()
 
 void SceneEditorTestLayer::onExit()
 {
-    ArmatureDataManager::getInstance()->destoryInstance();
-	SceneReader::getInstance()->purgeSceneReader();
-	ActionManagerEx::shareManager()->purgeActionManager();
+    removeAllChildren();
+    backItem = restartItem = nextItem = nullptr;
+    Layer::onExit();
 }
 
 std::string SceneEditorTestLayer::title()
 {
-	_curNode = nullptr;
+    return "SceneReader Test LoadSceneEditorFile";
 }
 
 std::string SceneEditorTestLayer::subtitle()
 {
-	Scene * scene = nullptr;
+    return "";
+}
+
+void SceneEditorTestLayer::restartCallback(Object *pSender)
+{
+    Scene *s = new SceneEditorTestScene();
+    s->addChild(Restart());
+    Director::getInstance()->replaceScene(s);
+    s->release();
+}
+
+void SceneEditorTestLayer::nextCallback(Object *pSender)
+{
+    Scene *s = new SceneEditorTestScene();
+    s->addChild(Next());
+    Director::getInstance()->replaceScene(s);
+    s->release();
+}
+
+void SceneEditorTestLayer::backCallback(Object *pSender)
+{
+    Scene *s = new SceneEditorTestScene();
+    s->addChild(Back());
+    Director::getInstance()->replaceScene(s);
+    s->release();
+}
+
+void SceneEditorTestLayer::draw()
+{
+    Layer::draw();
+}
+
+
+LoadSceneEdtiorFileTest::LoadSceneEdtiorFileTest()
+{
+	
+}
+
+LoadSceneEdtiorFileTest::~LoadSceneEdtiorFileTest()
+{
+
+}
+
+std::string LoadSceneEdtiorFileTest::title()
+{
+    return "loadSceneEdtiorFile Test";
+}
+
+void LoadSceneEdtiorFileTest::onEnter()
+{
+    SceneEditorTestLayer::onEnter();
 	do 
 	{
         Node *root = createGameScene();
@@ -639,43 +691,73 @@ bool AttributeComponentTest::initData()
 	return bRet;
 }
 
-static ActionObject* actionObject = nullptr;
-
-cocos2d::Node* SceneEditorTestLayer::createGameScene()
+cocos2d::Node* AttributeComponentTest::createGameScene()
 {
-    Node *pNode = SceneReader::getInstance()->createNodeWithSceneFile("scenetest/FishJoy2.json");
-	if (pNode == nullptr)
+    Node *node = SceneReader::getInstance()->createNodeWithSceneFile("scenetest/AttributeComponentTest/AttributeComponentTest.json");
+	if (node == nullptr)
 	{
 		return nullptr;
 	}
-	_curNode = pNode;
-   
-    MenuItemFont *itemBack = MenuItemFont::create("Back", CC_CALLBACK_1(SceneEditorTestLayer::toExtensionsMainLayer, this));
-        itemBack->setColor(Color3B(255, 255, 255));
-        itemBack->setPosition(Point(VisibleRect::rightBottom().x - 50, VisibleRect::rightBottom().y + 25));
-        Menu *menuBack = Menu::create(itemBack, nullptr);
-        menuBack->setPosition(Point(0.0f, 0.0f));
-		menuBack->setZOrder(4);
+	_node = node;
+    return node;
+}
 
-    pNode->addChild(menuBack);
-    
-    //ui action
-	actionObject = ActionManagerEx::shareManager()->playActionByName("startMenu_1.json","Animation1");
-    return pNode;
+TriggerTest::TriggerTest()
+: _node(nullptr)
+, _touchListener(nullptr)
+{
+	
+}
+
+TriggerTest::~TriggerTest()
+{
+}
+
+std::string TriggerTest::title()
+{
+    return "Trigger Test";
+}
+
+
+// on "init" you need to initialize your instance
+void TriggerTest::onEnter()
+{
+	SceneEditorTestLayer::onEnter();
+    Node *root = createGameScene();
+    this->addChild(root, 0, 1);
+    this->schedule(schedule_selector(TriggerTest::gameLogic));
+    auto dispatcher = Director::getInstance()->getEventDispatcher();
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    listener->onTouchBegan = CC_CALLBACK_2(SceneEditorTestLayer::onTouchBegan, this);
+    listener->onTouchMoved = CC_CALLBACK_2(SceneEditorTestLayer::onTouchMoved, this);
+    listener->onTouchEnded = CC_CALLBACK_2(SceneEditorTestLayer::onTouchEnded, this);
+    listener->onTouchCancelled = CC_CALLBACK_2(SceneEditorTestLayer::onTouchCancelled, this);
+    dispatcher->addEventListenerWithFixedPriority(listener, 1);
+    _touchListener = listener;
+    sendEvent(TRIGGEREVENT_ENTERSCENE);
+}
+
+
+void TriggerTest::onExit()
+{
+	sendEvent(TRIGGEREVENT_LEAVESCENE);
+    this->unschedule(schedule_selector(TriggerTest::gameLogic));
+    auto dispatcher = Director::getInstance()->getEventDispatcher();
+    dispatcher->removeEventListener(_touchListener);
+    Device::setAccelerometerEnabled(false);
+	ArmatureDataManager::destroyInstance();
+    SceneReader::destroyInstance();
+    ActionManagerEx::destroyInstance();
+    GUIReader::destroyInstance();
+    SceneEditorTestLayer::onExit();
 }
 
 bool TriggerTest::onTouchBegan(Touch *touch, Event *unused_event)
 {
-	if (actionObject)
-	{
-		actionObject->stop();
-	}
-    ComAudio *pBackMusic = (ComAudio*)(_curNode->getComponent("CCBackgroundAudio"));
-    pBackMusic->stopBackgroundMusic();
-	ExtensionsTestScene *pScene = new ExtensionsTestScene();
-	pScene->runThisTest();
-	pScene->release();
-}  
+    sendEvent(TRIGGEREVENT_TOUCHBEGAN);
+    return true;
+}
 
 void TriggerTest::onTouchMoved(Touch *touch, Event *unused_event)
 {

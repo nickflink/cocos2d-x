@@ -46,7 +46,7 @@ public:
     
 private:
     
-    static std::string generateFontName(const char *fontFileName, int size, GlyphCollection theGlyphs);
+    static std::string generateFontName(const std::string& fontFileName, int size, GlyphCollection theGlyphs, bool useDistanceField);
     static std::unordered_map<std::string, FontAtlas *> _atlasMap;
 };
 

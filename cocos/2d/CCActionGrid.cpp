@@ -26,6 +26,7 @@ THE SOFTWARE.
 #include "CCActionGrid.h"
 #include "CCDirector.h"
 #include "CCGrid.h"
+#include "CCNodeGrid.h"
 
 NS_CC_BEGIN
 // implementation of GridAction
@@ -352,12 +353,18 @@ DeccelAmplitude* DeccelAmplitude::reverse() const
 void StopGrid::startWithTarget(Node *target)
 {
     ActionInstant::startWithTarget(target);
-
-    GridBase *grid = _target->getGrid();
+    cacheTargetAsGridNode();
+    GridBase *grid = _gridNodeTarget->getGrid();
     if (grid && grid->isActive())
     {
         grid->setActive(false);
     }
+}
+
+void StopGrid::cacheTargetAsGridNode()
+{
+    _gridNodeTarget = dynamic_cast<NodeGrid*> (_target);
+    CCASSERT(_gridNodeTarget, "GridActions can only used on NodeGrid");
 }
 
 StopGrid* StopGrid::create()

@@ -30,7 +30,7 @@ THE SOFTWARE.
 #define __ACTION_CCACTION_MANAGER_H__
 
 #include "CCAction.h"
-#include "CCArray.h"
+#include "CCVector.h"
 #include "CCObject.h"
 
 NS_CC_BEGIN
@@ -101,7 +101,7 @@ public:
      * - If you are running 1 Sequence of 7 actions, it will return 1.
      * - If you are running 7 Sequences of 2 actions, it will return 7.
      */
-    long getNumberOfRunningActionsInTarget(const Object *target) const;
+    ssize_t getNumberOfRunningActionsInTarget(const Node *target) const;
 
     /** @deprecated use getNumberOfRunningActionsInTarget() instead */
     CC_DEPRECATED_ATTRIBUTE inline ssize_t numberOfRunningActionsInTarget(Node *target) const { return getNumberOfRunningActionsInTarget(target); }
@@ -125,9 +125,9 @@ public:
 protected:
     // declared in ActionManager.m
 
-    void removeActionAtIndex(long index, struct _hashElement *pElement);
-    void deleteHashElement(struct _hashElement *pElement);
-    void actionAllocWithHashElement(struct _hashElement *pElement);
+    void removeActionAtIndex(ssize_t index, struct _hashElement *element);
+    void deleteHashElement(struct _hashElement *element);
+    void actionAllocWithHashElement(struct _hashElement *element);
     void update(float dt);
 
 protected:

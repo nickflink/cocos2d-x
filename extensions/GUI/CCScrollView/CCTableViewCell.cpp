@@ -33,22 +33,12 @@ void TableViewCell::reset()
     _idx = CC_INVALID_INDEX;
 }
 
-void TableViewCell::setObjectID(long uIdx)
-{
-    _idx = uIdx;
-}
-
-long TableViewCell::getObjectID()
+ssize_t TableViewCell::getIdx()
 {
     return _idx;
 }
 
-long TableViewCell::getIdx()
-{
-    return _idx;
-}
-
-void TableViewCell::setIdx(long uIdx)
+void TableViewCell::setIdx(ssize_t idx)
 {
     _idx = idx;
 }

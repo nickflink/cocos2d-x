@@ -174,11 +174,11 @@ PointArray* PointArray::reverse() const
 
 void PointArray::reverseInline()
 {
-    unsigned long l = _controlPoints->size();
+    size_t l = _controlPoints->size();
     Point *p1 = nullptr;
     Point *p2 = nullptr;
-    int x, y;
-    for (unsigned int i = 0; i < l/2; ++i)
+    float x, y;
+    for (size_t i = 0; i < l/2; ++i)
     {
         p1 = _controlPoints->at(i);
         p2 = _controlPoints->at(l-i-1);
@@ -547,7 +547,7 @@ CatmullRomBy* CatmullRomBy::reverse() const
     p = -p;
     reverse->insertControlPoint(p, 0);
 
-    for (unsigned int i = 1; i < reverse->count(); ++i)
+    for (ssize_t i = 1; i < reverse->count(); ++i)
     {
         Point current = reverse->getControlPointAtIndex(i);
         current = -current;

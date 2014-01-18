@@ -34,6 +34,20 @@ using namespace cocos2d;
 using namespace cocos2d::extension;
 using namespace gui;
 
+class CocosGUITestMainLayer : public Layer
+{
+public:
+    virtual void onEnter();
+    
+	void onTouchesBegan(const std::vector<Touch*>& touches, Event  *event);
+    void onTouchesMoved(const std::vector<Touch*>& touches, Event  *event);
+    
+	Point _beginPos;
+    Menu* _itemMenu;
+    
+	int _testcount;
+};
+
 class CocosGUITestScene : public TestScene
 {
 public:

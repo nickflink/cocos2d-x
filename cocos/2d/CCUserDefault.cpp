@@ -58,17 +58,16 @@ static tinyxml2::XMLElement* getXMLNodeForKey(const char* pKey, tinyxml2::XMLEle
     {
  		tinyxml2::XMLDocument* xmlDoc = new tinyxml2::XMLDocument();
 		*doc = xmlDoc;
-		//CCFileData data(UserDefault::getInstance()->getXMLFilePath().c_str(),"rt");
-		long nSize;
-		char* pXmlBuffer = (char*)FileUtils::getInstance()->getFileData(UserDefault::getInstance()->getXMLFilePath().c_str(), "rb", &nSize);
-		//const char* pXmlBuffer = (const char*)data.getBuffer();
-		if(NULL == pXmlBuffer)
+
+        std::string xmlBuffer = FileUtils::getInstance()->getStringFromFile(UserDefault::getInstance()->getXMLFilePath());
+
+		if (xmlBuffer.empty())
 		{
 			CCLOG("can not read xml file");
 			break;
 		}
-		xmlDoc->Parse(pXmlBuffer, nSize);
-        free(pXmlBuffer);
+		xmlDoc->Parse(xmlBuffer.c_str(), xmlBuffer.size());
+
 		// get root node
 		*rootNode = xmlDoc->RootElement();
 		if (nullptr == *rootNode)
@@ -315,9 +314,7 @@ Data UserDefault::getDataForKey(const char* pKey, const Data& defaultValue)
         int decodedDataLen = base64Decode((unsigned char*)encodedData, (unsigned int)strlen(encodedData), &decodedData);
         
         if (decodedData) {
-            ret = Data::create(decodedData, decodedDataLen);
-        
-            free(decodedData);
+            ret.fastSet(decodedData, decodedDataLen);
         }
 	}
     
@@ -475,7 +472,7 @@ bool UserDefault::createXMLFile()
         return false;  
     }  
 	tinyxml2::XMLDeclaration *pDeclaration = pDoc->NewDeclaration(nullptr);  
-	if (NULL==pDeclaration)  
+	if (nullptr==pDeclaration)  
 	{  
 		return false;  
 	}  

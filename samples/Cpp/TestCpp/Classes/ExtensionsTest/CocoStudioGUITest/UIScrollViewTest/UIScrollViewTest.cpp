@@ -38,7 +38,9 @@ bool UIScrollViewTest_Vertical::init()
         alert->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f - alert->getSize().height * 3.075f));
         _uiLayer->addChild(alert);
         
-        UILayout *background = dynamic_cast<UILayout*>(m_pUiLayer->getWidgetByName("background_Panel"));
+        Layout* root = static_cast<Layout*>(_uiLayer->getChildByTag(81));
+        
+        Layout* background = dynamic_cast<Layout*>(root->getChildByName("background_Panel"));
         
         // Create the scrollview by vertical
         gui::ScrollView* scrollView = gui::ScrollView::create();
@@ -123,10 +125,12 @@ bool UIScrollViewTest_Horizontal::init()
         alert->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f - alert->getSize().height * 3.075f));
         _uiLayer->addChild(alert);
         
-        UILayout *background = dynamic_cast<UILayout*>(m_pUiLayer->getWidgetByName("background_Panel"));
+        Layout* root = static_cast<Layout*>(_uiLayer->getChildByTag(81));
+        
+        Layout* background = dynamic_cast<Layout*>(root->getChildByName("background_Panel"));
         
         // Create the scrollview by horizontal
-        UIScrollView* scrollView = UIScrollView::create();
+        gui::ScrollView* scrollView = gui::ScrollView::create();
         scrollView->setBounceEnabled(true);
         scrollView->setDirection(SCROLLVIEW_DIR_HORIZONTAL);
         scrollView->setTouchEnabled(true);

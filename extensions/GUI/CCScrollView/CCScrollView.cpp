@@ -153,25 +153,17 @@ void ScrollView::pause(Object* sender)
 {
     _container->pause();
 
-    Object* pObj = NULL;
-    Array* pChildren = _container->getChildren();
-
-    CCARRAY_FOREACH(pChildren, pObj)
-    {
-        Node* pChild = static_cast<Node*>(pObj);
-        pChild->pause();
+    auto& children = _container->getChildren();
+    for(const auto &child : children) {
+        child->pause();
     }
 }
 
 void ScrollView::resume(Object* sender)
 {
-    Object* pObj = NULL;
-    Array* pChildren = _container->getChildren();
-
-    CCARRAY_FOREACH(pChildren, pObj)
-    {
-        Node* pChild = static_cast<Node*>(pObj);
-        pChild->resume();
+    auto& children = _container->getChildren();
+    for(const auto &child : children) {
+        child->resume();
     }
 
     _container->resume();

@@ -1511,15 +1511,15 @@ void TextureAsync::loadImages(float dt)
         for( int j=0;j < 8; j++) {
             char szSpriteName[100] = {0};
             sprintf(szSpriteName, "Images/sprites_test/sprite-%d-%d.png", i, j);
-            Director::getInstance()->getTextureCache()->addImageAsync(szSpriteName,this, callfuncO_selector(TextureAsync::imageLoaded));
+            Director::getInstance()->getTextureCache()->addImageAsync(szSpriteName, CC_CALLBACK_1(TextureAsync::imageLoaded, this));
         }
     }
 
-    Director::getInstance()->getTextureCache()->addImageAsync("Images/background1.jpg",this, callfuncO_selector(TextureAsync::imageLoaded));
-    Director::getInstance()->getTextureCache()->addImageAsync("Images/background2.jpg",this, callfuncO_selector(TextureAsync::imageLoaded));
-    Director::getInstance()->getTextureCache()->addImageAsync("Images/background.png",this, callfuncO_selector(TextureAsync::imageLoaded));
-    Director::getInstance()->getTextureCache()->addImageAsync("Images/atlastest.png",this, callfuncO_selector(TextureAsync::imageLoaded));
-    Director::getInstance()->getTextureCache()->addImageAsync("Images/grossini_dance_atlas.png",this, callfuncO_selector(TextureAsync::imageLoaded));
+    Director::getInstance()->getTextureCache()->addImageAsync("Images/background1.jpg", CC_CALLBACK_1(TextureAsync::imageLoaded, this));
+    Director::getInstance()->getTextureCache()->addImageAsync("Images/background2.jpg", CC_CALLBACK_1(TextureAsync::imageLoaded, this));
+    Director::getInstance()->getTextureCache()->addImageAsync("Images/background.png", CC_CALLBACK_1(TextureAsync::imageLoaded, this));
+    Director::getInstance()->getTextureCache()->addImageAsync("Images/atlastest.png", CC_CALLBACK_1(TextureAsync::imageLoaded, this));
+    Director::getInstance()->getTextureCache()->addImageAsync("Images/grossini_dance_atlas.png", CC_CALLBACK_1(TextureAsync::imageLoaded, this));
 }
 
 

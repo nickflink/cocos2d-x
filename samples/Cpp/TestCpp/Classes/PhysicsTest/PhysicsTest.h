@@ -11,17 +11,8 @@
 class PhysicsTestScene : public TestScene
 {
 public:
-    PhysicsTestScene()
-    :TestScene(false, true)
-    , _debugDraw(false)
-    {}
+    PhysicsTestScene();
     
-    virtual void onEnter() override;
-};
-#else
-
-class PhysicsDemo : public BaseTest
-{
 public:
     virtual void runThisTest();
     
@@ -31,15 +22,27 @@ private:
     bool _debugDraw;
 };
 
+#if CC_USE_PHYSICS == 0
+class PhysicsDemoDisabled : public BaseTest
+{
+public:
+    CREATE_FUNC(PhysicsDemoDisabled);
+    
+    virtual void onEnter() override;
+};
+#else
+
 class PhysicsDemo : public BaseTest
 {
 public:
+    CREATE_FUNC(PhysicsDemo);
+
     PhysicsDemo();
     virtual ~PhysicsDemo();
     
     virtual void onEnter() override;
-    virtual std::string title() override;
-    virtual std::string subtitle() override;
+    virtual std::string title() const override;
+    virtual std::string subtitle() const override;
     
     void restartCallback(Object* sender);
     void nextCallback(Object* sender);
@@ -59,15 +62,17 @@ protected:
     PhysicsTestScene* _scene;
     Texture2D* _spriteTexture;    // weak ref
     SpriteBatchNode* _ball;
-    std::map<int, Node*> _mouses;
+    std::unordered_map<int, Node*> _mouses;
 };
 
 class PhysicsDemoClickAdd : public PhysicsDemo
 {
 public:
+    CREATE_FUNC(PhysicsDemoClickAdd);
+
     virtual ~PhysicsDemoClickAdd();
     void onEnter() override;
-    std::string subtitle() override;
+    virtual std::string subtitle() const override;
     
     void onTouchesEnded(const std::vector<Touch*>& touches, Event* event);
     void onAcceleration(Acceleration* acc, Event* event);
@@ -76,24 +81,30 @@ public:
 class PhysicsDemoLogoSmash : public PhysicsDemo
 {
 public:
+    CREATE_FUNC(PhysicsDemoLogoSmash);
+
     void onEnter() override;
-    std::string title() override;
+    virtual std::string title() const override;
 };
 
 class PhysicsDemoPyramidStack : public PhysicsDemo
 {
 public:
+    CREATE_FUNC(PhysicsDemoPyramidStack);
+
     void onEnter() override;
-    std::string title() override;
+    virtual std::string title() const override;
 };
 
 class PhysicsDemoRayCast : public PhysicsDemo
 {
 public:
+    CREATE_FUNC(PhysicsDemoRayCast);
+
     PhysicsDemoRayCast();
-public:
+
     void onEnter() override;
-    std::string title() override;
+    virtual std::string title() const override;
     void update(float delta) override;
     void onTouchesEnded(const std::vector<Touch*>& touches, Event* event);
     
@@ -110,57 +121,19 @@ private:
 class PhysicsDemoJoints : public PhysicsDemo
 {
 public:
+    CREATE_FUNC(PhysicsDemoJoints);
+
     void onEnter() override;
-    std::string title() override;
+    virtual std::string title() const override;
 };
 
 class PhysicsDemoActions : public PhysicsDemo
 {
 public:
-    void onEnter() override;
-    std::string title() override;
-};
+    CREATE_FUNC(PhysicsDemoActions);
 
-class PhysicsDemoPump : public PhysicsDemo
-{
-public:
     void onEnter() override;
-    void update(float delta) override;
-    std::string title() override;
-    std::string subtitle() override;
-    
-    bool onTouchBegan(Touch* touch, Event* event);
-    void onTouchMoved(Touch* touch, Event* event);
-    void onTouchEnded(Touch* touch, Event* event);
-    
-private:
-    float _distance;
-    float _rotationV;
-};
-
-class PhysicsDemoOneWayPlatform : public PhysicsDemo
-{
-public:
-    void onEnter() override;
-    std::string title() override;
-    
-    bool onContactBegin(EventCustom* event, const PhysicsContact& contact);
-};
-
-class PhysicsDemoSlice : public PhysicsDemo
-{
-public:
-    void onEnter() override;
-    std::string title() override;
-    std::string subtitle() override;
-    
-    bool slice(PhysicsWorld& world, const PhysicsRayCastInfo& info, void* data);
-    void clipPoly(PhysicsShapePolygon* shape, Point normal, float distance);
-    
-    void onTouchEnded(Touch *touch, Event *event);
-    
-private:
-    int _sliceTag;
+    virtual std::string title() const override;
 };
 
 class PhysicsDemoPump : public PhysicsDemo

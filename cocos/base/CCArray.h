@@ -251,7 +251,7 @@ public:
     /** Create an array with a default capacity 
      * @js NA
      */
-    static Array* createWithCapacity(long capacity);
+    static __Array* createWithCapacity(ssize_t capacity);
     /** Create an array with from an existing array 
      * @js NA
      */
@@ -296,7 +296,7 @@ public:
      * @js NA
      * @lua NA
      */
-    bool initWithCapacity(long capacity);
+    bool initWithCapacity(ssize_t capacity);
     /** Initializes an array with an existing array 
      * @js NA
      * @lua NA
@@ -308,7 +308,7 @@ public:
     /** Returns element count of the array 
      * @js NA
      */
-    long count() const
+    ssize_t count() const
     {
 #if CC_USE_ARRAY_VECTOR
         return data.size();
@@ -319,7 +319,7 @@ public:
     /** Returns capacity of the array 
      * @js NA
      */
-    long capacity() const
+    ssize_t capacity() const
     {
 #if CC_USE_ARRAY_VECTOR
         return data.capacity();
@@ -331,17 +331,17 @@ public:
      * @js NA
      * @lua NA
      */
-    long getIndexOfObject(Object* object) const;
+    ssize_t getIndexOfObject(Object* object) const;
     /**
      * @js NA
      */
-    CC_DEPRECATED_ATTRIBUTE long indexOfObject(Object* object) const { return getIndexOfObject(object); }
+    CC_DEPRECATED_ATTRIBUTE ssize_t indexOfObject(Object* object) const { return getIndexOfObject(object); }
 
     /** Returns an element with a certain index 
      * @js NA
      * @lua NA
      */
-    Object* getObjectAtIndex(long index)
+    Object* getObjectAtIndex(ssize_t index)
     {
         CCASSERT(index>=0 && index < count(), "index out of range in getObjectAtIndex()");
 #if CC_USE_ARRAY_VECTOR
@@ -350,7 +350,7 @@ public:
         return data->arr[index];
 #endif
     }
-    CC_DEPRECATED_ATTRIBUTE Object* objectAtIndex(long index) { return getObjectAtIndex(index); }
+    CC_DEPRECATED_ATTRIBUTE Object* objectAtIndex(ssize_t index) { return getObjectAtIndex(index); }
     /** Returns the last element of the array 
      * @js NA
      */
@@ -402,17 +402,17 @@ public:
     /** Insert a certain object at a certain index 
      * @js NA
      */
-    void insertObject(Object* object, long index);
+    void insertObject(Object* object, ssize_t index);
     /** sets a certain object at a certain index 
      * @js NA
      * @lua NA
      */
-    void setObject(Object* object, long index);
+    void setObject(Object* object, ssize_t index);
     /** sets a certain object at a certain index without retaining. Use it with caution 
      * @js NA
      * @lua NA
      */
-    void fastSetObject(Object* object, long index)
+    void fastSetObject(Object* object, ssize_t index)
     {
 #if CC_USE_ARRAY_VECTOR
         setObject(object, index);
@@ -425,7 +425,7 @@ public:
      * @js NA
      * @lua NA
      */
-    void swap( long indexOne, long indexTwo )
+    void swap( ssize_t indexOne, ssize_t indexTwo )
     {
         CCASSERT(indexOne >=0 && indexOne < count() && indexTwo >= 0 && indexTwo < count(), "Invalid indices");
 #if CC_USE_ARRAY_VECTOR
@@ -448,7 +448,7 @@ public:
     /** Remove an element with a certain index 
      * @js NA
      */
-    void removeObjectAtIndex(long index, bool releaseObj = true);
+    void removeObjectAtIndex(ssize_t index, bool releaseObj = true);
     /** Remove all elements 
      * @js NA
      */
@@ -464,7 +464,7 @@ public:
     /** Fast way to remove an element with a certain index 
      * @js NA
      */
-    void fastRemoveObjectAtIndex(long index);
+    void fastRemoveObjectAtIndex(ssize_t index);
 
     // Rearranging Content
 
@@ -475,12 +475,12 @@ public:
     /** Swap two elements with certain indexes 
      * @js NA
      */
-    void exchangeObjectAtIndex(long index1, long index2);
+    void exchangeObjectAtIndex(ssize_t index1, ssize_t index2);
 
     /** Replace object at index with another object. 
      * @js NA
      */
-    void replaceObjectAtIndex(long index, Object* object, bool releaseObject = true);
+    void replaceObjectAtIndex(ssize_t index, Object* object, bool releaseObject = true);
 
     /** Revers the array 
      * @js NA

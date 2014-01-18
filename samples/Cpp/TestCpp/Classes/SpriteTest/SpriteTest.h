@@ -68,7 +68,8 @@ public:
     SpriteBatchNode1();
     void addNewSpriteWithCoords(Point p);
     void onTouchesEnded(const std::vector<Touch*>& touches, Event* event);
-    virtual std::string title();
+    virtual std::string title() const override;
+    virtual std::string subtitle() const override;
 };
 
 class SpriteColorOpacity : public SpriteTestDemo

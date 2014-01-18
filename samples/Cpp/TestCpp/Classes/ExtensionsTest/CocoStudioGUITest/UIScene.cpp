@@ -4,6 +4,7 @@
 #include "UISceneManager.h"
 #include "../ExtensionsTest.h"
 #include "editor-support/cocostudio/CCSGUIReader.h"
+#include "CocosGUIScene.h"
 
 using namespace gui;
 
@@ -29,8 +30,10 @@ bool UIScene::init()
         _widget = dynamic_cast<Layout*>(cocostudio::GUIReader::getInstance()->widgetFromJsonFile("cocosgui/UITest/UITest.json"));
         _uiLayer->addChild(_widget);
         
-        m_pWidget = dynamic_cast<UILayout*>(cocostudio::GUIReader::shareReader()->widgetFromJsonFile("cocosgui/UITest/UITest.json"));
-        m_pUiLayer->addWidget(m_pWidget);
+        Size screenSize = Director::getInstance()->getWinSize();
+        Size rootSize = _widget->getSize();
+        _uiLayer->setPosition(Point((screenSize.width - rootSize.width) / 2,
+                                        (screenSize.height - rootSize.height) / 2));
         
         Layout* root = static_cast<Layout*>(_uiLayer->getChildByTag(81));
         
@@ -57,7 +60,7 @@ void UIScene::menuCloseCallback(Object* pSender, TouchEventType type)
 {
     if (type == TOUCH_EVENT_ENDED)
     {
-        m_pUiLayer->removeFromParent();
+        _uiLayer->removeFromParent();
         auto scene = new ExtensionsTestScene();
         scene->runThisTest();
         scene->release();
@@ -80,7 +83,6 @@ void UIScene::previousCallback(Object* sender, TouchEventType type)
 {
     if (type == TOUCH_EVENT_ENDED)
     {
-        m_pUiLayer->removeFromParent();
         CCDirector::getInstance()->replaceScene(UISceneManager::sharedUISceneManager()->previousUIScene());
     }
 }
@@ -89,7 +91,6 @@ void UIScene::restartCallback(Object* sender, TouchEventType type)
 {
     if (type == TOUCH_EVENT_ENDED)
     {
-        m_pUiLayer->removeFromParent();
         CCDirector::getInstance()->replaceScene(UISceneManager::sharedUISceneManager()->currentUIScene());
     }
 }
@@ -98,7 +99,6 @@ void UIScene::nextCallback(Object* sender, TouchEventType type)
 {
     if (type == TOUCH_EVENT_ENDED)
     {
-        m_pUiLayer->removeFromParent();
         CCDirector::getInstance()->replaceScene(UISceneManager::sharedUISceneManager()->nextUIScene());
     }
 }

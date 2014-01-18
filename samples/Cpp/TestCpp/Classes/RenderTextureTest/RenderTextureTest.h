@@ -24,8 +24,8 @@ public:
     CREATE_FUNC(RenderTextureSave);
     RenderTextureSave();
     ~RenderTextureSave();
-    virtual std::string title();
-    virtual std::string subtitle();
+    virtual std::string title() const override;
+    virtual std::string subtitle() const override;
     void onTouchesMoved(const std::vector<Touch*>& touches, Event* event);
     void clearImage(Object *pSender);
     void saveImage(Object *pSender);
@@ -59,8 +59,8 @@ public:
     void onTouchesMoved(const std::vector<Touch*>& touches, Event* event);
     void onTouchesBegan(const std::vector<Touch*>& touches, Event* event);
     void onTouchesEnded(const std::vector<Touch*>& touches, Event* event);
-    virtual std::string title();
-    virtual std::string subtitle();
+    virtual std::string title() const override;
+    virtual std::string subtitle() const override;
 
     void renderScreenShot();
 
@@ -140,8 +140,8 @@ public:
     SpriteRenderTextureBug();
     
     void onTouchesEnded(const std::vector<Touch*>& touches, Event* event);
-    virtual std::string title();
-    virtual std::string subtitle();
+    virtual std::string title() const override;
+    virtual std::string subtitle() const override;
     
     SimpleSprite* addNewSpriteWithCoords(const Point& p);
 };

@@ -21,9 +21,9 @@ void DemoFirework::onEnter()
     _emitter = ParticleFireworks::create();
     _emitter->retain();
     _background->addChild(_emitter, 10);
-    
+
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_stars1) );
-    
+
     setEmitterPosition();
 }
 
@@ -45,7 +45,7 @@ void DemoFire::onEnter()
     _emitter = ParticleFire::create();
     _emitter->retain();
     _background->addChild(_emitter, 10);
-    
+
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_fire) );//.pvr");
     auto p = _emitter->getPosition();
     _emitter->setPosition( Point(p.x, 100) );
@@ -72,7 +72,7 @@ void DemoSun::onEnter()
     _background->addChild(_emitter, 10);
 
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_fire) );
-    
+
     setEmitterPosition();
 }
 
@@ -93,10 +93,10 @@ void DemoGalaxy::onEnter()
     _emitter = ParticleGalaxy::create();
     _emitter->retain();
     _background->addChild(_emitter, 10);
-    
+
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_fire) );
-    
-    setEmitterPosition(); 
+
+    setEmitterPosition();
 }
 
 std::string DemoGalaxy::title() const
@@ -117,7 +117,7 @@ void DemoFlower::onEnter()
     _emitter->retain();
     _background->addChild(_emitter, 10);
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_stars1) );
-    
+
     setEmitterPosition();
 }
 
@@ -224,7 +224,7 @@ void DemoRotFlower::onEnter()
     _background->addChild(_emitter, 10);
     ////_emitter->release();    // win32 : Remove this line
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_stars2) );
-    
+
     // duration
     _emitter->setDuration(-1);
 
@@ -305,9 +305,9 @@ void DemoMeteor::onEnter()
     _emitter = ParticleMeteor::create();
     _emitter->retain();
     _background->addChild(_emitter, 10);
-    
+
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_fire) );
-    
+
     setEmitterPosition();
 }
 
@@ -328,9 +328,9 @@ void DemoSpiral::onEnter()
     _emitter = ParticleSpiral::create();
     _emitter->retain();
     _background->addChild(_emitter, 10);
-    
+
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_fire) );
-    
+
     setEmitterPosition();
 }
 
@@ -351,9 +351,9 @@ void DemoExplosion::onEnter()
     _emitter = ParticleExplosion::create();
     _emitter->retain();
     _background->addChild(_emitter, 10);
-    
+
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_stars1) );
-    
+
     _emitter->setAutoRemoveOnFinish(true);
 
     setEmitterPosition();
@@ -377,7 +377,7 @@ void DemoSmoke::onEnter()
     _emitter->retain();
     _background->addChild(_emitter, 10);
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_fire) );
-    
+
     auto p = _emitter->getPosition();
     _emitter->setPosition( Point( p.x, 100) );
 
@@ -426,9 +426,9 @@ void DemoSnow::onEnter()
     _emitter->setStartColorVar(startColorVar);
 
     _emitter->setEmissionRate(_emitter->getTotalParticles()/_emitter->getLife());
-    
+
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_snow) );
-    
+
     setEmitterPosition();
 }
 
@@ -453,9 +453,9 @@ void DemoRain::onEnter()
     auto p = _emitter->getPosition();
     _emitter->setPosition( Point( p.x, p.y-100) );
     _emitter->setLife(4);
-    
+
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_fire) );
-    
+
     setEmitterPosition();
 }
 
@@ -537,7 +537,7 @@ void DemoModernArt::onEnter()
 
     // texture
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_fire) );
-    
+
     // additive
     _emitter->setBlendAdditive(false);
 
@@ -609,7 +609,7 @@ void ParallaxParticle::onEnter()
     auto par = ParticleSun::create();
     p2->addChild(par, 10);
     par->setTexture( Director::getInstance()->getTextureCache()->addImage(s_fire) );
-    
+
     auto move = MoveBy::create(4, Point(300,0));
     auto move_back = move->reverse();
     auto seq = Sequence::create( move, move_back, NULL);
@@ -894,11 +894,10 @@ void Issue870::onEnter()
     removeChild(_background, true);
     _background = NULL;
 
-    auto system = new ParticleSystemQuad();
-    system->initWithFile("Particles/SpinningPeas.plist");
-    system->setTextureWithRect(Director::getInstance()->getTextureCache()->addImage("Images/particles.png"), Rect(0,0,32,32));
-    addChild(system, 10);
-    _emitter = system;
+    _emitter = ParticleSystemQuad::create("Particles/SpinningPeas.plist");
+    _emitter->setTextureWithRect(Director::getInstance()->getTextureCache()->addImage("Images/particles.png"), Rect(0,0,32,32));
+    addChild(_emitter, 10);
+    _emitter->retain();
 
     _index = 0;
     schedule(schedule_selector(Issue870::updateQuads), 2.0f);
@@ -1063,13 +1062,13 @@ void ParticleDemo::onEnter(void)
 	this->addChild(_color);
 
     _emitter = NULL;
-    
+
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesBegan = CC_CALLBACK_2(ParticleDemo::onTouchesBegan, this);
     listener->onTouchesMoved = CC_CALLBACK_2(ParticleDemo::onTouchesMoved, this);
     listener->onTouchesEnded = CC_CALLBACK_2(ParticleDemo::onTouchesEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
-    
+
     auto s = Director::getInstance()->getWinSize();
 
     auto item4 = MenuItemToggle::createWithCallback( CC_CALLBACK_1(ParticleDemo::toggleCallback, this),
@@ -1500,7 +1499,7 @@ void MultipleParticleSystems::onEnter()
     removeChild(_background, true);
     _background = NULL;
 
-    Director::getInstance()->getTextureCache()->addImage("Images/particles.png"); 
+    Director::getInstance()->getTextureCache()->addImage("Images/particles.png");
 
     for (int i = 0; i<5; i++) {
         auto particleSystem = ParticleSystemQuad::create("Particles/SpinningPeas.plist");

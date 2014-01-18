@@ -199,16 +199,13 @@ tImageTGA* tgaLoadBuffer(unsigned char* buffer, long size)
     int mode,total;
     tImageTGA *info = nullptr;
     
-    long size = 0;
-    unsigned char* pBuffer = FileUtils::getInstance()->getFileData(filename, "rb", &size);
-
     do
     {
         CC_BREAK_IF(! buffer);
         info = (tImageTGA *)malloc(sizeof(tImageTGA));
 
         // get the file header info
-        if (! tgaLoadHeader(pBuffer, size, info))
+        if (! tgaLoadHeader(buffer, size, info))
         {
             info->status = TGA_ERROR_MEMORY;
             break;
@@ -246,11 +243,11 @@ tImageTGA* tgaLoadBuffer(unsigned char* buffer, long size)
         // finally load the image pixels
         if ( info->type == 10 )
         {
-            bLoadImage = tgaLoadRLEImageData(pBuffer, size, info);
+            bLoadImage = tgaLoadRLEImageData(buffer, size, info);
         }
         else
         {
-            bLoadImage = tgaLoadImageData(pBuffer, size, info);
+            bLoadImage = tgaLoadImageData(buffer, size, info);
         }
 
         // check for errors when reading the pixels
@@ -270,8 +267,6 @@ tImageTGA* tgaLoadBuffer(unsigned char* buffer, long size)
             }
         }
     } while(0);
-
-    free(pBuffer);
 
     return info;
 }

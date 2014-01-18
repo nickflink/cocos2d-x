@@ -175,18 +175,4 @@ void SimpleAudioEngineOpenSL::unloadEffect(const char* pszFilePath)
 {
 	s_pOpenSL->unloadEffect(pszFilePath);
 }
-bool SimpleAudioEngineOpenSL::hasVibrator()
-{
-LOGD("SimpleAudioEngineOpenSL::hasVibrator");
-	return s_pOpenSL->hasVibrator();
-}
-void SimpleAudioEngineOpenSL::vibrate(long long time)
-{
-LOGD("SimpleAudioEngineOpenSL::vibrate");
-	s_pOpenSL->vibrate(time);
-}
-void SimpleAudioEngineOpenSL::cancelVibrate()
-{
-	s_pOpenSL->cancelVibrate();
-}
 

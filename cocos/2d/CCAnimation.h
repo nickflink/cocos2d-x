@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "CCPlatformConfig.h"
 #include "CCObject.h"
 #include "CCArray.h"
-#include "CCDictionary.h"
+#include "CCValue.h"
 #include "CCGeometry.h"
 #include "CCSpriteFrame.h"
 #include "CCVector.h"

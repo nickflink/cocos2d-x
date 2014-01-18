@@ -93,7 +93,7 @@ LabelTTF* LabelTTF::create(const std::string& string, const std::string& fontNam
         return ret;
     }
     CC_SAFE_DELETE(ret);
-    return NULL;
+    return nullptr;
 }
 
 LabelTTF * LabelTTF::createWithFontDefinition(const std::string& string, FontDefinition &textDefinition)
@@ -105,7 +105,7 @@ LabelTTF * LabelTTF::createWithFontDefinition(const std::string& string, FontDef
         return ret;
     }
     CC_SAFE_DELETE(ret);
-    return NULL;
+    return nullptr;
 }
 
 bool LabelTTF::init()
@@ -188,7 +188,7 @@ const std::string& LabelTTF::getString() const
 
 std::string LabelTTF::getDescription() const
 {
-    return String::createWithFormat("<LabelTTF | FontName = %s, FontSize = %.1f>", _fontName.c_str(), _fontSize)->getCString();
+    return StringUtils::format("<LabelTTF | FontName = %s, FontSize = %.1f, Label = '%s'>", _fontName.c_str(), _fontSize, _string.c_str());
 }
 
 TextHAlignment LabelTTF::getHorizontalAlignment() const

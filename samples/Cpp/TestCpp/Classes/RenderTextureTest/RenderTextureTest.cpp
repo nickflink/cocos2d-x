@@ -101,12 +101,6 @@ RenderTextureSave::RenderTextureSave()
     // note that the render texture is a Node, and contains a sprite of its texture for convience,
     // so we can just parent it to the scene like any other Node
     this->addChild(_target, -1);
-
-    // create a brush image to draw into the texture with
-    _brush = Sprite::create("Images/fire.png");
-    _brush->retain();
-    _brush->setColor(Color3B::RED);
-    _brush->setOpacity(20);
     
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesMoved = CC_CALLBACK_2(RenderTextureSave::onTouchesMoved, this);

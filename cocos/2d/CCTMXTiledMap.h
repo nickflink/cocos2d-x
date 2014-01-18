@@ -117,12 +117,6 @@ public:
     /** initializes a TMX Tiled Map with a TMX formatted XML string and a path to TMX resources */
     static TMXTiledMap* createWithXML(const std::string& tmxString, const std::string& resourcePath);
 
-    /** initializes a TMX Tiled Map with a TMX file */
-    bool initWithTMXFile(const std::string& tmxFile);
-
-    /** initializes a TMX Tiled Map with a TMX formatted XML string and a path to TMX resources */
-    bool initWithXML(const std::string& tmxString, const std::string& resourcePath);
-
     /** return the TMXLayer for the specific layer */
     TMXLayer* getLayer(const std::string& layerName) const;
     /**
@@ -140,7 +134,7 @@ public:
     CC_DEPRECATED_ATTRIBUTE TMXObjectGroup* objectGroupNamed(const std::string& groupName) const { return getObjectGroup(groupName); };
 
     /** return the value for the specific property name */
-    String *getProperty(const std::string& propertyName) const;
+    Value getProperty(const std::string& propertyName) const;
     /**
      * @js NA
      * @lua NA

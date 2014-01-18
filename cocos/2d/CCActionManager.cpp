@@ -77,7 +77,7 @@ void ActionManager::deleteHashElement(tHashElement *element)
 void ActionManager::actionAllocWithHashElement(tHashElement *element)
 {
     // 4 actions per Node by default
-    if (element->actions == NULL)
+    if (element->actions == nullptr)
     {
         element->actions = ccArrayNew(4);
     }else 
@@ -88,7 +88,7 @@ void ActionManager::actionAllocWithHashElement(tHashElement *element)
 
 }
 
-void ActionManager::removeActionAtIndex(long index, tHashElement *element)
+void ActionManager::removeActionAtIndex(ssize_t index, tHashElement *element)
 {
     Action *action = (Action*)element->actions->arr[index];
 
@@ -123,7 +123,7 @@ void ActionManager::removeActionAtIndex(long index, tHashElement *element)
 
 void ActionManager::pauseTarget(Node *target)
 {
-    tHashElement *element = NULL;
+    tHashElement *element = nullptr;
     HASH_FIND_PTR(_targets, &target, element);
     if (element)
     {
@@ -133,7 +133,7 @@ void ActionManager::pauseTarget(Node *target)
 
 void ActionManager::resumeTarget(Node *target)
 {
-    tHashElement *element = NULL;
+    tHashElement *element = nullptr;
     HASH_FIND_PTR(_targets, &target, element);
     if (element)
     {
@@ -168,10 +168,10 @@ void ActionManager::resumeTargets(const Vector<Node*>& targetsToResume)
 
 void ActionManager::addAction(Action *action, Node *target, bool paused)
 {
-    CCASSERT(action != NULL, "");
-    CCASSERT(target != NULL, "");
+    CCASSERT(action != nullptr, "");
+    CCASSERT(target != nullptr, "");
 
-    tHashElement *element = NULL;
+    tHashElement *element = nullptr;
     // we should convert it to Object*, because we save it as Object*
     Object *tmp = target;
     HASH_FIND_PTR(_targets, &tmp, element);
@@ -196,9 +196,9 @@ void ActionManager::addAction(Action *action, Node *target, bool paused)
 
 void ActionManager::removeAllActions()
 {
-    for (tHashElement *element = _targets; element != NULL; )
+    for (tHashElement *element = _targets; element != nullptr; )
     {
-        Object *target = element->target;
+        auto target = element->target;
         element = (tHashElement*)element->hh.next;
         removeAllActionsFromTarget(target);
     }
@@ -212,7 +212,7 @@ void ActionManager::removeAllActionsFromTarget(Node *target)
         return;
     }
 
-    tHashElement *element = NULL;
+    tHashElement *element = nullptr;
     HASH_FIND_PTR(_targets, &target, element);
     if (element)
     {
@@ -241,17 +241,17 @@ void ActionManager::removeAllActionsFromTarget(Node *target)
 void ActionManager::removeAction(Action *action)
 {
     // explicit null handling
-    if (action == NULL)
+    if (action == nullptr)
     {
         return;
     }
 
-    tHashElement *element = NULL;
+    tHashElement *element = nullptr;
     Object *target = action->getOriginalTarget();
     HASH_FIND_PTR(_targets, &target, element);
     if (element)
     {
-        long i = ccArrayGetIndexOfObject(element->actions, action);
+        auto i = ccArrayGetIndexOfObject(element->actions, action);
         if (i != CC_INVALID_INDEX)
         {
             removeActionAtIndex(i, element);
@@ -268,13 +268,13 @@ void ActionManager::removeActionByTag(int tag, Node *target)
     CCASSERT(tag != Action::INVALID_TAG, "");
     CCASSERT(target != nullptr, "");
 
-    tHashElement *element = NULL;
+    tHashElement *element = nullptr;
     HASH_FIND_PTR(_targets, &target, element);
 
     if (element)
     {
-        long limit = element->actions->num;
-        for (long i = 0; i < limit; ++i)
+        auto limit = element->actions->num;
+        for (int i = 0; i < limit; ++i)
         {
             Action *action = (Action*)element->actions->arr[i];
 
@@ -295,15 +295,15 @@ Action* ActionManager::getActionByTag(int tag, const Node *target) const
 {
     CCASSERT(tag != Action::INVALID_TAG, "");
 
-    tHashElement *element = NULL;
+    tHashElement *element = nullptr;
     HASH_FIND_PTR(_targets, &target, element);
 
     if (element)
     {
-        if (element->actions != NULL)
+        if (element->actions != nullptr)
         {
-            long limit = element->actions->num;
-            for (long i = 0; i < limit; ++i)
+            auto limit = element->actions->num;
+            for (int i = 0; i < limit; ++i)
             {
                 Action *action = (Action*)element->actions->arr[i];
 
@@ -325,9 +325,9 @@ Action* ActionManager::getActionByTag(int tag, const Node *target) const
 
 // XXX: Passing "const O *" instead of "const O&" because HASH_FIND_IT requries the address of a pointer
 // and, it is not possible to get the address of a reference
-long ActionManager::getNumberOfRunningActionsInTarget(const Object *target) const
+ssize_t ActionManager::getNumberOfRunningActionsInTarget(const Node *target) const
 {
-    tHashElement *element = NULL;
+    tHashElement *element = nullptr;
     HASH_FIND_PTR(_targets, &target, element);
     if (element)
     {
@@ -374,7 +374,7 @@ void ActionManager::update(float dt)
 
                     Action *action = _currentTarget->currentAction;
                     // Make currentAction nil to prevent removeAction from salvaging it.
-                    _currentTarget->currentAction = NULL;
+                    _currentTarget->currentAction = nullptr;
                     removeAction(action);
                 }
 

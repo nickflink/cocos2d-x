@@ -48,19 +48,10 @@ public:
     /// Default tag used for all the actions
     static const int INVALID_TAG = -1;
     /**
-     * @js ctor
-     */
-    Action();
-    /**
      * @js NA
      * @lua NA
      */
-    virtual ~Action();
-    /**
-     * @js NA
-     * @lua NA
-     */
-    const char* description() const;
+    virtual std::string description() const;
 
 	/** returns a clone of action */
 	virtual Action* clone() const = 0;
@@ -176,22 +167,11 @@ class CC_DLL Speed : public Action
 public:
     /** create the action */
     static Speed* create(ActionInterval* action, float speed);
-    /**
-     * @js ctor
-     */
-    Speed();
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~Speed(void);
 
     inline float getSpeed(void) const { return _speed; }
     /** alter the speed of the inner function in runtime */
     inline void setSpeed(float speed) { _speed = speed; }
 
-    /** initializes the action */
-    bool initWithAction(ActionInterval *action, float speed);
 
     void setInnerAction(ActionInterval *action);
 
@@ -261,25 +241,20 @@ protected:
      * @js ctor
      */
     Follow()
-		: _followedNode(nullptr)
-        , _boundarySet(false)
-        , _boundaryFullyCovered(false)        
-        , _leftBoundary(0.0)
-        , _rightBoundary(0.0)
-        , _topBoundary(0.0)
-        , _bottomBoundary(0.0)
-		, _worldRect(Rect::ZERO)
+    : _followedNode(nullptr)
+    , _boundarySet(false)
+    , _boundaryFullyCovered(false)
+    , _leftBoundary(0.0)
+    , _rightBoundary(0.0)
+    , _topBoundary(0.0)
+    , _bottomBoundary(0.0)
+    , _worldRect(Rect::ZERO)
     {}
     /**
      * @js NA
      * @lua NA
      */
     virtual ~Follow();
-    
-    inline bool isBoundarySet() const { return _boundarySet; }
-    /** alter behavior - turn on/off boundary */
-    inline void setBoudarySet(bool value) { _boundarySet = value; }
-
     /**
      * Initializes the action with a set boundary or with no boundary.
      *
@@ -289,16 +264,6 @@ protected:
      */
     bool initWithTarget(Node *followedNode, const Rect& rect = Rect::ZERO);
 
-    //
-    // Override
-    //
-	virtual Follow* clone() const override;
-	virtual Follow* reverse() const override;
-    virtual void step(float dt) override;
-    virtual bool isDone() const override;
-    virtual void stop() override;
-
-protected:
     // node to follow
     Node *_followedNode;
 

@@ -45,6 +45,10 @@ THE SOFTWARE.
 #include "CCAffineTransform.h"
 #include "TransformUtils.h"
 #include "CCProfiling.h"
+#include "CCRenderer.h"
+#include "renderer/CCQuadCommand.h"
+#include "CCFrustum.h"
+
 // external
 #include "kazmath/GL/matrix.h"
 
@@ -126,7 +130,7 @@ Sprite* Sprite::createWithSpriteFrameName(const std::string& spriteFrameName)
 #if COCOS2D_DEBUG > 0
     char msg[256] = {0};
     sprintf(msg, "Invalid spriteFrameName: %s", spriteFrameName.c_str());
-    CCASSERT(frame != NULL, msg);
+    CCASSERT(frame != nullptr, msg);
 #endif
     
     return createWithSpriteFrame(frame);
@@ -277,38 +281,9 @@ Sprite::Sprite(void)
 {
 }
 
-bool Sprite::initWithFile(const std::string& filename)
+Sprite::~Sprite(void)
 {
-    CCASSERT(filename.size()>0, "Invalid filename for sprite");
-
-    Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(filename);
-    if (texture)
-    {
-        Rect rect = Rect::ZERO;
-        rect.size = texture->getContentSize();
-        return initWithTexture(texture, rect);
-    }
-
-    // don't release here.
-    // when load texture failed, it's better to get a "transparent" sprite then a crashed program
-    // this->release(); 
-    return false;
-}
-
-bool Sprite::initWithFile(const std::string &filename, const Rect& rect)
-{
-    CCASSERT(filename.size()>0, "Invalid filename");
-
-    Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(filename);
-    if (texture)
-    {
-        return initWithTexture(texture, rect);
-    }
-
-    // don't release here.
-    // when load texture failed, it's better to get a "transparent" sprite then a crashed program
-    // this->release(); 
-    return false;
+    CC_SAFE_RELEASE(_texture);
 }
 
 /*
@@ -335,9 +310,10 @@ static unsigned char cc_2x2_white_image[] = {
 
 #define CC_2x2_WHITE_IMAGE_KEY  "/cc_2x2_white_image"
 
-bool Sprite::initWithSpriteFrameName(const std::string& spriteFrameName)
+void Sprite::setTexture(const std::string &filename)
 {
-    CCASSERT(spriteFrameName.size() > 0, "Invalid spriteFrameName");
+    Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(filename);
+    setTexture(texture);
 
     Rect rect = Rect::ZERO;
     rect.size = texture->getContentSize();
@@ -356,8 +332,12 @@ void Sprite::setTexture(Texture2D *texture)
         // Gets the texture by key firstly.
         texture = Director::getInstance()->getTextureCache()->getTextureForKey(CC_2x2_WHITE_IMAGE_KEY);
 
-    // XXX: possible bug. See issue #349. New API should be added
-    Texture2D *texture = Director::getInstance()->getTextureCache()->addCGImage(pImage, pszKey);
+        // If texture wasn't in cache, create it from RAW data.
+        if (texture == nullptr)
+        {
+            Image* image = new Image();
+            bool isOK = image->initWithRawData(cc_2x2_white_image, sizeof(cc_2x2_white_image), 2, 2, 8);
+            CCASSERT(isOK, "The 2x2 empty texture was created unsuccessfully.");
 
             texture = Director::getInstance()->getTextureCache()->addImage(image, CC_2x2_WHITE_IMAGE_KEY);
             CC_SAFE_RELEASE(image);
@@ -373,15 +353,9 @@ void Sprite::setTexture(Texture2D *texture)
     }
 }
 
-Sprite::Sprite(void)
-: _shouldBeHidden(false)
-, _texture(nullptr)
+Texture2D* Sprite::getTexture() const
 {
-}
-
-Sprite::~Sprite(void)
-{
-    CC_SAFE_RELEASE(_texture);
+    return _texture;
 }
 
 void Sprite::setTextureRect(const Rect& rect)
@@ -528,12 +502,14 @@ void Sprite::setTextureCoords(Rect rect)
 void Sprite::updateTransform(void)
 {
     CCASSERT(_batchNode, "updateTransform is only valid when Sprite is being rendered using an SpriteBatchNode");
-    
-#ifdef CC_USE_PHYSICS
-    updatePhysicsTransform();
-    setDirty(true);
+
+#if CC_USE_PHYSICS
+    if (updatePhysicsTransform())
+    {
+        setDirty(true);
+    };
 #endif
-    
+
     // recalculate matrix only if it is dirty
     if( isDirty() ) {
 
@@ -935,6 +911,12 @@ void Sprite::setPosition(const Point& pos)
     SET_DIRTY_RECURSIVELY();
 }
 
+void Sprite::setPosition(float x, float y)
+{
+    Node::setPosition(x, y);
+    SET_DIRTY_RECURSIVELY();
+}
+
 void Sprite::setRotation(float rotation)
 {
     Node::setRotation(rotation);
@@ -1124,9 +1106,9 @@ void Sprite::setSpriteFrame(SpriteFrame *spriteFrame)
     setTextureRect(spriteFrame->getRect(), _rectRotated, spriteFrame->getOriginalSize());
 }
 
-void Sprite::setDisplayFrameWithAnimationName(const std::string& animationName, int frameIndex)
+void Sprite::setDisplayFrameWithAnimationName(const std::string& animationName, ssize_t frameIndex)
 {
-    CCASSERT(animationName.size()>0, "CCSprite#setDisplayFrameWithAnimationName. animationName must not be NULL");
+    CCASSERT(animationName.size()>0, "CCSprite#setDisplayFrameWithAnimationName. animationName must not be nullptr");
 
     Animation *a = AnimationCache::getInstance()->getAnimation(animationName);
 
@@ -1211,40 +1193,12 @@ void Sprite::updateBlendFunc(void)
 
 std::string Sprite::getDescription() const
 {
-    // If batchnode, then texture id should be the same
-    CCASSERT(! _batchNode || texture->getName() == _batchNode->getTexture()->getName(), "CCSprite: Batched sprites should use the same texture as the batchnode");
-    // accept texture==nil as argument
-    CCASSERT( !texture || dynamic_cast<Texture2D*>(texture), "setTexture expects a Texture2D. Invalid argument");
-    
-    if (NULL == texture)
-    {
-        // Gets the texture by key firstly.
-        texture = Director::getInstance()->getTextureCache()->getTextureForKey(CC_2x2_WHITE_IMAGE_KEY);
-        
-        // If texture wasn't in cache, create it from RAW data.
-        if (NULL == texture)
-        {
-            Image* image = new Image();
-            bool isOK = image->initWithRawData(cc_2x2_white_image, sizeof(cc_2x2_white_image), 2, 2, 8);
-            CCASSERT(isOK, "The 2x2 empty texture was created unsuccessfully.");
-
-            texture = Director::getInstance()->getTextureCache()->addImage(image, CC_2x2_WHITE_IMAGE_KEY);
-            CC_SAFE_RELEASE(image);
-        }
-    }
-    
-    if (!_batchNode && _texture != texture)
-    {
-        CC_SAFE_RETAIN(texture);
-        CC_SAFE_RELEASE(_texture);
-        _texture = texture;
-        updateBlendFunc();
-    }
-}
-
-Texture2D* Sprite::getTexture(void) const
-{
-    return _texture;
+    int texture_id = -1;
+    if( _batchNode )
+        texture_id = _batchNode->getTextureAtlas()->getTexture()->getName();
+    else
+        texture_id = _texture->getName();
+    return StringUtils::format("<Sprite | Tag = %d, TextureID = %d>", _tag, texture_id );
 }
 
 NS_CC_END

@@ -39,8 +39,8 @@ NS_CC_BEGIN
 class CC_DLL __RGBAProtocol
 {
 public:
-    virtual ~RGBAProtocol() {}
-
+    virtual ~__RGBAProtocol() {}
+    
     /**
      * Changes the color with R,G,B bytes
      *

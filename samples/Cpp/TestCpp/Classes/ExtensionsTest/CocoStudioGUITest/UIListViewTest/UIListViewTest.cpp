@@ -44,28 +44,143 @@ bool UIListViewTest_Vertical::init()
         alert->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f - alert->getSize().height * 3.075f));
         _uiLayer->addChild(alert);
         
+        Layout* root = static_cast<Layout*>(_uiLayer->getChildByTag(81));
         
-        UIListView* lv = UIListView::create();
-        UIButton* model = UIButton::create();
-        model->loadTextures("cocosgui/animationbuttonnormal.png", "cocosgui/animationbuttonpressed.png", "");
-        lv->setItemModel(model);
+        Layout* background = dynamic_cast<Layout*>(root->getChildByName("background_Panel"));
+        Size backgroundSize = background->getContentSize();
         
-        for (int i=0; i<20; i++)
+        
+        // create list view ex data
+        for (int i = 0; i < 20; ++i)
         {
-            lv->pushBackDefaultItem();
+            _array.push_back(StringUtils::format("listview_item_%d", i));
         }
-        lv->setItemsMargin(10);
-        lv->setGravity(LISTVIEW_GRAVITY_CENTER_HORIZONTAL);
-        lv->setSize(Size(100, 100));
-        lv->setBackGroundColorType(LAYOUT_COLOR_SOLID);
-        lv->setBackGroundColor(Color3B::GREEN);
-        lv->setPosition(Point(100, 100));
-        m_pUiLayer->addWidget(lv);
+        
+        
+        // Create the list view ex
+        ListView* listView = ListView::create();
+        // set list view ex direction
+        listView->setDirection(SCROLLVIEW_DIR_VERTICAL);
+        listView->setTouchEnabled(true);
+        listView->setBounceEnabled(true);
+        listView->setBackGroundImage("cocosgui/green_edit.png");
+        listView->setBackGroundImageScale9Enabled(true);
+        listView->setSize(Size(240, 130));
+        listView->setPosition(Point((widgetSize.width - backgroundSize.width) / 2.0f +
+                                    (backgroundSize.width - listView->getSize().width) / 2.0f,
+                                    (widgetSize.height - backgroundSize.height) / 2.0f +
+                                    (backgroundSize.height - listView->getSize().height) / 2.0f));
+        listView->addEventListenerListView(this, listvieweventselector(UIListViewTest_Vertical::selectedItemEvent));
+        _uiLayer->addChild(listView);
+        
+        
+        // create model
+        Button* default_button = Button::create();
+        default_button->setName("Title Button");
+        default_button->setTouchEnabled(true);
+        default_button->loadTextures("cocosgui/backtotoppressed.png", "cocosgui/backtotopnormal.png", "");
+        
+        Layout* default_item = Layout::create();
+        default_item->setTouchEnabled(true);
+        default_item->setSize(default_button->getSize());
+        default_button->setPosition(Point(default_item->getSize().width / 2.0f, default_item->getSize().height / 2.0f));
+        default_item->addChild(default_button);
+        
+        // set model
+        listView->setItemModel(default_item);
+        
+        // add default item
+        size_t count = _array.size();
+        for (size_t i = 0; i < count / 4; ++i)
+        {
+            listView->pushBackDefaultItem();
+        }
+        // insert default item
+        for (size_t i = 0; i < count / 4; ++i)
+        {
+            listView->insertDefaultItem(0);
+        }
+        
+        // add custom item
+        for (size_t i = 0; i < count / 4; ++i)
+        {
+            Button* custom_button = Button::create();
+            custom_button->setName("Title Button");
+            custom_button->setTouchEnabled(true);
+            custom_button->loadTextures("cocosgui/button.png", "cocosgui/buttonHighlighted.png", "");
+            custom_button->setScale9Enabled(true);
+            custom_button->setSize(default_button->getSize());
+            
+            Layout *custom_item = Layout::create();
+            custom_item->setSize(custom_button->getSize());
+            custom_button->setPosition(Point(custom_item->getSize().width / 2.0f, custom_item->getSize().height / 2.0f));
+            custom_item->addChild(custom_button);
+            
+            listView->pushBackCustomItem(custom_item);
+        }
+        // insert custom item
+        Vector<Widget*>& items = listView->getItems();
+        ssize_t items_count = items.size();
+        for (size_t i = 0; i < count / 4; ++i)
+        {
+            Button* custom_button = Button::create();
+            custom_button->setName("Title Button");
+            custom_button->setTouchEnabled(true);
+            custom_button->loadTextures("cocosgui/button.png", "cocosgui/buttonHighlighted.png", "");
+            custom_button->setScale9Enabled(true);
+            custom_button->setSize(default_button->getSize());
+            
+            Layout *custom_item = Layout::create();
+            custom_item->setSize(custom_button->getSize());
+            custom_button->setPosition(Point(custom_item->getSize().width / 2.0f, custom_item->getSize().height / 2.0f));
+            custom_item->addChild(custom_button);
+            
+            listView->insertCustomItem(custom_item, items_count);
+        }
+        
+        // set item data
+        items_count = items.size();
+        for (ssize_t i = 0; i < items_count; ++i)
+        {
+            Widget* item = listView->getItem(i);
+            Button* button = static_cast<Button*>(item->getChildByName("Title Button"));
+            int index = listView->getIndex(item);
+            button->setTitleText(_array[index]);
+        }
+        
+        // remove last item
+        listView->removeLastItem();
+        
+        // remove item by index
+        items_count = items.size();
+        listView->removeItem(items_count - 1);
+        
+        // set all items layout gravity
+        listView->setGravity(LISTVIEW_GRAVITY_CENTER_VERTICAL);
+        
+        // set items margin
+        listView->setItemsMargin(2.0f);
         
         return true;
     }
     
     return false;
+}
+
+void UIListViewTest_Vertical::selectedItemEvent(Object *pSender, ListViewEventType type)
+{
+    switch (type)
+    {
+        case LISTVIEW_ONSELECTEDITEM:
+        {
+            ListView* listView = static_cast<ListView*>(pSender);
+            CCLOG("select child index = %ld", listView->getCurSelectedIndex());
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 // UIListViewTest_Horizontal
@@ -102,26 +217,141 @@ bool UIListViewTest_Horizontal::init()
         alert->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f - alert->getSize().height * 3.075f));
         _uiLayer->addChild(alert);
         
-
-        UIListView* lv = UIListView::create();
-        lv->setDirection(SCROLLVIEW_DIR_HORIZONTAL);
-        UIButton* model = UIButton::create();
-        model->loadTextures("cocosgui/animationbuttonnormal.png", "cocosgui/animationbuttonpressed.png", "");
-        lv->setItemModel(model);
+        Layout* root = static_cast<Layout*>(_uiLayer->getChildByTag(81));
         
-        for (int i=0; i<20; i++)
+        Layout* background = static_cast<Layout*>(root->getChildByName("background_Panel"));
+        Size backgroundSize = background->getContentSize();
+        
+        
+        // create list view ex data
+        for (int i = 0; i < 20; ++i)
         {
-            lv->pushBackDefaultItem();
+            _array.push_back(StringUtils::format("listview_item_%d", i));
         }
-        lv->setItemsMargin(10);
-        lv->setGravity(LISTVIEW_GRAVITY_CENTER_VERTICAL);
-        lv->setSize(Size(100, 100));
-        lv->setBackGroundColorType(LAYOUT_COLOR_SOLID);
-        lv->setBackGroundColor(Color3B::GREEN);
-        lv->setPosition(Point(100, 100));
-        m_pUiLayer->addWidget(lv);
+        
+        
+        // Create the list view ex
+        ListView* listView = ListView::create();
+        // set list view ex direction
+        listView->setDirection(SCROLLVIEW_DIR_HORIZONTAL);
+        listView->setTouchEnabled(true);
+        listView->setBounceEnabled(true);
+        listView->setBackGroundImage("cocosgui/green_edit.png");
+        listView->setBackGroundImageScale9Enabled(true);
+        listView->setSize(Size(240, 130));
+        listView->setPosition(Point((widgetSize.width - backgroundSize.width) / 2.0f +
+                                    (backgroundSize.width - listView->getSize().width) / 2.0f,
+                                    (widgetSize.height - backgroundSize.height) / 2.0f +
+                                    (backgroundSize.height - listView->getSize().height) / 2.0f));
+        listView->addEventListenerListView(this, listvieweventselector(UIListViewTest_Horizontal::selectedItemEvent));
+        _uiLayer->addChild(listView);
+        
+        
+        // create model
+        Button* default_button = Button::create();
+        default_button->setName("Title Button");
+        default_button->setTouchEnabled(true);
+        default_button->loadTextures("cocosgui/backtotoppressed.png", "cocosgui/backtotopnormal.png", "");
+        
+        Layout *default_item = Layout::create();
+        default_item->setTouchEnabled(true);
+        default_item->setSize(default_button->getSize());
+        default_button->setPosition(Point(default_item->getSize().width / 2.0f, default_item->getSize().height / 2.0f));
+        default_item->addChild(default_button);
+        
+        // set model
+        listView->setItemModel(default_item);
+        
+        // add default item
+        size_t count = _array.size();
+        for (int i = 0; i < count / 4; ++i)
+        {
+            listView->pushBackDefaultItem();
+        }
+        // insert default item
+        for (int i = 0; i < count / 4; ++i)
+        {
+            listView->insertDefaultItem(0);
+        }
+        
+        // add custom item
+        for (int i = 0; i < count / 4; ++i)
+        {
+            Button* custom_button = Button::create();
+            custom_button->setName("Title Button");
+            custom_button->setTouchEnabled(true);
+            custom_button->loadTextures("cocosgui/button.png", "cocosgui/buttonHighlighted.png", "");
+            custom_button->setScale9Enabled(true);
+            custom_button->setSize(default_button->getSize());
+            
+            Layout* custom_item = Layout::create();
+            custom_item->setSize(custom_button->getSize());
+            custom_button->setPosition(Point(custom_item->getSize().width / 2.0f, custom_item->getSize().height / 2.0f));
+            custom_item->addChild(custom_button);
+            
+            listView->pushBackCustomItem(custom_item);
+        }
+        // insert custom item
+        Vector<Widget*>& items = listView->getItems();
+        int items_count = items.size();
+        for (int i = 0; i < count / 4; ++i)
+        {
+            Button* custom_button = Button::create();
+            custom_button->setName("Title Button");
+            custom_button->setTouchEnabled(true);
+            custom_button->loadTextures("cocosgui/button.png", "cocosgui/buttonHighlighted.png", "");
+            custom_button->setScale9Enabled(true);
+            custom_button->setSize(default_button->getSize());
+            
+            Layout* custom_item = Layout::create();
+            custom_item->setSize(custom_button->getSize());
+            custom_button->setPosition(Point(custom_item->getSize().width / 2.0f, custom_item->getSize().height / 2.0f));
+            custom_item->addChild(custom_button);
+            
+            listView->insertCustomItem(custom_item, items_count);
+        }
+        
+        // set item data
+        items_count = items.size();
+        for (int i = 0; i < items_count; ++i)
+        {
+            Widget *item = listView->getItem(i);
+            Button *button = static_cast<Button*>(item->getChildByName("Title Button"));
+            int index = listView->getIndex(item);
+            button->setTitleText(_array[index]);
+        }
+        
+        // remove last item
+        listView->removeLastItem();
+        
+        // remove item by index
+        items_count = items.size();
+        listView->removeItem(items_count - 1);        
+        
+        // set all items layout gravity
+        listView->setGravity(LISTVIEW_GRAVITY_CENTER_VERTICAL);
+        
+        // set items margin
+        listView->setItemsMargin(2);
+        
         return true;
     }
     
     return false;
+}
+
+void UIListViewTest_Horizontal::selectedItemEvent(Object *pSender, ListViewEventType type)
+{
+    switch (type)
+    {
+        case LISTVIEW_ONSELECTEDITEM:
+        {
+            ListView* listView = static_cast<ListView*>(pSender);
+            CCLOG("select child index = %ld", listView->getCurSelectedIndex());
+        }
+            break;
+            
+        default:
+            break;
+    }
 }

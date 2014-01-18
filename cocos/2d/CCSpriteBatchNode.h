@@ -76,7 +76,7 @@ public:
      The capacity will be increased in 33% in runtime if it run out of space.
      The file will be loaded using the TextureMgr.
      */
-    static SpriteBatchNode* create(const char* fileImage, long capacity = DEFAULT_CAPACITY);
+    static SpriteBatchNode* create(const std::string& fileImage, ssize_t capacity = DEFAULT_CAPACITY);
     /**
      * @js ctor
      */
@@ -90,14 +90,14 @@ public:
     /** initializes a SpriteBatchNode with a texture2d and capacity of children.
      The capacity will be increased in 33% in runtime if it run out of space.
      */
-    bool initWithTexture(Texture2D *tex, long capacity);
+    bool initWithTexture(Texture2D *tex, ssize_t capacity);
     /** initializes a SpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) and a capacity of children.
      The capacity will be increased in 33% in runtime if it run out of space.
      The file will be loaded using the TextureMgr.
      * @js init
      * @lua init
      */
-    bool initWithFile(const char* fileImage, long capacity);
+    bool initWithFile(const std::string& fileImage, ssize_t capacity);
     bool init();
 
     /** returns the TextureAtlas object */

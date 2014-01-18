@@ -29,6 +29,7 @@
 #include <string>
 #include <stdint.h>
 
+#include "CCObject.h"
 #include "CCPlatformMacros.h"
 
 NS_CC_BEGIN

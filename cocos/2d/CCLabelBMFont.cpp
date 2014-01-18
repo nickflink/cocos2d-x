@@ -41,6 +41,7 @@ http://www.angelcode.com/products/bmfont/ (Free, Windows only)
 #include "CCDirector.h"
 #include "CCTextureCache.h"
 #include "ccUTF8.h"
+#include "CCMap.h"
 
 using namespace std;
 
@@ -65,20 +66,20 @@ static Map<std::string, CCBMFontConfiguration*>* s_configurations = nullptr;
 
 CCBMFontConfiguration* FNTConfigLoadFile(const std::string& fntFile)
 {
-    CCBMFontConfiguration* ret = NULL;
+    CCBMFontConfiguration* ret = nullptr;
 
     if( s_configurations == nullptr )
     {
         s_configurations = new Map<std::string, CCBMFontConfiguration*>();
     }
 
-    ret = static_cast<CCBMFontConfiguration*>( s_pConfigurations->objectForKey(fntFile) );
-    if( ret == NULL )
+    ret = s_configurations->at(fntFile);
+    if( ret == nullptr )
     {
         ret = CCBMFontConfiguration::create(fntFile.c_str());
         if (ret)
         {
-            s_pConfigurations->setObject(ret, fntFile);
+            s_configurations->insert(fntFile, ret);
         }        
     }
 
@@ -107,7 +108,7 @@ CCBMFontConfiguration * CCBMFontConfiguration::create(const std::string& FNTfile
         return ret;
     }
     CC_SAFE_DELETE(ret);
-    return NULL;
+    return nullptr;
 }
 
 bool CCBMFontConfiguration::initWithFNTfile(const std::string& FNTfile)
@@ -199,7 +200,7 @@ std::set<unsigned int>* CCBMFontConfiguration::parseConfigFile(const std::string
     if (contents.empty())
     {
         CCLOG("cocos2d: Error parsing FNTfile %s", controlFile.c_str());
-        return NULL;
+        return nullptr;
     }
 
     // parse spacing / padding
@@ -266,6 +267,167 @@ std::set<unsigned int>* CCBMFontConfiguration::parseConfigFile(const std::string
     return validCharsString;
 }
 
+std::set<unsigned int>* CCBMFontConfiguration::parseBinaryConfigFile(unsigned char* pData, unsigned long size, const std::string& controlFile)
+{
+    /* based on http://www.angelcode.com/products/bmfont/doc/file_format.html file format */
+
+    set<unsigned int> *validCharsString = new set<unsigned int>();
+
+    unsigned long remains = size;
+
+    unsigned char version = pData[3];
+    CCASSERT(version == 3, "Only version 3 is supported");
+
+    pData += 4; remains -= 4;
+
+    while (remains > 0)
+	{
+        unsigned char blockId = pData[0]; pData += 1; remains -= 1;
+        uint32_t blockSize = 0; memcpy(&blockSize, pData, 4);
+
+        pData += 4; remains -= 4;
+
+        if (blockId == 1)
+		{
+            /*
+             fontSize 	2 	int 	0
+             bitField 	1 	bits 	2 	bit 0: smooth, bit 1: unicode, bit 2: italic, bit 3: bold, bit 4: fixedHeigth, bits 5-7: reserved
+             charSet 	1 	uint 	3
+             stretchH 	2 	uint 	4
+             aa 	1 	uint 	6
+             paddingUp 	1 	uint 	7
+             paddingRight	1 	uint 	8
+             paddingDown 	1 	uint 	9
+             paddingLeft 	1 	uint 	10
+             spacingHoriz	1 	uint 	11
+             spacingVert 	1 	uint 	12
+             outline 	1 	uint 	13	added with version 2
+             fontName 	n+1	string 	14	null terminated string with length n
+             */
+
+            _padding.top = (unsigned char)pData[7];
+            _padding.right = (unsigned char)pData[8];
+            _padding.bottom = (unsigned char)pData[9];
+            _padding.left = (unsigned char)pData[10];
+        }
+		else if (blockId == 2)
+		{
+            /*
+             lineHeight 	2 	uint 	0
+             base 	2 	uint 	2
+             scaleW 	2 	uint 	4
+             scaleH 	2 	uint 	6
+             pages 	2 	uint 	8
+             bitField 	1 	bits 	10 	bits 0-6: reserved, bit 7: packed
+             alphaChnl 	1 	uint 	11
+             redChnl 	1 	uint 	12
+             greenChnl 	1 	uint 	13
+             blueChnl 	1 	uint 	14
+             */
+
+            uint16_t lineHeight = 0; memcpy(&lineHeight, pData, 2);
+            _commonHeight = lineHeight;
+
+            uint16_t scaleW = 0; memcpy(&scaleW, pData + 4, 2);
+            uint16_t scaleH = 0; memcpy(&scaleH, pData + 6, 2);
+
+            CCASSERT(scaleW <= Configuration::getInstance()->getMaxTextureSize() && scaleH <= Configuration::getInstance()->getMaxTextureSize(), "CCLabelBMFont: page can't be larger than supported");
+
+            uint16_t pages = 0; memcpy(&pages, pData + 8, 2);
+            CCASSERT(pages == 1, "CCBitfontAtlas: only supports 1 page");
+        }
+		else if (blockId == 3)
+		{
+            /*
+             pageNames 	p*(n+1) 	strings 	0 	p null terminated strings, each with length n
+             */
+
+            const char *value = (const char *)pData;
+            size_t len = strlen(value);
+            CCASSERT(len < blockSize, "Block size should be less then string");
+
+            _atlasName = FileUtils::getInstance()->fullPathFromRelativeFile(value, controlFile);
+        }
+		else if (blockId == 4)
+		{
+            /*
+             id 	4 	uint 	0+c*20 	These fields are repeated until all characters have been described
+             x 	2 	uint 	4+c*20
+             y 	2 	uint 	6+c*20
+             width 	2 	uint 	8+c*20
+             height 	2 	uint 	10+c*20
+             xoffset 	2 	int 	12+c*20
+             yoffset 	2 	int 	14+c*20
+             xadvance 	2 	int 	16+c*20
+             page 	1 	uint 	18+c*20
+             chnl 	1 	uint 	19+c*20
+             */
+
+            unsigned long count = blockSize / 20;
+
+            for (unsigned long i = 0; i < count; i++)
+			{
+                tFontDefHashElement* element = (tFontDefHashElement*)malloc( sizeof(*element) );
+
+                uint32_t charId = 0; memcpy(&charId, pData + (i * 20), 4);
+                element->fontDef.charID = charId;
+
+                uint16_t charX = 0; memcpy(&charX, pData + (i * 20) + 4, 2);
+                element->fontDef.rect.origin.x = charX;
+
+                uint16_t charY = 0; memcpy(&charY, pData + (i * 20) + 6, 2);
+                element->fontDef.rect.origin.y = charY;
+
+                uint16_t charWidth = 0; memcpy(&charWidth, pData + (i * 20) + 8, 2);
+                element->fontDef.rect.size.width = charWidth;
+
+                uint16_t charHeight = 0; memcpy(&charHeight, pData + (i * 20) + 10, 2);
+                element->fontDef.rect.size.height = charHeight;
+
+                int16_t xoffset = 0; memcpy(&xoffset, pData + (i * 20) + 12, 2);
+                element->fontDef.xOffset = xoffset;
+
+                int16_t yoffset = 0; memcpy(&yoffset, pData + (i * 20) + 14, 2);
+                element->fontDef.yOffset = yoffset;
+
+                int16_t xadvance = 0; memcpy(&xadvance, pData + (i * 20) + 16, 2);
+                element->fontDef.xAdvance = xadvance;
+
+                element->key = element->fontDef.charID;
+                HASH_ADD_INT(_fontDefDictionary, key, element);
+
+                validCharsString->insert(element->fontDef.charID);
+            }
+        }
+		else if (blockId == 5) {
+            /*
+			 first 	4 	uint 	0+c*10 	These fields are repeated until all kerning pairs have been described
+			 second 	4 	uint 	4+c*10
+			 amount 	2 	int 	8+c*10
+             */
+
+            unsigned long count = blockSize / 20;
+
+            for (unsigned long i = 0; i < count; i++)
+			{
+
+                uint32_t first = 0; memcpy(&first, pData + (i * 10), 4);
+                uint32_t second = 0; memcpy(&second, pData + (i * 10) + 4, 4);
+                int16_t amount = 0; memcpy(&amount, pData + (i * 10) + 8, 2);
+
+                tKerningHashElement *element = (tKerningHashElement *)calloc( sizeof( *element ), 1 );
+                element->amount = amount;
+                element->key = (first<<16) | (second&0xffff);
+                HASH_ADD_INT(_kerningDictionary,key, element);
+            }
+        }
+
+        pData += blockSize; remains -= blockSize;
+    }
+
+    return validCharsString;
+}
+
 void CCBMFontConfiguration::parseImageFileName(std::string line, const std::string& fntFile)
 {
     //////////////////////////////////////////////////////////////////////////
@@ -274,8 +436,8 @@ void CCBMFontConfiguration::parseImageFileName(std::string line, const std::stri
     //////////////////////////////////////////////////////////////////////////
 
     // page ID. Sanity check
-    long index = line.find('=')+1;
-    long index2 = line.find(' ', index);
+    auto index = line.find('=')+1;
+    auto index2 = line.find(' ', index);
     std::string value = line.substr(index, index2-index);
     CCASSERT(atoi(value.c_str()) == 0, "LabelBMFont file could not be found");
     // file 
@@ -295,8 +457,8 @@ void CCBMFontConfiguration::parseInfoArguments(std::string line)
     //////////////////////////////////////////////////////////////////////////
 
     // padding
-    long index = line.find("padding=");
-    long index2 = line.find(' ', index);
+    auto index = line.find("padding=");
+    auto index2 = line.find(' ', index);
     std::string value = line.substr(index, index2-index);
     sscanf(value.c_str(), "padding=%d,%d,%d,%d", &_padding.top, &_padding.right, &_padding.bottom, &_padding.left);
     CCLOG("cocos2d: padding: %d,%d,%d,%d", _padding.left, _padding.top, _padding.right, _padding.bottom);
@@ -310,8 +472,8 @@ void CCBMFontConfiguration::parseCommonArguments(std::string line)
     //////////////////////////////////////////////////////////////////////////
 
     // Height
-    long index = line.find("lineHeight=");
-    long index2 = line.find(' ', index);
+    auto index = line.find("lineHeight=");
+    auto index2 = line.find(' ', index);
     std::string value = line.substr(index, index2-index);
     sscanf(value.c_str(), "lineHeight=%d", &_commonHeight);
     // scaleW. sanity check
@@ -341,8 +503,8 @@ void CCBMFontConfiguration::parseCharacterDefinition(std::string line, ccBMFontD
     //////////////////////////////////////////////////////////////////////////
 
     // Character ID
-    long index = line.find("id=");
-    long index2 = line.find(' ', index);
+    auto index = line.find("id=");
+    auto index2 = line.find(' ', index);
     std::string value = line.substr(index, index2-index);
     sscanf(value.c_str(), "id=%u", &characterDefinition->charID);
 
@@ -392,8 +554,8 @@ void CCBMFontConfiguration::parseKerningEntry(std::string line)
 
     // first
     int first;
-    long index = line.find("first=");
-    long index2 = line.find(' ', index);
+    auto index = line.find("first=");
+    auto index2 = line.find(' ', index);
     std::string value = line.substr(index, index2-index);
     sscanf(value.c_str(), "first=%d", &first);
 
@@ -475,7 +637,7 @@ bool LabelBMFont::initWithString(const std::string& theString, const std::string
 {
     CCASSERT(!_configuration, "re-init is no longer supported");
 
-    Texture2D *texture = NULL;
+    Texture2D *texture = nullptr;
     
     if (fntFile.size() > 0 )
     {
@@ -501,7 +663,7 @@ bool LabelBMFont::initWithString(const std::string& theString, const std::string
         texture->autorelease();
     }
 
-    if (SpriteBatchNode::initWithTexture(texture, theString.size()))
+    if (SpriteBatchNode::initWithTexture(texture, static_cast<int>(theString.size())))
     {
         _width = width;
         _alignment = alignment;
@@ -953,7 +1115,7 @@ void LabelBMFont::updateLabel()
         size_t size = multiline_string.size();
         unsigned short* str_new = new unsigned short[size + 1];
 
-        for (int j = 0; j < size; ++j)
+        for (size_t j = 0; j < size; ++j)
         {
             str_new[j] = multiline_string[j];
         }

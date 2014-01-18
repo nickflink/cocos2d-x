@@ -49,9 +49,7 @@ bool UICheckBoxTest::init()
         checkBox->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f));
         
         checkBox->addEventListenerCheckBox(this, checkboxselectedeventselector(UICheckBoxTest::selectedEvent));
-        
-//        checkBox->addSelectEvent(this, coco_selectselector(UICheckBoxTest::selectedEvent));
-        m_pUiLayer->addWidget(checkBox);
+        _uiLayer->addChild(checkBox);
         
         return true;
     }
@@ -60,12 +58,14 @@ bool UICheckBoxTest::init()
 
 void UICheckBoxTest::selectedEvent(Object* pSender,CheckBoxEventType type)
 {
-    switch (type) {
-        case gui::CHECKBOX_STATE_EVENT_SELECTED:
-            m_pDisplayValueLabel->setText(CCString::createWithFormat("Selected")->getCString());
+    switch (type)
+    {
+        case CHECKBOX_STATE_EVENT_SELECTED:
+            _displayValueLabel->setText(String::createWithFormat("Selected")->getCString());
             break;
-        case gui::CHECKBOX_STATE_EVENT_UNSELECTED:
-            m_pDisplayValueLabel->setText(CCString::createWithFormat("Unselected")->getCString());
+            
+        case CHECKBOX_STATE_EVENT_UNSELECTED:
+            _displayValueLabel->setText(String::createWithFormat("Unselected")->getCString());
             break;
             
         default:

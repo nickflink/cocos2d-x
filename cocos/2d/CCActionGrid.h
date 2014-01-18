@@ -165,18 +165,6 @@ class CC_DLL AccelDeccelAmplitude : public ActionInterval
 public:
     /** creates the action with an inner action that has the amplitude property, and a duration time */
     static AccelDeccelAmplitude* create(Action *action, float duration);
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~AccelDeccelAmplitude();
-    /** initializes the action with an inner action that has the amplitude property, and a duration time */
-    bool initWithAction(Action *pAction, float duration);
-
-	/** returns a new clone of the action */
-	virtual AccelDeccelAmplitude* clone() const;
-	/** returns a new reversed action */
-	virtual AccelDeccelAmplitude* reverse() const;
 
     /** get amplitude rate */
     inline float getRate(void) const { return _rate; }
@@ -208,14 +196,6 @@ class CC_DLL AccelAmplitude : public ActionInterval
 public:
     /** creates the action with an inner action that has the amplitude property, and a duration time */
     static AccelAmplitude* create(Action *action, float duration);
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~AccelAmplitude();
-
-    /** initializes the action with an inner action that has the amplitude property, and a duration time */
-    bool initWithAction(Action *action, float duration);
 
     /** get amplitude rate */
     inline float getRate() const { return _rate; }
@@ -246,13 +226,6 @@ class CC_DLL DeccelAmplitude : public ActionInterval
 public:
     /** creates the action with an inner action that has the amplitude property, and a duration time */
     static DeccelAmplitude* create(Action *action, float duration);
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~DeccelAmplitude();
-    /** initializes the action with an inner action that has the amplitude property, and a duration time */
-    bool initWithAction(Action *action, float duration);
 
     /** get amplitude rate */
     inline float getRate(void) const { return _rate; }

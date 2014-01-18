@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "CCObject.h"
 #include "ccTypes.h"
 #include "CCGeometry.h"
-#include "CCArray.h"
+#include "CCVector.h"
 #include "CCGL.h"
 #include "kazmath/mat4.h"
 #include "CCLabelAtlas.h"
@@ -55,7 +55,11 @@ class Node;
 class Scheduler;
 class ActionManager;
 class EventDispatcher;
+class EventCustom;
+class EventListenerCustom;
 class TextureCache;
+class Frustum;
+class Renderer;
 
 /**
 @brief Class that creates and handles the main Window and manages how
@@ -373,7 +377,12 @@ public:
      @since v3.0
      */
     void setEventDispatcher(EventDispatcher* dispatcher);
-    
+
+    /** Returns the Renderer
+     @since v3.0
+     */
+    Renderer* getRenderer() const;
+
     /* Gets delta time since last tick to main loop */
 	float getDeltaTime() const;
     
@@ -381,10 +390,7 @@ public:
      *  get Frame Rate
      */
     float getFrameRate() const { return _frameRate; }
-public:
-    static double getAvailableBytes();
-    static double getAvailableKiloBytes();
-    static double getAvailableMegaBytes();
+
 protected:
     void purgeDirector();
     bool _purgeDirectorInNextLoop; // this flag will be set to true in end()
@@ -394,7 +400,7 @@ protected:
     void showStats();
     void createStatsLabel();
     void calculateMPF();
-    void getFPSImageData(unsigned char** datapointer, long* length);
+    void getFPSImageData(unsigned char** datapointer, ssize_t* length);
     
     /** calculates delta time since last time it was called */    
     void calculateDeltaTime();
@@ -403,7 +409,6 @@ protected:
     void initTextureCache();
     void destroyTextureCache();
 
-protected:
     /** Scheduler associated with this director
      @since v2.0
      */
@@ -412,21 +417,19 @@ protected:
     /** ActionManager associated with this director
      @since v2.0
      */
-    ActionManager* _actionManager;
+    ActionManager *_actionManager;
     
     /** EventDispatcher associated with this director
      @since v3.0
      */
     EventDispatcher* _eventDispatcher;
+    EventCustom *_eventProjectionChanged, *_eventAfterDraw, *_eventAfterVisit, *_eventAfterUpdate;
         
     /* delta time since last tick to main loop */
 	float _deltaTime;
     
     /* The EGLView, where everything is rendered */
     EGLView *_openGLView;
-
-    //texture cache belongs to this director
-    TextureCache *_textureCache;
 
     //texture cache belongs to this director
     TextureCache *_textureCache;

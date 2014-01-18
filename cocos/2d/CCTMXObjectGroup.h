@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "CCGeometry.h"
 #include "CCString.h"
 #include "CCArray.h"
-#include "CCDictionary.h"
+#include "CCValue.h"
 
 NS_CC_BEGIN
 

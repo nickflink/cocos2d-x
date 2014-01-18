@@ -29,7 +29,11 @@ THE SOFTWARE.
 #define __CCSCHEDULER_H__
 
 #include "CCObject.h"
+#include "CCVector.h"
 #include "uthash.h"
+
+#include <functional>
+#include <mutex>
 
 NS_CC_BEGIN
 
@@ -248,7 +252,7 @@ public:
       You should only call this with kPriorityNonSystemMin or higher.
       @since v2.0.0
       */
-    Set* pauseAllTargetsWithMinPriority(int minPriority);
+    Vector<Object*> pauseAllTargetsWithMinPriority(int minPriority);
 
     /** Resume selectors on a set of targets.
      This can be useful for undoing a call to pauseAllSelectors.
@@ -262,7 +266,7 @@ public:
      */
     void performFunctionInCocosThread( const std::function<void()> &function);
 
-private:
+protected:
     void removeHashElement(struct _hashSelectorEntry *element);
     void removeUpdateFromHash(struct _listEntry *entry);
 
@@ -270,6 +274,7 @@ private:
 
     void priorityIn(struct _listEntry **list, Object *target, int priority, bool paused);
     void appendIn(struct _listEntry **list, Object *target, bool paused);
+
 
     float _timeScale;
 

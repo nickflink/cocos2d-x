@@ -45,14 +45,6 @@ class Object;
 class CC_DLL ActionEase : public ActionInterval
 {
 public:
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~ActionEase(void);
-
-    /** initializes the action */
-    bool initWithAction(ActionInterval *action);
 
     virtual ActionInterval* getInnerAction();
 
@@ -85,15 +77,6 @@ private:
 class CC_DLL EaseRateAction : public ActionEase
 {
 public:
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~EaseRateAction();
-
-    /** Initializes the action with the inner action and the rate parameter */
-    bool initWithAction(ActionInterval *pAction, float fRate);
-
     /** set rate value for the actions */
     inline void setRate(float rate) { _rate = rate; }
     /** get rate value for the actions */
@@ -332,8 +315,6 @@ private:
 class CC_DLL EaseElastic : public ActionEase
 {
 public:
-    /** Initializes the action with the inner action and the period in radians (default is 0.3) */
-    bool initWithAction(ActionInterval *action, float period = 0.3f);
 
     /** get period of the wave in radians. default is 0.3 */
     inline float getPeriod() const { return _period; }

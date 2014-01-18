@@ -92,7 +92,7 @@ bool HelloCocosBuilderLayer::onAssignCCBMemberVariable(Object * pTarget, const c
     return false;
 }
 
-bool HelloCocosBuilderLayer::onAssignCCBCustomProperty(Object* pTarget, const char* pMemberVariableName, cocosbuilder::CCBValue* pCCBValue)
+bool HelloCocosBuilderLayer::onAssignCCBCustomProperty(Object* pTarget, const char* pMemberVariableName, const Value& pCCBValue)
 {
     bool bRet = false;
     if (pTarget == this)

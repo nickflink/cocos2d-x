@@ -267,33 +267,6 @@ public:
     CC_DEPRECATED_ATTRIBUTE static CallFunc * create(Object* target, SEL_CallFunc selector);
 
 public:
-    /**
-     * @js ctor
-     */
-    CallFunc()
-        : _selectorTarget(NULL)
-        , _callFunc(NULL)
-		, _function(nullptr)
-    {
-    }
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~CallFunc();
-
-	/** initializes the action with the callback 
-    typedef void (Object::*SEL_CallFunc)();
-    @deprecated Use the std::function API instead.
-    */
-    CC_DEPRECATED_ATTRIBUTE bool initWithTarget(Object* target);
-
-	/** initializes the action with the std::function<void()>
-     * @js NK
-     * @lua NK
-	 */
-    bool initWithFunction(const std::function<void()>& func);
-
     /** executes the callback */
     virtual void execute();
 
@@ -373,19 +346,6 @@ public:
      @deprecated Use the std::function API instead.
     */
     CC_DEPRECATED_ATTRIBUTE static CallFuncN * create(Object* target, SEL_CallFuncN selector);
-public:
-    CallFuncN():_functionN(nullptr){}
-
-    /** initializes the action with the std::function<void(Node*)>
-	 */
-    bool initWithFunction(const std::function<void(Node*)>& func);
-
-    /** initializes the action with the callback 
-
-    typedef void (Object::*SEL_CallFuncN)(Node*);
-    @deprecated Use the std::function API instead.
-    */
-    CC_DEPRECATED_ATTRIBUTE bool initWithTarget(Object* target, SEL_CallFuncN selector);
 
     //
     // Overrides
@@ -426,10 +386,6 @@ public:
     /** creates the action with the callback and the data to pass as an argument */
     CC_DEPRECATED_ATTRIBUTE static __CCCallFuncND * create(Object* target, SEL_CallFuncND selector, void* d);
     
-protected:
-    /** initializes the action with the callback and the data to pass as an argument */
-    bool initWithTarget(Object* target, SEL_CallFuncND selector, void* d);
-    
     //
     // Overrides
     //
@@ -466,24 +422,6 @@ public:
      typedef void (Object::*SEL_CallFuncO)(Object*);
      */
     CC_DEPRECATED_ATTRIBUTE static __CCCallFuncO * create(Object* target, SEL_CallFuncO selector, Object* object);
-    /**
-     * @js ctor
-     */
-    __CCCallFuncO();
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~__CCCallFuncO();
-    
-protected:
-    /** initializes the action with the callback
-     
-     typedef void (Object::*SEL_CallFuncO)(Object*);
-     */
-    bool initWithTarget(Object* target, SEL_CallFuncO selector, Object* object);
-    
-public:
     //
     // Overrides
     //

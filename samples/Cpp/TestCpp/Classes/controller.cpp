@@ -19,6 +19,8 @@ struct {
     // TESTS MUST BE ORDERED ALPHABETICALLY
     //     violators will be prosecuted
     //
+    { "AUnitTest", []() { return new UnitTestScene(); }},
+    { "ANewRenderTest", []() { return new NewRendererTestScene(); } },
 	{ "Accelerometer", []() { return new AccelerometerTestScene(); } },
 	{ "ActionManagerTest", [](){return new ActionManagerTestScene(); } },
 	{ "ActionsEaseTest", [](){return new ActionsEaseTestScene();} },

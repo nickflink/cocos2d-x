@@ -128,7 +128,7 @@ void Configuration::gatherGPUInfo()
 #endif
     
     _supportsETC1 = checkForGLExtension("GL_OES_compressed_ETC1_RGB8_texture");
-    _valueDict->setObject(Bool::create(_supportsETC1), "gl.supports_ETC1");
+    _valueDict["gl.supports_ETC1"] = Value(_supportsETC1);
     
     _supportsS3TC = checkForGLExtension("GL_EXT_texture_compression_s3tc");
     _valueDict["gl.supports_S3TC"] = Value(_supportsS3TC);
@@ -258,11 +258,11 @@ bool Configuration::supportsDiscardFramebuffer() const
 
 bool Configuration::supportsShareableVAO() const
 {
-	#if CC_TEXTURE_ATLAS_USE_VAO
-    	return _supportsShareableVAO;
- 	#else
- 		return false;
- 	#endif
+#if CC_TEXTURE_ATLAS_USE_VAO
+    return _supportsShareableVAO;
+#else
+    return false;
+#endif
 }
 
 //

@@ -54,9 +54,6 @@ public:
     /** sets the ampliture rate */
     inline void setAmplitudeRate(float amplitudeRate) { _amplitudeRate = amplitudeRate; }
 
-    /** initializes an action with duration, grid size, waves and amplitude */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude);
-
 	// Overrides
 	virtual Waves3D* clone() const override;
     virtual void update(float time) override;
@@ -233,9 +230,6 @@ public:
     inline float getAmplitudeRate() const { return _amplitudeRate; }
     inline void setAmplitudeRate(float amplitudeRate) { _amplitudeRate = amplitudeRate; }
 
-    /** initializes the action with amplitude, a grid and duration */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude);
-
     // Overrides
 	virtual Liquid* clone() const override;
     virtual void update(float time) override;
@@ -266,9 +260,6 @@ public:
 
     inline float getAmplitudeRate() const { return _amplitudeRate; }
     inline void setAmplitudeRate(float amplitudeRate) { _amplitudeRate = amplitudeRate; }
-
-    /** initializes the action with amplitude, horizontal sin, vertical sin, a grid and duration */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical);
 
     // Overrides
 	virtual Waves* clone() const override;

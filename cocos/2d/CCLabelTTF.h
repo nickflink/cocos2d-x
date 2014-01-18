@@ -26,8 +26,8 @@ THE SOFTWARE.
 #ifndef __CCLABELTTF_H__
 #define __CCLABELTTF_H__
 
-#include "CCSprite.h"
 #include "CCTexture2D.h"
+#include "CCSprite.h"
 
 NS_CC_BEGIN
 
@@ -157,9 +157,13 @@ public:
     
     const std::string& getFontName() const;
     void setFontName(const std::string& fontName);
-    
-private:
-    bool updateTexture();
+
+    /**
+     * @js NA
+     * @lua NA
+     */
+    virtual std::string getDescription() const override;
+
 protected:
     bool updateTexture();
 

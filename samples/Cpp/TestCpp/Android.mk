@@ -100,7 +100,6 @@ Classes/FileUtilsTest/FileUtilsTest.cpp \
 Classes/FontTest/FontTest.cpp \
 Classes/InputTest/MouseTest.cpp \
 Classes/IntervalTest/IntervalTest.cpp \
-Classes/InputTest/MouseTest.cpp \
 Classes/KeyboardTest/KeyboardTest.cpp \
 Classes/KeypadTest/KeypadTest.cpp \
 Classes/LabelTest/LabelTest.cpp \

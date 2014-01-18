@@ -43,6 +43,8 @@ THE SOFTWARE.
 #include "CCProfiling.h"
 #include "CCLayer.h"
 #include "CCScene.h"
+#include "CCRenderer.h"
+#include "renderer/CCQuadCommand.h"
 // external
 #include "kazmath/GL/matrix.h"
 
@@ -65,7 +67,7 @@ SpriteBatchNode* SpriteBatchNode::createWithTexture(Texture2D* tex, ssize_t capa
 * creation with File Image
 */
 
-SpriteBatchNode* SpriteBatchNode::create(const char *fileImage, long capacity/* = DEFAULT_CAPACITY*/)
+SpriteBatchNode* SpriteBatchNode::create(const std::string& fileImage, ssize_t capacity/* = DEFAULT_CAPACITY*/)
 {
     SpriteBatchNode *batchNode = new SpriteBatchNode();
     batchNode->initWithFile(fileImage, capacity);
@@ -77,7 +79,7 @@ SpriteBatchNode* SpriteBatchNode::create(const char *fileImage, long capacity/* 
 /*
 * init with Texture2D
 */
-bool SpriteBatchNode::initWithTexture(Texture2D *tex, long capacity)
+bool SpriteBatchNode::initWithTexture(Texture2D *tex, ssize_t capacity)
 {
     CCASSERT(capacity>=0, "Capacity must be >= 0");
     
@@ -111,7 +113,7 @@ bool SpriteBatchNode::init()
 /*
 * init with FileImage
 */
-bool SpriteBatchNode::initWithFile(const char* fileImage, long capacity)
+bool SpriteBatchNode::initWithFile(const std::string& fileImage, ssize_t capacity)
 {
     Texture2D *texture2D = Director::getInstance()->getTextureCache()->addImage(fileImage);
     return initWithTexture(texture2D, capacity);
@@ -151,11 +153,6 @@ void SpriteBatchNode::visit(void)
     transform();
 
     draw();
-    
-    if (_grid && _grid->isActive())
-    {
-        _grid->afterDraw(this);
-    }
 
     kmGLPopMatrix();
     setOrderOfArrival(0);
@@ -549,9 +546,10 @@ void SpriteBatchNode::removeSpriteFromAtlas(Sprite *sprite)
     {
         auto next = std::next(it);
 
-        std::for_each(next, _descendants.end(), [](Sprite *spr) {
+        for(; next != _descendants.end(); ++next) {
+            Sprite *spr = *next;
             spr->setAtlasIndex( spr->getAtlasIndex() - 1 );
-        });
+        }
 
         _descendants.erase(it);
     }

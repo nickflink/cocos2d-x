@@ -204,14 +204,14 @@ Sequence* Sequence::create(const Vector<FiniteTimeAction*>& arrayOfActions)
     Sequence* ret = nullptr;
     do 
     {
-        long count = arrayOfActions->count();
+        auto count = arrayOfActions.size();
         CC_BREAK_IF(count == 0);
 
         auto prev = arrayOfActions.at(0);
 
         if (count > 1)
         {
-            for (long i = 1; i < count; ++i)
+            for (int i = 1; i < count; ++i)
             {
                 prev = createWithTwoActions(prev, arrayOfActions.at(i));
             }
@@ -221,7 +221,7 @@ Sequence* Sequence::create(const Vector<FiniteTimeAction*>& arrayOfActions)
             // If only one action is added to Sequence, make up a Sequence by adding a simplest finite time action.
             prev = createWithTwoActions(prev, ExtraAction::create());
         }
-        pRet = static_cast<Sequence*>(prev);
+        ret = static_cast<Sequence*>(prev);
     }while (0);
     return ret;
 }
@@ -577,7 +577,7 @@ Spawn* Spawn::create(const Vector<FiniteTimeAction*>& arrayOfActions)
     Spawn* ret = nullptr;
     do 
     {
-        long count = arrayOfActions->count();
+        auto count = arrayOfActions.size();
         CC_BREAK_IF(count == 0);
         auto prev = arrayOfActions.at(0);
         if (count > 1)
@@ -2088,9 +2088,9 @@ void Animate::update(float t)
         t = fmodf(t, 1.0f);
     }
 
-    Array* frames = _animation->getFrames();
-    long numberOfFrames = frames->count();
-    SpriteFrame *frameToDisplay = NULL;
+    auto frames = _animation->getFrames();
+    auto numberOfFrames = frames.size();
+    SpriteFrame *frameToDisplay = nullptr;
 
     for( int i=_nextFrame; i < numberOfFrames; i++ ) {
         float splitTime = _splitTimes->at(i);

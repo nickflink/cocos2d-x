@@ -30,6 +30,7 @@ THE SOFTWARE.
 #include "CCObject.h"
 #include "CCGL.h"
 #include "CCString.h"
+#include "CCValue.h"
 #include <string>
 
 NS_CC_BEGIN

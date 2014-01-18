@@ -30,7 +30,6 @@ THE SOFTWARE.
 #define __CC_TM_XML_PARSER__
 
 #include "CCArray.h"
-#include "CCDictionary.h"
 #include "CCGeometry.h"
 #include "platform/CCSAXParser.h"
 #include "CCVector.h"

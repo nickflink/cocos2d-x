@@ -38,7 +38,9 @@ bool UIPageViewTest::init()
         alert->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f - alert->getSize().height * 3.075f));
         _uiLayer->addChild(alert);
         
-        UILayout *background = dynamic_cast<UILayout*>(m_pUiLayer->getWidgetByName("background_Panel"));
+        Layout* root = static_cast<Layout*>(_uiLayer->getChildByTag(81));
+        
+        Layout* background = dynamic_cast<Layout*>(root->getChildByName("background_Panel"));
         
         // Create the page view
         PageView* pageView = PageView::create();
@@ -52,8 +54,8 @@ bool UIPageViewTest::init()
         
         for (int i = 0; i < 3; ++i)
         {
-            UILayout* layout = UILayout::create();
-            layout->setSize(Size(240, 130));
+            Layout* layout = Layout::create();
+            layout->setSize(Size(240.0f, 130.0f));
             
             ImageView* imageView = ImageView::create();
             imageView->setTouchEnabled(true);

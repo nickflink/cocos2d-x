@@ -28,8 +28,6 @@ THE SOFTWARE.
 #include "CCDirector.h"
 #include "../CCApplication.h"
 #include "platform/CCFileUtils.h"
-#include "CCEventType.h"
-#include "CCNotificationCenter.h"
 #include <jni.h>
 
 using namespace cocos2d;

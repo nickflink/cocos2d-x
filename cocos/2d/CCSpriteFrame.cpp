@@ -34,36 +34,36 @@ NS_CC_BEGIN
 
 SpriteFrame* SpriteFrame::create(const std::string& filename, const Rect& rect)
 {
-    SpriteFrame *pSpriteFrame = new SpriteFrame();
-    pSpriteFrame->initWithTextureFilename(filename, rect);
-    pSpriteFrame->autorelease();
+    SpriteFrame *spriteFrame = new SpriteFrame();
+    spriteFrame->initWithTextureFilename(filename, rect);
+    spriteFrame->autorelease();
 
     return spriteFrame;
 }
 
 SpriteFrame* SpriteFrame::createWithTexture(Texture2D *texture, const Rect& rect)
 {
-    SpriteFrame *pSpriteFrame = new SpriteFrame();
-    pSpriteFrame->initWithTexture(texture, rect);
-    pSpriteFrame->autorelease();
+    SpriteFrame *spriteFrame = new SpriteFrame();
+    spriteFrame->initWithTexture(texture, rect);
+    spriteFrame->autorelease();
     
     return spriteFrame;
 }
 
 SpriteFrame* SpriteFrame::createWithTexture(Texture2D* texture, const Rect& rect, bool rotated, const Point& offset, const Size& originalSize)
 {
-    SpriteFrame *pSpriteFrame = new SpriteFrame();
-    pSpriteFrame->initWithTexture(texture, rect, rotated, offset, originalSize);
-    pSpriteFrame->autorelease();
+    SpriteFrame *spriteFrame = new SpriteFrame();
+    spriteFrame->initWithTexture(texture, rect, rotated, offset, originalSize);
+    spriteFrame->autorelease();
 
     return spriteFrame;
 }
 
 SpriteFrame* SpriteFrame::create(const std::string& filename, const Rect& rect, bool rotated, const Point& offset, const Size& originalSize)
 {
-    SpriteFrame *pSpriteFrame = new SpriteFrame();
-    pSpriteFrame->initWithTextureFilename(filename, rect, rotated, offset, originalSize);
-    pSpriteFrame->autorelease();
+    SpriteFrame *spriteFrame = new SpriteFrame();
+    spriteFrame->initWithTextureFilename(filename, rect, rotated, offset, originalSize);
+    spriteFrame->autorelease();
 
     return spriteFrame;
 }

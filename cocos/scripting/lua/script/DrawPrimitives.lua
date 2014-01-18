@@ -7,7 +7,7 @@ local dp_pointSize = 1.0
 
 local SHADER_NAME_POSITION_U_COLOR = "ShaderPosition_uColor"
 
-local targetPlatform = Application:getInstance():getTargetPlatform()
+local targetPlatform = CCApplication:getInstance():getTargetPlatform()
 
 local function lazy_init()
     if not dp_initialized then
@@ -51,7 +51,7 @@ function ccDrawColor4f(r,g,b,a)
 end
 
 function ccPointSize(pointSize)
-    dp_pointSize = pointSize * Director:getInstance():getContentScaleFactor()
+    dp_pointSize = pointSize * CCDirector:getInstance():getContentScaleFactor()
 end
 
 function ccDrawColor4B(r,g,b,a)

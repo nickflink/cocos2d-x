@@ -194,7 +194,7 @@ bool ParticleSystem::initWithDictionary(ValueMap& dictionary)
     return initWithDictionary(dictionary, "");
 }
 
-bool ParticleSystem::initWithDictionary(Dictionary *dictionary, const std::string& dirname)
+bool ParticleSystem::initWithDictionary(ValueMap& dictionary, const std::string& dirname)
 {
     bool ret = false;
     unsigned char *buffer = nullptr;
@@ -207,8 +207,7 @@ bool ParticleSystem::initWithDictionary(Dictionary *dictionary, const std::strin
         if(this->initWithTotalParticles(maxParticles))
         {
             // Emitter name in particle designer 2.0
-            const String * configNameConstStr = dictionary->valueForKey("configName");
-            _configName = configNameConstStr->getCString();
+            _configName = dictionary["configName"].asString();
 
             // angle
             _angle = dictionary["angle"].asFloat();
@@ -220,13 +219,13 @@ bool ParticleSystem::initWithDictionary(Dictionary *dictionary, const std::strin
             // blend function 
             if (_configName.length()>0)
             {
-                _blendFunc.src = dictionary->valueForKey("blendFuncSource")->floatValue();
+                _blendFunc.src = dictionary["blendFuncSource"].asFloat();
             }
             else
             {
-                _blendFunc.src = dictionary->valueForKey("blendFuncSource")->intValue();
+                _blendFunc.src = dictionary["blendFuncSource"].asInt();
             }
-            _blendFunc.dst = dictionary->valueForKey("blendFuncDestination")->intValue();
+            _blendFunc.dst = dictionary["blendFuncDestination"].asInt();
 
             // color
             _startColor.r = dictionary["startColorRed"].asFloat();
@@ -298,31 +297,31 @@ bool ParticleSystem::initWithDictionary(Dictionary *dictionary, const std::strin
             {
                 if (_configName.length()>0)
                 {
-                    modeB.startRadius = dictionary->valueForKey("maxRadius")->intValue();
+                    modeB.startRadius = dictionary["maxRadius"].asInt();
                 }
                 else
                 {
-                    modeB.startRadius = dictionary->valueForKey("maxRadius")->floatValue();
+                    modeB.startRadius = dictionary["maxRadius"].asFloat();
                 }
-                modeB.startRadiusVar = dictionary->valueForKey("maxRadiusVariance")->floatValue();
+                modeB.startRadiusVar = dictionary["maxRadiusVariance"].asFloat();
                 if (_configName.length()>0)
                 {
-                    modeB.endRadius = dictionary->valueForKey("minRadius")->intValue();
+                    modeB.endRadius = dictionary["minRadius"].asInt();
                 }
                 else
                 {
-                    modeB.endRadius = dictionary->valueForKey("minRadius")->floatValue();
+                    modeB.endRadius = dictionary["minRadius"].asFloat();
                 }
                 modeB.endRadiusVar = 0.0f;
                if (_configName.length()>0)
                 {
-                    modeB.rotatePerSecond = dictionary->valueForKey("rotatePerSecond")->intValue();
+                    modeB.rotatePerSecond = dictionary["rotatePerSecond"].asInt();
                 }
                 else
                 {
-                    modeB.rotatePerSecond = dictionary->valueForKey("rotatePerSecond")->floatValue();
+                    modeB.rotatePerSecond = dictionary["rotatePerSecond"].asFloat();
                 }
-                modeB.rotatePerSecondVar = dictionary->valueForKey("rotatePerSecondVariance")->floatValue();
+                modeB.rotatePerSecondVar = dictionary["rotatePerSecondVariance"].asFloat();
 
             } else {
                 CCASSERT( false, "Invalid emitterType in config file");
@@ -387,16 +386,16 @@ bool ParticleSystem::initWithDictionary(Dictionary *dictionary, const std::strin
                     std::string textureData = dictionary["textureImageData"].asString();
                     CCASSERT(!textureData.empty(), "");
                     
-                    long dataLen = strlen(textureData);
-                    if(dataLen != 0)
+                    auto dataLen = textureData.size();
+                    if (dataLen != 0)
                     {
                         // if it fails, try to get it from the base64-gzipped data    
                         int decodeLen = base64Decode((unsigned char*)textureData.c_str(), (unsigned int)dataLen, &buffer);
                         CCASSERT( buffer != nullptr, "CCParticleSystem: error decoding textureImageData");
                         CC_BREAK_IF(!buffer);
                         
-                        int deflatedLen = ZipUtils::inflateMemory(buffer, decodeLen, &deflated);
-                        CCASSERT( deflated != NULL, "CCParticleSystem: error ungzipping textureImageData");
+                        ssize_t deflatedLen = ZipUtils::inflateMemory(buffer, decodeLen, &deflated);
+                        CCASSERT( deflated != nullptr, "CCParticleSystem: error ungzipping textureImageData");
                         CC_BREAK_IF(!deflated);
                         
                         // For android, we should retain it in VolatileTexture::addImage which invoked in Director::getInstance()->getTextureCache()->addUIImage()
@@ -412,16 +411,16 @@ bool ParticleSystem::initWithDictionary(Dictionary *dictionary, const std::strin
                 }
                 if (_configName.length()>0)
                 {
-                  _yCoordFlipped = dictionary->valueForKey("yCoordFlipped")->intValue();
+                  _yCoordFlipped = dictionary["yCoordFlipped"].asInt();
                 }
-                CCASSERT( this->_texture != NULL, "CCParticleSystem: error loading the texture");
+                CCASSERT( this->_texture != nullptr, "CCParticleSystem: error loading the texture");
             }
             ret = true;
         }
     } while (0);
     free(buffer);
     free(deflated);
-    return bRet;
+    return ret;
 }
 
 bool ParticleSystem::initWithTotalParticles(int numberOfParticles)

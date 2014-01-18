@@ -43,7 +43,7 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
     
-static long _globalFontSize = kItemSize;
+static int _globalFontSize = kItemSize;
 static std::string _globalFontName = "Marker Felt";
 static bool _globalFontNameRelease = false;
 
@@ -315,13 +315,13 @@ void MenuItemLabel::setEnabled(bool enabled)
 //CCMenuItemAtlasFont
 //
 
-MenuItemAtlasFont * MenuItemAtlasFont::create(const std::string& value, const std::string& charMapFile, long itemWidth, long itemHeight, char startCharMap)
+MenuItemAtlasFont * MenuItemAtlasFont::create(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap)
 {
     return MenuItemAtlasFont::create(value, charMapFile, itemWidth, itemHeight, startCharMap, (const ccMenuCallback&)nullptr);
 }
 
 // XXX: deprecated
-MenuItemAtlasFont * MenuItemAtlasFont::create(const char* value, const char* charMapFile, long itemWidth, long itemHeight, char startCharMap, Object* target, SEL_MenuHandler selector)
+MenuItemAtlasFont * MenuItemAtlasFont::create(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap, Object* target, SEL_MenuHandler selector)
 {
     MenuItemAtlasFont *ret = new MenuItemAtlasFont();
     ret->initWithString(value, charMapFile, itemWidth, itemHeight, startCharMap, target, selector);
@@ -329,7 +329,7 @@ MenuItemAtlasFont * MenuItemAtlasFont::create(const char* value, const char* cha
     return ret;
 }
 
-MenuItemAtlasFont * MenuItemAtlasFont::create(const std::string& value, const std::string& charMapFile, long itemWidth, long itemHeight, char startCharMap, const ccMenuCallback& callback)
+MenuItemAtlasFont * MenuItemAtlasFont::create(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap, const ccMenuCallback& callback)
 {
     MenuItemAtlasFont *ret = new MenuItemAtlasFont();
     ret->initWithString(value, charMapFile, itemWidth, itemHeight, startCharMap, callback);
@@ -338,14 +338,14 @@ MenuItemAtlasFont * MenuItemAtlasFont::create(const std::string& value, const st
 }
 
 // XXX: deprecated
-bool MenuItemAtlasFont::initWithString(const char* value, const char* charMapFile, long itemWidth, long itemHeight, char startCharMap, Object* target, SEL_MenuHandler selector)
+bool MenuItemAtlasFont::initWithString(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap, Object* target, SEL_MenuHandler selector)
 {
 	_target = target;
 	CC_SAFE_RETAIN(_target);
 	return initWithString(value, charMapFile, itemWidth, itemHeight, startCharMap, std::bind(selector,target, std::placeholders::_1) );
 }
 
-bool MenuItemAtlasFont::initWithString(const std::string& value, const std::string& charMapFile, long itemWidth, long itemHeight, char startCharMap, const ccMenuCallback& callback)
+bool MenuItemAtlasFont::initWithString(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap, const ccMenuCallback& callback)
 {
     CCASSERT( value.size() != 0, "value length must be greater than 0");
     LabelAtlas *label = new LabelAtlas();
@@ -362,12 +362,12 @@ bool MenuItemAtlasFont::initWithString(const std::string& value, const std::stri
 //CCMenuItemFont
 //
 
-void MenuItemFont::setFontSize(long s)
+void MenuItemFont::setFontSize(int s)
 {
     _globalFontSize = s;
 }
 
-long MenuItemFont::getFontSize()
+int MenuItemFont::getFontSize()
 {
     return _globalFontSize;
 }
@@ -434,7 +434,7 @@ bool MenuItemFont::initWithString(const std::string& value, Object* target, SEL_
 
 bool MenuItemFont::initWithString(const std::string& value, const ccMenuCallback& callback)
 {
-    CCASSERT( value.size() >= 0, "Value length must be greater than 0");
+    CCASSERT( !value.empty(), "Value length must be greater than 0");
 
     _fontName = _globalFontName;
     _fontSize = _globalFontSize;
@@ -454,13 +454,13 @@ void MenuItemFont::recreateLabel()
     this->setLabel(label);
 }
 
-void MenuItemFont::setFontSizeObj(long s)
+void MenuItemFont::setFontSizeObj(int s)
 {
     _fontSize = s;
     recreateLabel();
 }
 
-long MenuItemFont::getFontSizeObj() const
+int MenuItemFont::getFontSizeObj() const
 {
     return _fontSize;
 }
@@ -697,7 +697,7 @@ MenuItemImage* MenuItemImage::create()
         return ret;
     }
     CC_SAFE_DELETE(ret);
-    return NULL;
+    return nullptr;
 }
 
 bool MenuItemImage::init(void)
@@ -731,7 +731,7 @@ MenuItemImage * MenuItemImage::create(const std::string& normalImage, const std:
         return ret;
     }
     CC_SAFE_DELETE(ret);
-    return NULL;
+    return nullptr;
 }
 
 MenuItemImage * MenuItemImage::create(const std::string& normalImage, const std::string& selectedImage, const std::string& disabledImage, const ccMenuCallback& callback)
@@ -743,7 +743,7 @@ MenuItemImage * MenuItemImage::create(const std::string& normalImage, const std:
         return ret;
     }
     CC_SAFE_DELETE(ret);
-    return NULL;
+    return nullptr;
 }
 
 MenuItemImage * MenuItemImage::create(const std::string& normalImage, const std::string& selectedImage, const std::string& disabledImage)
@@ -755,7 +755,7 @@ MenuItemImage * MenuItemImage::create(const std::string& normalImage, const std:
         return ret;
     }
     CC_SAFE_DELETE(ret);
-    return NULL;
+    return nullptr;
 }
 
 // XXX: deprecated
@@ -815,15 +815,7 @@ MenuItemToggle * MenuItemToggle::createWithTarget(Object* target, SEL_MenuHandle
 {
     MenuItemToggle *ret = new MenuItemToggle();
     ret->MenuItem::initWithTarget(target, selector);
-    ret->_subItems = Array::create();
-    ret->_subItems->retain();
-    
-    for (int z=0; z < menuItems->count(); z++)
-    {
-        MenuItem* menuItem = (MenuItem*)menuItems->getObjectAtIndex(z);
-        ret->_subItems->addObject(menuItem);
-    }
-    
+    ret->_subItems = menuItems;
     ret->_selectedIndex = UINT_MAX;
     ret->setSelectedIndex(0);
     return ret;
@@ -833,15 +825,7 @@ MenuItemToggle * MenuItemToggle::createWithCallback(const ccMenuCallback &callba
 {
     MenuItemToggle *ret = new MenuItemToggle();
     ret->MenuItem::initWithCallback(callback);
-    ret->_subItems = Array::create();
-    ret->_subItems->retain();
-
-    for (int z=0; z < menuItems->count(); z++)
-    {
-        MenuItem* menuItem = (MenuItem*)menuItems->getObjectAtIndex(z);
-        ret->_subItems->addObject(menuItem);
-    }
-
+    ret->_subItems = menuItems;
     ret->_selectedIndex = UINT_MAX;
     ret->setSelectedIndex(0);
     return ret;
@@ -873,7 +857,7 @@ MenuItemToggle * MenuItemToggle::createWithCallback(const ccMenuCallback &callba
 MenuItemToggle * MenuItemToggle::create()
 {
     MenuItemToggle *ret = new MenuItemToggle();
-    ret->initWithItem(NULL);
+    ret->initWithItem(nullptr);
     ret->autorelease();
     return ret;
 }
@@ -935,13 +919,8 @@ void MenuItemToggle::addSubItem(MenuItem *item)
 
 MenuItemToggle::~MenuItemToggle()
 {
-    if (_subItems)
-    {
-        for (auto& item : *_subItems)
-        {
-            static_cast<MenuItem*>(item)->cleanup();
-        }
-        _subItems->release();
+    for(const auto &item : _subItems) {
+        item->cleanup();
     }
 }
 

@@ -127,6 +127,11 @@ void ExtensionsMainLayer::onEnter()
     
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
     
+    auto mouseListener = EventListenerMouse::create();
+    mouseListener->onMouseScroll = CC_CALLBACK_1(ExtensionsMainLayer::onMouseScroll, this);
+    
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
+    
     addChild(_itemMenu);
 }
 

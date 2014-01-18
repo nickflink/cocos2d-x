@@ -45,7 +45,7 @@ bool UITextFieldTest::init()
         textField->setPlaceHolder("input words here");
         textField->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f));
         textField->addEventListenerTextField(this, textfieldeventselector(UITextFieldTest::textFieldEvent));
-        m_pUiLayer->addWidget(textField);
+        _uiLayer->addChild(textField);
         
         return true;
     }
@@ -62,7 +62,7 @@ void UITextFieldTest::textFieldEvent(Object *pSender, TextFiledEventType type)
             Size screenSize = CCDirector::getInstance()->getWinSize();
             textField->runAction(CCMoveTo::create(0.225f,
                                                   Point(screenSize.width / 2.0f, screenSize.height / 2.0f + textField->getContentSize().height / 2.0f)));
-            m_pDisplayValueLabel->setText(CCString::createWithFormat("attach with IME")->getCString());
+            _displayValueLabel->setText(String::createWithFormat("attach with IME")->getCString());
         }
             break;
             
@@ -71,12 +71,12 @@ void UITextFieldTest::textFieldEvent(Object *pSender, TextFiledEventType type)
             TextField* textField = dynamic_cast<TextField*>(pSender);
             Size screenSize = CCDirector::getInstance()->getWinSize();
             textField->runAction(CCMoveTo::create(0.175f, Point(screenSize.width / 2.0f, screenSize.height / 2.0f)));
-            m_pDisplayValueLabel->setText(CCString::createWithFormat("detach with IME")->getCString());
+            _displayValueLabel->setText(String::createWithFormat("detach with IME")->getCString());
         }
             break;
             
         case TEXTFIELD_EVENT_INSERT_TEXT:
-            m_pDisplayValueLabel->setText(CCString::createWithFormat("insert words")->getCString());
+            _displayValueLabel->setText(String::createWithFormat("insert words")->getCString());
             break;
             
         case TEXTFIELD_EVENT_DELETE_BACKWARD:
@@ -124,7 +124,7 @@ bool UITextFieldTest_MaxLength::init()
         _uiLayer->addChild(alert);
         
         // Create the textfield
-        UITextField* textField = UITextField::create();
+        TextField* textField = TextField::create();
         textField->setMaxLengthEnabled(true);
         textField->setMaxLength(3);
         textField->setTouchEnabled(true);
@@ -133,7 +133,7 @@ bool UITextFieldTest_MaxLength::init()
         textField->setPlaceHolder("input words here");
         textField->setPosition(Point(screenSize.width / 2.0f, screenSize.height / 2.0f));
         textField->addEventListenerTextField(this, textfieldeventselector(UITextFieldTest_MaxLength::textFieldEvent));
-        m_pUiLayer->addWidget(textField);
+        _uiLayer->addChild(textField);
         
         return true;
     }
@@ -150,7 +150,7 @@ void UITextFieldTest_MaxLength::textFieldEvent(Object *pSender, TextFiledEventTy
             Size screenSize = CCDirector::getInstance()->getWinSize();
             textField->runAction(CCMoveTo::create(0.225f,
                                                   Point(screenSize.width / 2.0f, screenSize.height / 2.0f + textField->getContentSize().height / 2.0f)));
-            m_pDisplayValueLabel->setText(CCString::createWithFormat("attach with IME max length %d", textField->getMaxLength())->getCString());
+            _displayValueLabel->setText(String::createWithFormat("attach with IME max length %d", textField->getMaxLength())->getCString());
         }
             break;
             
@@ -159,7 +159,7 @@ void UITextFieldTest_MaxLength::textFieldEvent(Object *pSender, TextFiledEventTy
             TextField* textField = dynamic_cast<TextField*>(pSender);
             Size screenSize = CCDirector::getInstance()->getWinSize();
             textField->runAction(CCMoveTo::create(0.175f, Point(screenSize.width / 2.0f, screenSize.height / 2.0f)));
-            m_pDisplayValueLabel->setText(CCString::createWithFormat("detach with IME max length %d", textField->getMaxLength())->getCString());
+            _displayValueLabel->setText(String::createWithFormat("detach with IME max length %d", textField->getMaxLength())->getCString());
         }
             break;
             
@@ -218,7 +218,7 @@ bool UITextFieldTest_Password::init()
         _uiLayer->addChild(alert);
         
         // Create the textfield
-        UITextField* textField = UITextField::create();
+        TextField* textField = TextField::create();
         textField->setPasswordEnabled(true);
         textField->setPasswordStyleText("*");
         textField->setTouchEnabled(true);
@@ -227,7 +227,7 @@ bool UITextFieldTest_Password::init()
         textField->setPlaceHolder("input password here");
         textField->setPosition(Point(screenSize.width / 2.0f, screenSize.height / 2.0f));
         textField->addEventListenerTextField(this, textfieldeventselector(UITextFieldTest_Password::textFieldEvent));
-        m_pUiLayer->addWidget(textField);
+        _uiLayer->addChild(textField);
         
         return true;
     }
@@ -244,7 +244,7 @@ void UITextFieldTest_Password::textFieldEvent(Object *pSender, TextFiledEventTyp
             Size screenSize = CCDirector::getInstance()->getWinSize();
             textField->runAction(CCMoveTo::create(0.225f,
                                                   Point(screenSize.width / 2.0f, screenSize.height / 2.0f + textField->getContentSize().height / 2.0f)));
-            m_pDisplayValueLabel->setText(CCString::createWithFormat("attach with IME password")->getCString());
+            _displayValueLabel->setText(String::createWithFormat("attach with IME password")->getCString());
         }
             break;
             
@@ -253,12 +253,12 @@ void UITextFieldTest_Password::textFieldEvent(Object *pSender, TextFiledEventTyp
             TextField* textField = dynamic_cast<TextField*>(pSender);
             Size screenSize = CCDirector::getInstance()->getWinSize();
             textField->runAction(CCMoveTo::create(0.175f, Point(screenSize.width / 2.0f, screenSize.height / 2.0f)));
-            m_pDisplayValueLabel->setText(CCString::createWithFormat("detach with IME password")->getCString());
+            _displayValueLabel->setText(String::createWithFormat("detach with IME password")->getCString());
         }
             break;
             
         case TEXTFIELD_EVENT_INSERT_TEXT:
-            m_pDisplayValueLabel->setText(CCString::createWithFormat("insert words password")->getCString());
+            _displayValueLabel->setText(String::createWithFormat("insert words password")->getCString());
             break;
             
         case TEXTFIELD_EVENT_DELETE_BACKWARD:

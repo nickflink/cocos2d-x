@@ -45,9 +45,23 @@ bool UISliderTest::init()
         slider->loadBarTexture("cocosgui/sliderTrack.png");
         slider->loadSlidBallTextures("cocosgui/sliderThumb.png", "cocosgui/sliderThumb.png", "");
         slider->loadProgressBarTexture("cocosgui/sliderProgress.png");
-        slider->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f));
-        slider->addEventListenerSlider(this, sliderpercentchangedselector(UISliderTest::percentChangedEvent));
-        m_pUiLayer->addWidget(slider);
+        slider->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f + slider->getSize().height * 2.0f));
+        slider->addEventListenerSlider(this, sliderpercentchangedselector(UISliderTest::sliderEvent));
+        _uiLayer->addChild(slider);
+        
+        /*
+        // Create the slider that set allow min progress and allow max progress
+        Slider* sliderAllow = Slider::create();
+        sliderAllow->setMinAllowPercent(20);
+        sliderAllow->setMaxAllowPercent(80);
+        sliderAllow->setTouchEnabled(true);
+        sliderAllow->loadBarTexture("cocosgui/sliderTrack.png");
+        sliderAllow->loadSlidBallTextures("cocosgui/sliderThumb.png", "cocosgui/sliderThumb.png", "");
+        sliderAllow->loadProgressBarTexture("cocosgui/sliderProgress.png");
+        sliderAllow->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f - sliderAllow->getSize().height * 2.0f));
+        sliderAllow->addEventListenerSlider(this, sliderpercentchangedselector(UISliderTest::sliderEvent));
+        _uiLayer->addChild(sliderAllow);
+         */
         
         return true;
     }
@@ -108,10 +122,27 @@ bool UISliderTest_Scale9::init()
         slider->loadProgressBarTexture("cocosgui/slider_bar_active_9patch.png");
         slider->setScale9Enabled(true);
         slider->setCapInsets(Rect(0, 0, 0, 0));
-        slider->setSize(Size(250, 10));
-        slider->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f));
-        slider->addEventListenerSlider(this, sliderpercentchangedselector(UISliderTest_Scale9::percentChangedEvent));
-        m_pUiLayer->addWidget(slider);
+        slider->setSize(Size(250.0f, 10.0f / Director::getInstance()->getContentScaleFactor()));
+        slider->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f + slider->getSize().height * 3.0f));
+        slider->addEventListenerSlider(this, sliderpercentchangedselector(UISliderTest_Scale9::sliderEvent));
+        _uiLayer->addChild(slider);
+        
+        /*
+        // Create the slider that set allow min progress and allow max progress
+        Slider* sliderAllow = Slider::create();
+        sliderAllow->setMinAllowPercent(20);
+        sliderAllow->setMaxAllowPercent(80);
+        sliderAllow->setTouchEnabled(true);
+        sliderAllow->loadBarTexture("cocosgui/sliderTrack2.png");
+        sliderAllow->loadSlidBallTextures("cocosgui/sliderThumb.png", "cocosgui/sliderThumb.png", "");
+        sliderAllow->loadProgressBarTexture("cocosgui/slider_bar_active_9patch.png");
+        sliderAllow->setScale9Enabled(true);
+        sliderAllow->setCapInsets(Rect(0, 0, 0, 0));
+        sliderAllow->setSize(Size(250.0f, 10.0f / Director::getInstance()->getContentScaleFactor()));
+        sliderAllow->setPosition(Point(widgetSize.width / 2.0f, widgetSize.height / 2.0f - slider->getSize().height * 3.0f));
+        sliderAllow->addEventListenerSlider(this, sliderpercentchangedselector(UISliderTest_Scale9::sliderEvent));
+        _uiLayer->addChild(sliderAllow);
+         */
         
         return true;
     }

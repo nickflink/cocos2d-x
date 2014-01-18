@@ -30,8 +30,8 @@ public:
     float _fElapsedTime;
    
 protected:
-    cocos2d::Array *_targets;
-	  cocos2d::Array *_projectiles;
+    cocos2d::Vector<cocos2d::Node*> _targets;
+	cocos2d::Vector<cocos2d::Node*> _projectiles;
 };
 
 

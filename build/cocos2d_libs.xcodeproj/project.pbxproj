@@ -44,6 +44,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		01152F391888F52600941EA6 /* CCLocalizedString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01152F371888F52600941EA6 /* CCLocalizedString.cpp */; };
+		01152F3A1888F52600941EA6 /* CCLocalizedString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01152F371888F52600941EA6 /* CCLocalizedString.cpp */; };
+		01152F3B1888F52600941EA6 /* CCLocalizedString.h in Headers */ = {isa = PBXBuildFile; fileRef = 01152F381888F52600941EA6 /* CCLocalizedString.h */; };
+		01152F3C1888F52600941EA6 /* CCLocalizedString.h in Headers */ = {isa = PBXBuildFile; fileRef = 01152F381888F52600941EA6 /* CCLocalizedString.h */; };
+		01152F3F1888F5A500941EA6 /* CCActionShake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01152F3D1888F5A500941EA6 /* CCActionShake.cpp */; };
+		01152F401888F5A500941EA6 /* CCActionShake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01152F3D1888F5A500941EA6 /* CCActionShake.cpp */; };
+		01152F411888F5A500941EA6 /* CCActionShake.h in Headers */ = {isa = PBXBuildFile; fileRef = 01152F3E1888F5A500941EA6 /* CCActionShake.h */; };
+		01152F421888F5A500941EA6 /* CCActionShake.h in Headers */ = {isa = PBXBuildFile; fileRef = 01152F3E1888F5A500941EA6 /* CCActionShake.h */; };
 		06C0F2EF186AD822003594D5 /* ObjectFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 06CAAABA186AD63B0012A414 /* ObjectFactory.cpp */; };
 		06C0F2F0186AD824003594D5 /* ObjectFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 06CAAABA186AD63B0012A414 /* ObjectFactory.cpp */; };
 		06CAAAC2186AD7D70012A414 /* CCActionEaseEx.h in Headers */ = {isa = PBXBuildFile; fileRef = 37936A401869B7B200E974DD /* CCActionEaseEx.h */; };
@@ -2131,6 +2139,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01152F371888F52600941EA6 /* CCLocalizedString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCLocalizedString.cpp; path = ../base/CCLocalizedString.cpp; sourceTree = "<group>"; };
+		01152F381888F52600941EA6 /* CCLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCLocalizedString.h; path = ../base/CCLocalizedString.h; sourceTree = "<group>"; };
+		01152F3D1888F5A500941EA6 /* CCActionShake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCActionShake.cpp; sourceTree = "<group>"; };
+		01152F3E1888F5A500941EA6 /* CCActionShake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCActionShake.h; sourceTree = "<group>"; };
 		06CAAABA186AD63B0012A414 /* ObjectFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectFactory.cpp; sourceTree = "<group>"; };
 		06CAAABB186AD63B0012A414 /* ObjectFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectFactory.h; sourceTree = "<group>"; };
 		06CAAABC186AD63B0012A414 /* TriggerBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriggerBase.cpp; sourceTree = "<group>"; };
@@ -3682,6 +3694,8 @@
 				1A57005A180BC5A10088DEC7 /* CCActionPageTurn3D.h */,
 				1A57005B180BC5A10088DEC7 /* CCActionProgressTimer.cpp */,
 				1A57005C180BC5A10088DEC7 /* CCActionProgressTimer.h */,
+				01152F3D1888F5A500941EA6 /* CCActionShake.cpp */,
+				01152F3E1888F5A500941EA6 /* CCActionShake.h */,
 				1A57005D180BC5A10088DEC7 /* CCActionTiledGrid.cpp */,
 				1A57005E180BC5A10088DEC7 /* CCActionTiledGrid.h */,
 				1A57005F180BC5A10088DEC7 /* CCActionTween.cpp */,
@@ -3726,6 +3740,8 @@
 				1A5700B4180BC6060088DEC7 /* CCGeometry.cpp */,
 				1A5700B5180BC6060088DEC7 /* CCGeometry.h */,
 				1A5700B6180BC6060088DEC7 /* CCInteger.h */,
+				01152F371888F52600941EA6 /* CCLocalizedString.cpp */,
+				01152F381888F52600941EA6 /* CCLocalizedString.h */,
 				1AA2063E1848437900053418 /* CCMap.h */,
 				1A5700B7180BC6060088DEC7 /* CCNS.cpp */,
 				1A5700B8180BC6060088DEC7 /* CCNS.h */,
@@ -5879,6 +5895,8 @@
 				74AC8589A38C358F1E472BBD /* CCRenderMaterial.h in Headers */,
 				74AC8E3E7D85FB595242AAEC /* CCMaterialManager.h in Headers */,
 				A0E6B28018613EA5009C5D17 /* CCRenderCommandPool.h in Headers */,
+				01152F3B1888F52600941EA6 /* CCLocalizedString.h in Headers */,
+				01152F411888F5A500941EA6 /* CCActionShake.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6500,6 +6518,8 @@
 				74AC8573F4F84201C08E5523 /* CCRenderCommand.h in Headers */,
 				74AC87A5A3B3AD5055CCA3B9 /* CCRenderMaterial.h in Headers */,
 				74AC8A10DE9DE8E14D8B3735 /* CCMaterialManager.h in Headers */,
+				01152F3C1888F52600941EA6 /* CCLocalizedString.h in Headers */,
+				01152F421888F5A500941EA6 /* CCActionShake.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7243,6 +7263,8 @@
 				74AC897DFAB8043D3873A8F3 /* CCRenderCommand.cpp in Sources */,
 				74AC85BC90D7CF01D652E8C3 /* CCRenderMaterial.cpp in Sources */,
 				74AC83D0193BC28994D683E8 /* CCMaterialManager.cpp in Sources */,
+				01152F391888F52600941EA6 /* CCLocalizedString.cpp in Sources */,
+				01152F3F1888F5A500941EA6 /* CCActionShake.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7809,6 +7831,8 @@
 				74AC84A100AF9E826288CE2C /* CCRenderCommand.cpp in Sources */,
 				74AC8813CEE4FC652A0951FB /* CCRenderMaterial.cpp in Sources */,
 				74AC826A592CAE6AACD35DC5 /* CCMaterialManager.cpp in Sources */,
+				01152F3A1888F52600941EA6 /* CCLocalizedString.cpp in Sources */,
+				01152F401888F5A500941EA6 /* CCActionShake.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

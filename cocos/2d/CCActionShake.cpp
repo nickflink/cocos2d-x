@@ -49,7 +49,7 @@ void ActionShake::update(float time)
   float randy = fgRangeRand( -_strength_y, _strength_y );
 
   // move the target to a shaked position
-  _target->setPosition( ccp( randx, randy) );
+  _target->setPosition( Point( randx, randy) );
 }
 
 ActionShake* ActionShake::clone() const
@@ -79,7 +79,7 @@ void ActionShake::startWithTarget(Node *pTarget)
 void ActionShake::stop(void)
 {
   // Action is done, reset clip position
-  _target->setPosition( ccp( _initial_x, _initial_y ) );
+  _target->setPosition( Point( _initial_x, _initial_y ) );
 
   ActionInterval::stop();
 }

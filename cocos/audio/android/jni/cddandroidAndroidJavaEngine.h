@@ -56,6 +56,10 @@ namespace CocosDenshion {
             void preloadEffect(const char* pszFilePath);
             void unloadEffect(const char* pszFilePath);
 
+            bool hasVibrator();
+            void vibrate(long long time);
+            void cancelVibrate();
+
         private :
             static bool getJNIStaticMethodInfo(cocos2d::JniMethodInfo &methodinfo,
                                                const char *methodName,

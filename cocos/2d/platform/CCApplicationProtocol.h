@@ -89,7 +89,7 @@ public:
     * @js NA
     * @lua NA
     */
-    virtual void applicationDidReceiveMemoryWarning() = 0;
+    virtual void applicationDidReceiveMemoryWarning(){}
 
     /**
     @brief    Callback by Director for limit FPS.

@@ -55,5 +55,9 @@ namespace CocosDenshion {
         void OpenSLEngine::preloadEffect(const char* pszFilePath) { }
         void OpenSLEngine::unloadEffect(const char* pszFilePath) { }
 
+        bool OpenSLEngine::hasVibrator() { }
+        void OpenSLEngine::vibrate(long long time) { }
+        void OpenSLEngine::cancelVibrate() { }
+
     }
 }

@@ -26,6 +26,8 @@ package org.cocos2dx.lib;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.lang.Runnable;
 
 import android.app.Activity;
@@ -36,7 +38,9 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.os.Build;
+import android.preference.PreferenceManager.OnActivityResultListener;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -44,6 +48,7 @@ public class Cocos2dxHelper {
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	private static final String TAG = "Cocos2dxHelper";
 	private static final String PREFS_NAME = "Cocos2dxPrefsFile";
 	private static final int RUNNABLES_PER_FRAME = 5;
 
@@ -60,6 +65,7 @@ public class Cocos2dxHelper {
 	private static String sFileDirectory;
 	private static Activity sActivity = null;
 	private static Cocos2dxHelperListener sCocos2dxHelperListener;
+	private static Set<OnActivityResultListener> onActivityResultListeners = new LinkedHashSet<OnActivityResultListener>();
 
     /**
      * Optional meta-that can be in the manifest for this component, specifying
@@ -127,6 +133,9 @@ public class Cocos2dxHelper {
 	// Getter & Setter
 	// ===========================================================
 
+    public static Set<OnActivityResultListener> getOnActivityResultListeners() {
+        return onActivityResultListeners;
+    }
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
@@ -254,6 +263,21 @@ public class Cocos2dxHelper {
 
 	public static void stopAllEffects() {
 		Cocos2dxHelper.sCocos2dSound.stopAllEffects();
+	}
+
+	public static boolean hasVibrator() {
+		Log.i(Cocos2dxHelper.TAG, "hasVibrator():");
+		return Cocos2dxHelper.sCocos2dSound.hasVibrator();
+	}
+	
+	public static void vibrate(long time) {
+		Log.i(Cocos2dxHelper.TAG, "vibrate(): " + time);
+		Cocos2dxHelper.sCocos2dSound.vibrate(time);
+	}
+	
+	public static void cancelVibrate() {
+		Log.i(Cocos2dxHelper.TAG, "cancelVibrate():");
+		Cocos2dxHelper.sCocos2dSound.cancelVibrate();
 	}
 
 	public static void end() {

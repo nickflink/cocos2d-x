@@ -20,6 +20,7 @@ CCActionInterval.cpp \
 CCActionManager.cpp \
 CCActionPageTurn3D.cpp \
 CCActionProgressTimer.cpp \
+CCActionShake.cpp \
 CCActionTiledGrid.cpp \
 CCActionTween.cpp \
 CCAnimation.cpp \
@@ -131,6 +132,7 @@ renderer/CCRenderMaterial.cpp \
 ../base/CCData.cpp \
 ../base/CCDataVisitor.cpp \
 ../base/CCGeometry.cpp \
+../base/CCLocalizedString.cpp \
 ../base/CCNS.cpp \
 ../base/CCRef.cpp \
 ../base/CCValue.cpp \

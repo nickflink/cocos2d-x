@@ -29,16 +29,11 @@ std::string LocalizedString(std::string mKey, std::string mComment)
     LanguageType curLanguage = Application::getInstance()->getCurrentLanguage();
     const char * fileName;
     switch (curLanguage) {
-        case LanguageType::ENGLISH:
-            fileName = "Localized_en";
+        case LanguageType::SPANISH:
+            fileName = "Localized_es";
             break;
-        case LanguageType::CHINESE:
-            fileName = "Localized_zh";
-            break;
-        /**
-         case for more localize
-         */
         default:
+        case LanguageType::ENGLISH:
             fileName = "Localized_en";
             break;
     }

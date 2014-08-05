@@ -12,6 +12,7 @@ CCCommon.cpp \
 CCDevice.cpp \
 CCGLView.cpp \
 CCFileUtilsAndroid.cpp \
+CCLocalNotification.cpp \
 javaactivity.cpp \
 jni/DPIJni.cpp \
 jni/IMEJni.cpp \

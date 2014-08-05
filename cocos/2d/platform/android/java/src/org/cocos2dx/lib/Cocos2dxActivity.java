@@ -26,7 +26,10 @@ package org.cocos2dx.lib;
 import org.cocos2dx.lib.Cocos2dxHelper.Cocos2dxHelperListener;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -35,6 +38,8 @@ import android.os.Message;
 import android.view.ViewGroup;
 import android.util.Log;
 import android.widget.FrameLayout;
+
+import java.util.Calendar;
 
 public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelperListener {
 	// ===========================================================
@@ -184,6 +189,35 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
       Log.d(TAG, "isEmulator=" + isEmulator);
       return isEmulator;
    }
+	// ===========================================================
+	// LocalNotifications
+	// ===========================================================
+  public static void showLocalNotification(String message, int interval, int tag) {
+    Log.v(TAG, "showLocalNotification");
+    PendingIntent sender = getPendingIntent(message, tag);
+
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTimeInMillis(System.currentTimeMillis());
+    calendar.add(Calendar.SECOND, interval);
+
+    AlarmManager am = (AlarmManager)sContext.getSystemService(ALARM_SERVICE);
+    am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+  }
+
+  public static void cancelLocalNotification(int tag) {
+    Log.v(TAG, "cancelLocalNotification");
+    PendingIntent sender = getPendingIntent(null, tag);
+    AlarmManager am = (AlarmManager)sContext.getSystemService(ALARM_SERVICE);
+    am.cancel(sender);
+  }
+  
+  private static PendingIntent getPendingIntent(String message, int tag) {
+    Intent i = new Intent(sContext.getApplicationContext(), LocalNotificationReceiver.class);
+    i.putExtra("notification_id", tag);
+    i.putExtra("message", message);
+    PendingIntent sender = PendingIntent.getBroadcast(sContext, 0, i, 0);
+    return sender;
+  }
 
 	// ===========================================================
 	// Inner and Anonymous Classes

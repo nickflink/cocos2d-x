@@ -143,6 +143,7 @@ THE SOFTWARE.
 #include "platform/CCCommon.h"
 #include "platform/CCFileUtils.h"
 #include "platform/CCImage.h"
+#include "platform/CCLocalNotification.h"
 #include "platform/CCSAXParser.h"
 #include "platform/CCThread.h"
 #include "CCPlatformConfig.h"

@@ -40,6 +40,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		010C287B199125B1005581BC /* CCLocalNotification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 010C287A199125B1005581BC /* CCLocalNotification.mm */; };
+		010C288019913E19005581BC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 010C287F19913E19005581BC /* UIKit.framework */; };
+		010C288219913F92005581BC /* CCLocalNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 010C288119913F92005581BC /* CCLocalNotification.h */; };
 		01152F391888F52600941EA6 /* CCLocalizedString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01152F371888F52600941EA6 /* CCLocalizedString.cpp */; };
 		01152F3A1888F52600941EA6 /* CCLocalizedString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01152F371888F52600941EA6 /* CCLocalizedString.cpp */; };
 		01152F3B1888F52600941EA6 /* CCLocalizedString.h in Headers */ = {isa = PBXBuildFile; fileRef = 01152F381888F52600941EA6 /* CCLocalizedString.h */; };
@@ -1881,6 +1884,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		010C287A199125B1005581BC /* CCLocalNotification.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCLocalNotification.mm; sourceTree = "<group>"; };
+		010C287F19913E19005581BC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		010C288119913F92005581BC /* CCLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLocalNotification.h; sourceTree = "<group>"; };
 		01152F371888F52600941EA6 /* CCLocalizedString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCLocalizedString.cpp; path = ../base/CCLocalizedString.cpp; sourceTree = "<group>"; };
 		01152F381888F52600941EA6 /* CCLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCLocalizedString.h; path = ../base/CCLocalizedString.h; sourceTree = "<group>"; };
 		01152F3D1888F5A500941EA6 /* CCActionShake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCActionShake.cpp; sourceTree = "<group>"; };
@@ -2914,6 +2920,7 @@
 			files = (
 				B3B12A5B17E7F45C00026B4A /* libchipmunk iOS.a in Frameworks */,
 				A07A4CAF1783777C0073F6A7 /* Foundation.framework in Frameworks */,
+				010C288019913E19005581BC /* UIKit.framework in Frameworks */,
 				1A570364180BD1120088DEC7 /* libpng.a in Frameworks */,
 				1A570378180BD1B40088DEC7 /* libjpeg.a in Frameworks */,
 				1A5703A4180BD2350088DEC7 /* libtiff.a in Frameworks */,
@@ -3002,6 +3009,7 @@
 				B3D8D44B179921D50039C204 /* ios */,
 				B3D8D4471799219B0039C204 /* mac */,
 				1551A342158F2AB200E66CFE /* Foundation.framework */,
+				010C287F19913E19005581BC /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -4559,6 +4567,7 @@
 				46A16A981807B038005B8026 /* CCGLViewProtocol.h */,
 				3E26D40418ACB5D100834404 /* CCImage.cpp */,
 				46A16A9B1807B038005B8026 /* CCImage.h */,
+				010C288119913F92005581BC /* CCLocalNotification.h */,
 				46A16A9F1807B038005B8026 /* CCSAXParser.cpp */,
 				46A16AA01807B038005B8026 /* CCSAXParser.h */,
 				46A16AA11807B038005B8026 /* CCThread.cpp */,
@@ -4587,6 +4596,7 @@
 		46A16AA31807B038005B8026 /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				010C287A199125B1005581BC /* CCLocalNotification.mm */,
 				46A16AA41807B038005B8026 /* CCApplication.h */,
 				46A16AA51807B038005B8026 /* CCApplication.mm */,
 				46A16AA61807B038005B8026 /* CCCommon.mm */,
@@ -5600,6 +5610,7 @@
 				1A5701E1180BCB8C0088DEC7 /* CCLayer.h in Headers */,
 				1A5701E5180BCB8C0088DEC7 /* CCScene.h in Headers */,
 				1A5701E9180BCB8C0088DEC7 /* CCTransition.h in Headers */,
+				010C288219913F92005581BC /* CCLocalNotification.h in Headers */,
 				1A5701ED180BCB8C0088DEC7 /* CCTransitionPageTurn.h in Headers */,
 				1A5701F1180BCB8C0088DEC7 /* CCTransitionProgress.h in Headers */,
 				1A5701FA180BCBAD0088DEC7 /* CCMenu.h in Headers */,
@@ -6644,6 +6655,7 @@
 				A044DED218C6A58700B6CCBD /* vec3.c in Sources */,
 				46A1703C1807CC07005B8026 /* CCApplication.mm in Sources */,
 				46A170471807CC07005B8026 /* CCImage.mm in Sources */,
+				010C287B199125B1005581BC /* CCLocalNotification.mm in Sources */,
 				46A1704B1807CC07005B8026 /* CCEAGLView.mm in Sources */,
 				46A171001807CECB005B8026 /* CCPhysicsJoint.cpp in Sources */,
 				46A170441807CC07005B8026 /* CCES2Renderer.m in Sources */,

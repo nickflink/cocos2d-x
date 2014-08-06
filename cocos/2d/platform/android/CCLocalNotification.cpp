@@ -5,10 +5,9 @@
 #include <jni.h>
 
 using namespace std;
-
 // Java class
 // NativeActivity
-#define  CLASS_NAME "org/cocos2dx/cpp/Cocos2dxActivity"
+#define  CLASS_NAME "org/cocos2dx/lib/Cocos2dxActivity"
 
 static bool getJNIStaticMethodInfo(cocos2d::JniMethodInfo &methodinfo,
                                         const char *methodName,

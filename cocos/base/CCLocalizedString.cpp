@@ -30,11 +30,11 @@ std::string LocalizedString(std::string mKey, std::string mComment)
     const char * fileName;
     switch (curLanguage) {
         case LanguageType::SPANISH:
-            fileName = "Localized_es";
+            fileName = "es_Localized.strings";
             break;
         default:
         case LanguageType::ENGLISH:
-            fileName = "Localized_en";
+            fileName = "en_Localized.strings";
             break;
     }
 

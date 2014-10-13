@@ -18,8 +18,9 @@ static bool getJNIStaticMethodInfo(cocos2d::JniMethodInfo &methodinfo,
                                                  paramCode);
 }
 
-void LocalNotification::show(std::string message, int interval, int tag)
+void LocalNotification::show(std::string message, int interval, int tag, int badge)
 {
+  CC_UNUSED_PARAM(badge);
   cocos2d::JniMethodInfo methodInfo;
   
   if (! getJNIStaticMethodInfo(methodInfo, "showLocalNotification", "(Ljava/lang/String;II)V")) {

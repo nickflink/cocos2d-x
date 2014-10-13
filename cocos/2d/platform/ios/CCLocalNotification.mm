@@ -4,14 +4,12 @@
 #import   <UIKit/UIKit.h>
 
 using namespace std;
-//TODO(nick): applicationIconBadgeNumber only ever gets set as 1
-//it is removed upon calling cancel
-//this will not work with push notifications or even multiple LocalNotifications
-void LocalNotification::show(std::string message, int interval, int tag)
+
+void LocalNotification::show(std::string message, int interval, int tag, int badge)
 {
   UILocalNotification *notification = [[UILocalNotification alloc] init];
 
-  notification.applicationIconBadgeNumber = 1;
+  notification.applicationIconBadgeNumber = badge;
   notification.fireDate = [[NSDate date] dateByAddingTimeInterval:interval];
   notification.timeZone = [NSTimeZone defaultTimeZone];
   notification.alertBody = [NSString stringWithCString:message.c_str()
@@ -28,6 +26,7 @@ void LocalNotification::show(std::string message, int interval, int tag)
   [notification release];
 }
 
+//Canceling any notification will remove the badge number
 void LocalNotification::cancel(int tag)
 {
   for(UILocalNotification *notification in [[UIApplication sharedApplication] scheduledLocalNotifications]) {

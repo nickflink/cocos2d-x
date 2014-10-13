@@ -10,8 +10,9 @@ public:
    * @param message  Message should be shown in notificatin
    * @param interval Interval in seconds
    * @param tag      Tag to specify notification
+   * @param tag      Badge for number of pending notifications
    */
-  static void show(std::string message, int interval, int tag);
+  static void show(std::string message, int interval, int tag, int badge);
   
   /**
    * Cancel local notification specified by ID

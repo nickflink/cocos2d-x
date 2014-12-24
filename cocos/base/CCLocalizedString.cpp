@@ -129,6 +129,9 @@ std::string LocalizedString(std::string mKey, std::string mComment)
         if (resultStr.length() > 0){
             return resultStr;
         }
+#if COCOS2D_DEBUG
+        mKey.insert(0, "NL:");
+#endif //COCOS2D_DEBUG
         return mKey;
     }
     else
@@ -138,5 +141,8 @@ std::string LocalizedString(std::string mKey, std::string mComment)
             return itr->second;
         }
     }
+#if COCOS2D_DEBUG
+        mKey.insert(0, "NL:");
+#endif //COCOS2D_DEBUG
     return mKey;
 }

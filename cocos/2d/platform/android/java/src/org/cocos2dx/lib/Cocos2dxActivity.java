@@ -193,7 +193,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
 	// LocalNotifications
 	// ===========================================================
   public static void showLocalNotification(String message, int interval, int tag) {
-    Log.v(TAG, "showLocalNotification");
+    Log.v(TAG, "showLocalNotification("+message+", "+interval+", "+tag+")");
     PendingIntent sender = getPendingIntent(message, tag);
 
     Calendar calendar = Calendar.getInstance();
@@ -205,7 +205,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
   }
 
   public static void cancelLocalNotification(int tag) {
-    Log.v(TAG, "cancelLocalNotification");
+    Log.v(TAG, "cancelLocalNotification("+tag+")");
     PendingIntent sender = getPendingIntent(null, tag);
     AlarmManager am = (AlarmManager)sContext.getSystemService(ALARM_SERVICE);
     am.cancel(sender);

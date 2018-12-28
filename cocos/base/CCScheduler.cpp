@@ -837,6 +837,7 @@ void Scheduler::update(float dt)
     tListEntry *entry, *tmp;
 
     // updates with priority < 0
+    CCLOG("CCScheduler#update. start");
     DL_FOREACH_SAFE(_updatesNegList, entry, tmp)
     {
         if ((! entry->paused) && (! entry->markedForDeletion))
@@ -951,6 +952,7 @@ void Scheduler::update(float dt)
             function();
         }
     }
+    CCLOG("CCScheduler#update. end");
 }
 
 void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused)

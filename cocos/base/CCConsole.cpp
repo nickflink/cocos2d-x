@@ -58,7 +58,6 @@
 #include <sys/un.h>
 #include <sys/ioctl.h>
 #endif
-
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
 #include "platform/CCPlatformConfig.h"

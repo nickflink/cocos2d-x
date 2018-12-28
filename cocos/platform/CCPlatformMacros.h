@@ -42,6 +42,7 @@ Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 #define CREATE_FUNC(__TYPE__) \
 static __TYPE__* create() \
 { \
+    cocos2d::log("CREATE_FUNC(" #__TYPE__ "\n"); \
     __TYPE__ *pRet = new(std::nothrow) __TYPE__(); \
     if (pRet && pRet->init()) \
     { \
